@@ -1,0 +1,4 @@
+; $Id$
+name = User Post Counts
+description = Tracks number of forum posts per user
+dependencies = forum

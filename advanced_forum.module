@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * Called from _phptemplate_variables, this function 
+ * looks at whether we are on a forum post/comment and 
+ * adds variables to the $vars array that will be available
+ * to node-forum.tpl.php.
+ */ 
+
+function advanced_forum_addvars($hook, $vars) {
+  if (_is_forum()) {
+    // If we're not in a forum, this will just return the existing vars
+    
+    if ($hook == 'node') {
+      // Variables for just the main post
+      $vars['top_post'] = TRUE;
+      $vars['title'] = empty($vars['title']) ? '&nbsp' : $vars['title'];
+      $vars['content'] = $vars['node']->body;
+      $vars['userid'] = $vars['node']->uid;
+   }
+    if ($hook == 'comment') {
+      // Variables for comments
+      $vars['template_file'] = 'node-forum'; // Sends comments to the same .tpl as forum posts
+      $vars['top_post'] = FALSE;
+      $vars['title'] = empty($subject) ? '&nbsp' : $subject;
+      $vars['content'] = $vars['comment']->comment;
+      
+      $vars['userid'] = $vars['comment']->uid;
+      $vars['name'] = $vars['author'];
+      $vars['submitted'] = format_date($vars['comment']->timestamp);
+      $subject = $vars['comment']->subject;
+   }
+    
+    // These variables are common to nodes and comments
+    $vars['is_forum'] = TRUE;
+    $vars['row_class'] = _row_class();
+    $vars['links'] = empty($vars['links']) ? '&nbsp' : $vars['links'];
+
+
+    // The date the poster joined the site
+    $joined = advanced_forum_get_created($vars['userid']);
+    $vars['joined'] = $joined ? format_date($joined, 'custom', 'Y-m-d') : '';
+    
+    // Add in any extra variables provided by other modules
+    $vars = advanced_forum_extravars($vars, $vars['userid']);
+  }
+  
+  return $vars;
+}
+
+/**
+ * This function creates variables from functions
+ * provided by other modules related to forums.
+ */
+function advanced_forum_extravars($vars, $authorid) {
+  if (module_exists('userpoints')) {
+    $vars['points'] = userpoints_get_current_points($authorid);
+  }
+
+  if (module_exists('user_postcounts')) {
+    $vars['posts'] = user_postcounts_get_postcount($authorid);
+  }
+ 
+  return $vars;
+}
+
+/**
+ * This handles labeling each post/comment as odd or even
+ * to aid in design. Making the variable static means
+ * it keeps track of the last value so each call sets it 
+ * to the opposite value.
+ */
+function _row_class() {
+  static $forum_row = TRUE;
+  $forum_row = !$forum_row;
+  return $forum_row ? 'odd' : 'even';
+}
+
+/**
+ * This function returns true if we are in the forums
+ */
+function _is_forum() {
+  // Setting this static means it only needs to be done once per thread
+  static $is_forum;
+  
+  // We only need to do all this the first time this function is called per thread
+  if (!isset($is_forum)) {
+    if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == '') {
+      // This means the internal path is in the form of node/XX  
+      // where XX is the ID of the node we are lookng at 
+      $nid = arg(1);
+    }
+    if (arg(0) == 'comment' && arg(1) == 'reply' && is_numeric(arg(2))) {
+      // This means the internal path is in the form of comment/reply/XX
+      // where XX is the ID of the node we are lookng at 
+      $nid = arg(2);
+    }
+    if ($nid) {
+      // If one of the two paths above were found, then we have the node ID
+      // We load the node here so we 
+      $node = node_load(array('nid' => $nid));
+    }
+    // Set the variable to true if the node type is a forum
+    // D6 ALERT: We can't rely on type in D6
+    $is_forum = ($node && $node->type == 'forum');
+    
+    if ($is_forum) {
+      // If we are in the forum, add our CSS
+      drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');
+    }
+  }
+  
+  return $is_forum;
+}
+
+/**
+ * Gets the user's join date.
+ */
+function advanced_forum_get_created($uid) {
+  return db_result(db_query('SELECT created FROM {users} WHERE uid = %d', $uid));
+}
+
+
+
+
+
+
+
+
+
