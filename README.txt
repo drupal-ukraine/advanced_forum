@@ -10,7 +10,7 @@ advanced_forum.module:
 user_postcounts.module:
 * Maintains the user forum post count 
 
-fancy_forum.css:
+advanced_forum.css:
 * Contains the CSS to style the forums
 
 node-forum.tpl.php:
@@ -22,7 +22,7 @@ image directory:
 *** Need button icons for: new post, reply, edit, delete
 
 INSTALLATION:
-
+0) Make sure the forum module is enabled
 1) Copy the advanced forum project directory to your normal module directory (ie: sites/all/modules)
 2) Copy node-forum.tpl.php to your theme directory
 3) Enable the module at http://example.com/?q=admin/build/modules
@@ -39,6 +39,23 @@ Immediately after that, paste:
 * If you are using Garland, it's even trickier because Garland doesn't return the $vars. If you know what you're doing, you can adjust the function. Otherwise, change the name of template-garland.php to template.php and overwrite the one in Garland.
 
 5) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts
+6) Go to ?q=admin/content/comment/settings
+* Set Default display mode: Flat list - expanded
+* Default display order: Date - oldest first
+* The rest however you want
+
+----------------------------------------------------------------------------------------------
+Other (this section needs to be cleaned up):
+?q=admin/user/settings <-- Turn on pictures
+tracker needs to be on?
+?q=admin/build/themes/settings   User pictures in posts
+User pictures in comments 
+
+Options:
+* Show topic navigation?
+* Repeat forum list header in each container?
+
+
 
 
 

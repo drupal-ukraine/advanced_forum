@@ -8,8 +8,24 @@
  */ 
 
 function advanced_forum_addvars($hook, $vars) {
+  // Comment numbering
+  static $post_number;
+  static $page_number;
+  static $nid;
+
   if (_is_forum()) {
-    // If we're not in a forum, this will just return the existing vars
+    drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');  
+        
+
+    $post_number = -1;
+    $posts_per_page = variable_get('comment_default_per_page', 50);
+    if (isset($_GET['page']) && $_GET['page']) {
+      for ($i = 0; $i < $_GET['page']; $i++) {
+          $post_number += $posts_per_page;
+      }
+    }
+    $page_number = ($post_number + 1) / $posts_per_page;
+    $nid = arg(1);
     
     if ($hook == 'node') {
       // Variables for just the main post
@@ -17,7 +33,11 @@ function advanced_forum_addvars($hook, $vars) {
       $vars['title'] = empty($vars['title']) ? '&nbsp' : $vars['title'];
       $vars['content'] = $vars['node']->body;
       $vars['userid'] = $vars['node']->uid;
-   }
+        
+      // Comment numbering
+      $post_number++;
+      $fragment = NULL;
+    }
     if ($hook == 'comment') {
       // Variables for comments
       $vars['template_file'] = 'node-forum'; // Sends comments to the same .tpl as forum posts
@@ -29,6 +49,16 @@ function advanced_forum_addvars($hook, $vars) {
       $vars['name'] = $vars['author'];
       $vars['submitted'] = format_date($vars['comment']->timestamp);
       $subject = $vars['comment']->subject;
+      
+      // if comment subjects are disabled, don't display them
+      if (variable_get('comment_subject_field', 1) == 0) {
+        $vars['title'] = '';
+      }
+
+      // Comment numbering
+      $post_number++;
+      $fragment = 'comment-' . $vars['comment']->cid;
+
    }
     
     // These variables are common to nodes and comments
@@ -43,8 +73,19 @@ function advanced_forum_addvars($hook, $vars) {
     
     // Add in any extra variables provided by other modules
     $vars = advanced_forum_extravars($vars, $vars['userid']);
+
+    // Comment number with link
+    $query = ($page_number) ? 'page=' . $page_number : NULL;
+    $vars['comment_link'] = l('#' . $post_number, 'node/' . $nid, NULL, $query, $fragment, TRUE, NULL);
+
+  } else {
+    if (arg(0) == 'forum') {
+      // If we are in the forum listing, add our CSS
+      drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');  
+    }
   }
   
+  // If we're not in a forum, this will just return the existing vars
   return $vars;
 }
 
@@ -61,6 +102,12 @@ function advanced_forum_extravars($vars, $authorid) {
     $vars['posts'] = user_postcounts_get_postcount($authorid);
   }
  
+  if (module_exists('user_titles')) {
+    $vars['user_title'] = user_titles_get_user_title($authorid);
+  }
+  
+  // Calls to other modules can be added here
+
   return $vars;
 }
 
@@ -104,10 +151,6 @@ function _is_forum() {
     // D6 ALERT: We can't rely on type in D6
     $is_forum = ($node && $node->type == 'forum');
     
-    if ($is_forum) {
-      // If we are in the forum, add our CSS
-      drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');
-    }
   }
   
   return $is_forum;
@@ -119,6 +162,84 @@ function _is_forum() {
 function advanced_forum_get_created($uid) {
   return db_result(db_query('SELECT created FROM {users} WHERE uid = %d', $uid));
 }
+
+// Get rid of navigation on forum posts
+function phptemplate_forum_topic_navigation($node){
+  return ;
+}
+
+// Move the forum header
+/**
+ * Format the forum listing.
+ *
+ * @ingroup themeable
+ */
+function phptemplate_forum_list($forums, $parents, $tid) {
+  global $user;
+  if ($forums) {
+    //$header = array(t('Forum'), t('Topics'), t('Posts'), t('Last post'));
+    //$header = array();
+    foreach ($forums as $key=>$forum) {
+      if ($forum->container) {
+        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
+        $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid/container") ."</div>\n";
+        if ($forum->description) {
+          $description .= " <div class=\"description\">$forum->description</div>\n";
+        }
+        $description .= "</div>\n";
+        $rows[] = array(array('data' => $description, 'class' => 'container', 'colspan' => 4));
+        $rows[] = array(
+        array('data' => t('Subject'), 'class' => 'f-subject'),
+        array('data' => t('Topics'), 'class' => 'f-topics'),
+        array('data' => t('Posts'),'class' => 'f-posts'),
+        array('data' => t('Last post'),'class' => 'f-last-reply')
+        );
+      }
+      else {
+        $new_topics = _forum_topics_unread($forum->tid, $user->uid);
+        $forum->old_topics = $forum->num_topics - $new_topics;
+        if (!$user->uid) {
+          $new_topics = 0;
+        }
+
+        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
+        $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
+        if ($forum->description) {
+          $description .= " <div class=\"description\">$forum->description</div>\n";
+        }
+        $description .= "</div>\n";
+        $rows[] = array(
+          array('data' => $description, 'class' => 'forum'),
+          array('data' => $forum->num_topics . ($new_topics ? '<br />'. l(t('@a new', array('@a' => $new_topics)), "forum/$forum->tid", NULL, NULL, 'new') : ''), 'class' => 'topics'),
+          array('data' => $forum->num_posts, 'class' => 'posts'),
+          array('data' => _forum_format($forum->last_post), 'class' => 'last-reply'));
+      }
+    }
+    /**
+     * set table header if page is a container with listing of forums
+     */
+    if(in_array(arg(1), variable_get('forum_containers', array()))){
+            // reverse array
+            $nrows = array_reverse($rows,true);
+            //get the container description
+            $container = taxonomy_get_term(arg(1));
+            //add to output
+            $rows = $nrows;
+            $rows[] = array(
+                array('data' => t('Subject'), 'class' => 'f-subject'),
+                array('data' => t('Topics'), 'class' => 'f-topics'),
+                array('data' => t('Posts'),'class' => 'f-posts'),
+                array('data' => t('Last post'),'class' => 'f-last-reply')
+                );
+            $rows[] = array(array('data' => $container->description, 'class' => 'container', 'colspan' => 4));
+            //reverse again to output
+            $nrows = array_reverse($rows,true);
+            $rows = $nrows;
+        }
+    return theme('table', $header, $rows);
+  }
+}
+
 
 
 
