@@ -14,7 +14,8 @@ function advanced_forum_addvars($hook, $vars) {
   static $nid;
 
   if (_is_forum()) {
-    drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');  
+    $advforum_path = drupal_get_path('module', 'advanced_forum');
+    drupal_add_css($advforum_path . '/advanced_forum.css');  
         
 
     $post_number = -1;
@@ -42,7 +43,7 @@ function advanced_forum_addvars($hook, $vars) {
       // Variables for comments
       $vars['template_file'] = 'node-forum'; // Sends comments to the same .tpl as forum posts
       $vars['top_post'] = FALSE;
-      $vars['title'] = empty($subject) ? '&nbsp' : $subject;
+      $vars['title'] = $vars['comment']->subject;
       $vars['content'] = $vars['comment']->comment;
       
       $vars['userid'] = $vars['comment']->uid;
@@ -66,22 +67,32 @@ function advanced_forum_addvars($hook, $vars) {
     $vars['row_class'] = _row_class();
     $vars['links'] = empty($vars['links']) ? '&nbsp' : $vars['links'];
 
+    // Load the poster's account to use in gathering author info
+    $account = user_load(array('uid'=>$vars['userid']));
 
     // The date the poster joined the site
-    $joined = advanced_forum_get_created($vars['userid']);
-    $vars['joined'] = $joined ? format_date($joined, 'custom', 'Y-m-d') : '';
-    
-    // Add in any extra variables provided by other modules
-    $vars = advanced_forum_extravars($vars, $vars['userid']);
+    $vars['joined'] = format_date($account->created, 'custom', 'Y-m-d');
 
+     if (round((time()-$account->access)/60) < 30) {
+     
+       $vars['online_icon'] = theme_image($advforum_path . '/images/status_online.png', $alt = 'User is online', $title = 'User is online', $attributes = NULL, $getsize = TRUE);
+     } else {
+       $vars['online_icon'] = theme_image($advforum_path . '/images/status_offline.png', $alt = 'User is offline', $title = 'User is offline', $attributes = NULL, $getsize = TRUE);
+     }
+
+ 
+ 
     // Comment number with link
     $query = ($page_number) ? 'page=' . $page_number : NULL;
     $vars['comment_link'] = l('#' . $post_number, 'node/' . $nid, NULL, $query, $fragment, TRUE, NULL);
 
+    // Add in any extra variables provided by other modules
+    $vars = advanced_forum_extravars($vars, $vars['userid']);
+
   } else {
     if (arg(0) == 'forum') {
       // If we are in the forum listing, add our CSS
-      drupal_add_css(drupal_get_path('module', 'advanced_forum') .'/advanced_forum.css');  
+      drupal_add_css($advforum_path . '/advanced_forum.css');  
     }
   }
   
@@ -156,19 +167,16 @@ function _is_forum() {
   return $is_forum;
 }
 
-/**
- * Gets the user's join date.
- */
-function advanced_forum_get_created($uid) {
-  return db_result(db_query('SELECT created FROM {users} WHERE uid = %d', $uid));
-}
 
-// Get rid of navigation on forum posts
+/*********************************** THEME OVERRIDES *************************************/
+
+/**
+ * Removes post title navigation from forum posts.
+ */
 function phptemplate_forum_topic_navigation($node){
   return ;
 }
 
-// Move the forum header
 /**
  * Format the forum listing.
  *
