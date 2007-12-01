@@ -17,14 +17,8 @@ function advanced_forum_addvars($hook, $vars) {
     $advforum_path = drupal_get_path('module', 'advanced_forum');
     drupal_add_css($advforum_path . '/advanced_forum.css');  
         
-
-    $post_number = -1;
     $posts_per_page = variable_get('comment_default_per_page', 50);
-    if (isset($_GET['page']) && $_GET['page']) {
-      for ($i = 0; $i < $_GET['page']; $i++) {
-          $post_number += $posts_per_page;
-      }
-    }
+    $post_number = ($_GET['page'] * $posts_per_page) -1;
     $page_number = ($post_number + 1) / $posts_per_page;
     $nid = arg(1);
     
@@ -49,7 +43,7 @@ function advanced_forum_addvars($hook, $vars) {
       $vars['userid'] = $vars['comment']->uid;
       $vars['name'] = $vars['author'];
       $vars['submitted'] = format_date($vars['comment']->timestamp);
-      $subject = $vars['comment']->subject;
+      $subject = check_plain($vars['comment']->subject);
       
       // if comment subjects are disabled, don't display them
       if (variable_get('comment_subject_field', 1) == 0) {
@@ -168,7 +162,24 @@ function _is_forum() {
 }
 
 
-/*********************************** THEME OVERRIDES *************************************/
+/*********************************** FORUM MODULE THEME OVERRIDES *************************************/
+
+
+/**
+  * Captures the forum list and passes control to forum-list.tpl.php.
+  * The variables, $forums, $parents and $tid will be available in forum-list.tpl.php
+  */
+function phptemplate_forum_list($forums, $parents, $tid) {
+   return _phptemplate_callback('forum-list', array('forums' => $forums, 'parents' => $parents, 'tid' => $tid));   
+}
+
+function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
+   return _phptemplate_callback('forum-display', array('forums' => $forums, 'topics' => $topics, 'parents' => $parents, 'tid' => $tid, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+}
+
+function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
+   return _phptemplate_callback('forum-topics', array('tid' => $tid, 'topics' => $topics, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+}
 
 /**
  * Removes post title navigation from forum posts.
@@ -177,83 +188,37 @@ function phptemplate_forum_topic_navigation($node){
   return ;
 }
 
+
+
 /**
- * Format the forum listing.
+ * Format the icon for each individual topic.
  *
  * @ingroup themeable
  */
-function phptemplate_forum_list($forums, $parents, $tid) {
-  global $user;
-  if ($forums) {
-    //$header = array(t('Forum'), t('Topics'), t('Posts'), t('Last post'));
-    //$header = array();
-    foreach ($forums as $key=>$forum) {
-      if ($forum->container) {
-        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
-        $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid/container") ."</div>\n";
-        if ($forum->description) {
-          $description .= " <div class=\"description\">$forum->description</div>\n";
-        }
-        $description .= "</div>\n";
-        $rows[] = array(array('data' => $description, 'class' => 'container', 'colspan' => 4));
-        $rows[] = array(
-        array('data' => t('Subject'), 'class' => 'f-subject'),
-        array('data' => t('Topics'), 'class' => 'f-topics'),
-        array('data' => t('Posts'),'class' => 'f-posts'),
-        array('data' => t('Last post'),'class' => 'f-last-reply')
-        );
-      }
-      else {
-        $new_topics = _forum_topics_unread($forum->tid, $user->uid);
-        $forum->old_topics = $forum->num_topics - $new_topics;
-        if (!$user->uid) {
-          $new_topics = 0;
-        }
+function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0) {
 
-        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
-        $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
-        if ($forum->description) {
-          $description .= " <div class=\"description\">$forum->description</div>\n";
-        }
-        $description .= "</div>\n";
-        $rows[] = array(
-          array('data' => $description, 'class' => 'forum'),
-          array('data' => $forum->num_topics . ($new_topics ? '<br />'. l(t('@a new', array('@a' => $new_topics)), "forum/$forum->tid", NULL, NULL, 'new') : ''), 'class' => 'topics'),
-          array('data' => $forum->num_posts, 'class' => 'posts'),
-          array('data' => _forum_format($forum->last_post), 'class' => 'last-reply'));
-      }
-    }
-    /**
-     * set table header if page is a container with listing of forums
-     */
-    if(in_array(arg(1), variable_get('forum_containers', array()))){
-            // reverse array
-            $nrows = array_reverse($rows,true);
-            //get the container description
-            $container = taxonomy_get_term(arg(1));
-            //add to output
-            $rows = $nrows;
-            $rows[] = array(
-                array('data' => t('Subject'), 'class' => 'f-subject'),
-                array('data' => t('Topics'), 'class' => 'f-topics'),
-                array('data' => t('Posts'),'class' => 'f-posts'),
-                array('data' => t('Last post'),'class' => 'f-last-reply')
-                );
-            $rows[] = array(array('data' => $container->description, 'class' => 'container', 'colspan' => 4));
-            //reverse again to output
-            $nrows = array_reverse($rows,true);
-            $rows = $nrows;
-        }
-    return theme('table', $header, $rows);
+  if ($num_posts > variable_get('forum_hot_topic', 15)) {
+    $icon = $new_posts ? 'hot-new' : 'hot';
   }
+  else {
+    $icon = $new_posts ? 'new' : 'default';
+  }
+
+  if ($comment_mode == COMMENT_NODE_READ_ONLY || $comment_mode == COMMENT_NODE_DISABLED) {
+    $icon = 'closed';
+  }
+
+  if ($sticky == 1) {
+    $icon = 'sticky';
+  }
+
+  $output = theme('image', "misc/forum-$icon.png");
+
+  if ($new_posts) {
+    $output = "<a name=\"new\">$output</a>";
+  }
+
+  return $output;
 }
-
-
-
-
-
-
-
-
 
 

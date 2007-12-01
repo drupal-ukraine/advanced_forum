@@ -55,7 +55,7 @@ Options:
 * Show topic navigation?
 * Repeat forum list header in each container?
 
-
+?q=admin/content/forum/settings
 
 
 

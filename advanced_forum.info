@@ -2,3 +2,4 @@
 name = Advanced Forum
 description = Add some pizazz to the forums
 dependencies = forum
+package = Advanced Forum
