@@ -1,0 +1,116 @@
+<?php
+/*
+ * Mark Drupal Content as Read
+ * http://wtanaka.com/drupal/markasread
+ *
+ * Copyright 2007 Wesley Tanaka <http://wtanaka.com/>
+ * SQL query from http://drupal.org/files/issues/mark_read.patch
+ *
+ * $Id$
+ */
+
+define('FORUM_MARKASREAD_PATH', 'forum/markasread');
+
+function markasread_menu($may_cache)
+{
+   $toreturn = array();
+   if (!$may_cache)
+   {
+      $toreturn[] = array('path' => FORUM_MARKASREAD_PATH,
+         'callback' => '_markasread',
+         'access' => user_access('access content'),
+         'type' => MENU_CALLBACK);
+   }
+   return $toreturn;
+}
+
+function _markasread()
+{
+   global $user;
+   if ($user && $user->uid)
+   {
+      $tid = NULL;
+      if (isset($_POST['tid']))
+      {
+         $tid = $_POST['tid'];
+         settype($tid, 'integer');
+         if ($tid <= 0)
+            $tid = NULL;
+      }
+
+      $sql = 'REPLACE INTO {history} (uid,nid,timestamp)'
+         .' SELECT %d, n.nid, %d FROM {node} n'
+         .($tid ? ' INNER JOIN {term_node} r ON n.nid=r.nid' : '')
+         .' INNER JOIN {node_comment_statistics} l ON l.nid=n.nid'
+         .' WHERE (n.created > %d'
+         .' OR l.last_comment_timestamp > %d)';
+      $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT);
+
+      if ($tid)
+      {
+         $sql .= ' AND r.tid = %d';
+         $args[] = $tid;
+      }
+
+      $type = NULL;
+      if (isset($_POST['type']))
+      {
+         $type = $_POST['type'];
+         $sql .= ' AND n.type = \'%s\'';
+         $args[] = $type;
+      }
+
+      db_query($sql, $args);
+
+      if ($type == 'forum')
+      {
+         if ($tid)
+         {
+            drupal_set_message(t('All topics in forum marked as read'));
+            drupal_goto('forum/'.$tid);
+         }
+         else
+         {
+            drupal_set_message(t('All forum posts have been marked as read'));
+            drupal_goto('forum');
+         }
+      }
+   }
+
+   drupal_goto('forum');
+}
+
+/**
+ * Helper function that generates a form with a POST button to mark
+ * certain nodes as read.  The $tid predicate and $type predicate are
+ * conjuncted together
+ *
+ * @param $type the node type, or NULL for all types
+ * @param $tid the term ID (positive integer), or NULL for all terms
+ */
+function markasread_form_helper($button_text, $type = NULL, $tid = NULL)
+{
+   $toreturn = '<form method="post" action="'
+      . url(FORUM_MARKASREAD_PATH)
+      . '">';
+
+   if ($type !== NULL)
+   {
+      $toreturn .= '<input type="hidden" name="type" value="'
+         . check_plain($type)
+         . '" />';
+   }
+
+   if ($tid !== NULL)
+   {
+      $toreturn .= '<input type="hidden" name="tid" value="'
+         . check_plain($tid)
+         . '" />';
+   }
+
+   $toreturn .= '<input type="submit" value="'
+      . check_plain ($button_text)
+      . '" /></form>';
+
+   return $toreturn;
+}
