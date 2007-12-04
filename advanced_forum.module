@@ -12,11 +12,10 @@ function advanced_forum_addvars($hook, $vars) {
   static $post_number;
   static $page_number;
   static $nid;
-
+  
   if (_is_forum()) {
-    $advforum_path = drupal_get_path('module', 'advanced_forum');
-    drupal_add_css($advforum_path . '/advanced_forum.css');  
-        
+    advanced_forum_add_css();   
+         
     $posts_per_page = variable_get('comment_default_per_page', 50);
     $post_number = ($_GET['page'] * $posts_per_page) -1;
     $page_number = ($post_number + 1) / $posts_per_page;
@@ -86,7 +85,7 @@ function advanced_forum_addvars($hook, $vars) {
   } else {
     if (arg(0) == 'forum') {
       // If we are in the forum listing, add our CSS
-      drupal_add_css($advforum_path . '/advanced_forum.css');  
+      advanced_forum_add_css();   
     }
   }
   
@@ -161,6 +160,11 @@ function _is_forum() {
   return $is_forum;
 }
 
+function advanced_forum_add_css() {
+//MAC NOTE: add check in here to see if the file exists in the current theme to allow easy overriding
+  $advforum_path = drupal_get_path('module', 'advanced_forum');
+  drupal_add_css($advforum_path . '/advanced_forum.css');  
+}
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
 
@@ -196,7 +200,8 @@ function phptemplate_forum_topic_navigation($node){
  * @ingroup themeable
  */
 function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0) {
-
+  $icon_path = drupal_get_path('module', 'advanced_forum') . "/images";
+  
   if ($num_posts > variable_get('forum_hot_topic', 15)) {
     $icon = $new_posts ? 'hot-new' : 'hot';
   }
@@ -212,7 +217,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
     $icon = 'sticky';
   }
 
-  $output = theme('image', "misc/forum-$icon.png");
+  $output = theme('image', "$icon_path/forum-$icon.png");
 
   if ($new_posts) {
     $output = "<a name=\"new\">$output</a>";
