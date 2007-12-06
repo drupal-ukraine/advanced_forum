@@ -9,16 +9,18 @@
 
 function advanced_forum_addvars($hook, $vars) {
   // Comment numbering
-  static $post_number;
-  static $page_number;
+  static $post_number = 0;
   static $nid;
   
   if (_is_forum()) {
     advanced_forum_add_css();   
          
-    $posts_per_page = variable_get('comment_default_per_page', 50);
-    $post_number = ($_GET['page'] * $posts_per_page) -1;
-    $page_number = ($post_number + 1) / $posts_per_page;
+    $post_per_page = _comment_get_display_setting('comments_per_page');
+    $page_number = $_GET['page'];
+    if ( ! $page_number ) {
+      $page_number = 0;
+    }
+    
     $nid = arg(1);
     
     if ($hook == 'node') {
@@ -29,7 +31,6 @@ function advanced_forum_addvars($hook, $vars) {
       $vars['userid'] = $vars['node']->uid;
         
       // Comment numbering
-      $post_number++;
       $fragment = NULL;
     }
     if ($hook == 'comment') {
@@ -74,10 +75,9 @@ function advanced_forum_addvars($hook, $vars) {
      }
 
  
- 
     // Comment number with link
     $query = ($page_number) ? 'page=' . $page_number : NULL;
-    $vars['comment_link'] = l('#' . $post_number, 'node/' . $nid, NULL, $query, $fragment, TRUE, NULL);
+    $vars['comment_link'] = l('#' . (($page_number * $post_per_page) + $post_number), 'node/' . $nid, NULL, $query, $fragment, TRUE, NULL);
 
     // Add in any extra variables provided by other modules
     $vars = advanced_forum_extravars($vars, $vars['userid']);
@@ -161,9 +161,26 @@ function _is_forum() {
 }
 
 function advanced_forum_add_css() {
-//MAC NOTE: add check in here to see if the file exists in the current theme to allow easy overriding
+  // Find the path to the module
   $advforum_path = drupal_get_path('module', 'advanced_forum');
-  drupal_add_css($advforum_path . '/advanced_forum.css');  
+  
+  // Add in the structural CSS (heights, floats, padding, margins, etc)
+  drupal_add_css($advforum_path . '/advanced_forum-structure.css');
+  
+  // Find the path to the current theme
+  $theme_path = path_to_theme();
+  
+  // If the user has overridden the CSS in their theme, use that instead of ours
+  if (file_exists($theme_path . 'advanced_forum.css')) {
+    drupal_add_css($theme_path . '/advanced_forum.css');  
+  } else {   
+    drupal_add_css($advforum_path . '/advanced_forum.css');  
+  }
+  
+  // If the user has a skin CSS in their theme, use that as well
+  if (file_exists($theme_path . 'advanced_forum-skin.css')) {
+    drupal_add_css($theme_path . '/advanced_forum-skin.css');  
+  }
 }
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
