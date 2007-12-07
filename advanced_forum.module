@@ -13,6 +13,7 @@ function advanced_forum_addvars($hook, $vars) {
   static $nid;
   
   if (_is_forum()) {
+    $advforum_path = drupal_get_path('module', 'advanced_forum');
     advanced_forum_add_css();   
          
     $post_per_page = _comment_get_display_setting('comments_per_page');
