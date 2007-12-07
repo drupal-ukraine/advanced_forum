@@ -20,6 +20,15 @@ advanced_forum.css
 node-forum.tpl.php:
 * The template file for both posts and comments in the forum. The variables available are listed at the top. This file can be change to suit your layout.
 
+forum-display.tpl.php
+* Over all forum display
+
+forum-list.tpl.php
+* Table that lists the forums
+
+forum-topics.tpl.php
+* Listing of topics in a single forum
+
 user_postcounts.module:
 * Maintains the user forum post count 
 
@@ -34,7 +43,7 @@ image directory:
 INSTALLATION:
 0) Make sure the forum module is enabled
 1) Copy the advanced forum project directory to your normal module directory (ie: sites/all/modules)
-2) Copy node-forum.tpl.php to your theme directory
+2) Copy everything in the "fortheme" subdirectory except template.php and template-garland.php to your theme directory
 3) Enable the module at http://example.com/?q=admin/build/modules
 4) The trickey part: Add the call to advanced forum to template.php:
 
@@ -67,7 +76,7 @@ Go to ?q=admin/build/themes/settings
 Go to ?q=admin/content/forum/settings
 * Set the topic list to display how you want
 
-6) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts. If you use a module that advforum doesn't recognize, please file a feature request.
+6) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts. If you use a module that advforum doesn't recognize, please file a feature request. (See section "modules made use of" below for a list.)
 
 THEMING AND SKINNING:
 Out of the box, the forum is a basic blue. You can change this in several ways.
@@ -78,6 +87,12 @@ Out of the box, the forum is a basic blue. You can change this in several ways.
 
 * To keep all the existing CSS but add on to it or make minor overrides, create an advanced_forum-skin.css in the root of your theme directory. This will be added on after the other CSS files.
 
+
+MODULES MADE USE OF:
+user_postcount (included)
+markasread (included)
+user titles ( http://drupal.org/project/user_titles )
+user points ( http://drupal.org/project/user_points )
 
 CREDITS:
 
