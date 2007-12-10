@@ -172,14 +172,14 @@ function advanced_forum_add_css() {
   $theme_path = path_to_theme();
   
   // If the user has overridden the CSS in their theme, use that instead of ours
-  if (file_exists($theme_path . 'advanced_forum.css')) {
+  if (file_exists($theme_path . '/advanced_forum.css')) {
     drupal_add_css($theme_path . '/advanced_forum.css');  
   } else {   
     drupal_add_css($advforum_path . '/advanced_forum.css');  
   }
   
   // If the user has a skin CSS in their theme, use that as well
-  if (file_exists($theme_path . 'advanced_forum-skin.css')) {
+  if (file_exists($theme_path . '/advanced_forum-skin.css')) {
     drupal_add_css($theme_path . '/advanced_forum-skin.css');  
   }
 }
