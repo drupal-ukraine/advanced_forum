@@ -30,13 +30,13 @@ function advanced_forum_addvars($hook, $vars) {
       $vars['title'] = empty($vars['title']) ? '&nbsp' : $vars['title'];
       $vars['content'] = $vars['node']->body;
       $vars['userid'] = $vars['node']->uid;
-        
+      $vars['template_file'] = 'advforum/node-forum';  
       // Comment numbering
       $fragment = NULL;
     }
     if ($hook == 'comment') {
       // Variables for comments
-      $vars['template_file'] = 'node-forum'; // Sends comments to the same .tpl as forum posts
+      $vars['template_file'] = 'advforum/node-forum'; // Sends comments to the same .tpl as forum posts
       $vars['top_post'] = FALSE;
       $vars['title'] = $vars['comment']->subject;
       $vars['content'] = $vars['comment']->comment;
@@ -70,9 +70,10 @@ function advanced_forum_addvars($hook, $vars) {
 
      if (round((time()-$account->access)/60) < 30) {
      
-       $vars['online_icon'] = theme_image($advforum_path . '/images/status_online.png', $alt = 'User is online', $title = 'User is online', $attributes = NULL, $getsize = TRUE);
+       $vars['online_status'] = true;
+			 // $vars['online_icon'] = '<span class="icn-online">&nbsp;</span>';
      } else {
-       $vars['online_icon'] = theme_image($advforum_path . '/images/status_offline.png', $alt = 'User is offline', $title = 'User is offline', $attributes = NULL, $getsize = TRUE);
+       // $vars['online_icon'] = '<span class="icn-offline">&nbsp;</span>';
      }
 
  
@@ -86,7 +87,7 @@ function advanced_forum_addvars($hook, $vars) {
   } else {
     if (arg(0) == 'forum') {
       // If we are in the forum listing, add our CSS
-      advanced_forum_add_css();   
+    //  advanced_forum_add_css();   
     }
   }
   
@@ -166,7 +167,7 @@ function advanced_forum_add_css() {
   $advforum_path = drupal_get_path('module', 'advanced_forum');
   
   // Add in the structural CSS (heights, floats, padding, margins, etc)
-  drupal_add_css($advforum_path . '/advanced_forum-structure.css');
+   drupal_add_css($advforum_path . '/advanced_forum-structure.css');
   
   // Find the path to the current theme
   $theme_path = path_to_theme();
@@ -176,11 +177,6 @@ function advanced_forum_add_css() {
     drupal_add_css($theme_path . '/advanced_forum.css');  
   } else {   
     drupal_add_css($advforum_path . '/advanced_forum.css');  
-  }
-  
-  // If the user has a skin CSS in their theme, use that as well
-  if (file_exists($theme_path . '/advanced_forum-skin.css')) {
-    drupal_add_css($theme_path . '/advanced_forum-skin.css');  
   }
 }
 
@@ -192,15 +188,15 @@ function advanced_forum_add_css() {
   * The variables, $forums, $parents and $tid will be available in forum-list.tpl.php
   */
 function phptemplate_forum_list($forums, $parents, $tid) {
-   return _phptemplate_callback('forum-list', array('forums' => $forums, 'parents' => $parents, 'tid' => $tid));   
+   return _phptemplate_callback('advforum/forum-list', array('forums' => $forums, 'parents' => $parents, 'tid' => $tid));   
 }
 
 function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
-   return _phptemplate_callback('forum-display', array('forums' => $forums, 'topics' => $topics, 'parents' => $parents, 'tid' => $tid, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+   return _phptemplate_callback('advforum/forum-display', array('forums' => $forums, 'topics' => $topics, 'parents' => $parents, 'tid' => $tid, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
 }
 
 function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
-   return _phptemplate_callback('forum-topics', array('tid' => $tid, 'topics' => $topics, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+   return _phptemplate_callback('advforum/forum-topics', array('tid' => $tid, 'topics' => $topics, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
 }
 
 /**
@@ -219,8 +215,8 @@ function phptemplate_forum_topic_navigation($node){
  */
 function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0) {
   $icon_path = drupal_get_path('module', 'advanced_forum') . "/images";
-  
-  if ($num_posts > variable_get('forum_hot_topic', 15)) {
+	
+	  if ($num_posts > variable_get('forum_hot_topic', 15)) {
     $icon = $new_posts ? 'hot-new' : 'hot';
   }
   else {
@@ -234,8 +230,8 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   if ($sticky == 1) {
     $icon = 'sticky';
   }
-
-  $output = theme('image', "$icon_path/forum-$icon.png");
+	
+	$output = theme('image', "$icon_path/forum-$icon.png");
 
   if ($new_posts) {
     $output = "<a name=\"new\">$output</a>";

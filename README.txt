@@ -41,21 +41,54 @@ image directory:
 *** Need button icons for: new post, reply, edit, delete
 
 INSTALLATION:
-0) Make sure the forum module is enabled
-1) Copy the advanced forum project directory to your normal module directory (ie: sites/all/modules)
-2) Copy everything in the "fortheme" subdirectory except template.php and template-garland.php to your theme directory
-3) Enable the module at http://example.com/?q=admin/build/modules
-4) The trickey part: Add the call to advanced forum to template.php:
+1) Make sure the forum module is enabled and you have forums and (optionally) containers set up.
+2) Copy the advanced forum project directory to your normal module directory (ie: sites/all/modules)
+2) Copy the advforum directory to your theme directory. If you use more than one theme with forums, copy it to each.
+3) Enable the advanced forum module at http://example.com/?q=admin/build/modules
+4) Optionally enable the user postcounts and markasread modules.
+5) Add the call to advanced forum to template.php. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
 
-* If your theme doesn't already have a template.php, just copy the included one to your theme directory.
+* If your theme doesn't already have a template.php, create one at the root of your theme and paste in this:
 
-* If you already have a template.php, open it and find the line "function _phptemplate_variables($hook, $vars) {"
-Immediately after that, paste:
+<?php
+function _phptemplate_variables($hook, $vars) {
   if (module_exists('advanced_forum')) {
     $vars = advanced_forum_addvars($hook, $vars);
   }
 
-* If you are using Garland, it's even trickier because Garland doesn't return the $vars. If you know what you're doing, you can adjust the function. Otherwise, change the name of template-garland.php to template.php and overwrite the one in Garland.
+  return $vars;
+}
+
+(Note: you don't want a ?> here)
+
+* If you already have a template.php, see if it contains this line: "function _phptemplate_variables($hook, $vars) {"
+
+If it doesn't, paste in the code above except for the <?php part somewhere outside of a function. Right at the top of the file should be fine.
+
+If it does have that line, you will need to merge the code into this function, which can be tricky for non programmers. This function will vary from theme to theme but the easiest place for most themes is right at the top after the "function..." line. Paste this:
+
+if (module_exists('advanced_forum')) {
+  $vars = advanced_forum_addvars($hook, $vars);
+}
+
+Just doing that should work in most themes. Some themes, though, like Garland, don't return the $vars variable from the function in all cases. That makes it harder. You will need find the bottom of the function which will be a "}" on a line all by itself right before the next line that starts with "function". Look on the line before that "}". If it says "return array();" you will need to replace the "array();" with "$vars;". If the line before is another "}" then leave that bracket there and put "return $vars;" immediately before the last "}" 
+
+The end result is you want the function to look like this:
+
+function _phptemplate_variables($hook, $vars) {
+  if (module_exists('advanced_forum')) {
+    $vars = advanced_forum_addvars($hook, $vars);
+  }
+
+***There may be other code in this section, probably something like "case ($hook == 'page)"***
+
+
+  return $vars;
+}
+
+function SOMEOTHERFUNCTION() {  (This may not exist if you are at the bottom of the file)
+
+I've done my best to explain this but, if you just can't figure out how to do this step, post an issue with the template.php of the theme you are using and I will try to help.
 
 
 5) Adjust all the settings pages
@@ -78,15 +111,10 @@ Go to ?q=admin/content/forum/settings
 
 6) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts. If you use a module that advforum doesn't recognize, please file a feature request. (See section "modules made use of" below for a list.)
 
-THEMING AND SKINNING:
-Out of the box, the forum is a basic blue. You can change this in several ways.
+THEMING:
+If you want to make major changes to the forum, edit the files in the "advforum" directory you copied into your theme directory. If you just want to make a few changes, make them in the style.css that comes with your theme. That will be called after and override the css that comes with the module. 
 
-* To use just the structure CSS and handle the rest in your theme's style.css, copy advanced_forum.css to the root of your theme directory and empty it out.
-
-* To modify the existing CSS, copy advanced_forum.css to the root of your theme directory and make any needed changes. This file will replace the one in the module directory.
-
-* To keep all the existing CSS but add on to it or make minor overrides, create an advanced_forum-skin.css in the root of your theme directory. This will be added on after the other CSS files.
-
+Theming of advforum is still being worked on at this point, so it's reccomended you record any changes you make if you are an early adopter so you can upgrade them.
 
 MODULES MADE USE OF:
 user_postcount (included)
@@ -105,6 +133,8 @@ Additional help for advanced forum from:
 The mark all read sub module is from here: http://wtanaka.com/drupal/markasread
 
 Topic icons by yoroy http://drupal.org/user/41502
+
+Theming help from jacine, maintainer of the Sky theme.
 
 Thanks to everyone who has helped by providing testing, patches, design help, etc. If you feel you've been left out and wish to be mentioned here, please let me know. This module pulls together the work of a lot of people and I want to be sure everyone gets the credit they deserve.
 
