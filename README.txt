@@ -121,6 +121,7 @@ user_postcount (included)
 markasread (included)
 user titles ( http://drupal.org/project/user_titles )
 user points ( http://drupal.org/project/user_points )
+user badges ( http://drupal.org/project/user_badges )
 
 CREDITS:
 

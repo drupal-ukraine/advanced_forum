@@ -17,8 +17,13 @@
     $userid    - ID of the poster
     $name      - User name of poster
     $joined    - Formatted date of when the poster joined the site
+ 
+    From contrib modules:
     $posts     - Number of forum posts/comments by the poster
-
+    $points
+    $user_title
+    $user_badges
+    
  */
 ?> 
 
@@ -100,6 +105,14 @@ if ($top_post) {
         </div>
         <?php } ?>
         <?php // END AUTHOR POINTS DISPLAY ?>
+        
+        <?php // BEGIN AUTHOR BADGES DISPLAY (user badges module)?>
+        <?php if (isset($points)) { ?> 
+        <div class="author-points">
+          <?php print $user_badges ?>
+        </div>
+        <?php } ?>
+        <?php // END AUTHOR BADGES DISPLAY ?>
         
         <?php 
         print $online_icon; 

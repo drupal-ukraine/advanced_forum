@@ -7,7 +7,14 @@
 
     foreach ($forums as $forum) {
       if ($forum->container) {
-        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
+
+        // Instead of forcing a 30px hard-coded style for indented columns, add a class to the div
+				if(($forum->depth * 30) > 0) {
+				$description  = '<div class="forum-indented">' . "\n";
+				} else {
+				$description  = '<div class="forum-default">' . "\n";
+				}
+
         $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
 
         if ($forum->description) {
@@ -24,7 +31,13 @@
           $new_topics = 0;
         }
 
-        $description  = '<div style="margin-left: '. ($forum->depth * 30) ."px;\">\n";
+        // Instead of forcing a 30px hard-coded style for indented columns, add a class to the div
+				if(($forum->depth * 30) > 0) {
+				$description  = '<div class="forum-indented">' . "\n";
+				} else {
+				$description  = '<div class="forum-default">' . "\n";
+				}
+			
         $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
 
         if ($forum->description) {

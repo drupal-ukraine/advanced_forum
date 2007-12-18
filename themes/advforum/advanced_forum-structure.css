@@ -33,6 +33,10 @@ This document contains structural markup such as widths, margins, padding, and f
   border-bottom: 0px none; 
 }
 
+.forum-indented {
+	padding-left: 5em;
+}
+
 /* Containers */
 
 #forum td.container {

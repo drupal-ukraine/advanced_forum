@@ -8,14 +8,17 @@
  */ 
 
 function advanced_forum_addvars($hook, $vars) {
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  $advforum_path = drupal_get_path('module', 'advanced_forum');
+  
   // Comment numbering
   static $post_number = 0;
   static $nid;
   
   if (_is_forum()) {
-    $advforum_path = drupal_get_path('module', 'advanced_forum');
-    advanced_forum_add_css();   
+    advanced_forum_add_css($forum_theme);   
          
+    // Comment numbering
     $post_per_page = _comment_get_display_setting('comments_per_page');
     $page_number = $_GET['page'];
     if ( ! $page_number ) {
@@ -26,19 +29,20 @@ function advanced_forum_addvars($hook, $vars) {
     
     if ($hook == 'node') {
       // Variables for just the main post
+      $vars['template_file'] = "$forum_theme/node-forum";  
       $vars['top_post'] = TRUE;
-      $vars['title'] = empty($vars['title']) ? '&nbsp' : $vars['title'];
       $vars['content'] = $vars['node']->body;
       $vars['userid'] = $vars['node']->uid;
-      $vars['template_file'] = 'advforum/node-forum';  
+      
       // Comment numbering
       $fragment = NULL;
     }
+    
     if ($hook == 'comment') {
       // Variables for comments
-      $vars['template_file'] = 'advforum/node-forum'; // Sends comments to the same .tpl as forum posts
+      $vars['template_file'] = "$forum_theme/node-forum"; 
       $vars['top_post'] = FALSE;
-      $vars['title'] = $vars['comment']->subject;
+      $vars['title'] = check_plain($vars['comment']->subject);
       $vars['content'] = $vars['comment']->comment;
       
       $vars['userid'] = $vars['comment']->uid;
@@ -55,12 +59,11 @@ function advanced_forum_addvars($hook, $vars) {
       $post_number++;
       $fragment = 'comment-' . $vars['comment']->cid;
 
-   }
+    }
     
     // These variables are common to nodes and comments
     $vars['is_forum'] = TRUE;
     $vars['row_class'] = _row_class();
-    $vars['links'] = empty($vars['links']) ? '&nbsp' : $vars['links'];
 
     // Load the poster's account to use in gathering author info
     $account = user_load(array('uid'=>$vars['userid']));
@@ -68,12 +71,10 @@ function advanced_forum_addvars($hook, $vars) {
     // The date the poster joined the site
     $vars['joined'] = format_date($account->created, 'custom', 'Y-m-d');
 
-     if (round((time()-$account->access)/60) < 30) {
-     
-       $vars['online_status'] = true;
-			 // $vars['online_icon'] = '<span class="icn-online">&nbsp;</span>';
+    if (round((time()-$account->access)/60) < 30) {
+      $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
      } else {
-       // $vars['online_icon'] = '<span class="icn-offline">&nbsp;</span>';
+       $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_offline.png', 'User is offline', 'User is offline',NULL, TRUE);
      }
 
  
@@ -87,7 +88,7 @@ function advanced_forum_addvars($hook, $vars) {
   } else {
     if (arg(0) == 'forum') {
       // If we are in the forum listing, add our CSS
-    //  advanced_forum_add_css();   
+      advanced_forum_add_css($forum_theme);   
     }
   }
   
@@ -111,6 +112,11 @@ function advanced_forum_extravars($vars, $authorid) {
   if (module_exists('user_titles')) {
     $vars['user_title'] = user_titles_get_user_title($authorid);
   }
+
+  if (module_exists('user_badges')) {
+    $vars['user_badges'] = user_badges_for_uid($authorid);
+  }
+  
   
   // Calls to other modules can be added here
 
@@ -162,13 +168,20 @@ function _is_forum() {
   return $is_forum;
 }
 
-function advanced_forum_add_css() {
+function advanced_forum_add_css($forum_theme) {
+
   // Find the path to the current theme
   $theme_path = path_to_theme();
+  
+  // Load the structural CSS (heights, floats, padding, margins, etc)
+  drupal_add_css(path_to_theme() . '/' . $forum_theme . '/advanced_forum-structure.css');
+  
+  // Add on the colors and graphics part
+  drupal_add_css(path_to_theme() . '/' . $forum_theme . '/advanced_forum.css');
+}
 
-  // Add in the structural CSS (heights, floats, padding, margins, etc)
-  drupal_add_css($theme_path . '/advforum/advanced_forum-structure.css');
-  drupal_add_css($theme_path . '/advforum/advanced_forum.css');
+function advanced_forum_get_forum_theme_directory() {
+  return 'advforum';
 }
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
@@ -179,15 +192,18 @@ function advanced_forum_add_css() {
   * The variables, $forums, $parents and $tid will be available in forum-list.tpl.php
   */
 function phptemplate_forum_list($forums, $parents, $tid) {
-   return _phptemplate_callback('advforum/forum-list', array('forums' => $forums, 'parents' => $parents, 'tid' => $tid));   
+   $forum_theme = advanced_forum_get_forum_theme_directory();
+   return _phptemplate_callback("$forum_theme/forum-list", array('forums' => $forums, 'parents' => $parents, 'tid' => $tid));   
 }
 
 function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
-   return _phptemplate_callback('advforum/forum-display', array('forums' => $forums, 'topics' => $topics, 'parents' => $parents, 'tid' => $tid, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+   $forum_theme = advanced_forum_get_forum_theme_directory();
+   return _phptemplate_callback("$forum_theme/forum-display", array('forums' => $forums, 'topics' => $topics, 'parents' => $parents, 'tid' => $tid, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
 }
 
 function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
-   return _phptemplate_callback('advforum/forum-topics', array('tid' => $tid, 'topics' => $topics, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
+   $forum_theme = advanced_forum_get_forum_theme_directory();
+   return _phptemplate_callback("$forum_theme/forum-topics", array('tid' => $tid, 'topics' => $topics, 'sortby' => $sortby, 'forum_per_page' => $forum_per_page));   
 }
 
 /**
@@ -197,17 +213,16 @@ function phptemplate_forum_topic_navigation($node){
   return ;
 }
 
-
-
 /**
  * Format the icon for each individual topic.
  *
  * @ingroup themeable
  */
 function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0) {
-  $icon_path = drupal_get_path('module', 'advanced_forum') . "/images";
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  $icon_path = path_to_theme() . '/' . $forum_theme . "/images";
 	
-	  if ($num_posts > variable_get('forum_hot_topic', 15)) {
+  if ($num_posts > variable_get('forum_hot_topic', 15)) {
     $icon = $new_posts ? 'hot-new' : 'hot';
   }
   else {
@@ -222,7 +237,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
     $icon = 'sticky';
   }
 	
-	$output = theme('image', "$icon_path/forum-$icon.png");
+  $output = theme('image', "$icon_path/forum-$icon.png");
 
   if ($new_posts) {
     $output = "<a name=\"new\">$output</a>";
