@@ -163,21 +163,12 @@ function _is_forum() {
 }
 
 function advanced_forum_add_css() {
-  // Find the path to the module
-  $advforum_path = drupal_get_path('module', 'advanced_forum');
-  
-  // Add in the structural CSS (heights, floats, padding, margins, etc)
-   drupal_add_css($advforum_path . '/advanced_forum-structure.css');
-  
   // Find the path to the current theme
   $theme_path = path_to_theme();
-  
-  // If the user has overridden the CSS in their theme, use that instead of ours
-  if (file_exists($theme_path . '/advanced_forum.css')) {
-    drupal_add_css($theme_path . '/advanced_forum.css');  
-  } else {   
-    drupal_add_css($advforum_path . '/advanced_forum.css');  
-  }
+
+  // Add in the structural CSS (heights, floats, padding, margins, etc)
+  drupal_add_css($theme_path . '/advforum/advanced_forum-structure.css');
+  drupal_add_css($theme_path . '/advforum/advanced_forum.css');
 }
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
