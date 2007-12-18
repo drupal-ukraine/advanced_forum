@@ -1,0 +1,160 @@
+/* 
+This document contains structural markup such as widths, margins, padding, and floats
+*/
+
+/********************************* BEGIN PAGER ************************************************/
+
+#forum .pager a {
+  padding: .1em .3em; margin: .1em; 
+  border: 1px solid black;
+}
+
+/********************************* END PAGER ************************************************/
+
+/********************************* BEGIN FORUM TABLES ********************************************/
+
+/* General */
+
+#forum table {
+  border: thin solid black
+}
+
+#forum {
+	width: 100%;
+}
+
+#forum table {
+  width: 100%;
+}
+
+#forum tr.even, 
+#forum tr.odd {
+  border: 0px none;
+  border-bottom: 0px none; 
+}
+
+/* Containers */
+
+#forum td.container {
+  padding-top: 5px;
+}
+
+#forum .description {
+  padding-left: 3px;
+}
+
+/* Topic listings */
+
+#forum td.topic{
+  width: 600px;
+  padding: 10px;
+}
+
+#forum td.statistics, #forum td.settings, #forum td.pager {
+  height: 1.5em;
+}
+
+#forum td .links {
+  padding-top: 0.7em;
+}
+
+/* Top links */
+#forum li {
+	margin: 0;
+	padding-right:1em;
+}
+
+/* Icons */
+#forum td.icon{
+	padding: 10px;
+}
+
+.icon-explain {
+	padding: 2px;
+}
+
+
+/********************************* BEGIN FORUM TOPIC ********************************************/
+
+.forum-comment {
+  margin: 0px 0px 5px 0;
+  padding: 0 0 0 0;
+  border: thin solid black;
+}
+
+/* Header at the top of each post */
+.post-info {
+	height: 2em;
+}
+
+.postedon{
+	padding: 5px;
+	float: left;
+}
+
+.posttitle{
+	padding: 5px;
+	width: 98%;
+	border-bottom: thin solid black;
+}
+
+.forum-comment .new {
+  float:left;
+}
+
+.post-num{
+	float: right;
+	margin-right: 5px;
+}
+
+.forum-post-wrapper {
+	min-height: 20em;
+	border-top: thin solid black;
+	border-bottom: thin solid black;
+}
+
+.forum-comment-left {
+	float: left;
+	width: 150px;
+	line-height: 110%;
+}
+
+.forum-comment-left .author-name {
+  margin-bottom: 5px;
+}
+
+.forum-comment-left .picture {
+	float: none;
+	padding-left: 0px;
+	margin: .5em 0px .5em 0px;
+}
+
+.forum-comment-left .picture img {
+	padding: .5em;
+}
+
+.forum-comment-right {
+  margin-left: 150px; /*Set left margin to LeftColumnWidth*/
+}
+
+.forum-comment-right .content {
+	margin: .5em;
+}
+
+#main #content .node .forum-comment .forum-comment-right .content {
+  padding-right: 5px;
+}
+
+.innertube{
+  margin: 10px; 
+}
+
+.forum-comment .links {
+	text-align: right;
+	height: 2.5em;
+	margin-top: .25em;
+}
+
+/********************************* END FORUM TOPIC ********************************************/
+
+

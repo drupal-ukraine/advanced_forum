@@ -1,0 +1,145 @@
+/********************************* BEGIN PAGER ************************************************/
+
+#forum .pager a {
+  text-decoration: none;
+  border: 1px solid #2788C5;
+  background: #fff url(images/gradient-inner.png) repeat-x left top;
+  font-weight: bold;
+}
+
+#forum .pager a.active { 
+  color: #006; 
+}
+
+#forum .pager-current, 
+#forum .pager a:hover { 
+  background: #2788C5; 
+  color: #fff;
+}
+
+/********************************* END PAGER ************************************************/
+
+/********************************* BEGIN FORUM TABLES ********************************************/
+
+/* General */
+
+#forum table {
+  border: thin solid blue;
+}
+
+#forum th {
+  background-color: #2788C5;
+  color: white;	
+}
+
+#forum th a, #forum th a:link, #forum th a:hover, #forum th a:visited{
+  font-weight: bold;
+  color: white;	
+}
+
+/* Containers */
+
+#forum td.container {
+  background-color: #2788C5;
+  color: white;
+}
+
+#forum td.container a { 
+  font-weight: bold;
+  color: white;
+}
+
+#forum .description {
+  font-size: 75%;
+  color: white;
+}
+
+/* Topic listings */
+
+#forum td.topic{
+  border: solid white 1px;
+}
+
+#forum td.replies,
+#forum td.created {
+  border:solid white 1px;
+}
+
+#forum td.statistics, #forum td.settings, #forum td.pager {
+  border: 1px solid #bbb;
+}
+
+#forum td .links {
+  font-size: 0.9em;
+}
+
+/* Top links */
+#forum li {
+  list-style-type: none;
+  list-style-image: none;
+}
+
+/********************************* BEGIN FORUM TOPIC ********************************************/
+
+.toppost {
+/* This can be used for any special formatting of the main node */
+}
+
+.forum-comment {
+  border: thin solid #2587C4;
+}
+
+
+/* Header at the top of each post */
+.post-info {
+  background: #247AB1 url(images/paper.gif) no-repeat fixed left;
+  color:white;
+}
+
+.postedon{
+	font-weight: bold;
+	font-size: .8em;
+}
+
+.posttitle{
+  font-weight: bold;
+  border-bottom: thin solid #2587C4;
+}
+
+.forum-comment .new {
+  font-weight:bold;
+  font-family: "Trebuchet MS", Arial, Verdana, Sans-serif;
+}
+
+.post-num a, .post-num a:link, .post-num a:visited, .post-num a:active, .post-num a:hover {
+	color:white;	
+}
+
+.forum-post-wrapper {
+	background: url(images/forum-separater.gif) repeat-y;
+	border-top: thin solid #2587C4;
+	border-bottom: thin solid #2587C4;
+}
+
+.forum-comment-left {
+	line-height: 110%;
+}
+
+.forum-comment-left .author-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.forum-comment-left .picture img {
+	border: thin solid #2587C4;
+	background: White;
+}
+
+
+#main #content .node .forum-comment .forum-comment-right .content {
+  border:none;
+}
+
+/********************************* END FORUM TOPIC ********************************************/
+
+
