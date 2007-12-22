@@ -27,19 +27,6 @@
  */
 ?> 
 
-<?php
-// Show nodes normally when they appear outside of the forum
-if (!$is_forum) {
-  include('node.tpl.php');
-  return;
-}
-
-// If this is the top post (that is, the node) give it an extra wrapper to allow for special theming
-if ($top_post) {
-  $postclass = "top-post";
-} 
-?>
-
 <div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
 
   <div class="post-info">

@@ -48,6 +48,8 @@ INSTALLATION:
 4) Optionally enable the user postcounts and markasread modules.
 5) Add the call to advanced forum to template.php. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
 
+* If your theme is listed in the "themes" directory, and you have not modified the template.php that comes with your theme, you can try using the template.php found there. As themes get updated, these files may get out of date. If it doesn't work, try one of the methods below.
+
 * If your theme doesn't already have a template.php, create one at the root of your theme and paste in this:
 
 <?php
@@ -114,7 +116,7 @@ Go to ?q=admin/content/forum/settings
 THEMING:
 If you want to make major changes to the forum, edit the files in the "advforum" directory you copied into your theme directory. If you just want to make a few changes, make them in the style.css that comes with your theme. That will be called after and override the css that comes with the module. 
 
-Theming of advforum is still being worked on at this point, so it's reccomended you record any changes you make if you are an early adopter so you can upgrade them.
+Theming of advforum is still being worked on at this point, so it's recommended you record any changes you make if you are an early adopter so you can upgrade them.
 
 MODULES MADE USE OF:
 user_postcount (included)
@@ -143,7 +145,7 @@ MAINTAINER:
 Advanced forum is maintained by Michelle Cox ( http://drupal.org/user/23570 ). Please direct all support requests, feature requests, and bug reports to the issue queue: http://drupal.org/project/advanced_forum
 
 DEMO SITE:
-The development / demo site is at http://advforum.shellmultimedia.com
+The development / demo site is at http://advforum.shellmultimedia.com . If the site is down, try again later. The module is being actively developed there and it doesn't always work.
 
 FUTURE PLANS:
 This module is still under active development. Once the Drupal 5 is reasonably finished, I intend to port it to Drupal 6.
