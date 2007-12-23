@@ -112,7 +112,7 @@ This document contains structural markup such as widths, margins, padding, and f
 }
 
 .forum-post-wrapper {
-	min-height: 20em;
+	min-height: 24em;
 	border-top: thin solid black;
 	border-bottom: thin solid black;
 }
@@ -135,6 +135,10 @@ This document contains structural markup such as widths, margins, padding, and f
 
 .forum-comment-left .picture img {
 	padding: .5em;
+}
+
+.author-title, .author-posts, .author-regdate, .author-points {
+padding-bottom: .5em;
 }
 
 .forum-comment-right {

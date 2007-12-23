@@ -1,0 +1,11 @@
+Dec 22, 2007
+------------
+* Created this changelog to help early adopters keep up with my changes. Will only be recording major changes until the module gets non-dev releases.
+* Notable recent changes:
+ - Moved all theme related files into themes/advforum to enable alternate themes
+ - Removed call to _is_forum() at the top of node-forum.tpl.php and rolled logic into the function
+ - Renamed node-forum.tpl.php to forum-thread.tpl.php 
+ 
+Nov 18, 2007
+------------
+Created project for advanced forum and uploaded some early code

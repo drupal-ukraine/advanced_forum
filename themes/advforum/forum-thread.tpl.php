@@ -27,6 +27,13 @@
  */
 ?> 
 
+<?php
+// If this is the top post (that is, the node) give it an extra wrapper to allow for special theming
+if ($top_post) {
+  $postclass = "top-post";
+} 
+?>
+
 <div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
 
   <div class="post-info">
@@ -94,16 +101,18 @@
         <?php // END AUTHOR POINTS DISPLAY ?>
         
         <?php // BEGIN AUTHOR BADGES DISPLAY (user badges module)?>
-        <?php if (isset($points)) { ?> 
-        <div class="author-points">
+        <?php if (isset($user_badges)) { ?> 
+        <div class="author-badges">
           <?php print $user_badges ?>
         </div>
         <?php } ?>
         <?php // END AUTHOR BADGES DISPLAY ?>
         
-        <?php 
-        print $online_icon; 
-        ?>
+        <div class="author-icons">
+          <?php 
+          print $online_icon; 
+          ?>
+        </div>
       </div>
     </div>
 

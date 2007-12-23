@@ -121,10 +121,6 @@
 	border-bottom: thin solid #2587C4;
 }
 
-.forum-comment-left {
-	line-height: 110%;
-}
-
 .forum-comment-left .author-name {
   font-weight: bold;
   font-size: 1.1em;
@@ -134,7 +130,6 @@
 	border: thin solid #2587C4;
 	background: White;
 }
-
 
 #main #content .node .forum-comment .forum-comment-right .content {
   border:none;
