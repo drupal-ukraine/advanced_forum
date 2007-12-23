@@ -35,7 +35,7 @@ function advanced_forum_addvars($hook, $vars) {
     
   if ($hook == 'node') {
     // Variables for just the main post
-    $vars['template_file'] = "$forum_theme/node-forum";  
+    $vars['template_file'] = "$forum_theme/forum-thread";  
     $vars['top_post'] = TRUE;
     $vars['content'] = $vars['node']->body;
     $vars['userid'] = $vars['node']->uid;
@@ -46,7 +46,7 @@ function advanced_forum_addvars($hook, $vars) {
     
   if ($hook == 'comment') {
     // Variables for comments
-    $vars['template_file'] = "$forum_theme/node-forum"; 
+    $vars['template_file'] = "$forum_theme/forum-thread"; 
     $vars['top_post'] = FALSE;
     $vars['title'] = check_plain($vars['comment']->subject);
     $vars['content'] = $vars['comment']->comment;
@@ -145,13 +145,13 @@ function _is_forum($hook, $vars) {
     case 'node':
       // Make sure this is a forum node type and that it's not being
       // shown on some other page (like a view or promoted to front page)
-      if (($vars['node']->type == 'forum') && arg(0) == 'node') {
+      if (($vars['node']->type == 'forum') && arg(0) == 'node' && is_numeric(arg(1))) {
         $forum_node_id = $vars['node']->nid;
         return true;
       } else {
         // In D5, only forum types allowed in the forums so
-        // we know this isn't a forum thread. Will need to
-        // revisit in D6.
+        // we know this isn't a forum thread (or that it's not in the forums).
+        // Will need to revisit in D6.
         unset($forum_node_id);
         return false;
       }
