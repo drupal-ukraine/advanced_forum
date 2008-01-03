@@ -6,8 +6,8 @@ Advanced forum is a glue/theme module which makes it easier for non programmers 
 
 advanced_forum.module:
 * Determines if the current page is part of the forum
-* Uses node-forum.tpl.php for comments as well as posts
-* Creates a slew of forum related variables to pass to node-forum.tpl.php
+* Uses forum-thread.tpl.php for comments as well as posts
+* Creates a slew of forum related variables to pass to forum-thread.tpl.php
 * Creates variables from external helper modules such as user titles, user points, etc.
 * Has the logic to load up the CSS files
 
@@ -17,17 +17,17 @@ advanced_forum-structure.css:
 advanced_forum.css 
 * Contains the CSS to style the forums
 
-node-forum.tpl.php:
-* The template file for both posts and comments in the forum. The variables available are listed at the top. This file can be change to suit your layout.
-
 forum-display.tpl.php
-* Over all forum display
+* Over-all forum display
 
 forum-list.tpl.php
 * Table that lists the forums
 
 forum-topics.tpl.php
 * Listing of topics in a single forum
+
+forum-thread.tpl.php:
+* The template file for both posts and comments in the forum. The variables available are listed at the top. This file can be change to suit your layout.
 
 user_postcounts.module:
 * Maintains the user forum post count 
@@ -36,16 +36,16 @@ markasread.module:
 * Adds a button to the forums to allow people to mark a single forum or all forum as read
 
 image directory:
-* forum-separater.gif - This is the background for each post/comment. It provides the visual separater between the author info and the post content.
+* forum-separater.gif - This is the background for each post/comment. It provides the visual separater between the author info and the post content. You need to change this when changing the color of your forums.
 * page.gif decorative page icon by the posted on date.
 *** Need button icons for: new post, reply, edit, delete
 
 INSTALLATION:
 1) Make sure the forum module is enabled and you have forums and (optionally) containers set up.
-2) Copy the advanced forum project directory to your normal module directory (ie: sites/all/modules)
-2) Copy the advforum directory to your theme directory. If you use more than one theme with forums, copy it to each.
+2) Copy the entire advanced forum project directory (not just the contents) to your normal module directory (ie: sites/all/modules)
+2) Copy the entire advforum directory (not just the contents) to your theme directory. If you use more than one theme with forums, copy it to each.
 3) Enable the advanced forum module at http://example.com/?q=admin/build/modules
-4) Optionally enable the user postcounts and markasread modules.
+4) Optionally enable the user postcounts and markasread modules included in the package.
 5) Add the call to advanced forum to template.php. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
 
 * If your theme is listed in the "themes" directory, and you have not modified the template.php that comes with your theme, you can try using the template.php found there. As themes get updated, these files may get out of date. If it doesn't work, try one of the methods below.
