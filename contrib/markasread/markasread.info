@@ -2,3 +2,5 @@
 name = Mark Forums As Read
 description = "Provides a way to clear the new flag for all topics in a forum or all topics on the site"
 dependencies = forum
+package = Advanced Forum
+

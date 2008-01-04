@@ -70,35 +70,44 @@ function advanced_forum_addvars($hook, $vars) {
   $vars['is_forum'] = TRUE;
   $vars['row_class'] = _row_class();
 
-  // Load the poster's account to use in gathering author info
-  $account = user_load(array('uid'=>$vars['userid']));
-
-  // The date the poster joined the site
-  $vars['joined'] = format_date($account->created, 'custom', 'Y-m-d');
-
-  if (round((time()-$account->access)/60) < 30) {
-    $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
-   } else {
-     $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_offline.png', 'User is offline', 'User is offline',NULL, TRUE);
-   }
-
- 
   // Comment number with link
   $query = ($page_number) ? 'page=' . $page_number : NULL;
   $vars['comment_link'] = l('#' . (($page_number * $post_per_page) + $post_number), 'node/' . $nid, NULL, $query, $fragment, TRUE, NULL);
 
-  // Add in any extra variables provided by other modules
-  $vars = advanced_forum_extravars($vars, $vars['userid']);
+  // Add in user status vars
+  $vars = advanced_forum_uservars($vars, $vars['userid']);
   
   // Send back the modified vars
   return $vars;
 }
 
 /**
- * This function creates variables from functions
- * provided by other modules related to forums.
+ * This function creates variables related to the author of
+ * the post, mostly from functions provided by other modules.
  */
-function advanced_forum_extravars($vars, $authorid) {
+function advanced_forum_uservars($vars, $authorid) {
+  global $user;
+  
+  $themedir = advanced_forum_get_forum_theme_directory(); 
+
+  // Load the poster's account to use in gathering author info
+  $author = user_load(array('uid'=>$authorid));
+
+  // The date the poster joined the site
+  $vars['joined'] = format_date($author->created, 'custom', 'Y-m-d');
+
+  if (round((time()-$author->access)/60) < 30) {
+    $vars['online_icon'] = 
+     $vars['online_status'] = 'Online';
+     theme_image(path_to_theme() . '/' . $themedir . 
+                  '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+   } else {
+    $vars['online_status'] = 'Offline';
+    $vars['online_icon'] = 
+       theme_image(path_to_theme() . '/' . $themedir . 
+                   '/images/status_offline.png', 'User is offline', 'User is offline',NULL, TRUE);
+   }
+
   if (module_exists('userpoints')) {
     $vars['points'] = userpoints_get_current_points($authorid);
   }
@@ -114,10 +123,44 @@ function advanced_forum_extravars($vars, $authorid) {
   if (module_exists('user_badges')) {
     $vars['user_badges'] = user_badges_for_uid($authorid);
   }
-  
-  
-  // Calls to other modules can be added here
 
+
+  // Email user
+  if ($author->contact) { 
+    if ($user->uid != 0) {
+      $vars['email_icon'] = 
+        l(theme_image(path_to_theme() . $themedir . 
+            "/images/email.png", 'Email', 'Email', NULL, TRUE), 
+            'user/'. $authorid . '/contact',NULL,NULL,NULL,NULL,TRUE); 
+    }
+  } 
+           
+  // Send private message
+  if (module_exists('privatemsg') &&
+      user_access('access private messages') && 
+      (isset($author->privatemsg_allow) ? $profileuser->privatemsg_allow : 1)) { 
+    $vars['privatemsg_icon'] =
+      l(' ' .theme_image(path_to_theme() . $themedir . 
+           "/images/user_comment.png", 'Private Message', 'Private Message', NULL, TRUE), 
+           'privatemsg/new/'. $authorid,NULL,NULL,NULL,NULL,TRUE); 
+  } 
+            
+  // Add / remove from buddylist
+  if (module_exists('buddylist')) {
+    if (@in_array($authorid, array_keys(buddylist_get_buddies($user->uid))) && 
+      user_access('maintain buddy list')) {
+      $vars['buddylist_icon'] = l(' ' .theme_image(path_to_theme() . $themedir . 
+            "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE), 
+            'buddy/delete/'. $authorid,NULL,NULL,NULL,NULL,TRUE);
+    } else {
+      if ($authorid != $user->uid && user_access('maintain buddy list')) {
+        $vars['buddylist_icon'] = l(' ' .theme_image(path_to_theme() . $themedir . 
+              "/images/group_add.png", 'Add to buddy list', 'Add to buddy list', NULL, TRUE), 
+              'buddy/add/'. $authorid,NULL,NULL,NULL,NULL,TRUE);
+      }
+    }
+  }
+ 
   return $vars;
 }
 
