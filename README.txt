@@ -42,8 +42,8 @@ image directory:
 
 INSTALLATION:
 1) Make sure the forum module is enabled and you have forums and (optionally) containers set up.
-2) Copy the entire advanced forum project directory (not just the contents) to your normal module directory (ie: sites/all/modules)
-2) Copy the entire advforum directory (not just the contents) to your theme directory. If you use more than one theme with forums, copy it to each.
+2) Copy the entire advanced_forum project directory (not just the contents) to your normal module directory (ie: sites/all/modules)
+2) In the themes directory of the module is a directory called "advforum" that contains all the theme files. Copy this entire advforum directory (not just the contents) to your theme directory. If you use more than one theme with forums, copy it to each.
 3) Enable the advanced forum module at http://example.com/?q=admin/build/modules
 4) Optionally enable the user postcounts and markasread modules included in the package.
 5) Add the call to advanced forum to template.php. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
