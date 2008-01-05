@@ -46,7 +46,7 @@ INSTALLATION:
 2) In the themes directory of the module is a directory called "advforum" that contains all the theme files. Copy this entire advforum directory (not just the contents) to your theme directory. If you use more than one theme with forums, copy it to each.
 3) Enable the advanced forum module at http://example.com/?q=admin/build/modules
 4) Optionally enable the user postcounts and markasread modules included in the package.
-5) Add the call to advanced forum to template.php. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
+5) Add the call to advanced forum to template.php in your theme's directory. This is the hardest part because how it's done is different in every theme. Pick the method that best matches your theme:
 
 * If your theme is listed in the "themes" directory, and you have not modified the template.php that comes with your theme, you can try using the template.php found there. As themes get updated, these files may get out of date. If it doesn't work, try one of the methods below.
 
@@ -93,7 +93,7 @@ function SOMEOTHERFUNCTION() {  (This may not exist if you are at the bottom of 
 I've done my best to explain this but, if you just can't figure out how to do this step, post an issue with the template.php of the theme you are using and I will try to help.
 
 
-5) Adjust all the settings pages
+6) Adjust all the settings pages
 
 Go to ?q=admin/content/comment/settings
 * Set Default display mode: Flat list - expanded
@@ -111,7 +111,7 @@ Go to ?q=admin/build/themes/settings
 Go to ?q=admin/content/forum/settings
 * Set the topic list to display how you want
 
-6) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts. If you use a module that advforum doesn't recognize, please file a feature request. (See section "modules made use of" below for a list.)
+7) Install any helper modules that you like such as user titles, user points, etc, and they will automatically be picked up and added to the forum posts. If you use a module that advforum doesn't recognize, please file a feature request. (See section "modules made use of" below for a list.)
 
 THEMING:
 If you want to make major changes to the forum, edit the files in the "advforum" directory you copied into your theme directory. If you just want to make a few changes, make them in the style.css that comes with your theme. That will be called after and override the css that comes with the module. 
