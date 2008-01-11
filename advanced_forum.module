@@ -84,8 +84,10 @@ function advanced_forum_addvars($hook, $vars) {
 
   if (round((time()-$account->access)/60) < 30) {
     $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+    $vars['online_status'] = TRUE;
    } else {
      $vars['online_icon'] = theme_image(path_to_theme() . '/' . $forum_theme . '/images/status_offline.png', 'User is offline', 'User is offline',NULL, TRUE);
+    $vars['online_status'] = FALSE;
    }
 
  
