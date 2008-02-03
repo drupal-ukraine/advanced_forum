@@ -11,6 +11,34 @@ This document contains structural markup such as widths, margins, padding, and f
 
 /********************************* END PAGER ************************************************/
 
+/********************************* BEGIN FORUM CONTAINERS ********************************************/
+/*** Inserted: Thomas ***/
+
+td.forum {
+  padding-left: 15px;
+}
+
+#forum td.container {
+  padding-left: 15px;
+  padding-top: 5px;
+  margin-top: 0px;
+  border-top: 0;
+  line-height: 1;
+}
+#forum .container .description {
+  margin: 0;
+  padding: 3px 0 0 0;
+  font-weight: normal;
+  font-size: 85%;
+  line-height: 1.2;
+}
+
+#forum .description {
+  padding-left: 0px;
+  margin-left: 0;
+}
+/********************************* END FORUM CONTAINERS ********************************************/
+
 /********************************* BEGIN FORUM TABLES ********************************************/
 
 /* General */
@@ -34,7 +62,7 @@ This document contains structural markup such as widths, margins, padding, and f
 }
 
 .forum-indented {
-	padding-left: 5em;
+	padding-left: 3em;
 }
 
 /* Containers */
@@ -92,13 +120,13 @@ This document contains structural markup such as widths, margins, padding, and f
 }
 
 .postedon{
-	padding: 5px;
+	padding: 0 5px;
 	float: left;
 }
 
 .posttitle{
 	padding: 5px;
-	width: 98%;
+	width: 96%;
 	border-bottom: thin solid black;
 }
 
@@ -112,7 +140,8 @@ This document contains structural markup such as widths, margins, padding, and f
 }
 
 .forum-post-wrapper {
-	min-height: 24em;
+   clear:both;
+	/*min-height: 24em;*/
 	border-top: thin solid black;
 	border-bottom: thin solid black;
 }
@@ -135,10 +164,12 @@ This document contains structural markup such as widths, margins, padding, and f
 
 .forum-comment-left .picture img {
 	padding: .5em;
+	height: 85px;  /* reducing and unifying size of user pictures Thomas */
+	width: auto;
 }
 
 .author-title, .author-posts, .author-regdate, .author-points {
-padding-bottom: .5em;
+padding-bottom: .2em;
 }
 
 .forum-comment-right {
@@ -154,7 +185,7 @@ padding-bottom: .5em;
 }
 
 .innertube{
-  margin: 10px; 
+  margin: 10px 7px 10px 13px; 
 }
 
 .forum-comment .links {

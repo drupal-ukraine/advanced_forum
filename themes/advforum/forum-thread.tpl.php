@@ -23,6 +23,7 @@
     $points
     $user_title
     $user_badges
+    $page_link - Comment page module
     
  */
 ?> 
@@ -37,7 +38,7 @@ if ($top_post) {
 <div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
 
   <div class="post-info">
-     <span class="postedon"><?php print "Posted on: " . $date ?></span>
+     <span class="postedon"><?php print t("Posted on: ") . $date ?></span>
     
     <?php if ($comment->new) : ?>
       <a id="new"></a>
@@ -48,6 +49,7 @@ if ($top_post) {
       if (!$top_post) {
         print '<span class="post-num">';
         print $comment_link;
+        print ' ' . $page_link;
         print '</span>' ;
       }
     ?>
@@ -125,16 +127,19 @@ if ($top_post) {
         <?php print $content ?>
       </div>  
     </div>
+    <span class="clear"></span>
+    <div class="links">
+    <?php print $links ?>
+  </div>
   
   </div>
   <span class="clear"></span>
   
-  <div class="links">
-    <?php print $links ?>
-  </div>
+  
   
 </div>
 
 <span class="clear"></span>
-<br />
+<?php if ($top_post) { print '<br />';} ?><!--Added if statement to make sure the top post gets some space under it,
+but the rest is closer to each other-->
 

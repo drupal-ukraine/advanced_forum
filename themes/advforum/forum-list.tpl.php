@@ -1,42 +1,62 @@
 <?php
   global $user;
+  
+  
 
   if ($forums) {
-
-    $header = array(t('Forum'), t('Topics'), t('Posts'), t('Last post'));
+     
+     $header = array(t('Forum'), t('Topics'), t('Posts'), t('Last post')); 
+     /*{    $rows[] = array(
+            array('data' => t('Subject'), 'class' => 'f-subject'),
+            array('data' => t('Topics'), 'class' => 'f-topics'),
+            array('data' => t('Posts'),'class' => 'f-posts'),
+            array('data' => t('Last post'),'class' => 'f-last-reply')
+            ); }*/
 
     foreach ($forums as $forum) {
       if ($forum->container) {
-
-        // Instead of forcing a 30px hard-coded style for indented columns, add a class to the div
-				if(($forum->depth * 30) > 0) {
-				$description  = '<div class="forum-indented">' . "\n";
-				} else {
-				$description  = '<div class="forum-default">' . "\n";
-				}
+        // Add a class to the div for indenting sub containers
+		if($forum->depth > 0) {
+		  $description  = '<div class="forum-indented">' . "\n";
+		} else {
+		  $description  = '<div class="forum-default">' . "\n";
+		}
 
         $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
 
         if ($forum->description) {
           $description .= ' <div class="description">'. filter_xss_admin($forum->description) ."</div>\n";
         }
+        
         $description .= "</div>\n";
-
         $rows[] = array(array('data' => $description, 'class' => 'container', 'colspan' => '4'));
+        
+		/*if($forum->depth == 0) {
+          $rows[] = array(
+            array('data' => t('Forum'), 'class' => 'f-subject'),
+            array('data' => t('Topics'), 'class' => 'f-topics'),
+            array('data' => t('Posts'),'class' => 'f-posts'),
+            array('data' => t('Last post'),'class' => 'f-last-reply')
+            );
+        }*/
+
       }
       else {
-        $new_topics = _forum_topics_unread($forum->tid, $user->uid);
-        $forum->old_topics = $forum->num_topics - $new_topics;
-        if (!$user->uid) {
+        if ($user->uid) {
+          $new_topics = _forum_topics_unread($forum->tid, $user->uid);
+        } else {
           $new_topics = 0;
         }
+        
+        $forum->old_topics = $forum->num_topics - $new_topics;
+        
 
-        // Instead of forcing a 30px hard-coded style for indented columns, add a class to the div
-				if(($forum->depth * 30) > 0) {
-				$description  = '<div class="forum-indented">' . "\n";
-				} else {
-				$description  = '<div class="forum-default">' . "\n";
-				}
+        // Add a class to the div for indenting sub forums
+		if($forum->depth > 0) {
+		  $description  = '<div class="forum-indented">' . "\n";
+		} else {
+		  $description  = '<div class="forum-default">' . "\n";
+		}
 			
         $description .= ' <div class="name">'. l($forum->name, "forum/$forum->tid") ."</div>\n";
 
@@ -53,6 +73,29 @@
       }
     }
 
+    // set table header if page is a container with listing of forums
+    if(in_array(arg(1), variable_get('forum_containers', array()))){
+      // reverse array
+      $nrows = array_reverse($rows,true);
+      
+      //get the container description
+      $container = taxonomy_get_term(arg(1));
+            
+      //add to output
+      $rows = $nrows;
+      $rows[] = array(
+                array('data' => t('Subject'), 'class' => 'f-subject'),
+                array('data' => t('Topics'), 'class' => 'f-topics'),
+                array('data' => t('Posts'),'class' => 'f-posts'),
+                array('data' => t('Last post'),'class' => 'f-last-reply')
+                );
+            
+      $rows[] = array(array('data' => $container->description, 'class' => 'container', 'colspan' => 4));
+            
+      //reverse again to output
+      $nrows = array_reverse($rows,true);
+      $rows = $nrows;
+    }
     print theme('table', $header, $rows);
 
   }

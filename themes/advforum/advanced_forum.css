@@ -24,7 +24,7 @@
 /* General */
 
 #forum table {
-  border: thin solid blue;
+  border: 1px solid #A7C1DF;
 }
 
 #forum th {
@@ -40,7 +40,7 @@
 /* Containers */
 
 #forum td.container {
-  background-color: #2788C5;
+  background-color: #6FB7DF;
   color: white;
 }
 
@@ -53,16 +53,18 @@
   font-size: 75%;
   color: white;
 }
+#forum .forum .description {  /* Introduced Thomas */
+ color: #6FB5DF;
+}
 
 /* Topic listings */
 
-#forum td.topic{
-  border: solid white 1px;
-}
-
+#forum td.topic,   
 #forum td.replies,
-#forum td.created {
-  border:solid white 1px;
+#forum td.created
+{
+  border-left: none;
+  border-right: none;
 }
 
 #forum td.statistics, #forum td.settings, #forum td.pager {
@@ -78,6 +80,19 @@
   list-style-type: none;
   list-style-image: none;
 }
+#forum td.f-subject, #forum td.f-topics, #forum td.f-posts, #forum td.f-last-reply {
+  background: #B3D8EF;
+  color: #27729F;
+  font-size: 0.8em;
+  padding: 0.1em 1.2em;
+  border: none;
+} 
+#forum td.forum, #forum td.topics, #forum td.posts, #forum td.last-reply {
+  border-left: none;
+  border-right: none;
+}
+
+
 
 /********************************* BEGIN FORUM TOPIC ********************************************/
 
@@ -86,13 +101,13 @@
 }
 
 .forum-comment {
-  border: thin solid #2587C4;
+  border: 1px solid #2587C4;
 }
 
 
 /* Header at the top of each post */
 .post-info {
-  background: #247AB1 url(images/paper.gif) no-repeat fixed left;
+  background: #247AB1 ;
   color:white;
 }
 
@@ -103,7 +118,7 @@
 
 .posttitle{
   font-weight: bold;
-  border-bottom: thin solid #2587C4;
+  border-bottom: 1px solid #2587C4;
 }
 
 .forum-comment .new {
@@ -116,23 +131,54 @@
 }
 
 .forum-post-wrapper {
-	background: url(images/forum-separater.gif) repeat-y;
-	border-top: thin solid #2587C4;
-	border-bottom: thin solid #2587C4;
+	background: url(images/forum-separater.jpg) repeat-y;
+	border-top: 1px solid #2587C4;
+	border-bottom: none;
 }
 
 .forum-comment-left .author-name {
   font-weight: bold;
   font-size: 1.1em;
+  padding: 0 0 0.2em;
 }
 
 .forum-comment-left .picture img {
-	border: thin solid #2587C4;
+	border: 1px solid #2587C4;
 	background: White;
 }
 
 #main #content .node .forum-comment .forum-comment-right .content {
   border:none;
+}
+.author-title, .author-posts, .author-regdate, .author-points {
+font-size: 0.8em;
+}
+.author-icons {
+  padding: 0.4em 0 0 0;
+}
+.forum-comment-right .posttitle, .forum-comment-right .content {
+  padding-left: 2.5%;
+  margin-left: 0;
+}
+.forum-comment-right p {
+  margin-right: 2%;
+}
+.pager strong.pager-current {
+  padding: 0.3em 0.4em;
+  margin: 0 0.1em 0 ;
+}
+#forum td.created, #forum td.last-reply {
+  font-size: 0.9em;
+  line-height: 1.7;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+#forum th {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+#forum td {
+  border: 1px solid #95CDEF;
 }
 
 /********************************* END FORUM TOPIC ********************************************/
