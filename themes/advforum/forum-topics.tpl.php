@@ -6,10 +6,11 @@
     foreach ($topics as $topic) {
       // folder is new if topic is new or there are new comments since last visit
       if ($topic->tid != $tid) {
+        $term = taxonomy_get_term($tid);
         $rows[] = array(
           array('data' => theme('forum_icon', $topic->new, $topic->num_comments, $topic->comment_mode, $topic->sticky), 'class' => 'icon'),
           array('data' => check_plain($topic->title), 'class' => 'title'),
-          array('data' => l(t('This topic has been moved'), "forum/$topic->tid"), 'colspan' => '3')
+          array('data' => l(t('This topic has been moved to ' . $term->name), "node/$topic->nid"), 'colspan' => '3')
         );
       }
       else {

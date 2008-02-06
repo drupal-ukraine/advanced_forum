@@ -55,6 +55,10 @@ td.forum {
   width: 100%;
 }
 
+#forum th {
+  border-bottom: 0px !important;
+}
+
 #forum tr.even, 
 #forum tr.odd {
   border: 0px none;
@@ -76,6 +80,7 @@ td.forum {
 }
 
 /* Topic listings */
+#forum td.posts, #forum td.topics { text-align: left !important }
 
 #forum td.topic{
   width: 600px;
@@ -192,6 +197,8 @@ padding-bottom: .2em;
 	text-align: right;
 	height: 2.5em;
 	margin-top: .25em;
+	line-height: 2.5em;
+   margin-right: 1em
 }
 
 /********************************* END FORUM TOPIC ********************************************/

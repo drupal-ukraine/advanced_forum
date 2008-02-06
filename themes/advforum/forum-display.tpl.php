@@ -30,22 +30,31 @@
 
   if (count($forums) || count($parents)) {
     $output  = '<div id="forum">';
-    $output .= '<ul>';
 
-    if (user_access('create forum topics')) {
-      $output .= '<li>'. l(t('Post new forum topic.'), "node/add/forum/$tid") .'</li>';
+    if ($user->uid && user_access('access content')) {
+      $markbutton = l($tid ? t('Mark all topics read') : t('Mark all forums read'),"forum/markasread/$tid",array('class'=>'cssbutton markasread'));
+      $output .= $markbutton;
     }
-    else if ($user->uid) {
-      $output .= '<li>'. t('You are not allowed to post a new forum topic.') .'</li>';
-    }
-    else {
-      $output .= '<li>'. t('<a href="@login">Login</a> to post a new forum topic.', array('@login' => url('user/login', drupal_get_destination()))) .'</li>';
-    }
-    $output .= '</ul>';
 
     $output .= theme('forum_list', $forums, $parents, $tid);
 
     if ($tid && !in_array($tid, variable_get('forum_containers', array()))) {
+      if (user_access('create forum topics')) {
+        $output .= '<div id="newtopiclink" class="cssbutton">' . 
+                   l(t('Post new forum topic'), "node/add/forum/$tid") . 
+                   '</div>';
+      }
+      else if ($user->uid) {
+        $output .= t('You are not allowed to post a new forum topic');
+      }
+      else {
+        $output .= '<div id="newtopiclink" class="cssbutton">';
+        $output .= t('<a href="@login">Login to post a new forum topic</a>', array('@login' => url('user/login', drupal_get_destination()))) ;
+        $output .= '</div>';
+      }
+      
+      $output .= '<br class="clear">';
+      
       $output .= theme('forum_topic_list', $tid, $topics, $sortby, $forum_per_page);
       drupal_add_feed(url('taxonomy/term/'. $tid .'/0/feed'), 'RSS - '. $title);
     }
@@ -56,12 +65,5 @@
     $output = '';
   }
  
- $markbutton = '';
-   if ($user->uid && function_exists('markasread_form_helper'))
-   {
-      $markbutton = markasread_form_helper( 
-         $tid ? t('Mark all topics read') : t('Mark all forums read'),
-         'forum',
-         $tid ? $tid : NULL);
-   }
-  print $markbutton . $output;
+  print $output;
+  

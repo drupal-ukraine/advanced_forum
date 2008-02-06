@@ -1,6 +1,62 @@
 <?php
 
 /**
+ * Implementation of hook_menu.
+ */
+function advanced_forum_menu($may_cache) {
+  $items = array();
+  if ($may_cache) {
+    global $user;
+    $items[] = array(
+               'path' => "forum/markasread",
+               'title' => 'Helper page to mark forums read.',
+               'callback' => 'advanced_forum_markasread',
+               'access' => user_access('access content') && $user->uid,
+               'type' => MENU_CALLBACK,
+               );
+  }
+  
+  return $items;
+}
+
+
+function advanced_forum_markasread() {
+  global $user;
+  $tid = arg(2);
+
+  $sql = 'REPLACE INTO {history} (uid,nid,timestamp)'
+         .' SELECT %d, n.nid, %d FROM {node} n'
+         .($tid ? ' INNER JOIN {term_node} r ON n.nid=r.nid' : '')
+         .' INNER JOIN {node_comment_statistics} l ON l.nid=n.nid'
+         .' WHERE (n.created > %d'
+         .' OR l.last_comment_timestamp > %d)';
+  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT);
+
+  if ($tid) {
+    $sql .= ' AND r.tid = %d';
+    $args[] = $tid;
+  }
+  
+  //*D6* Need to change this for all forum types
+  $type = 'forum';
+  $sql .= ' AND n.type = \'%s\'';
+  $args[] = $type;
+
+  db_query($sql, $args);
+  
+  if ($tid) {
+    drupal_set_message(t('All topics in forum marked as read'));
+    drupal_goto('forum/'.$tid);
+  } else {
+    drupal_set_message(t('All forum posts have been marked as read'));
+    drupal_goto('forum');
+  }
+  
+  drupal_goto('forum');
+}
+
+
+/**
  * Called from _phptemplate_variables, this function 
  * looks at whether we are on a forum post/comment and 
  * adds variables to the $vars array that will be available
@@ -42,6 +98,14 @@ function advanced_forum_addvars($hook, $vars) {
       
     // Comment numbering
     $fragment = NULL;
+
+    // Change first post from "add comment" to "Reply"
+    if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
+      $vars['node']->links['comment_add']['title'] = t('Reply');
+      $variables['links'] = theme('links', $vars['node']->links, array('class' => 'links inline'));
+    }
+
+
   }
     
   if ($hook == 'comment') {
@@ -97,7 +161,8 @@ function advanced_forum_addvars($hook, $vars) {
 
   // Add in any extra variables provided by other modules
   $vars = advanced_forum_extravars($vars, $vars['userid']);
-  
+  dsm($variables['links']);
+
   // Send back the modified vars
   return $vars;
 }
@@ -199,6 +264,8 @@ function advanced_forum_add_css($forum_theme) {
 function advanced_forum_get_forum_theme_directory() {
   return 'advforum';
 }
+
+
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
 

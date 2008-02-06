@@ -183,4 +183,50 @@ font-size: 0.8em;
 
 /********************************* END FORUM TOPIC ********************************************/
 
+/********************************* BEGIN BUTTONS ********************************************/
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+.cssbutton{
+background-color: #2587C4;
+border: 2px #2587C4 outset;
+padding: 1px 4px;
+color: white;
+text-decoration: none;
+font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+}
+
+.cssbutton:visited{
+color: white;
+}
+
+.cssbutton:hover{
+border-style: inset;
+background-color: #B3D8EF;
+padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+}
+
+.cssbutton:active{
+color: white;
+}
+
+
+
+/* Misc */
+#newtopiclink {
+	float:right;
+}
+#newtopiclink a {
+	color: white;
+}
+.markasread {
+	float:left;
+}
+
+#forum a:hover {
+	text-decoration: none;
+}
+
+
 

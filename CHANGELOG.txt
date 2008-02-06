@@ -1,3 +1,17 @@
+Feb 5, 2008
+------------
+Incorporated mark as read code into main module
+Themed forum links to look like buttons
+Changed link for shadow posts to give name of forum and link to the moved post
+
+Feb 3, 2008
+-----------
+Committed all of eigentor's changes to the default theme
+
+Jan 23, 2007
+------------
+Added t() to "posted on"
+
 Dec 22, 2007
 ------------
 * Created this changelog to help early adopters keep up with my changes. Will only be recording major changes until the module gets non-dev releases.
