@@ -129,7 +129,6 @@ function advanced_forum_addvars($hook, $vars) {
     $fragment = 'comment-' . $vars['comment']->cid;
 
     // Link to page created by Comment Page module
-    //dsm($vars['comment']);
     if (!(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
       $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
     }
@@ -161,7 +160,6 @@ function advanced_forum_addvars($hook, $vars) {
 
   // Add in any extra variables provided by other modules
   $vars = advanced_forum_extravars($vars, $vars['userid']);
-  dsm($variables['links']);
 
   // Send back the modified vars
   return $vars;
