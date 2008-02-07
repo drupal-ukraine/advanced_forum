@@ -32,10 +32,12 @@
     $output  = '<div id="forum">';
 
     if ($user->uid && user_access('access content')) {
-      $markbutton = l($tid ? t('Mark all topics read') : t('Mark all forums read'),"forum/markasread/$tid",array('class'=>'cssbutton markasread'));
-      $output .= $markbutton;
+      
+      $markbutton = l($tid ? t('Mark all topics read') : t('Mark all forums read'),"forum/markasread/$tid",array('class'=>'cssbutton'));
+      $output .= '<div class ="markasread">' . $markbutton . '</div>';
     }
 
+      $output .= '<span class="clear"></span>';
     $output .= theme('forum_list', $forums, $parents, $tid);
 
     if ($tid && !in_array($tid, variable_get('forum_containers', array()))) {
@@ -53,7 +55,6 @@
         $output .= '</div>';
       }
       
-      $output .= '<br class="clear">';
       
       $output .= theme('forum_topic_list', $tid, $topics, $sortby, $forum_per_page);
       drupal_add_feed(url('taxonomy/term/'. $tid .'/0/feed'), 'RSS - '. $title);
