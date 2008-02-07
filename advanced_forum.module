@@ -263,32 +263,39 @@ function advanced_forum_get_forum_theme_directory() {
   return 'advforum';
 }
 
-function advanced_forum_get_last_topic($uid, $tid = NULL) {
-   $query = "SELECT
-   N.title AS nodeTitle,
-   RES.title AS resTitle,
-   RES.created,
-   RES.type AS resType,
-   N.type AS nodeType,
-   N.nid AS nid,
-   T.tid,
-   RES.cid AS cid
-   FROM node AS N INNER JOIN
-   (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node
-   UNION SELECT subject, timestamp, nid, uid, 'comment', cid
-   FROM comments ORDER BY created DESC)
-   AS RES ON N.nid=RES.nid
-   INNER JOIN term_node AS T ON N.nid = T.nid
-   WHERE RES.uid = %d";
+function advanced_forum_get_last_topic($uid, $tid = NULL, $reset = FALSE) {
+  if (!$reset && ($cache = cache_get('advanced_forum_lasttopic'.$tid)) && !empty($cache->data)) {
+    $topic = unserialize($cache->data);
+  } else {
+    // Query the info about the latest topic for the given forum    
+    $query = "SELECT
+     N.title AS nodeTitle,
+     RES.title AS resTitle,
+     RES.created,
+     RES.type AS resType,
+     N.type AS nodeType,
+     N.nid AS nid,
+     T.tid,
+     RES.cid AS cid
+     FROM node AS N INNER JOIN
+     (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node
+     UNION SELECT subject, timestamp, nid, uid, 'comment', cid
+     FROM comments ORDER BY created DESC)
+     AS RES ON N.nid=RES.nid
+     INNER JOIN term_node AS T ON N.nid = T.nid
+     WHERE RES.uid = %d";
 
     if($tid != NULL) {
-        $query .= " AND T.tid = %d";
+      $query .= " AND T.tid = %d";
     }
-
+    
     $query .= " LIMIT 0,1";
     $result = db_query( $query, $uid, $tid);
-    return db_fetch_object($result);
+    $topic = db_fetch_object($result);
 
+    cache_set('advanced_forum_lasttopic'.$tid, 'cache', serialize($topic), time() + 60);
+  }
+  return $topic;
 }
 
 /*********************************** FORUM MODULE THEME OVERRIDES *************************************/
