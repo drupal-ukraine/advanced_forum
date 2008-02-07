@@ -1,3 +1,9 @@
+/********************************* BEGIN FORUM GENERAL******************************************/
+#forum a:hover {
+	text-decoration: none;
+}
+
+
 /********************************* BEGIN PAGER ************************************************/
 
 #forum .pager a {
@@ -53,7 +59,8 @@
   font-size: 75%;
   color: white;
 }
-#forum .forum .description {  /* Introduced Thomas */
+
+#forum .forum .description { 
  color: #6FB5DF;
 }
 
@@ -80,6 +87,7 @@
   list-style-type: none;
   list-style-image: none;
 }
+
 #forum td.f-subject, #forum td.f-topics, #forum td.f-posts, #forum td.f-last-reply {
   background: #B3D8EF;
   color: #27729F;
@@ -87,14 +95,16 @@
   padding: 0.1em 1.2em;
   border: none;
 } 
+
 #forum td.forum, #forum td.topics, #forum td.posts, #forum td.last-reply {
   border-left: none;
   border-right: none;
 }
 
+/********************************* END FORUM TABLES ********************************************/
 
 
-/********************************* BEGIN FORUM TOPIC ********************************************/
+/********************************* BEGIN FORUM THREADS ********************************************/
 
 .toppost {
 /* This can be used for any special formatting of the main node */
@@ -103,7 +113,6 @@
 .forum-comment {
   border: 1px solid #2587C4;
 }
-
 
 /* Header at the top of each post */
 .post-info {
@@ -181,15 +190,24 @@ font-size: 0.8em;
   border: 1px solid #95CDEF;
 }
 
-/********************************* END FORUM TOPIC ********************************************/
+/********************************* BEGIN FORUM THREADS ********************************************/
 
-/********************************* BEGIN BUTTONS ********************************************/
+/********************************* BEGIN LINKS AS BUTTONS ********************************************/
 
 /*Credits: Dynamic Drive CSS Library */
 /*URL: http://www.dynamicdrive.com/style/ */
 
-.cssbutton{
-background-color: #2587C4;
+.forum-post-wrapper ul.inline li,
+.forum-post-wrapper ul.links li {
+	padding-right: 0pt;
+}
+
+.cssbutton, 
+.forum-post-wrapper a.comment_add, 
+.forum-post-wrapper a.comment_reply, 
+.forum-post-wrapper a.comment_edit, 
+.forum-post-wrapper a.comment_delete {
+background: #2587C4;
 border: 2px #2587C4 outset;
 padding: 1px 4px;
 color: white;
@@ -197,23 +215,40 @@ text-decoration: none;
 font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
 }
 
-.cssbutton:visited{
-color: white;
+.forum-post-wrapper a.cssbutton:link,
+.forum-post-wrapper a.comment_add:link, 
+.forum-post-wrapper a.comment_reply:link, 
+.forum-post-wrapper a.comment_edit:link, 
+.forum-post-wrapper a.comment_delete:link {
+  color: white;
 }
 
-.cssbutton:hover{
-border-style: inset;
-background-color: #B3D8EF;
-padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+.forum-post-wrapper a.cssbutton:active,
+.forum-post-wrapper a.comment_add:active, 
+.forum-post-wrapper a.comment_reply:active, 
+.forum-post-wrapper a.comment_edit:active, 
+.forum-post-wrapper a.comment_delete:active {
+  color: white;
 }
 
-.cssbutton:active{
-color: white;
+.cssbutton:visited,
+.forum-post-wrapper a.comment_add:visited, 
+.forum-post-wrapper a.comment_reply:visited, 
+.forum-post-wrapper a.comment_edit:visited, 
+.forum-post-wrapper a.comment_delete:visited {
+  color: white;
 }
 
+.cssbutton:hover,
+.forum-post-wrapper a.comment_add:hover, 
+.forum-post-wrapper a.comment_reply:hover, 
+.forum-post-wrapper a.comment_edit:hover, 
+.forum-post-wrapper a.comment_delete:hover {
+  border-style: inset;
+  background-color: #B3D8EF;
+  padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+}
 
-
-/* Misc */
 #newtopiclink {
 	float:right;
 }
@@ -224,9 +259,8 @@ color: white;
 	float:left;
 }
 
-#forum a:hover {
-	text-decoration: none;
-}
+/********************************* END LINKS AS BUTTONS ********************************************/
+
 
 
 

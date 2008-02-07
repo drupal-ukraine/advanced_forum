@@ -1,10 +1,16 @@
+Feb 07, 2008 - ALPHA 2
+------------
+Minor theme tweaks - Fixed mark as read button & lightened post info background
+Added rest of CSS to theme links on forum topics like buttons
+#212329 Changed "Add comment" link to "Reply" on top post.
+
 Feb 5, 2008
 ------------
 Incorporated mark as read code into main module
 Themed forum links to look like buttons
 Changed link for shadow posts to give name of forum and link to the moved post
 
-Feb 3, 2008
+Feb 3, 2008 - ALPHA 1
 -----------
 Committed all of eigentor's changes to the default theme
 
@@ -14,8 +20,8 @@ Added t() to "posted on"
 
 Dec 22, 2007
 ------------
-* Created this changelog to help early adopters keep up with my changes. Will only be recording major changes until the module gets non-dev releases.
-* Notable recent changes:
+Created this changelog to help early adopters keep up with my changes. Will only be recording major changes until the module gets non-dev releases.
+Notable recent changes:
  - Moved all theme related files into themes/advforum to enable alternate themes
  - Removed call to _is_forum() at the top of node-forum.tpl.php and rolled logic into the function
  - Renamed node-forum.tpl.php to forum-thread.tpl.php 
