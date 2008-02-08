@@ -145,10 +145,9 @@ td.forum {
 }
 
 .forum-post-wrapper {
-   clear:both;
-	/*min-height: 24em;*/
-	border-top: thin solid black;
-	border-bottom: thin solid black;
+  clear:both;
+  border-top: thin solid black;
+  border-bottom: thin solid black;
 }
 
 .forum-comment-left {
@@ -196,11 +195,12 @@ padding-bottom: .2em;
 .forum-comment .links {
 	text-align: right;
 	height: 2.5em;
-	margin-top: .25em;
 	line-height: 2.5em;
-   margin-right: 1em
+	margin: 2px 2px 2px 0px;
 }
 
 /********************************* END FORUM TOPIC ********************************************/
 
-
+.clear {
+	clear:both;
+}

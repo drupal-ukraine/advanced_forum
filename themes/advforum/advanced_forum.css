@@ -197,9 +197,12 @@ font-size: 0.8em;
 /*Credits: Dynamic Drive CSS Library */
 /*URL: http://www.dynamicdrive.com/style/ */
 
+/* Attempt to override spacing around the buttons by theme */
 .forum-post-wrapper ul.inline li,
 .forum-post-wrapper ul.links li {
+   padding: 0pt;
 	padding-right: 0pt;
+	margin: 0pt;
 }
 
 .cssbutton, 
@@ -215,7 +218,7 @@ text-decoration: none;
 font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
 }
 
-.forum-post-wrapper a.cssbutton:link,
+a.cssbutton:link,
 .forum-post-wrapper a.comment_add:link, 
 .forum-post-wrapper a.comment_reply:link, 
 .forum-post-wrapper a.comment_edit:link, 
@@ -223,7 +226,7 @@ font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
   color: white;
 }
 
-.forum-post-wrapper a.cssbutton:active,
+a.cssbutton:active,
 .forum-post-wrapper a.comment_add:active, 
 .forum-post-wrapper a.comment_reply:active, 
 .forum-post-wrapper a.comment_edit:active, 
