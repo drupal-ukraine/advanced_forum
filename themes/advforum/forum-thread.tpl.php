@@ -54,7 +54,7 @@ if ($top_post) {
       }
     ?>
   </div>
-  <span class="clear"></span>
+  <div class="clear"></div>
 
   <div class="forum-post-wrapper">
     <div class="forum-comment-left">
@@ -127,19 +127,17 @@ if ($top_post) {
         <?php print $content ?>
       </div>  
     </div>
-    <span class="clear"></span>
+    <div class="clear"></div>
     <div class="links">
     <?php print $links ?>
   </div>
   
   </div>
-  <span class="clear"></span>
-  
-  
+  <div class="clear"></div>
   
 </div>
 
-<span class="clear"></span>
+<div class="clear"></div>
 <?php if ($top_post) { print '<br />';} ?><!--Added if statement to make sure the top post gets some space under it,
 but the rest is closer to each other-->
 
