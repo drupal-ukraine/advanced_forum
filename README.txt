@@ -1,3 +1,5 @@
+Feb 22 - Much of this is out of date due to the D6 backport. It will be re-written ASAP.
+
 ADVANCED FORUM
 http://drupal.org/project/advanced_forum
 
