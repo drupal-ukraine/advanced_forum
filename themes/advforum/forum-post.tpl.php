@@ -1,21 +1,20 @@
 <?php
 /**
- * node-forum.tpl.php is the template file for both
+ * forum-post.tpl.php is the template file for both
  * the top post (the node) and the comments/replies
  * Changes here will affect an individual forum post.
  
  * The following standard variables are available to you:
-    $is_forum  - TRUE if we are in the forums. Useful to format the
-               - node differently if promoted to the front page, for example.
-    $top_post  - TRUE if we are formatting the main post (ie, not a comment)
-    $row_class - ODD or EVEN post/comment
-    $title     - Title of this post/comment
-    $content   - Content of this post/comment
-    $links     - Formatted links (reply, edit, delete, etc)
-    $submitted - Formatted date post/comment submitted
+    $top_post    - TRUE if we are formatting the main post (ie, not a comment)
+    $title       - Title of this post/comment
+    $content     - Content of this post/comment
+    $reply_link  - Separated out link to reply to topic 
+    $links       - Formatted links (reply, edit, delete, etc)
+    $links_array - Unformatted array of links
+    $submitted   - Formatted date post/comment submitted
 
-    $accountid    - ID of the poster
-    $name      - User name of poster    
+    $accountid   - ID of the poster
+    $name        - User name of poster    
  */
 ?> 
 
@@ -23,6 +22,7 @@
 // If this is the top post (that is, the node) give it an extra wrapper to allow for special theming
 if ($top_post) {
   $postclass = "top-post";
+  print $reply_link;
 } 
 ?>
 

@@ -1,3 +1,10 @@
+Feb 22, 2008
+------------
+#204281 Fixed indenting on forum overview.
+#219958 Added reply button to top of thread.
+Recreated links on comments so we can theme them better and changed CSS to match.
+Small CSS fixes to adapt to new .tpl files.
+
 Feb 22, 2008 
 ------------
 Massive changes due to backport from D6 code.

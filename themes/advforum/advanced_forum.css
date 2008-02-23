@@ -96,9 +96,8 @@
   border: none;
 } 
 
-#forum td.forum, #forum td.topics, #forum td.posts, #forum td.last-reply {
-  border-left: none;
-  border-right: none;
+.indent {
+	margin-left: 30px;
 }
 
 /********************************* END FORUM TABLES ********************************************/
@@ -205,63 +204,43 @@ font-size: 0.8em;
 	margin: 0pt;
 }
 
-.cssbutton, 
-.forum-post-wrapper a.comment_add, 
-.forum-post-wrapper a.comment_reply, 
-.forum-post-wrapper a.comment_edit, 
-.forum-post-wrapper a.comment_delete {
-background: #2587C4;
-border: 2px #2587C4 outset;
-padding: 1px 4px;
-color: white;
-text-decoration: none;
-font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+.forumlinks li {
+	background: none;
+	margin: 0pt;
+	padding:0pt;
+	padding-right: 0pt;
 }
 
-a.cssbutton:link,
-.forum-post-wrapper a.comment_add:link, 
-.forum-post-wrapper a.comment_reply:link, 
-.forum-post-wrapper a.comment_edit:link, 
-.forum-post-wrapper a.comment_delete:link {
+.forumlinks li a {
+  background: #2587C4;
+  border: 2px #2587C4 outset;
+  padding: 1px 4px;
+  color: white;
+  text-decoration: none;
+  font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+}
+
+.forumlinks li a:link {
   color: white;
 }
 
-a.cssbutton:active,
-.forum-post-wrapper a.comment_add:active, 
-.forum-post-wrapper a.comment_reply:active, 
-.forum-post-wrapper a.comment_edit:active, 
-.forum-post-wrapper a.comment_delete:active {
+.forumlinks li a:active {
   color: white;
 }
 
-.cssbutton:visited,
-.forum-post-wrapper a.comment_add:visited, 
-.forum-post-wrapper a.comment_reply:visited, 
-.forum-post-wrapper a.comment_edit:visited, 
-.forum-post-wrapper a.comment_delete:visited {
+.forumlinks li a:visited {
   color: white;
 }
 
-.cssbutton:hover,
-.forum-post-wrapper a.comment_add:hover, 
-.forum-post-wrapper a.comment_reply:hover, 
-.forum-post-wrapper a.comment_edit:hover, 
-.forum-post-wrapper a.comment_delete:hover {
+.forumlinks li a:hover {
   border-style: inset;
   background-color: #B3D8EF;
   padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
 }
 
-#newtopiclink {
-	float:right;
+.topic_reply {
+	font-size: 1.2em;
 }
-#newtopiclink a {
-	color: white;
-}
-.markasread {
-	float:left;
-}
-
 /********************************* END LINKS AS BUTTONS ********************************************/
 
 
