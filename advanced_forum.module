@@ -6,24 +6,6 @@
 /*****************************************************************************/
 
 /**
- * Implementation of hook_init.
- */
-function advanced_forum_init() {
-  // Find the CSS files for the forums by looking first in the theme and then 
-  // in the module. 
-  $csspath = path_to_theme() . '/' . advanced_forum_get_forum_theme_directory();
-  if (!file_exists($csspath)) {
-    $csspath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum';
-  }
-
-  // Load the structural CSS (heights, floats, padding, margins, etc)
-  drupal_add_css($csspath . '/advanced_forum-structure.css');
-  
-  // Add on the colors and graphics part
-  drupal_add_css($csspath . '/advanced_forum.css');
-}
-
-/**
  * Implementation of hook_menu.
  */
 function advanced_forum_menu($may_cache) {
@@ -37,11 +19,12 @@ function advanced_forum_menu($may_cache) {
                'access' => user_access('access content') && $user->uid,
                'type' => MENU_CALLBACK,
                );
+  } else {
+    advanced_forum_add_css();
   }
   
   return $items;
 }
-
 
 /*****************************************************************************/
 /******************* TEMPLATE PREPROCESS *************************************/
@@ -192,8 +175,9 @@ function template_preprocess_forum_user(&$variables) {
   global $user;
   
   // Username
-  $variables['name'] =  theme('username',$account);
-  
+  $variables['name_raw'] =  theme('username',$account);
+  $variables['name'] =  '<div class="username">' .$variables['name_raw'] . '</div>';
+   
   // Avatar
   $variables['picture'] = theme('user_picture',$account);
 
@@ -331,13 +315,19 @@ function advanced_forum_preprocess_forums(&$variables) {
     $variables['links_orig'] = $variables['links'];
     $variables['links'] = array();
   }
+
+  // Add in the mark as read link
+  $tid = $variables['tid'];
+  if ($tid) {
+    $title = t('Mark all topics read');
+    $link = "forum/markasread/$tid";
+  } else {
+    $title = t('Mark all forums read');
+    $link = "forum/markasread";  
+  }
+  $variables['links']['markasread'] = array('title'=>$title,'href'=>$link);
+  $variables['links_orig']['markasread'] = array('title'=>$title,'href'=>$link);
 }
-
-
-
-//$markbutton = l($tid ? t('Mark all topics read') : t('Mark all forums read'),"forum/markasread/$tid",array('class'=>'cssbutton'));
-//      $output .= '<div class ="markasread">' . $markbutton . '</div>';
-
 
 /**
  * Implementation of theme_forum_list
@@ -509,24 +499,23 @@ function advanced_forum_get_last_topic($uid, $tid = NULL, $reset = FALSE) {
   } else {
     // Query the info about the latest topic for the given forum    
     $query = "SELECT
-     N.title AS nodeTitle,
-     RES.title AS resTitle,
-     RES.created,
-     RES.type AS resType,
-     N.type AS nodeType,
-     N.nid AS nid,
-     T.tid,
-     RES.cid AS cid
-     FROM node AS N INNER JOIN
-     (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node
-     UNION SELECT subject, timestamp, nid, uid, 'comment', cid
-     FROM comments ORDER BY created DESC)
-     AS RES ON N.nid=RES.nid
-     INNER JOIN term_node AS T ON N.nid = T.nid
-     WHERE RES.uid = %d";
+     n.title AS nodetitle,
+     res.title AS restitle,
+     res.created,
+     res.type AS restype,
+     n.type AS nodetype,
+     n.nid AS nid,
+     t.tid,
+     res.cid AS cid
+     FROM node AS n INNER JOIN
+       (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node 
+        UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM comments ORDER BY created DESC)
+       AS res ON n.nid=res.nid
+       INNER JOIN term_node AS t ON n.nid = t.nid
+       WHERE res.uid = %d";
 
     if($tid != NULL) {
-      $query .= " AND T.tid = %d";
+      $query .= " AND t.tid = %d";
     }
     
     $query .= " LIMIT 0,1";
@@ -606,5 +595,21 @@ function advanced_forum_get_forum_theme_directory() {
 //TODO: Add a settings page for this
   return 'advforum';
 }
+
+function advanced_forum_add_css() {
+  // Find the CSS files for the forums by looking first in the theme and then 
+  // in the module. 
+  $csspath = path_to_theme() . '/' . advanced_forum_get_forum_theme_directory();
+  if (!file_exists($csspath)) {
+    $csspath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum';
+  }
+
+  // Load the structural CSS (heights, floats, padding, margins, etc)
+  drupal_add_css($csspath . '/advanced_forum-structure.css');
+  
+  // Add on the colors and graphics part
+  drupal_add_css($csspath . '/advanced_forum.css');
+}
+
 
 

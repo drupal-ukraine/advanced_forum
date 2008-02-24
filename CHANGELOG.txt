@@ -1,3 +1,10 @@
+Feb 23, 2008
+------------
+Added back in mark as read buttons.
+Added extra formatting to sticky topics.
+Added folder icon to forum list.
+More CSS tweaks
+
 Feb 22, 2008
 ------------
 #204281 Fixed indenting on forum overview.
