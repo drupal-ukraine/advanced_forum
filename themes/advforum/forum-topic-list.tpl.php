@@ -39,17 +39,30 @@
   </thead>
   <tbody>
   <?php foreach ($topics as $topic): ?>
-    <tr class="<?php print $topic->zebra;?>">
+    <?php 
+    if ($topic->sticky) {
+      $stickyclass = 'stickytopic';
+      $wassticky = TRUE;
+      $topic->title = '<em>' . t('Sticky') . ':</em> ' . $topic->title;
+    } else {
+      if ($wassticky) {
+        $stickyclass = 'firstnotsticky notsticky';
+        $wassticky = FALSE;
+      } else {
+        $stickyclass = 'notsticky';
+      }
+    }  
+    ?>
+    <tr class="<?php print $topic->zebra;?> <?php print $stickyclass;?>">
       <td class="icon"><?php print $topic->icon; ?></td>
-      <td class="title"><?php print $topic->title; ?></td>
+      <td class="title"><?php print truncate_utf8($topic->title, 150, TRUE, TRUE); ?></td>
     <?php if ($topic->moved): ?>
       <td colspan="3"><?php print $topic->message; ?></td>
     <?php else: ?>
       <td class="replies">
         <?php print $topic->num_comments; ?>
         <?php if ($topic->new_replies): ?>
-          <br />
-          <a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a>
+          (<a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a>)
         <?php endif; ?>
       </td>
       <td class="created"><?php print $topic->created; ?>

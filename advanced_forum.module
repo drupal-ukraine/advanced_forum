@@ -341,6 +341,9 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Pass the parameters into the D6 preprocess function
   template_preprocess_forum_list(&$variables);
    
+  // Pass the parameters into our preprocess function
+  advanced_forum_preprocess_forum_list(&$variables);
+   
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -351,6 +354,18 @@ function phptemplate_forum_list($forums, $parents, $tid) {
     return theme_forum_list($forums, $parents, $tid);
   }
 }
+
+function advanced_forum_preprocess_forum_list(&$variables) {
+  // Add in a link to the last topic in each forum
+  $last_topics = advanced_forum_get_all_last_topics();
+  foreach ($variables['forums'] as $tid => $forum) {
+    $title = truncate_utf8($last_topics[$tid]->nodetitle, 15, TRUE, TRUE);
+    $link = l($title,"node/" . $last_topics[$tid]->nid);
+    $forum->last_post->nodetitle = $title;
+    $forum->last_reply = $link . '<br />' . $forum->last_reply;
+  }
+}
+
 
 /**
  * Implementation of theme_forum_topic_list
@@ -364,7 +379,10 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
    
   // Pass the parameters into the D6 preprocess function
   template_preprocess_forum_topic_list(&$variables);
-   
+  
+  // Pass the parameters into our preprocess function
+  advanced_forum_preprocess_forum_topic_list(&$variables);
+      
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -373,6 +391,19 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
+  }
+}
+
+function advanced_forum_preprocess_forum_topic_list(&$variables) {
+  // Make shadow copy point to actual thread and tell you new the forum name
+  if (!empty($variables['topics'])) {
+    $row = 0;
+    foreach ($variables['topics'] as $id => $topic) {
+      if ($variables['topics'][$id]->moved == TRUE) {
+        $term = taxonomy_get_term($topic->tid);
+        $variables['topics'][$id]->message = l(t('This topic has been moved to ') . $term->name, "node/$topic->nid");
+      }
+    }
   }
 }
 
@@ -491,40 +522,23 @@ function advanced_forum_markasread() {
 }
 
 /**
- * Returns information about the last updated topic in a forum.
+ * Returns information about the last updated topics in all forums.
  */
-function advanced_forum_get_last_topic($uid, $tid = NULL, $reset = FALSE) {
-  if (!$reset && ($cache = cache_get('advanced_forum_lasttopic'.$tid)) && !empty($cache->data)) {
-    $topic = unserialize($cache->data);
+function advanced_forum_get_all_last_topics($reset = FALSE) {
+  if (!$reset && ($cache = cache_get('advanced_forum_alllasttopics')) && !empty($cache->data)) {
+    $topics = unserialize($cache->data);
   } else {
     // Query the info about the latest topic for the given forum    
-    $query = "SELECT
-     n.title AS nodetitle,
-     res.title AS restitle,
-     res.created,
-     res.type AS restype,
-     n.type AS nodetype,
-     n.nid AS nid,
-     t.tid,
-     res.cid AS cid
-     FROM node AS n INNER JOIN
-       (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node 
-        UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM comments ORDER BY created DESC)
-       AS res ON n.nid=res.nid
-       INNER JOIN term_node AS t ON n.nid = t.nid
-       WHERE res.uid = %d";
+    $query = "SELECT n.title AS nodetitle, res.title AS restitle, res.created, res.type AS restype, n.type AS nodetype, n.nid AS nid, t.tid, res.cid AS cid FROM node AS n INNER JOIN (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM comments ORDER BY created DESC) AS res ON n.nid=res.nid INNER JOIN term_node AS t ON n.nid = t.nid GROUP BY tid;";
 
-    if($tid != NULL) {
-      $query .= " AND t.tid = %d";
-    }
-    
-    $query .= " LIMIT 0,1";
     $result = db_query( $query, $uid, $tid);
-    $topic = db_fetch_object($result);
-
-    cache_set('advanced_forum_lasttopic'.$tid, 'cache', serialize($topic), time() + 60);
+    $topics = array();
+    while ($topic = db_fetch_object($result)) {
+    	$topics[$topic->tid] = $topic;
+    }   
+    cache_set('advanced_forum_alllasttopics', 'cache', serialize($topics), time() + 60);
   }
-  return $topic;
+  return $topics;
 }
 
 /*****************************************************************************/

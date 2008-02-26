@@ -1,3 +1,11 @@
+Feb 25, 2008
+------------
+Added better shadow topic link.
+
+Feb 24, 2008
+------------
+Fixed last topics in forums list. Thanks to LasseP.
+
 Feb 23, 2008
 ------------
 Added back in mark as read buttons.

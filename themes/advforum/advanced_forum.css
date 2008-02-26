@@ -43,7 +43,7 @@
   color: white;	
 }
 
-/* Containers */
+/* Containers & Forums*/
 
 #forum td.container {
   background-color: #6FB7DF;
@@ -64,15 +64,19 @@
  color: #6FB5DF;
 }
 
-/* Topic listings */
-
-#forum td.topic,   
-#forum td.replies,
-#forum td.created
-{
-  border-left: none;
-  border-right: none;
+#forum tr td.forum {
+  background-image:url(images/forum.png);
+  background-position:2px 50%;
+  background-repeat:no-repeat;
+  padding-left:25px;
 }
+
+#forum tr td.forum .name,
+#forum tr td.forum .description {
+  margin-left: 12px;
+}
+
+/* Topic listings */
 
 #forum td.statistics, #forum td.settings, #forum td.pager {
   border: 1px solid #bbb;
@@ -80,6 +84,16 @@
 
 #forum td .links {
   font-size: 0.9em;
+}
+
+#forum tr.notsticky {
+	
+}
+#forum tr.firstnotsticky {
+	
+}
+#forum tr.stickytopic {
+	background: #95CDEF;
 }
 
 /* Top links */
@@ -189,9 +203,15 @@ font-size: 0.8em;
   border: 1px solid #95CDEF;
 }
 
-/********************************* BEGIN FORUM THREADS ********************************************/
+/********************************* END FORUM THREADS ********************************************/
 
-/********************************* BEGIN LINKS AS BUTTONS ********************************************/
+/********************************* BEGIN USER INFO **********************************************/
+.user-info div {
+	margin-bottom: 6px;
+}
+/********************************* END USER INFO ************************************************/
+
+/********************************* BEGIN LINKS AS BUTTONS ***************************************/
 
 /*Credits: Dynamic Drive CSS Library */
 /*URL: http://www.dynamicdrive.com/style/ */

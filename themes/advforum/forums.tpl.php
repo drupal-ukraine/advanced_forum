@@ -21,7 +21,7 @@
 ?>
 <?php if ($forums_defined): ?>
 <div id="forum">
-  <?php print theme('links', $links, array('class'=>'forumlinks')); ?>
+  <?php print theme('links', $links, array('class'=>'links forumlinks')); ?>
   <?php print $forums; ?>
   <?php print $topics; ?>
 </div>
