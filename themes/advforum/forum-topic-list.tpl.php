@@ -56,9 +56,17 @@
     ?>
     <tr class="<?php print $topic->zebra;?> <?php print $stickyclass;?>">
       <td class="icon"><?php print $topic->icon; ?></td>
-      <td class="title"><?php print truncate_utf8($topic->title, 150, TRUE, TRUE); ?></td>
+      <td class="title">
+      <?php 
+      print $topic->title; 
+      if (!empty($topic->pager)) {
+        print '<br />' .$topic->pager;
+      }
+      ?></td>
     <?php if ($topic->moved): ?>
-      <td colspan="3"><?php print $topic->message; ?></td>
+      <td colspan="3">
+      <?php print $topic->message; ?>
+      </td>
     <?php else: ?>
       <td class="replies">
         <?php print $topic->num_comments; ?>

@@ -401,10 +401,24 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
 }
 
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
-  // Make shadow copy point to actual thread and tell you new the forum name
   if (!empty($variables['topics'])) {
     $row = 0;
     foreach ($variables['topics'] as $id => $topic) {
+      $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
+      if ($topic->num_comments > $comments_per_page) {
+        // More than one page. Start off the pager.
+        $pager_array = array();
+        $pager_array[] = l('1',"node/$topic->nid");
+        $lastpage = floor($topic->num_comments / $comments_per_page);
+        $currentpage = 1;
+        while ($currentpage <= $lastpage) {
+          $pager_array[] =  l($currentpage+1,"node/$topic->nid",NULL,'page=' . $currentpage);
+          $currentpage++;
+        }        
+        $variables['topics'][$id]->pager = '[Page '  . implode(", ", $pager_array) . ']';
+      }
+     
+      // Make shadow copy point to actual thread and tell you new the forum name
       if ($variables['topics'][$id]->moved == TRUE) {
         $term = taxonomy_get_term($topic->tid);
         $variables['topics'][$id]->message = l(t('This topic has been moved to ') . $term->name, "node/$topic->nid");
