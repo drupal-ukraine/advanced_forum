@@ -5,9 +5,19 @@ This document contains structural markup such as widths, margins, padding, and f
 /********************************* BEGIN PAGER ************************************************/
 
 #forum .pager a {
-  padding: .1em .3em; margin: .1em; 
+  padding: .1em .3em; 
+  margin: .1em; 
   border: 1px solid black;
 }
+
+#forum .pager li {
+  padding:0pt;
+}
+
+#forum .pager li.pager-current {
+	padding: .2em .3em .2em .3em;
+}
+
 
 /********************************* END PAGER ************************************************/
 
