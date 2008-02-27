@@ -33,6 +33,7 @@
  * @see theme_forum_topic_list()
  */
 ?>
+<?php print $pager; ?>
 <table id="forum-topic-<?php print $topic_id; ?>">
   <thead>
     <tr><?php print $header; ?></tr>

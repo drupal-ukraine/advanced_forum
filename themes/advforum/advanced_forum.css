@@ -6,6 +6,11 @@
 
 /********************************* BEGIN PAGER ************************************************/
 
+#forum .pager {
+	clear:none;
+	float:right;
+}
+
 #forum .pager a {
   text-decoration: none;
   border: 1px solid #2788C5;
@@ -31,6 +36,7 @@
 
 #forum table {
   border: 1px solid #A7C1DF;
+  clear:both;
 }
 
 #forum th {
@@ -213,15 +219,16 @@ font-size: 0.8em;
 
 /********************************* BEGIN LINKS AS BUTTONS ***************************************/
 
-/*Credits: Dynamic Drive CSS Library */
-/*URL: http://www.dynamicdrive.com/style/ */
-
 /* Attempt to override spacing around the buttons by theme */
 .forum-post-wrapper ul.inline li,
 .forum-post-wrapper ul.links li {
    padding: 0pt;
 	padding-right: 0pt;
 	margin: 0pt;
+}
+
+.forum-top-links {
+	float:left;
 }
 
 .forumlinks li {
