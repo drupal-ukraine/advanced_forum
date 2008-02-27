@@ -1,0 +1,11 @@
+<?php
+function advanced_forum_install() {
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
+}
+
+function advanced_forum_update_5000() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
+  return $ret;
+}
+
