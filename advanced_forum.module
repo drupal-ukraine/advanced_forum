@@ -73,15 +73,6 @@ function advanced_forum_preprocess_node(&$vars) {
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
 
-    // Comment numbering
-    static $post_number = 0;
-    _topic_nid($vars['node']->nid);
-
-    $post_per_page = _comment_get_display_setting('comments_per_page',$vars['node']);   
-    $page_number = $_GET['page'];
-    if (!$page_number) { $page_number = 0; }
-    $fragment = NULL;
-    
     // User info
     //TODO: Make the anon name work.
     $vars['accountid'] = $vars['node']->uid;  
@@ -93,7 +84,6 @@ function advanced_forum_preprocess_node(&$vars) {
 
 function advanced_forum_preprocess_comment(&$vars) {
   if (_is_forum('comment',$vars)) {
-    
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -123,20 +113,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     // User information
     $vars['accountid'] = $vars['comment']->uid;
     $vars['name'] = $vars['author'];
-      
-    // Comment number with link
-    $post_number++;
-    $fragment = 'comment-' . $vars['comment']->cid;
-    $query = ($page_number) ? 'page=' . $page_number : NULL;
-    $linktext = '#' . (($page_number * $post_per_page) + $post_number);
-    $linkpath = 'node/' . _topic_nid();
-    $vars['comment_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
-
-    // Link to page created by Comment Page module, if it exists
-    if (!empty($vars['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
-      $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
-    }
-    
+          
     // Because the $links array isn't available here, we recreate it
     $node = node_load($vars['comment']->nid);
     $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
@@ -150,6 +127,28 @@ function advanced_forum_preprocess_comment(&$vars) {
     
     // Since we have to load the node anyway for our links trick, make it avail
     $vars['node'] = $node;    
+
+    // Comment number with link
+    if (!isset($post_number)) {
+      static $post_number = 0;
+    }
+    _topic_nid($vars['node']->nid);
+
+    $post_per_page = _comment_get_display_setting('comments_per_page',$vars['node']);   
+    $page_number = $_GET['page'];
+    if (!$page_number) { $page_number = 0; }
+    
+    $post_number++;
+    $fragment = 'comment-' . $vars['comment']->cid;
+    $query = ($page_number) ? 'page=' . $page_number : NULL;
+    $linktext = '#' . (($page_number * $post_per_page) + $post_number);
+    $linkpath = 'node/' . _topic_nid();
+    $vars['comment_link'] = l($linktext, $linkpath, NULL, $query, $fragment);
+
+    // Link to page created by Comment Page module, if it exists
+    if (!empty($vars['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
+      $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
+    }
   }
 }
 
@@ -200,6 +199,12 @@ function template_preprocess_forum_user(&$variables) {
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
+
+  // Profile
+  if (module_exists('profile')) {
+    $variables['profile'] = profile_view_profile($account);
+  }
+  
   // Points
   if (module_exists('userpoints')) {
     $variables['points_raw'] = userpoints_get_current_points($accountid);
@@ -271,6 +276,7 @@ function template_preprocess_forum_user(&$variables) {
                          l($variables['buddylist_icon'] . ' '  . $variables['buddylist_text'], $variables['buddylist_link'],NULL,NULL,NULL,NULL,TRUE) . 
                          '</div>';
   }
+  
  }
 
 
