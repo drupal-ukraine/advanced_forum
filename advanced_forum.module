@@ -401,21 +401,64 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
 }
 
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
+  // Do our own topic processing.
   if (!empty($variables['topics'])) {
     $row = 0;
+      
+    // Find out how many pages to show on the topic pager. We do this outside
+    // the loop because it will be the same for all topics.
+    $max_pages_to_display = variable_get('advforum_topic_pager_max',5);
+    
     foreach ($variables['topics'] as $id => $topic) {
-      $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
-      if ($topic->num_comments > $comments_per_page) {
-        // More than one page. Start off the pager.
+      
+      // Find the number of comments per page for the node type of the topic.
+      // It's the same for all types in D5, but varies in D6.
+      $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);      
+      
+      if ($max_pages_to_display > 0 && $topic->num_comments > $comments_per_page) {
+        // Topic has more than one page and a pager is wanted. Start off the
+        // first page because that doesn't have a query.
         $pager_array = array();
+        $current_display_page = 1;
         $pager_array[] = l('1',"node/$topic->nid");
-        $lastpage = floor($topic->num_comments / $comments_per_page);
-        $currentpage = 1;
-        while ($currentpage <= $lastpage) {
-          $pager_array[] =  l($currentpage+1,"node/$topic->nid",NULL,'page=' . $currentpage);
-          $currentpage++;
-        }        
-        $variables['topics'][$id]->pager = '[Page '  . implode(", ", $pager_array) . ']';
+        
+        // Find the ending point. The pager URL is always 1 less than
+        // the number being displayed because the first page is 0.
+        $last_display_page = ceil($topic->num_comments / $comments_per_page);
+        $last_pager_page = $last_display_page - 1;
+        
+        // Add pages until we run out or until we hit the max to show.
+        while (($current_display_page < $last_display_page) && ($current_display_page < $max_pages_to_display)) {
+          // Move to the next page
+          $current_display_page++;
+          
+          // The page number we link to is 1 less than what's displayed
+          $link_to_page = $current_display_page - 1;
+          
+          // Add the link to the array
+          $pager_array[] =  l($current_display_page,"node/$topic->nid",NULL,'page=' . $link_to_page);
+        } 
+        
+        // Move to the next page
+        $current_display_page++;
+            
+        if ($current_display_page == $last_display_page) {
+          // We are one past the max to display, but it's the last page,
+          // so putting the ...last is silly. Just display it normally.
+          $link_to_page = $current_display_page - 1;
+          $pager_array[] =  l($current_display_page,"node/$topic->nid",NULL,'page=' . $link_to_page);
+        } 
+
+        $pager_last = '';
+        if ($current_display_page < $last_display_page) {
+          // We are one past the max to display and still aren't
+          // on the last page, so put in ... Last Page(N)
+          $text = t('Last Page') . '(' . $last_display_page . ')';
+          $pager_last = ' &hellip; ' . l($text,"node/$topic->nid",NULL,'page=' . $last_pager_page);
+        }
+            
+        // Put it all together
+        $variables['topics'][$id]->pager = '[' . t('Page') . ' '. implode(", ", $pager_array) . $pager_last . ']';
       }
      
       // Make shadow copy point to actual thread and tell you new the forum name
