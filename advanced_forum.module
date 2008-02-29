@@ -51,7 +51,7 @@ function advanced_forum_preprocess_node(&$vars) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
-    $vars['template_files'][] = "$forum_theme/forum-post";
+    $vars['template_files'][] = "$forum_theme/advf-forum-post";
 
     // The node is the first post, aka topic
     $vars['top_post'] = TRUE;
@@ -87,7 +87,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
-    $vars['template_files'][] = "$forum_theme/forum-post";
+    $vars['template_files'][] = "$forum_theme/advf-forum-post";
     
     // Thread is being shown in the forum (not on the front page or in a view)
     $vars['is_forum'] = TRUE;
@@ -160,7 +160,7 @@ function theme_forum_user($uid = 0) {
   $variables['accountid'] = $uid;
   template_preprocess_forum_user(&$variables);
   $forum_theme =  advanced_forum_get_forum_theme_directory();
-  return _phptemplate_callback("$forum_theme/forum-user",$variables);   
+  return _phptemplate_callback("$forum_theme/advf-forum-user",$variables);   
 }
 
 function template_preprocess_forum_user(&$variables) {
@@ -307,10 +307,10 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/forums.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/forums", $variables);   
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forums", $variables);   
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-display.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
   }
 }
@@ -353,10 +353,10 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/forum-list.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/forum-list", $variables);   
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forum-list", $variables);   
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_list($forums, $parents, $tid);
   }
 }
@@ -392,10 +392,10 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/forum-topic-list.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/forum-topic-list", $variables);   
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forum-topic-list", $variables);   
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
   }
 }
@@ -483,10 +483,10 @@ function phptemplate_forum_submitted($topic) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/forum-submitted.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/forum-submitted", $variables);   
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);   
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_submitted($topic);
   }
 }
@@ -518,10 +518,10 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/forum-icon.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/forum-icon", $variables);   
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forum-icon", $variables);   
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/forum-icon.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
   }
 }
