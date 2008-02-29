@@ -23,8 +23,6 @@
 if ($top_post) {
   $postclass = "top-post";
   print $reply_link;
-  $pager = theme('pager', NULL, 10, 0);
-  dsm($pager);
 } 
 ?>
 
