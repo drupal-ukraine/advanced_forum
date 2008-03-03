@@ -23,7 +23,6 @@
 if ($top_post) {
   $postclass = "top-post";
   print $reply_link;
-  $pager = theme('pager', NULL, 10, 0);
 } 
 ?>
 
@@ -51,14 +50,7 @@ if ($top_post) {
   <div class="forum-post-wrapper">
     <div class="forum-comment-left">
       <div class="innertube">
-      <?php 
-      if ($accountid == 0) {
-        // Anon user. Just print the username.
-        print $name;
-      } else {
-        print theme('forum_user',$accountid); 
-      }
-      ?>     
+      <?php print $user_info_pane; ?>     
      </div>
     </div>
 

@@ -32,13 +32,17 @@ $buddylist_icon
 $buddylist_text 
 $buddylist_link 
 $buddylist 
+$ip_raw
+$ip
+$profile - Profile object from core profile. Usage: $profile->fieldname
+
 */
 ?>
 <div class="user-info">
 
   <?php print $name; ?>
   <?php print $picture; ?>
-
+  <br />
   <?php print $user_title; ?>
   <?php print $posts; ?>
   <?php print $joined; ?>
@@ -48,4 +52,6 @@ $buddylist
   <?php print $contact; ?>
   <?php print $privatemsg; ?>
   <?php print $buddylist; ?>
+  <?php print $ip; ?>
+  
 </div>

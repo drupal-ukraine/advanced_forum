@@ -73,12 +73,10 @@ function advanced_forum_preprocess_node(&$vars) {
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
 
-    // User info
-    //TODO: Make the anon name work.
+    // User information
     $vars['accountid'] = $vars['node']->uid;  
-    if ($vars['userid'] == 0 and !empty($vars['node']->field_username)) {
-      $vars['name'] = $vars['node']->field_username;
-    }
+    $vars['user_info_pane'] = theme('forum_user',$vars['accountid']); 
+    
   }
 }
 
@@ -111,8 +109,9 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['content'] = $vars['comment']->comment;
       
     // User information
-    $vars['accountid'] = $vars['comment']->uid;
-    $vars['name'] = $vars['author'];
+    $vars['accountid'] = $vars['comment']->uid;  
+    $vars['user_info_pane'] = theme('forum_user',$vars['accountid']); 
+    
           
     // Because the $links array isn't available here, we recreate it
     $node = node_load($vars['comment']->nid);
@@ -168,8 +167,6 @@ function template_preprocess_forum_user(&$variables) {
   $accountid = $variables['accountid'];
   $account = user_load(array('uid'=>$accountid));
   
-  $themedir =  advanced_forum_get_forum_theme_directory();
-
   // Get a reference to the currently logged in user. 
   global $user;
   
@@ -179,6 +176,13 @@ function template_preprocess_forum_user(&$variables) {
    
   // Avatar
   $variables['picture'] = theme('user_picture',$account);
+
+  // Nothing else applies to anon users, so just stop here
+  if ($accountid == 0) {
+    return;
+  }
+  
+  $themedir =  advanced_forum_get_forum_theme_directory();
 
   // Join date / since
   $variables['joined_raw'] = format_date($account->created, 'custom', 'Y-m-d');
@@ -208,13 +212,20 @@ function template_preprocess_forum_user(&$variables) {
   // Points
   if (module_exists('userpoints')) {
     $variables['points_raw'] = userpoints_get_current_points($accountid);
-    $variables['points'] = '<div class="user-points">' . t('Points: ') . $variables['points_raw'] . '</div>';
+    $variables['points'] = '<div class="user-points"><strong>' . t('Points: ') . '</strong>' . $variables['points_raw'] . '</div>';
   }
 
-  // Posts
-  if (module_exists('user_postcounts')) {
-    $variables['posts_raw'] = user_postcounts_get_postcount($accountid);
-    $variables['posts'] = '<div class="user-posts">' . t('Posts: ') . $variables['posts_raw'] . '</div>';
+  // Posts / IP
+  if (module_exists('user_stats')) {
+    $variables['posts_raw'] = user_stats_get_stats('post_count',$accountid);
+    $variables['posts'] = '<div class="user-posts"><strong>' . t('Posts: ') . '</strong>' . $variables['posts_raw'] . '</div>';
+    
+    // IP is only visible if the viewer has access, so do an extra check
+    $ip = user_stats_get_stats('ip_address',$accountid);
+    if (!empty($ip)) {
+      $variables['ip_raw'] = $ip;
+      $variables['ip'] = '<div class="user-ip"><strong>' . t('IP: ') . '</strong>' . $variables['ip_raw'] . '</div>';
+    }
   }
  
   // Title

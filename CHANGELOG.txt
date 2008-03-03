@@ -1,3 +1,16 @@
+March 3, 2008
+-------------
+Added some tweaks to the user info pane
+
+Feb 27, 2008
+------------
+Fixed comment numbering that broke in the port/backport.
+Put pager back on top of topic list.
+
+Feb 26, 2008
+------------
+Changed forum-post.tpl.php to only print full user info for authors that are registered.
+
 Feb 25, 2008
 ------------
 Added better shadow topic link.
