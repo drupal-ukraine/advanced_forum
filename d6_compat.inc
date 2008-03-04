@@ -64,11 +64,12 @@ function template_preprocess_forums(&$variables) {
       }
       // The user is not logged-in; and denied access to create any new forum content type.
       else {
-        $forum_types['login'] = array('title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))), 'html' => TRUE);
+        $title = t('<a href="@login">Login to post a new forum topic</a>',array('@login' => url('user/login', drupal_get_destination())));
+        $forum_types['login'] = array('title' => $title, 'html' => TRUE);
+   
       }
     }
     $variables['links'] = $forum_types;
-
     if (!empty($variables['forums'])) {
       $variables['forums'] = theme('forum_list', $variables['forums'], $variables['parents'], $variables['tid']);
     }
@@ -140,7 +141,7 @@ function template_preprocess_forum_list(&$variables) {
       $variables['forums'][$id]->new_topics = _forum_topics_unread($forum->tid, $user->uid);
       if ($variables['forums'][$id]->new_topics) {
         $variables['forums'][$id]->new_text = format_plural($variables['forums'][$id]->new_topics, '1 new', '@count new');
-        $variables['forums'][$id]->new_url = url("forum/$forum->tid", array('fragment' => 'new'));
+        $variables['forums'][$id]->new_url = url("forum/$forum->tid", NULL, 'new');
       }
       $variables['forums'][$id]->old_topics = $forum->num_topics - $variables['forums'][$id]->new_topics;
     }
@@ -204,7 +205,7 @@ function template_preprocess_forum_topic_list(&$variables) {
       $variables['topics'][$id]->new_url = '';
       if ($topic->new_replies) {
         $variables['topics'][$id]->new_text = format_plural($topic->new_replies, '1 new', '@count new');
-        $variables['topics'][$id]->new_url = url("node/$topic->nid", array('query' => comment_new_page_count($topic->num_comments, $topic->new_replies, $topic), 'fragment' => 'new'));
+        $variables['topics'][$id]->new_url = url("node/$topic->nid", comment_new_page_count($topic->num_comments, $topic->new_replies, $topic), 'new');
       }
 
     }

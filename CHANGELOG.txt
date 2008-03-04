@@ -1,7 +1,15 @@
+March 4, 2008
+-------------
+#229761 Fixed url() function calls that were missed in the backport from D6. Thanks andrew_kabai for bringing it to my attention.
+
 March 3, 2008
 -------------
-Added some tweaks to the user info pane
+Fixed up the user info pane. Added support for user_stats.
 
+Feb 29, 2008
+------------
+#226569 Changed file names of .tpl files to avoid having Drupal use them when advforum not installed.
+  
 Feb 27, 2008
 ------------
 Fixed comment numbering that broke in the port/backport.
