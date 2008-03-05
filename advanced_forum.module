@@ -111,8 +111,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     // User information
     $vars['accountid'] = $vars['comment']->uid;  
     $vars['user_info_pane'] = theme('forum_user',$vars['accountid']); 
-    
-          
+             
     // Because the $links array isn't available here, we recreate it
     $node = node_load($vars['comment']->nid);
     $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
@@ -603,7 +602,7 @@ function advanced_forum_get_all_last_topics($reset = FALSE) {
     $topics = unserialize($cache->data);
   } else {
     // Query the info about the latest topic for the given forum    
-    $query = "SELECT n.title AS nodetitle, res.title AS restitle, res.created, res.type AS restype, n.type AS nodetype, n.nid AS nid, t.tid, res.cid AS cid FROM node AS n INNER JOIN (SELECT title, created, nid, uid, type, 'cid' AS cid FROM node UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM comments ORDER BY created DESC) AS res ON n.nid=res.nid INNER JOIN term_node AS t ON n.nid = t.nid GROUP BY tid;";
+    $query = "SELECT n.title AS nodetitle, res.title AS restitle, res.created, res.type AS restype, n.type AS nodetype, n.nid AS nid, t.tid, res.cid AS cid FROM {node} AS n INNER JOIN (SELECT title, created, nid, uid, type, 'cid' AS cid FROM {node} UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM {comments} ORDER BY created DESC) AS res ON n.nid=res.nid INNER JOIN {term_node} AS t ON n.nid = t.nid GROUP BY tid;";
 
     $result = db_query( $query, $uid, $tid);
     $topics = array();
