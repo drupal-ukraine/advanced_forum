@@ -333,16 +333,18 @@ function advanced_forum_preprocess_forums(&$variables) {
   }
 
   // Add in the mark as read link
-  $tid = $variables['tid'];
-  if ($tid) {
-    $title = t('Mark all topics read');
-    $link = "forum/markasread/$tid";
-  } else {
-    $title = t('Mark all forums read');
-    $link = "forum/markasread";  
+  if (user_access('access content') && $user->uid) {
+    $tid = $variables['tid'];
+    if ($tid) {
+      $title = t('Mark all topics read');
+      $link = "forum/markasread/$tid";
+    } else {
+      $title = t('Mark all forums read');
+      $link = "forum/markasread";  
+    }
+    $variables['links']['markasread'] = array('title'=>$title,'href'=>$link);
+    $variables['links_orig']['markasread'] = array('title'=>$title,'href'=>$link);
   }
-  $variables['links']['markasread'] = array('title'=>$title,'href'=>$link);
-  $variables['links_orig']['markasread'] = array('title'=>$title,'href'=>$link);
 }
 
 /**
