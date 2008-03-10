@@ -60,7 +60,7 @@
       <?php 
       print $topic->title; 
       if (!empty($topic->pager)) {
-        print '<br />' .$topic->pager;
+        print '<div class="forum-topic-pager">' .$topic->pager . '</div>';
       }
       ?></td>
     <?php if ($topic->moved): ?>
