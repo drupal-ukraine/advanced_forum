@@ -36,10 +36,10 @@ function advanced_forum_menu($may_cache) {
 function advanced_forum_addvars($hook, $vars) {
   switch ($hook) {
     case 'node':
-      advanced_forum_preprocess_node(&$vars);
+      advanced_forum_preprocess_node($vars);
       break;
     case 'comment':
-      advanced_forum_preprocess_comment(&$vars);
+      advanced_forum_preprocess_comment($vars);
       break;
   }
 
@@ -156,12 +156,12 @@ function advanced_forum_preprocess_comment(&$vars) {
 function theme_forum_user($uid = 0) {
   $variables = array();
   $variables['accountid'] = $uid;
-  template_preprocess_forum_user(&$variables);
+  template_preprocess_forum_user($variables);
   $forum_theme =  advanced_forum_get_forum_theme_directory();
   return _phptemplate_callback("$forum_theme/advf-forum-user",$variables);   
 }
 
-function template_preprocess_forum_user(&$variables) {
+function template_preprocess_forum_user($variables) {
   // The passed in $variables['accountid'] refers to the user who's info is in the pane.
   $accountid = $variables['accountid'];
   $account = user_load(array('uid'=>$accountid));
@@ -309,10 +309,10 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   $variables['forum_per_page'] = $forum_per_page;
    
   // Pass the parameters into the D6 preprocess function
-  template_preprocess_forums(&$variables);
+  template_preprocess_forums($variables);
 
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forums(&$variables);
+  advanced_forum_preprocess_forums($variables);
 
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -325,7 +325,7 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   }
 }
 
-function advanced_forum_preprocess_forums(&$variables) {
+function advanced_forum_preprocess_forums($variables) {
   if (empty($variables['topics'])) {
     // We don't want the links on the top of the forum overview
     $variables['links_orig'] = $variables['links'];
@@ -357,10 +357,10 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   $variables['tid'] = $tid;   
 
   // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_list(&$variables);
+  template_preprocess_forum_list($variables);
    
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_list(&$variables);
+  advanced_forum_preprocess_forum_list($variables);
    
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -377,12 +377,63 @@ function advanced_forum_preprocess_forum_list(&$variables) {
   // Add in a link to the last topic in each forum
   $last_topics = advanced_forum_get_all_last_topics();
   foreach ($variables['forums'] as $tid => $forum) {
-    $title = truncate_utf8($last_topics[$tid]->nodetitle, 15, TRUE, TRUE);
-    $link = l($title,"node/" . $last_topics[$tid]->nid);
-    $forum->last_post->nodetitle = $title;
-    $forum->last_reply = $link . '<br />' . $forum->last_reply;
+    // Send in the default "last post" info as well as our augmented info (??? Can I add in another paramater here?)
+    $forum->last_reply = theme('forum_submitted', $last_topics[$tid]);
   }
 }
+
+/*
+ * Implementation of theme_forum_submitted
+ */
+function phptemplate_forum_submitted($topic) {
+  // Create a $variables array from the parameters
+  $variables['topic'] = $topic;
+   
+  // Pass the parameters into the D6 preprocess function
+  template_preprocess_forum_submitted($variables);
+
+  advanced_forum_preprocess_forum_submitted($variables);
+  
+  // Look for the .tpl file in the theme. If found, use it. If not found, default
+  // to the stock forum code and put up a warning.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
+    return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);   
+  } else {
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
+    return theme_forum_submitted($topic);
+  }
+}
+
+function advanced_forum_preprocess_forum_submitted(&$variables) {
+  if($variables['topic']->topicid) {
+    // This was called by advforum and has the extra variables we need for the forum last topic
+    $shorttitle =  truncate_utf8($variables['topic']->topictitle, 15, TRUE, TRUE);
+    $variables['topiclink'] = l($shorttitle,"node/" . $variables['topic']->topicid);
+  }
+}
+
+/*
+    $topictitle = truncate_utf8($last_topics[$tid]->topictitle, 15, TRUE, TRUE);
+    $topiclink = l($topictitle,"node/" . $last_topics[$tid]->nid);
+    
+    $replytitle = truncate_utf8($last_topics[$tid]->replytitle, 15, TRUE, TRUE);
+    $replylink = l($topictitle,"node/" . $last_topics[$tid]->nid); // not right
+    
+
+    $forum->last_post->nodetitle = $title;
+
+      SELECT n.title AS topictitle, 
+             r.title AS replytitle, 
+             r.created replycreated, 
+             r.type AS replytype, 
+             n.type AS topictype, 
+             n.nid AS topicid, 
+             t.tid, 
+             r.cid AS cid 
+
+
+*/
 
 
 /**
@@ -396,10 +447,10 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   $variables['forum_per_page'] = $forum_per_page;
    
   // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_topic_list(&$variables);
+  template_preprocess_forum_topic_list($variables);
   
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_topic_list(&$variables);
+  advanced_forum_preprocess_forum_topic_list($variables);
       
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -482,26 +533,6 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   }
 }
 
-/**
- * Implementation of theme_forum_submitted
- */
-function phptemplate_forum_submitted($topic) {
-  // Create a $variables array from the parameters
-  $variables['topic'] = $topic;
-   
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_submitted(&$variables);
-
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);   
-  } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_submitted($topic);
-  }
-}
 
 /**
  * Implementation of theme_forum_topic_navigation
@@ -522,10 +553,10 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   $variables['sticky'] = $sticky;
    
   // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_icon(&$variables);
+  template_preprocess_forum_icon($variables);
 
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_icon(&$variables);
+  advanced_forum_preprocess_forum_icon($variables);
 
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -604,7 +635,34 @@ function advanced_forum_get_all_last_topics($reset = FALSE) {
     $topics = unserialize($cache->data);
   } else {
     // Query the info about the latest topic for the given forum    
-    $query = "SELECT n.title AS nodetitle, res.title AS restitle, res.created, res.type AS restype, n.type AS nodetype, n.nid AS nid, t.tid, res.cid AS cid FROM {node} AS n INNER JOIN (SELECT title, created, nid, uid, type, 'cid' AS cid FROM {node} UNION SELECT subject, timestamp, nid, uid, 'comment', cid FROM {comments} ORDER BY created DESC) AS res ON n.nid=res.nid INNER JOIN {term_node} AS t ON n.nid = t.nid GROUP BY tid;";
+    $query = "
+      SELECT n.title AS topictitle, 
+             r.title AS replytitle, 
+             r.created timestamp, 
+             r.type AS replytype, 
+             n.type AS topictype, 
+             n.nid AS topicid, 
+             t.tid, 
+             r.cid AS cid, 
+             r.uid
+      FROM {node} AS n INNER JOIN 
+        (SELECT title, 
+                created, 
+                nid, 
+                uid, 
+                type, 
+                'cid' AS cid 
+         FROM {node} UNION 
+           SELECT subject, 
+                  timestamp, 
+                  nid, 
+                  uid, 
+                  'comment', 
+                  cid 
+           FROM {comments} 
+           ORDER BY created DESC
+        ) AS r ON n.nid=r.nid INNER JOIN 
+          {term_node} AS t ON n.nid = t.nid GROUP BY tid;";
 
     $result = db_query( $query, $uid, $tid);
     $topics = array();
