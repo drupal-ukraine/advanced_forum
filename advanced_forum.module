@@ -47,7 +47,7 @@ function advanced_forum_addvars($hook, $vars) {
 }
 
 function advanced_forum_preprocess_node(&$vars) {
-  if (_is_forum('node',$vars)) {    
+  if (_is_forum('node', $vars)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -67,21 +67,21 @@ function advanced_forum_preprocess_node(&$vars) {
       // Make a separate variable for the reply link so it can be put on top of the thread
       $reply_link = $vars['node']->links['comment_add'];
       $reply_link['title'] = t("Post Reply");
-      $vars['reply_link'] = theme('links', array('topic_reply'=>$reply_link),array('class' => 'forumlinks'));
+      $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forumlinks'));
     }
     
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
 
     // User information
-    $vars['accountid'] = $vars['node']->uid;  
-    $vars['user_info_pane'] = theme('forum_user',$vars['accountid']); 
+    $vars['accountid'] = $vars['node']->uid;
+    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);
     
   }
 }
 
 function advanced_forum_preprocess_comment(&$vars) {
-  if (_is_forum('comment',$vars)) {
+  if (_is_forum('comment', $vars)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -109,8 +109,8 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['content'] = $vars['comment']->comment;
       
     // User information
-    $vars['accountid'] = $vars['comment']->uid;  
-    $vars['user_info_pane'] = theme('forum_user',$vars['accountid']); 
+    $vars['accountid'] = $vars['comment']->uid;
+    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);
              
     // Because the $links array isn't available here, we recreate it
     $node = node_load($vars['comment']->nid);
@@ -120,11 +120,11 @@ function advanced_forum_preprocess_comment(&$vars) {
       $function($node, $links);
     }
     unset($links['comment_parent']);
-    $vars['links'] = theme('links',$links,array('class'=>'links forumlinks'));
-    $vars['links_array'] = $links;   
+    $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
+    $vars['links_array'] = $links;
     
     // Since we have to load the node anyway for our links trick, make it avail
-    $vars['node'] = $node;    
+    $vars['node'] = $node;
 
     // Comment number with link
     if (!isset($post_number)) {
@@ -132,9 +132,11 @@ function advanced_forum_preprocess_comment(&$vars) {
     }
     _topic_nid($vars['node']->nid);
 
-    $post_per_page = _comment_get_display_setting('comments_per_page',$vars['node']);   
+    $post_per_page = _comment_get_display_setting('comments_per_page', $vars['node']);
     $page_number = $_GET['page'];
-    if (!$page_number) { $page_number = 0; }
+    if (!$page_number) { 
+      $page_number = 0; 
+    }
     
     $post_number++;
     $fragment = 'comment-' . $vars['comment']->cid;
@@ -158,23 +160,23 @@ function theme_forum_user($uid = 0) {
   $variables['accountid'] = $uid;
   template_preprocess_forum_user($variables);
   $forum_theme =  advanced_forum_get_forum_theme_directory();
-  return _phptemplate_callback("$forum_theme/advf-forum-user",$variables);   
+  return _phptemplate_callback("$forum_theme/advf-forum-user", $variables);
 }
 
 function template_preprocess_forum_user($variables) {
   // The passed in $variables['accountid'] refers to the user who's info is in the pane.
   $accountid = $variables['accountid'];
-  $account = user_load(array('uid'=>$accountid));
+  $account = user_load(array('uid' => $accountid));
   
-  // Get a reference to the currently logged in user. 
+  // Get a reference to the currently logged in user.
   global $user;
   
   // Username
-  $variables['name_raw'] =  theme('username',$account);
+  $variables['name_raw'] =  theme('username', $account);
   $variables['name'] =  '<div class="username">' .$variables['name_raw'] . '</div>';
    
   // Avatar
-  $variables['picture'] = theme('user_picture',$account);
+  $variables['picture'] = theme('user_picture', $account);
 
   // Nothing else applies to anon users, so just stop here
   if ($accountid == 0) {
@@ -193,12 +195,12 @@ function template_preprocess_forum_user($variables) {
   // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online',NULL, TRUE);
+    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   } else {
     $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline',NULL, TRUE);
+    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
@@ -216,11 +218,11 @@ function template_preprocess_forum_user($variables) {
 
   // Posts / IP
   if (module_exists('user_stats')) {
-    $variables['posts_raw'] = user_stats_get_stats('post_count',$accountid);
+    $variables['posts_raw'] = user_stats_get_stats('post_count', $accountid);
     $variables['posts'] = '<div class="user-posts"><strong>' . t('Posts: ') . '</strong>' . $variables['posts_raw'] . '</div>';
     
     // IP is only visible if the viewer has access, so do an extra check
-    $ip = user_stats_get_stats('ip_address',$accountid);
+    $ip = user_stats_get_stats('ip_address', $accountid);
     if (!empty($ip)) {
       $variables['ip_raw'] = $ip;
       $variables['ip'] = '<div class="user-ip"><strong>' . t('IP: ') . '</strong>' . $variables['ip_raw'] . '</div>';
@@ -243,12 +245,12 @@ function template_preprocess_forum_user($variables) {
   if (($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
     $variables['contact_class'] = "contact";
     $variables['contact_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/email.png", 'Email', 'Email', NULL, TRUE);
-    $variables['contact_text'] = t('Email'); 
+    $variables['contact_text'] = t('Email');
     $variables['contact_link'] = 'user/'. $accountid . '/contact';
     $variables['contact'] = '<div class="contact">' . 
-                          l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'],NULL,NULL,NULL,NULL,TRUE) . 
+                          l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) . 
                           '</div>';
-  } 
+  }
            
   // Send private message
   if (module_exists('privatemsg') && 
@@ -256,12 +258,12 @@ function template_preprocess_forum_user($variables) {
      user_access('access private messages') && 
      (isset($account->privatemsg_allow) ? $account->privatemsg_allow : 1)) { 
     $variables['privatemsg_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/user_comment.png", 'Private Message', 'Private Message', NULL, TRUE);
-    $variables['privatemsg_text'] = t('Send PM'); 
+    $variables['privatemsg_text'] = t('Send PM');
     $variables['privatemsg_link'] = 'privatemsg/new/'. $accountid;
     $variables['privatemsg'] = '<div class="privatemsg">' . 
       l($variables['privatemsg_icon'] . ' '  . 
       $variables['privatemsg_text'], $variables['privatemsg_link'],NULL,NULL,NULL,NULL,TRUE) . '</div>';
-  } 
+  }
 
   // Add / remove from buddylist
   if (module_exists('buddylist')) {
@@ -270,14 +272,14 @@ function template_preprocess_forum_user($variables) {
       // Remove buddy
       $variables['buddylist_class'] = "buddy-remove";
       $variables['buddylist_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
-      $variables['buddylist_text'] = t('Remove buddy'); 
+      $variables['buddylist_text'] = t('Remove buddy');
       $variables['buddylist_link'] = 'buddy/delete/'. $accountid;
     } else {
       // Add buddy
       if ($accountid != $user->uid && user_access('maintain buddy list')) {
         $variables['buddylist_class'] = "buddy-add";
         $variables['buddylist_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/group_add.png", 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
-        $variables['buddylist_text'] = t('Add buddy'); 
+        $variables['buddylist_text'] = t('Add buddy');
         $variables['buddylist_link'] = 'buddy/add/'. $accountid;
       }
     }
@@ -285,9 +287,8 @@ function template_preprocess_forum_user($variables) {
     $variables['buddylist'] = '<div class="' . $variables['buddylist_class'] . '">' . 
                          l($variables['buddylist_icon'] . ' '  . $variables['buddylist_text'], $variables['buddylist_link'],NULL,NULL,NULL,NULL,TRUE) . 
                          '</div>';
-  }
-  
- }
+  } 
+}
 
 
 
@@ -318,7 +319,7 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forums", $variables);   
+    return _phptemplate_callback("$forum_theme/advf-forums", $variables);
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
@@ -340,10 +341,10 @@ function advanced_forum_preprocess_forums($variables) {
       $link = "forum/markasread/$tid";
     } else {
       $title = t('Mark all forums read');
-      $link = "forum/markasread";  
+      $link = "forum/markasread";
     }
-    $variables['links']['markasread'] = array('title'=>$title,'href'=>$link);
-    $variables['links_orig']['markasread'] = array('title'=>$title,'href'=>$link);
+    $variables['links']['markasread'] = array('title' => $title, 'href'=>$link);
+    $variables['links_orig']['markasread'] = array('title' => $title, 'href'=>$link);
   }
 }
 
@@ -354,7 +355,7 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Create a $variables array from the parameters
   $variables['forums'] = $forums;
   $variables['parents'] = $parents;
-  $variables['tid'] = $tid;   
+  $variables['tid'] = $tid;
 
   // Pass the parameters into the D6 preprocess function
   template_preprocess_forum_list($variables);
@@ -366,7 +367,7 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forum-list", $variables);   
+    return _phptemplate_callback("$forum_theme/advf-forum-list", $variables);
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_list($forums, $parents, $tid);
@@ -377,7 +378,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
   // Add in a link to the last topic in each forum
   $last_topics = advanced_forum_get_all_last_topics();
   foreach ($variables['forums'] as $tid => $forum) {
-    // Send in the default "last post" info as well as our augmented info (??? Can I add in another paramater here?)
+    // In the forum overview, we want to overwrite the last reply with our custom one
     $forum->last_reply = theme('forum_submitted', $last_topics[$tid]);
   }
 }
@@ -391,14 +392,15 @@ function phptemplate_forum_submitted($topic) {
    
   // Pass the parameters into the D6 preprocess function
   template_preprocess_forum_submitted($variables);
-
+ 
+  // Pass the parameters into our preprocess function
   advanced_forum_preprocess_forum_submitted($variables);
-  
+
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);   
+    return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_submitted($topic);
@@ -406,35 +408,12 @@ function phptemplate_forum_submitted($topic) {
 }
 
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  if($variables['topic']->topicid) {
+  if ($variables['topic']->topicid) {
     // This was called by advforum and has the extra variables we need for the forum last topic
     $shorttitle =  truncate_utf8($variables['topic']->topictitle, 15, TRUE, TRUE);
-    $variables['topiclink'] = l($shorttitle,"node/" . $variables['topic']->topicid);
+    $variables['topiclink'] = l($shorttitle, "node/" . $variables['topic']->topicid);
   }
 }
-
-/*
-    $topictitle = truncate_utf8($last_topics[$tid]->topictitle, 15, TRUE, TRUE);
-    $topiclink = l($topictitle,"node/" . $last_topics[$tid]->nid);
-    
-    $replytitle = truncate_utf8($last_topics[$tid]->replytitle, 15, TRUE, TRUE);
-    $replylink = l($topictitle,"node/" . $last_topics[$tid]->nid); // not right
-    
-
-    $forum->last_post->nodetitle = $title;
-
-      SELECT n.title AS topictitle, 
-             r.title AS replytitle, 
-             r.created replycreated, 
-             r.type AS replytype, 
-             n.type AS topictype, 
-             n.nid AS topicid, 
-             t.tid, 
-             r.cid AS cid 
-
-
-*/
-
 
 /**
  * Implementation of theme_forum_topic_list
@@ -456,7 +435,7 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forum-topic-list", $variables);   
+    return _phptemplate_callback("$forum_theme/advf-forum-topic-list", $variables);
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
@@ -470,20 +449,20 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
       
     // Find out how many pages to show on the topic pager. We do this outside
     // the loop because it will be the same for all topics.
-    $max_pages_to_display = variable_get('advforum_topic_pager_max',5);
+    $max_pages_to_display = variable_get('advforum_topic_pager_max', 5);
     
     foreach ($variables['topics'] as $id => $topic) {
       
       // Find the number of comments per page for the node type of the topic.
       // It's the same for all types in D5, but varies in D6.
-      $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);      
+      $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
       
       if ($max_pages_to_display > 0 && $topic->num_comments > $comments_per_page) {
         // Topic has more than one page and a pager is wanted. Start off the
         // first page because that doesn't have a query.
         $pager_array = array();
         $current_display_page = 1;
-        $pager_array[] = l('1',"node/$topic->nid");
+        $pager_array[] = l('1', "node/$topic->nid");
         
         // Find the ending point. The pager URL is always 1 less than
         // the number being displayed because the first page is 0.
@@ -499,8 +478,8 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
           $link_to_page = $current_display_page - 1;
           
           // Add the link to the array
-          $pager_array[] =  l($current_display_page,"node/$topic->nid",NULL,'page=' . $link_to_page);
-        } 
+          $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
+        }
         
         // Move to the next page
         $current_display_page++;
@@ -509,15 +488,15 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
           // We are one past the max to display, but it's the last page,
           // so putting the ...last is silly. Just display it normally.
           $link_to_page = $current_display_page - 1;
-          $pager_array[] =  l($current_display_page,"node/$topic->nid",NULL,'page=' . $link_to_page);
-        } 
+          $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
+        }
 
         $pager_last = '';
         if ($current_display_page < $last_display_page) {
           // We are one past the max to display and still aren't
           // on the last page, so put in ... Last Page(N)
           $text = t('Last Page') . '(' . $last_display_page . ')';
-          $pager_last = ' &hellip; ' . l($text,"node/$topic->nid",NULL,'page=' . $last_pager_page);
+          $pager_last = ' &hellip; ' . l($text, "node/$topic->nid", NULL, 'page=' . $last_pager_page);
         }
             
         // Put it all together
@@ -533,11 +512,10 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   }
 }
 
-
 /**
  * Implementation of theme_forum_topic_navigation
  */
-function phptemplate_forum_topic_navigation($node){
+function phptemplate_forum_topic_navigation($node) {
   // Removes post title navigation from forum posts.
   return ;
 }
@@ -562,7 +540,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
-    return _phptemplate_callback("$forum_theme/advf-forum-icon", $variables);   
+    return _phptemplate_callback("$forum_theme/advf-forum-icon", $variables);
   } else {
     drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
@@ -570,7 +548,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
 }
 
 function advanced_forum_preprocess_forum_icon(&$variables) {
-  // Find the icons for the forums by looking first in the theme and then 
+  // Find the icons for the forums by looking first in the theme and then
   // in the module. Use a static variable to hold the path so we don't need
   // to go through the process for each icon on the page.
   static $iconpath;
@@ -634,7 +612,7 @@ function advanced_forum_get_all_last_topics($reset = FALSE) {
   if (!$reset && ($cache = cache_get('advanced_forum_alllasttopics')) && !empty($cache->data)) {
     $topics = unserialize($cache->data);
   } else {
-    // Query the info about the latest topic for the given forum    
+    // Query the info about the latest topic for the given forum
     $query = "
       SELECT n.title AS topictitle, 
              r.title AS replytitle, 
@@ -644,8 +622,10 @@ function advanced_forum_get_all_last_topics($reset = FALSE) {
              n.nid AS topicid, 
              t.tid, 
              r.cid AS cid, 
-             r.uid
-      FROM {node} AS n INNER JOIN 
+             r.uid,
+             u.name
+      FROM {node} AS n 
+      INNER JOIN 
         (SELECT title, 
                 created, 
                 nid, 
@@ -661,13 +641,16 @@ function advanced_forum_get_all_last_topics($reset = FALSE) {
                   cid 
            FROM {comments} 
            ORDER BY created DESC
-        ) AS r ON n.nid=r.nid INNER JOIN 
-          {term_node} AS t ON n.nid = t.nid GROUP BY tid;";
+        ) AS r ON n.nid=r.nid 
+        INNER JOIN {term_node} AS t ON n.nid = t.nid 
+        INNER JOIN {users} AS u ON r.uid = u.uid
+        WHERE n.status = 1 
+        GROUP BY tid;";
 
-    $result = db_query( $query, $uid, $tid);
+    $result = db_query(db_rewrite_sql($query));
     $topics = array();
     while ($topic = db_fetch_object($result)) {
-    	$topics[$topic->tid] = $topic;
+      $topics[$topic->tid] = $topic;
     }   
     cache_set('advanced_forum_alllasttopics', 'cache', serialize($topics), time() + 60);
   }
@@ -716,17 +699,16 @@ function _is_forum($hook, $vars) {
       }
     
     default:
-      // 
       return false;
-  }  
+  }
 }
 
 /**
- * Helper function to hold the node ID of the thread we are on. 
+ * Helper function to hold the node ID of the thread we are on.
  * Used for linking the comment numbers.
  */
 function _topic_nid($nodeid = 0) {
-  static $nid; 
+  static $nid;
   
   if (!empty($nodeid)) {
     $nid = $nodeid;
@@ -744,8 +726,8 @@ function advanced_forum_get_forum_theme_directory() {
 }
 
 function advanced_forum_add_css() {
-  // Find the CSS files for the forums by looking first in the theme and then 
-  // in the module. 
+  // Find the CSS files for the forums by looking first in the theme and then
+  // in the module.
   $csspath = path_to_theme() . '/' . advanced_forum_get_forum_theme_directory();
   if (!file_exists($csspath)) {
     $csspath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum';

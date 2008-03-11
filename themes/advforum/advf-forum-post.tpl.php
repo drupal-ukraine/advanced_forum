@@ -1,4 +1,5 @@
 <?php
+// $Id$
 /**
  * forum-post.tpl.php is the template file for both
  * the top post (the node) and the comments/replies
@@ -8,22 +9,22 @@
     $top_post    - TRUE if we are formatting the main post (ie, not a comment)
     $title       - Title of this post/comment
     $content     - Content of this post/comment
-    $reply_link  - Separated out link to reply to topic 
+    $reply_link  - Separated out link to reply to topic
     $links       - Formatted links (reply, edit, delete, etc)
     $links_array - Unformatted array of links
     $submitted   - Formatted date post/comment submitted
 
     $accountid   - ID of the poster
-    $name        - User name of poster    
+    $name        - User name of poster
  */
-?> 
+?>
 
 <?php
 // If this is the top post (that is, the node) give it an extra wrapper to allow for special theming
 if ($top_post) {
   $postclass = "top-post";
   print $reply_link;
-} 
+}
 ?>
 
 <div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
@@ -36,7 +37,7 @@ if ($top_post) {
       <span class="new"><?php print $new ?></span>
     <?php endif ?>
 
-    <?php 
+    <?php
       if (!$top_post) {
         print '<span class="post-num">';
         print $comment_link;
@@ -50,7 +51,7 @@ if ($top_post) {
   <div class="forum-post-wrapper">
     <div class="forum-comment-left">
       <div class="innertube">
-      <?php print $user_info_pane; ?>     
+      <?php print $user_info_pane; ?>   
      </div>
     </div>
 

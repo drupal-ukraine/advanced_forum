@@ -145,7 +145,8 @@ function template_preprocess_forum_list(&$variables) {
       }
       $variables['forums'][$id]->old_topics = $forum->num_topics - $variables['forums'][$id]->new_topics;
     }
-    $variables['forums'][$id]->last_reply = theme('forum_submitted', $forum->last_post);
+    // We overwrite this in the advforum preprocess, so might as well not do it here
+    //$variables['forums'][$id]->last_reply = theme('forum_submitted', $forum->last_post);
   }
   // Give meaning to $tid for themers. $tid actually stands for term id.
   $variables['forum_id'] = $variables['tid'];

@@ -1,4 +1,5 @@
 <?php
+// $Id$
 /*
 $account - The entire user object for the profile user
 $picture - returned from theme_user_picture

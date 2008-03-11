@@ -19,6 +19,7 @@
  * @see advanced_forum_preprocess_forums()
  */
 ?>
+
 <?php if ($forums_defined): ?>
 <div id="forum">
   <div class="forum-top-links"><?php print theme('links', $links, array('class'=>'links forumlinks')); ?></div>
