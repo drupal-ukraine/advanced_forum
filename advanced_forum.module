@@ -163,7 +163,7 @@ function theme_forum_user($uid = 0) {
   return _phptemplate_callback("$forum_theme/advf-forum-user", $variables);
 }
 
-function template_preprocess_forum_user($variables) {
+function template_preprocess_forum_user(&$variables) {
   // The passed in $variables['accountid'] refers to the user who's info is in the pane.
   $accountid = $variables['accountid'];
   $account = user_load(array('uid' => $accountid));
