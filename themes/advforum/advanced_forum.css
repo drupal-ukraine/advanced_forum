@@ -209,6 +209,13 @@ font-size: 0.8em;
   border: 1px solid #95CDEF;
 }
 
+.user-signature {
+	margin: 15px 0px 1px 0px;
+	padding: 0px 1px 0px 5px;
+	font-size: 80%;
+	color: #2587C4;
+}
+
 /********************************* END FORUM THREADS ********************************************/
 
 /********************************* BEGIN USER INFO **********************************************/
