@@ -326,7 +326,7 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   }
 }
 
-function advanced_forum_preprocess_forums($variables) {
+function advanced_forum_preprocess_forums(&$variables) {
   if (empty($variables['topics'])) {
     // We don't want the links on the top of the forum overview
     $variables['links_orig'] = $variables['links'];
