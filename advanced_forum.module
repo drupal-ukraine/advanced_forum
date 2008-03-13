@@ -334,6 +334,7 @@ function advanced_forum_preprocess_forums(&$variables) {
   }
 
   // Add in the mark as read link
+  global $user;
   if (user_access('access content') && $user->uid) {
     $tid = $variables['tid'];
     if ($tid) {
