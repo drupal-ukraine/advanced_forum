@@ -609,52 +609,48 @@ function advanced_forum_markasread() {
 /**
  * Returns information about the last updated topics in all forums.
  */
-function advanced_forum_get_all_last_topics($reset = FALSE) {
-  if (!$reset && ($cache = cache_get('advanced_forum_alllasttopics')) && !empty($cache->data)) {
-    $topics = unserialize($cache->data);
-  } else {
-    // Query the info about the latest topic for the given forum
-    $query = "
-      SELECT n.title AS topictitle, 
-             r.title AS replytitle, 
-             r.created timestamp, 
-             r.type AS replytype, 
-             n.type AS topictype, 
-             n.nid AS topicid, 
-             t.tid, 
-             r.cid AS cid, 
-             r.uid,
-             u.name
-      FROM {node} AS n 
-      INNER JOIN 
-        (SELECT title, 
-                created, 
+function advanced_forum_get_all_last_topics() {
+  // Query the info about the latest topic for the given forum
+  $query = "
+    SELECT n.title AS topictitle, 
+           r.title AS replytitle, 
+           r.created timestamp, 
+           r.type AS replytype, 
+           n.type AS topictype, 
+           n.nid AS topicid, 
+           t.tid, 
+           r.cid AS cid, 
+           r.uid,
+           u.name
+    FROM {node} AS n 
+    INNER JOIN 
+      (SELECT title, 
+              created, 
+              nid, 
+              uid, 
+              type, 
+              'cid' AS cid 
+       FROM {node} UNION 
+         SELECT subject, 
+                timestamp, 
                 nid, 
                 uid, 
-                type, 
-                'cid' AS cid 
-         FROM {node} UNION 
-           SELECT subject, 
-                  timestamp, 
-                  nid, 
-                  uid, 
-                  'comment', 
-                  cid 
-           FROM {comments} 
-           ORDER BY created DESC
-        ) AS r ON n.nid=r.nid 
-        INNER JOIN {term_node} AS t ON n.nid = t.nid 
-        INNER JOIN {users} AS u ON r.uid = u.uid
-        WHERE n.status = 1 
-        GROUP BY tid;";
+                'comment', 
+                cid 
+         FROM {comments} 
+         ORDER BY created DESC
+      ) AS r ON n.nid=r.nid 
+      INNER JOIN {term_node} AS t ON n.nid = t.nid 
+      INNER JOIN {users} AS u ON r.uid = u.uid
+      WHERE n.status = 1 
+      GROUP BY tid;";
 
-    $result = db_query(db_rewrite_sql($query));
-    $topics = array();
-    while ($topic = db_fetch_object($result)) {
-      $topics[$topic->tid] = $topic;
-    }   
-    cache_set('advanced_forum_alllasttopics', 'cache', serialize($topics), time() + 60);
-  }
+  $result = db_query(db_rewrite_sql($query));
+  $topics = array();
+  while ($topic = db_fetch_object($result)) {
+    $topics[$topic->tid] = $topic;
+  }   
+
   return $topics;
 }
 
