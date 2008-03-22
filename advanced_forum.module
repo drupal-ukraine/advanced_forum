@@ -93,6 +93,10 @@ function advanced_forum_preprocess_comment(&$vars) {
     // This is a comment, not the node.
     $vars['top_post'] = FALSE;
 
+    // We need some information from the parent node so load it here
+    $node = node_load($vars['comment']->nid);
+    $vars['node'] = $node;
+
     // Title
     if (variable_get('comment_subject_field', 1) == 0) {
       // if comment titles are disabled, don't display it.
@@ -113,7 +117,6 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);
              
     // Because the $links array isn't available here, we recreate it
-    $node = node_load($vars['comment']->nid);
     $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
     foreach (module_implements('link_alter') as $module) {
       $function = $module .'_link_alter';
@@ -123,8 +126,6 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
     $vars['links_array'] = $links;
     
-    // Since we have to load the node anyway for our links trick, make it avail
-    $vars['node'] = $node;
 
     // Comment number with link
     if (!isset($post_number)) {
@@ -288,7 +289,17 @@ function template_preprocess_forum_user(&$variables) {
                          l($variables['buddylist_icon'] . ' '  . $variables['buddylist_text'], $variables['buddylist_link'],NULL,NULL,NULL,NULL,TRUE) . 
                          '</div>';
   } 
+  // Subscribe to user's posts 
+  // D6 alert: this assumes forum type.
+  if (module_exists('subscriptions')) { 
+    if (user_access('subscribe to content types')) {
+      $variables['subscribe_link'] = "subscriptions/add/type/forum/" . $account->uid;
+      $variables['subscribe'] = l(t("Subscribe"), $variables['subscribe_link'], array('title' => 'Subscribe to forum posts by this user'));
+    }
+  }
+
 }
+
 
 
 

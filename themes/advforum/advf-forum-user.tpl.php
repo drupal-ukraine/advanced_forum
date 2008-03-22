@@ -54,5 +54,6 @@ $profile - Profile object from core profile. Usage: $profile->fieldname
   <?php print $privatemsg; ?>
   <?php print $buddylist; ?>
   <?php print $ip; ?>
+  <?php print $subscribe; ?>
   
 </div>
