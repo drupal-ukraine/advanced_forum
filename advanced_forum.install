@@ -1,4 +1,6 @@
 <?php
+// $Id$
+
 function advanced_forum_install() {
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
 }

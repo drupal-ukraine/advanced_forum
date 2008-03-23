@@ -1,5 +1,6 @@
 <?php
 // $Id$
+
 /*
 $account - The entire user object for the profile user
 $picture - returned from theme_user_picture
@@ -36,6 +37,8 @@ $buddylist
 $ip_raw
 $ip
 $profile - Profile object from core profile. Usage: $profile->fieldname
+$subscribe - Formatted link to subscribe to the author's forum topics
+$subscribe_link - As above but just the relative path
 
 */
 ?>
@@ -54,6 +57,5 @@ $profile - Profile object from core profile. Usage: $profile->fieldname
   <?php print $privatemsg; ?>
   <?php print $buddylist; ?>
   <?php print $ip; ?>
-  <?php print $subscribe; ?>
   
 </div>

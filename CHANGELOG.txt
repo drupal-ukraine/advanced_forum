@@ -1,3 +1,15 @@
+$Id$
+
+March 22, 2008 -- ALPHA 6
+--------------
+Fixed remaining issues with advanced_forum_get_all_last_topics (I hope!)
+Updated README.txt and CHANGELOG.txt
+Fixed $Id$ at the tops of all the files.
+
+March 18, 2008
+--------------
+#222212 #235749 Removed caching from advanced_forum_get_all_last_topics due to too many problems.
+
 March 4, 2008
 -------------
 #229761 Fixed url() function calls that were missed in the backport from D6. Thanks andrew_kabai for bringing it to my attention.
