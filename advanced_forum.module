@@ -75,8 +75,7 @@ function advanced_forum_preprocess_node(&$vars) {
 
     // User information
     $vars['accountid'] = $vars['node']->uid;
-    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);
-    
+    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);   
   }
 }
 
@@ -159,8 +158,13 @@ function advanced_forum_preprocess_comment(&$vars) {
 function theme_forum_user($uid = 0) {
   $variables = array();
   $variables['accountid'] = $uid;
+  
+  // Call our preprocess function to create all the variables
   template_preprocess_forum_user($variables);
+  
   $forum_theme =  advanced_forum_get_forum_theme_directory();
+  
+  // Send the variables to the advf-forum-user.tpl.php
   return _phptemplate_callback("$forum_theme/advf-forum-user", $variables);
 }
 
@@ -180,7 +184,7 @@ function template_preprocess_forum_user(&$variables) {
   $variables['picture'] = theme('user_picture', $account);
 
   // Nothing else applies to anon users, so just stop here
-  if ($accountid == 0) {
+  if ($accountid === 0) {
     return;
   }
   
@@ -625,7 +629,7 @@ function advanced_forum_get_all_last_topics() {
   $query = "
     SELECT n.title AS topictitle, 
            r.title AS replytitle, 
-           r.created timestamp, 
+           r.time timestamp, 
            r.type AS replytype, 
            n.type AS topictype, 
            n.nid AS topicid, 
@@ -635,28 +639,33 @@ function advanced_forum_get_all_last_topics() {
            u.name
     FROM {node} AS n 
     INNER JOIN 
-      (SELECT title, 
-              created, 
-              nid, 
-              uid, 
-              type, 
-              'cid' AS cid 
-       FROM {node} UNION 
-         SELECT subject, 
-                timestamp, 
+      (
+        (SELECT title, 
+                created AS time,
                 nid, 
                 uid, 
-                'comment', 
-                cid 
-         FROM {comments} 
-         ORDER BY created DESC
+                type, 
+                'cid' AS cid 
+         FROM {node}
+         )
+         UNION 
+         (SELECT subject, 
+                  timestamp, 
+                  nid, 
+                  uid, 
+                  'comment', 
+                  cid 
+           FROM {comments}
+           WHERE {comments}.status = %d
+         ) 
+         ORDER BY time DESC
       ) AS r ON n.nid=r.nid 
       INNER JOIN {term_node} AS t ON n.nid = t.nid 
       INNER JOIN {users} AS u ON r.uid = u.uid
       WHERE n.status = 1 
       GROUP BY tid;";
 
-  $result = db_query(db_rewrite_sql($query));
+  $result = db_query(db_rewrite_sql($query), COMMENT_PUBLISHED);
   $topics = array();
   while ($topic = db_fetch_object($result)) {
     $topics[$topic->tid] = $topic;
