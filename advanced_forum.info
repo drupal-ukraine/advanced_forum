@@ -1,4 +1,4 @@
-$Id$
+; $Id$
 name = Advanced Forum
 description = Add extra theming and functionality to core forums.
 dependencies = forum
