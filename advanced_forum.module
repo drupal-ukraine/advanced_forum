@@ -665,7 +665,7 @@ function advanced_forum_get_all_last_topics() {
       WHERE n.status = 1 
       GROUP BY tid;";
 
-  $result = db_query(db_rewrite_sql($query), COMMENT_PUBLISHED);
+  $result = db_query($query, COMMENT_PUBLISHED);
   $topics = array();
   while ($topic = db_fetch_object($result)) {
     $topics[$topic->tid] = $topic;
