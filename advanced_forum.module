@@ -147,7 +147,7 @@ function advanced_forum_preprocess_comment(&$vars) {
 
     // Link to page created by Comment Page module, if it exists
     if (!empty($vars['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
-      $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
+      $vars['page_link'] = l('(permalink)', $vars['comment']->page_url);
     }
   }
 }
