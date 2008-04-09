@@ -147,7 +147,7 @@ function advanced_forum_preprocess_comment(&$vars) {
 
     // Link to page created by Comment Page module, if it exists
     if (!empty($vars['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
-      $vars['page_link'] = l('(permalink)', $vars['comment']->page_url);
+      $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
     }
   }
 }
@@ -400,7 +400,8 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 }
 
 /*
- * Implementation of theme_forum_submitted
+ * D5 compatability wrapper for theme_forum_submitted.
+ * Note: this function does not exist at all in D5's forum.module
  */
 function phptemplate_forum_submitted($topic) {
   // Create a $variables array from the parameters
@@ -412,14 +413,14 @@ function phptemplate_forum_submitted($topic) {
   // Pass the parameters into our preprocess function
   advanced_forum_preprocess_forum_submitted($variables);
 
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
+  // Look for the .tpl file in the theme. If found, use it. If not found, 
+  // just warn because there is no stock code to default to.
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_submitted($topic);
+    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
+    return 'MISSING TPL';
   }
 }
 
