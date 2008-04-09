@@ -6,6 +6,13 @@
 /*****************************************************************************/
 
 /**
+ * Implementation of hook_perm().
+*/
+function advanced_forum_perm() {
+  return array('administer advanced forum');
+}
+
+/**
  * Implementation of hook_menu.
  */
 function advanced_forum_menu($may_cache) {
@@ -19,12 +26,48 @@ function advanced_forum_menu($may_cache) {
                'access' => user_access('access content') && $user->uid,
                'type' => MENU_CALLBACK,
                );
+    // Add menu entry for settings page
+    $items[] = array(
+               'path' => "admin/settings/advanced-forum",
+               'title' => t('Advanced Forum'),
+               'callback' => 'drupal_get_form',
+               'callback arguments' => array('advanced_forum_settings_page'),
+               'access' => user_access('administer advanced forum'),
+    );
   } else {
     advanced_forum_add_css();
   }
   
   return $items;
 }
+
+/*****************************************************************************/
+/************************* SETTINGS PAGE *************************************/
+/*****************************************************************************/
+
+/**
+ * Define settings form
+ */
+function advanced_forum_settings_page() {
+  $form['advanced_forum_themedir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Advanced forum theme directory'),
+    '#size' => 25,
+    '#description' => t('Path from site theme directory to advanced forum theme directory. Defaults to "advforum"'),
+    '#default_value' => variable_get('advanced_forum_themedir','advforum'),
+  );
+  
+  $form['advanced_forum_theme_all_comments'] = array(
+    '#type' => 'radios',
+    '#title' => t('Treat all site comments like forum comments'),
+    '#options' => array("No","Yes"),
+    '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
+    '#default_value' => variable_get('advanced_forum_theme_all_comments',0),
+  );
+
+  // Send our form to Drupal to make a settings page
+  return system_settings_form($form);
+} 
 
 /*****************************************************************************/
 /******************* TEMPLATE PREPROCESS *************************************/
@@ -709,9 +752,13 @@ function _is_forum($hook, $vars) {
         // if this comment goes with it.
         return $vars['comment']->nid == $forum_node_id;
       } else {
-        if (arg(0) == 'comment' && is_numeric(arg(1))) {
-          $forum_node_id = $vars['comment']->nid;
+        if (variable_get("advanced_forum_theme_all_comments", 1) == 1) {
           return true;
+        } else {
+          if (arg(0) == 'comment' && is_numeric(arg(1))) {
+            $forum_node_id = $vars['comment']->nid;
+            return true;
+          }
         }
         return false;
       }
@@ -739,8 +786,7 @@ function _topic_nid($nodeid = 0) {
  * Return the directory of the forum theme files.
  */
 function advanced_forum_get_forum_theme_directory() {
-//TODO: Add a settings page for this
-  return 'advforum';
+  return variable_get('advanced_forum_themedir','advforum');
 }
 
 function advanced_forum_add_css() {
