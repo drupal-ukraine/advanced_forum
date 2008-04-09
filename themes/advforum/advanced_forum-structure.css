@@ -92,8 +92,6 @@ td.forum {
 }
 
 /* Topic listings */
-#forum td.posts, #forum td.topics { text-align: left !important }
-
 #forum td.topic{
   width: 600px;
   padding: 10px;
