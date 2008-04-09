@@ -79,6 +79,10 @@
   padding-left:25px;
 }
 
+#forum tr td.forum-list-new{
+  background-image:url(images/forum-all-new.png);
+}
+
 #forum tr td.forum .name,
 #forum tr td.forum .description {
   margin-left: 12px;
