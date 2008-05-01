@@ -117,8 +117,8 @@ function advanced_forum_preprocess_node(&$vars) {
     $vars['links_array'] = $vars['node']->links;
 
     // User information
-    $vars['accountid'] = $vars['node']->uid;
-    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);   
+    $vars['account'] = user_load(array('uid' => $vars['node']->uid));
+    $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
   }
 }
 
@@ -155,8 +155,8 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['content'] = $vars['comment']->comment;
       
     // User information
-    $vars['accountid'] = $vars['comment']->uid;
-    $vars['user_info_pane'] = theme('forum_user', $vars['accountid']);
+    $vars['account'] = user_load(array('uid' => $vars['comment']->uid));
+    $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
              
     // Because the $links array isn't available here, we recreate it
     $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
@@ -198,23 +198,22 @@ function advanced_forum_preprocess_comment(&$vars) {
 /**
  * D5 compatability wrapper for forum user preprocess function.
  */
-function theme_forum_user($uid = 0) {
+function theme_forum_user($account) {
   $variables = array();
-  $variables['accountid'] = $uid;
+  $variables['account'] = $account;
   
   // Call our preprocess function to create all the variables
   template_preprocess_forum_user($variables);
-  
-  $forum_theme =  advanced_forum_get_forum_theme_directory();
-  
+    
   // Send the variables to the advf-forum-user.tpl.php
+  $forum_theme =  advanced_forum_get_forum_theme_directory();
   return _phptemplate_callback("$forum_theme/advf-forum-user", $variables);
 }
 
 function template_preprocess_forum_user(&$variables) {
-  // The passed in $variables['accountid'] refers to the user who's info is in the pane.
-  $accountid = $variables['accountid'];
-  $account = user_load(array('uid' => $accountid));
+  // The passed in $variables['account'] refers to the user who's info is in the pane.
+  $account = $variables['accountid'];
+  $accountid = $account->uid;
   
   // Get a reference to the currently logged in user.
   global $user;
@@ -243,12 +242,12 @@ function template_preprocess_forum_user(&$variables) {
   // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+    $variables['online_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   } else {
     $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme_image(path_to_theme() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
+    $variables['online_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
@@ -292,7 +291,7 @@ function template_preprocess_forum_user(&$variables) {
   // Contact user
   if (($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
     $variables['contact_class'] = "contact";
-    $variables['contact_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/email.png", 'Email', 'Email', NULL, TRUE);
+    $variables['contact_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . "/images/email.png", 'Email', 'Email', NULL, TRUE);
     $variables['contact_text'] = t('Email');
     $variables['contact_link'] = 'user/'. $accountid . '/contact';
     $variables['contact'] = '<div class="contact">' . 
@@ -305,7 +304,7 @@ function template_preprocess_forum_user(&$variables) {
      ($account->uid != $user->uid) && 
      user_access('access private messages') && 
      (isset($account->privatemsg_allow) ? $account->privatemsg_allow : 1)) { 
-    $variables['privatemsg_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/user_comment.png", 'Private Message', 'Private Message', NULL, TRUE);
+    $variables['privatemsg_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . "/images/user_comment.png", 'Private Message', 'Private Message', NULL, TRUE);
     $variables['privatemsg_text'] = t('Send PM');
     $variables['privatemsg_link'] = 'privatemsg/new/'. $accountid;
     $variables['privatemsg'] = '<div class="privatemsg">' . 
@@ -319,14 +318,14 @@ function template_preprocess_forum_user(&$variables) {
     if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {
       // Remove buddy
       $variables['buddylist_class'] = "buddy-remove";
-      $variables['buddylist_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
+      $variables['buddylist_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
       $variables['buddylist_text'] = t('Remove buddy');
       $variables['buddylist_link'] = 'buddy/delete/'. $accountid;
     } else {
       // Add buddy
       if ($accountid != $user->uid && user_access('maintain buddy list')) {
         $variables['buddylist_class'] = "buddy-add";
-        $variables['buddylist_icon'] = theme_image(path_to_theme() . '/' . $themedir . "/images/group_add.png", 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
+        $variables['buddylist_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . "/images/group_add.png", 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
         $variables['buddylist_text'] = t('Add buddy');
         $variables['buddylist_link'] = 'buddy/add/'. $accountid;
       }
@@ -376,10 +375,10 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
+  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forums", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
   }
 }
@@ -425,10 +424,10 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
+  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forum-list", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_list($forums, $parents, $tid);
   }
 }
@@ -459,10 +458,10 @@ function phptemplate_forum_submitted($topic) {
   // Look for the .tpl file in the theme. If found, use it. If not found, 
   // just warn because there is no stock code to default to.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
+  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forum-submitted", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
+    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
     return 'MISSING TPL';
   }
 }
@@ -494,10 +493,10 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
+  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forum-topic-list", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
   }
 }
@@ -599,10 +598,10 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
+  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
     return _phptemplate_callback("$forum_theme/advf-forum-icon", $variables);
   } else {
-    drupal_set_message(path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
   }
 }
@@ -613,7 +612,7 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
   // to go through the process for each icon on the page.
   static $iconpath;
   if (!isset($iconpath)) {
-    $iconpath = path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/images';
+    $iconpath = advanced_forum_theme_path() . '/' . advanced_forum_get_forum_theme_directory() . '/images';
     if (!file_exists($iconpath)) {
       $iconpath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/images';
     }
@@ -792,7 +791,7 @@ function advanced_forum_get_forum_theme_directory() {
 function advanced_forum_add_css() {
   // Find the CSS files for the forums by looking first in the theme and then
   // in the module.
-  $csspath = path_to_theme() . '/' . advanced_forum_get_forum_theme_directory();
+  $csspath = advanced_forum_theme_path() . '/' . advanced_forum_get_forum_theme_directory();
   if (!file_exists($csspath)) {
     $csspath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum';
   }
@@ -804,5 +803,27 @@ function advanced_forum_add_css() {
   drupal_add_css($csspath . '/advanced_forum.css');
 }
 
-
+function advanced_forum_theme_path() {
+  // Create this as a static variable since it's used a lot on one page
+  static $advanced_forum_theme_path;
+  
+  // If we already stored the path, just send it back
+  if (isset($advanced_forum_theme_path)) {
+    return $advanced_forum_theme_path;
+  }
+  
+  // Check first if there is a subtheme. This function is defined in Zen
+  // and potentially may exist in other themes with subthemes.
+  if (function_exists("path_to_subtheme")) {
+    $advanced_forum_theme_path = path_to_subtheme();
+  }
+  
+  // If we had no luck finding a subtheme, find the theme path
+  // the normal way.
+  if (!empty($advanced_forum_theme_path)) {
+    $advanced_forum_theme_path = path_to_theme();
+  }
+  //dsm($advanced_forum_theme_path);
+  return $advanced_forum_theme_path;
+}
 
