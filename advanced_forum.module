@@ -820,10 +820,8 @@ function advanced_forum_theme_path() {
   
   // If we had no luck finding a subtheme, find the theme path
   // the normal way.
-  if (!empty($advanced_forum_theme_path)) {
+  if (empty($advanced_forum_theme_path)) {
     $advanced_forum_theme_path = path_to_theme();
   }
-  //dsm($advanced_forum_theme_path);
   return $advanced_forum_theme_path;
 }
-
