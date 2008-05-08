@@ -346,9 +346,6 @@ function template_preprocess_forum_user(&$variables) {
 
 }
 
-
-
-
 /********************** FORUM MODULE THEME OVERRIDES *************************/
 
 // Add in the D6 backports from the forum, taxonomy, and comment modules
@@ -388,6 +385,10 @@ function advanced_forum_preprocess_forums(&$variables) {
     // We don't want the links on the top of the forum overview
     $variables['links_orig'] = $variables['links'];
     $variables['links'] = array();
+  } else {
+    // Grab the forum description and make it available to the template file
+    $forum = taxonomy_get_term($variables['tid']);
+    $variables['forum_description'] = $forum->description;
   }
 
   // Add in the mark as read link
@@ -502,6 +503,10 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
 }
 
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
+  // Grab the forum description and make it available to the template file
+  $forum = taxonomy_get_term($variables['topic_id']);
+  $variables['forum_description'] = $forum->description;
+  
   // Do our own topic processing.
   if (!empty($variables['topics'])) {
     $row = 0;
