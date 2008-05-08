@@ -1,0 +1,157 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  advanced_forum.module,v 1.21.2.18 2008/05/01 20:57:43 michellec
+#  advanced_forum.info,v 1.4.2.4 2008/05/01 20:57:43 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.4 2008/05/01 20:57:44 michellec
+#  advf-forum-post.tpl.php,v 1.1.2.7 2008/05/01 20:57:44 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.4 2008/05/01 20:57:44 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.5 2008/05/01 20:57:44 michellec
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-05-07 05:49+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: advanced_forum.module:83
+msgid "Reply"
+msgstr ""
+
+#: advanced_forum.module:88
+msgid "Post Reply"
+msgstr ""
+
+#: advanced_forum.module:208
+msgid "Joined: "
+msgstr ""
+
+#: advanced_forum.module:211
+msgid "Member since: "
+msgstr ""
+
+#: advanced_forum.module:217
+msgid "Online"
+msgstr ""
+
+#: advanced_forum.module:222
+msgid "Offline"
+msgstr ""
+
+#: advanced_forum.module:234
+msgid "Points: "
+msgstr ""
+
+#: advanced_forum.module:240
+msgid "Posts: "
+msgstr ""
+
+#: advanced_forum.module:246
+msgid "IP: "
+msgstr ""
+
+#: advanced_forum.module:266
+msgid "Email"
+msgstr ""
+
+#: advanced_forum.module:279
+msgid "Send PM"
+msgstr ""
+
+#: advanced_forum.module:293
+msgid "Remove buddy"
+msgstr ""
+
+#: advanced_forum.module:300
+msgid "Add buddy"
+msgstr ""
+
+#: advanced_forum.module:325
+msgid "Mark all topics read"
+msgstr ""
+
+#: advanced_forum.module:328
+msgid "Mark all forums read"
+msgstr ""
+
+#: advanced_forum.module:412
+msgid "Last Page"
+msgstr ""
+
+#: advanced_forum.module:417
+msgid "Page"
+msgstr ""
+
+#: advanced_forum.module:423
+msgid "This topic has been moved to "
+msgstr ""
+
+#: advanced_forum.module:484
+msgid "All content in this forum has been marked as read"
+msgstr ""
+
+#: advanced_forum.module:487
+msgid "All forum content been marked as read"
+msgstr ""
+
+#: advanced_forum.module:21
+msgid "Helper page to mark forums read."
+msgstr ""
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr ""
+
+#: advanced_forum.info:0
+msgid "Advanced Forum"
+msgstr ""
+
+#: advanced_forum.info:0
+msgid "Add extra theming and functionality to core forums."
+msgstr ""
+
+#: themes/advforum/advf-forum-list.tpl.php:37
+msgid "Forum"
+msgstr ""
+
+#: themes/advforum/advf-forum-list.tpl.php:38
+msgid "Topics"
+msgstr ""
+
+#: themes/advforum/advf-forum-list.tpl.php:39
+msgid "Posts"
+msgstr ""
+
+#: themes/advforum/advf-forum-list.tpl.php:40
+msgid "Last post"
+msgstr ""
+
+#: themes/advforum/advf-forum-post.tpl.php:34
+msgid "Posted on: "
+msgstr ""
+
+#: themes/advforum/advf-forum-submitted.tpl.php:26
+msgid "!title<br />@time ago<br />by !author"
+msgstr ""
+
+#: themes/advforum/advf-forum-submitted.tpl.php:33
+msgid "@time ago<br />by !author"
+msgstr ""
+
+#: themes/advforum/advf-forum-submitted.tpl.php:40
+msgid "n/a"
+msgstr ""
+
+#: themes/advforum/advf-forum-topic-list.tpl.php:51
+msgid "Sticky"
+msgstr ""
+
