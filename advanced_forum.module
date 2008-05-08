@@ -158,7 +158,18 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['content'] = $vars['comment']->comment;
       
     // User information
-    $vars['account'] = user_load(array('uid' => $vars['comment']->uid));
+    $accountid = $vars['comment']->uid;
+    if ($accountid == 0) {
+      // Anonymous user. Make a fake user object for theme_username
+      $vars['account']->name = $vars['comment']->name;
+      $vars['account']->homepage = $vars['comment']->homepage;
+    }
+    else {
+      // Load up the real user object
+      $vars['account'] = user_load(array('uid' => $vars['comment']->uid));
+    }
+    
+    // Create the user info pane
     $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
              
     // Because the $links array isn't available here, we recreate it
@@ -204,7 +215,7 @@ function advanced_forum_preprocess_comment(&$vars) {
 function theme_forum_user($account) {
   $variables = array();
   $variables['account'] = $account;
-  
+
   // Call our preprocess function to create all the variables
   template_preprocess_forum_user($variables);
     
@@ -215,7 +226,7 @@ function theme_forum_user($account) {
 
 function template_preprocess_forum_user(&$variables) {
   // The passed in $variables['account'] refers to the user who's info is in the pane.
-  $account = $variables['accountid'];
+  $account = $variables['account'];
   $accountid = $account->uid;
   
   // Get a reference to the currently logged in user.
@@ -229,7 +240,7 @@ function template_preprocess_forum_user(&$variables) {
   $variables['picture'] = theme('user_picture', $account);
 
   // Nothing else applies to anon users, so just stop here
-  if ($accountid === 0) {
+  if ($accountid == 0) {
     return;
   }
   
@@ -292,7 +303,7 @@ function template_preprocess_forum_user(&$variables) {
   }
 
   // Contact user
-  if (($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
+  if (module_exists('contact') && ($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
     $variables['contact_class'] = "contact";
     $variables['contact_icon'] = theme_image(advanced_forum_theme_path() . '/' . $themedir . "/images/email.png", 'Email', 'Email', NULL, TRUE);
     $variables['contact_text'] = t('Email');
@@ -441,7 +452,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
   $last_topics = advanced_forum_get_all_last_topics();
   foreach ($variables['forums'] as $tid => $forum) {
     // In the forum overview, we want to overwrite the last reply with our custom one
-    $forum->last_reply = theme('forum_submitted', $last_topics[$tid]);
+    $variables['forums'][$tid]->last_reply = theme('forum_submitted', $last_topics[$tid]);
   }
 }
 
