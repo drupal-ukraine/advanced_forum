@@ -11,6 +11,7 @@
  * - $pager: The pager to display beneath the table.
  * - $topics: An array of topics to be displayed.
  * - $topic_id: Numeric id for the current forum topic.
+ * - $forum_description: Description of the forum these topics are in.
  *
  * Each $topic in $topics contains:
  * - $topic->icon: The icon to display.
@@ -39,11 +40,7 @@
     <tr><?php print $header; ?></tr>
   </thead>
   <tbody>
-  <?php 
-  $num_topics = count($topics); 
-  $topic_num = 0;
-  ?>
-  <?php foreach ($topics as $topic): ?>  
+  <?php foreach ($topics as $topic): ?>
     <?php 
     if ($topic->sticky) {
       $stickyclass = 'stickytopic';
@@ -58,21 +55,7 @@
       }
     }  
     ?>
-    <?php 
-    // Counter to label the rows by position
-    $topic_num++; 
-    switch ($topic_num) {
-      case "1":
-        $position = 'first_row';
-        break;
-      case $num_topics:
-        $position = 'last_row';
-        break;
-      default:
-        $position = 'middle_row';
-    }
-    ?>
-    <tr class="<?php print $topic->zebra;?> <?php print $stickyclass;?> <?php print $position;?>">
+    <tr class="<?php print $topic->zebra;?> <?php print $stickyclass;?>">
       <td class="icon"><?php print $topic->icon; ?></td>
       <td class="title">
       <?php 

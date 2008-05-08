@@ -24,7 +24,10 @@ This document contains structural markup such as widths, margins, padding, and f
 /********************************* END PAGER ************************************************/
 
 /********************************* BEGIN FORUM CONTAINERS ********************************************/
-/*** Inserted: Thomas ***/
+
+.forum-description {
+  padding: 10px 0px 10px 0px;
+}
 
 td.forum {
   padding-left: 15px;

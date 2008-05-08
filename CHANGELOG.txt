@@ -1,5 +1,36 @@
 $Id$
 
+May 7, 2008
+-----------
+#253778 Fixed typo that prevented advforum directory from being found. Thanks VValdo.
+#835782 Added variable for forum description to forum topic list. Theme changes: advf-forums.tpl.php - Added description. advf-forum-topic-list.tpl.php - Updated variable list to include $forum_description. advf-forum-topic-list.tpl.php - padding around new class.
+
+April 17, 2008
+--------------
+#246701 Fix for IE 6 hiding post info. Thanks CompShack.
+#241258 Changed the forum overview 'new topics' folder from red to green and kept red version as forum-all-new-red.png. Thanks Zandroc.
+
+April 8, 2008
+-------------
+Added code to advf-forum-topic-list.tpl.php and advf-forum-list.tpl.php to give rows first/middle/last for class to aid in theming.
+Minor CSS change to remove forced left align of topics/points count.
+#239406 Removed default to theme_forum_submitted when the .tpl file is missing.
+#244228 Added Czech translation. Thanks to kecinzer.
+#241258 Change folder icon when there are new posts in a forum. Thanks Zandroc. (Affects advf-forum-list.tpl.php and advanced_forum.css. Adds forum-all-new.png)
+Created settings page and added option to change name of advforum theme directory as well as an option to theme all site comments like forum comments which fixes #213335 
+
+April 2, 2008
+--------------
+Fixed typo that prevented comment page link from showing.
+
+March 24, 2008 -- Alpha 7
+--------------
+#238125 Removed the sql rewrite since it doesn't work with subqueries.
+
+March 23, 2008
+--------------
+#237742 Fixed missing semicolon in info file.
+
 March 22, 2008 -- ALPHA 6
 --------------
 Fixed remaining issues with advanced_forum_get_all_last_topics (I hope!)
