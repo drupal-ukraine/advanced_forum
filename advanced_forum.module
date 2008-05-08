@@ -34,7 +34,10 @@ function advanced_forum_menu($may_cache) {
                'callback arguments' => array('advanced_forum_settings_page'),
                'access' => user_access('administer advanced forum'),
     );
-  } else {
+  } 
+  elseif(arg(2) != 'block') {
+    // Avoids weird issue with block admin. See #239724
+    // Should be replaced with a proper fix if one can be found.
     advanced_forum_add_css();
   }
   
