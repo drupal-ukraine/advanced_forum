@@ -116,6 +116,19 @@ function advanced_forum_preprocess_node(&$vars) {
       $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forumlinks'));
     }
     
+    // Jump to first unread comment
+    $comment_count = $vars['comment_count'];
+    if ($comment_count > 0) {
+      $nid = $vars['node']->nid;
+      $current_page = $_GET['page'];
+      $number_new_comments = comment_num_new($nid);
+      
+      if ($number_new_comments > 0) {
+        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']->nid);      
+        $vars['jump_first_new'] = l("$number_new_comments new replies", 'node/' . $nid, NULL, $page_of_first_new, 'new');
+      }
+    }
+    
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
 

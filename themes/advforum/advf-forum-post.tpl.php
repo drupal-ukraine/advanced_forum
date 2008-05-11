@@ -25,6 +25,7 @@
 if ($top_post) {
   $postclass = "top-post";
   print $reply_link;
+  print $jump_first_new;
 }
 ?>
 
