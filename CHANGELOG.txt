@@ -2,7 +2,15 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-May 7, 2008
+May 11, 2008
+------------
+#255949 Added link to top of forum threads that lists the number of unread comments and links to the first one. This links to the comment id and so will work across pages. 
+
+May 10, 2008
+------------
+#253365 Patch to make advforum and Zen subthemes play nice. Also fixes my goof with theme_image(). Thanks, JohnAlbin.
+
+May 7, 2008 -- Alpha 8
 -----------
 #253778 Fixed typo that prevented advforum directory from being found. Thanks VValdo.
 #254892 Added variable for forum description to forum topic list. Theme changes: advf-forums.tpl.php - Added description. advf-forum-topic-list.tpl.php - Updated variable list to include $forum_description. advf-forum-topic-list.tpl.php - padding around new class.
@@ -10,7 +18,7 @@ May 7, 2008
 #246778 Fixed extra = that caused anon posters to show joined, etc.
 #249651 Added check that contact module is enabled.
 #248652 Fixed PHP 4 incompatibility in showing last post in forum. Thanks jamix.
-Fixed "user" information not showing for visitors on comments.
+Fixed 'user' information not showing for visitors on comments.
 
 April 17, 2008
 --------------

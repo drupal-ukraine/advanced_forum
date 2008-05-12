@@ -124,8 +124,9 @@ function advanced_forum_preprocess_node(&$vars) {
       $number_new_comments = comment_num_new($nid);
       
       if ($number_new_comments > 0) {
-        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']->nid);      
-        $vars['jump_first_new'] = l("$number_new_comments new replies", 'node/' . $nid, NULL, $page_of_first_new, 'new');
+        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']->nid);   
+        $cid_of_first_new = advanced_forum_first_new_comment($nid);   
+        $vars['jump_first_new'] = l("$number_new_comments new replies", 'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new");
       }
     }
     
@@ -857,4 +858,26 @@ function advanced_forum_theme_path() {
     $advanced_forum_theme_path = path_to_theme();
   }
   return $advanced_forum_theme_path;
+}
+
+function advanced_forum_first_new_comment($nid, $timestamp = 0) {
+  global $user;
+
+  if ($user->uid) {
+    // Retrieve the timestamp at which the current user last viewed the
+    // specified node.
+    if (!$timestamp) {
+      $timestamp = node_last_viewed($nid);
+    }
+    $timestamp = ($timestamp > NODE_NEW_LIMIT ? $timestamp : NODE_NEW_LIMIT);
+
+    // Use the timestamp to retrieve the oldest new comment.
+    $result = db_result(db_query('SELECT c.cid FROM {node} n INNER JOIN {comments} c ON n.nid = c.nid WHERE n.nid = %d AND timestamp > %d AND c.status = %d ORDER BY c.cid LIMIT 1', $nid, $timestamp, COMMENT_PUBLISHED));
+
+    return $result;
+  }
+  else {
+    return 0;
+  }
+
 }
