@@ -2,9 +2,17 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+May 12, 2008
+------------
+Fixed pluralizing of "1 new replies" on top of post jump link.
+Added extra markup for the post header area. (Theme changes: advf-forum-post.tpl.php - Added div.forum-post-header)
+#253155 Changed _is_forum() to advanced_forum_treat_as_forum_post() to comply with coding standards and clarify purpose. 
+#253155 Changed _topic_nid() to _advanced_forum_topic_nid().
+#246701 IE 6 fixes. Thanks, CompShack. (Theme changes: Affects both .css files)
+
 May 11, 2008
 ------------
-#255949 Added link to top of forum threads that lists the number of unread comments and links to the first one. This links to the comment id and so will work across pages. 
+#255949 Added link to top of forum threads that lists the number of unread comments and links to the first one. This links to the comment id and so will work across pages. (Theme changes: advf-forum-post.tpl.php - Added $jump_first_new)
 
 May 10, 2008
 ------------

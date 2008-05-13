@@ -11,6 +11,7 @@
     $title       - Title of this post/comment
     $content     - Content of this post/comment
     $reply_link  - Separated out link to reply to topic
+    $jump_first_new - Shows number of new (to user) comments and links to the first one
     $links       - Formatted links (reply, edit, delete, etc)
     $links_array - Unformatted array of links
     $submitted   - Formatted date post/comment submitted
@@ -21,13 +22,15 @@
 ?>
 
 <?php
-// If this is the top post (that is, the node) give it an extra wrapper to allow for special theming
 if ($top_post) {
+  // Class that shows we are on the node to allow for special theming
   $postclass = "top-post";
-  print $reply_link;
-  print $jump_first_new;
-}
-?>
+?> 
+  <div class="forum-post-header">
+  <?php print $reply_link; ?>
+  <?php print $jump_first_new; ?>
+  </div>
+<?php } ?>
 
 <div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
 

@@ -165,10 +165,10 @@
 }
 
 .forum-post-wrapper {
-	background: url(images/forum-separater.jpg) repeat-y;
-	border-top: 1px solid #2587C4;
-	border-bottom: none;
-	height: %1;
+  background: url(images/forum-separater.jpg) repeat-y;
+  border-top: 1px solid #2587C4;
+  border-bottom: none;
+  height: 1%;
 }
 
 .forum-comment-left .author-name {

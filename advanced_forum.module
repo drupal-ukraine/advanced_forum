@@ -63,7 +63,7 @@ function advanced_forum_settings_page() {
   $form['advanced_forum_theme_all_comments'] = array(
     '#type' => 'radios',
     '#title' => t('Treat all site comments like forum comments'),
-    '#options' => array("No","Yes"),
+    '#options' => array(t("No"),t("Yes")),
     '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
     '#default_value' => variable_get('advanced_forum_theme_all_comments',0),
   );
@@ -93,7 +93,7 @@ function advanced_forum_addvars($hook, $vars) {
 }
 
 function advanced_forum_preprocess_node(&$vars) {
-  if (_is_forum('node', $vars)) {
+  if (advanced_forum_treat_as_forum_post('node', $vars)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -124,11 +124,16 @@ function advanced_forum_preprocess_node(&$vars) {
       $number_new_comments = comment_num_new($nid);
       
       if ($number_new_comments > 0) {
-        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']->nid);   
+        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']);   
         $cid_of_first_new = advanced_forum_first_new_comment($nid);   
-        $vars['jump_first_new'] = l("$number_new_comments new replies", 'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new");
+        $link_text = format_plural($number_new_comments, '1 new reply', '@count replies');
+        $vars['jump_first_new'] = l($link_text, 'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new");
       }
     }
+    
+    // Make a variable for the pager so it can be placed at the top of the post
+    $comments_per_page = _comment_get_display_setting('comments_per_page');
+    $vars['post_pager'] = theme('pager', NULL, $comments_per_page, 0);
     
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
@@ -140,7 +145,7 @@ function advanced_forum_preprocess_node(&$vars) {
 }
 
 function advanced_forum_preprocess_comment(&$vars) {
-  if (_is_forum('comment', $vars)) {
+  if (advanced_forum_treat_as_forum_post('comment', $vars)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -201,7 +206,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     if (!isset($post_number)) {
       static $post_number = 0;
     }
-    _topic_nid($vars['node']->nid);
+    _advanced_forum_topic_nid($vars['node']->nid);
 
     $post_per_page = _comment_get_display_setting('comments_per_page', $vars['node']);
     $page_number = $_GET['page'];
@@ -213,7 +218,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     $fragment = 'comment-' . $vars['comment']->cid;
     $query = ($page_number) ? 'page=' . $page_number : NULL;
     $linktext = '#' . (($page_number * $post_per_page) + $post_number);
-    $linkpath = 'node/' . _topic_nid();
+    $linkpath = 'node/' . _advanced_forum_topic_nid();
     $vars['comment_link'] = l($linktext, $linkpath, NULL, $query, $fragment);
 
     // Link to page created by Comment Page module, if it exists
@@ -757,7 +762,7 @@ function advanced_forum_get_all_last_topics() {
 /**
  * This function returns true if we are in the forums
  */
-function _is_forum($hook, $vars) {
+function advanced_forum_treat_as_forum_post($hook, $vars) {
   // Setting this static means the check only needs to be done once per page
   // as long as we haven't hit a non forum node on the page
   static $forum_node_id;
@@ -804,7 +809,7 @@ function _is_forum($hook, $vars) {
  * Helper function to hold the node ID of the thread we are on.
  * Used for linking the comment numbers.
  */
-function _topic_nid($nodeid = 0) {
+function _advanced_forum_topic_nid($nodeid = 0) {
   static $nid;
   
   if (!empty($nodeid)) {
