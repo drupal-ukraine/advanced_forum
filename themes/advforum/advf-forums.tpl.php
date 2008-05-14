@@ -23,9 +23,9 @@
 <?php if ($forums_defined): ?>
 <div id="forum">
 
-<div class="forum-description">
-<?php print $forum_description ?>
-</div>
+  <?php if (isset($forum_description)) : ?>
+    <div class="forum-description"><?php print $forum_description ?></div>
+  <?php endif; ?>
 
   <div class="forum-top-links"><?php print theme('links', $links, array('class'=>'links forumlinks')); ?></div>
   <?php print $forums; ?>

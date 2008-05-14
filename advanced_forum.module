@@ -605,6 +605,9 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
         $term = taxonomy_get_term($topic->tid);
         $variables['topics'][$id]->message = l(t('This topic has been moved to ') . $term->name, "node/$topic->nid");
       }
+      
+      // Send the NID into the icon theme code so it can be linked to the topic
+      $variables['topics'][$id]->icon = theme('forum_icon', $topic->new, $topic->num_comments, $topic->comment_mode, $topic->sticky, $topic->nid);
     }
   }
 }
@@ -620,12 +623,13 @@ function phptemplate_forum_topic_navigation($node) {
 /**
  * Implementation of theme_forum_icon
  */
-function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0) {
+function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0, $topic_id = 0) {
   // Create a $variables array from the parameters
   $variables['new_posts'] = $new_posts;
   $variables['num_posts'] = $num_posts;
   $variables['comment_mode'] = $comment_mode;
   $variables['sticky'] = $sticky;
+  $variables['topic_id'] = $topic_id;
    
   // Pass the parameters into the D6 preprocess function
   template_preprocess_forum_icon($variables);
