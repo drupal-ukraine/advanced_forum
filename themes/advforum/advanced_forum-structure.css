@@ -95,6 +95,12 @@ td.forum {
 }
 
 /* Topic listings */
+
+#forum td.views {
+  text-align:center;
+  white-space:nowrap;
+}
+
 #forum td.topic{
   width: 600px;
   padding: 10px;

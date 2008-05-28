@@ -114,14 +114,6 @@
   list-style-image: none;
 }
 
-#forum td.f-subject, #forum td.f-topics, #forum td.f-posts, #forum td.f-last-reply {
-  background: #B3D8EF;
-  color: #27729F;
-  font-size: 0.8em;
-  padding: 0.1em 1.2em;
-  border: none;
-} 
-
 .indent {
 	margin-left: 30px;
 }

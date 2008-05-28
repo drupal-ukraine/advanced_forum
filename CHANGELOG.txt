@@ -2,6 +2,14 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+May 27, 2008
+------------
+Fixed up function advanced_forum_treat_as_forum_post() to be better commented, more logical, and fix #260640 comment theming not defaulting to off.
+#217194 Added template file to theme the repeated node on paginated forum threads. Thanks, Morbus. (Theme changes: advf-forum-repeat-post.tpl.php)
+Pulled creating the "topic pager" out of advanced_forum_preprocess_forum_topic_list to simplify it.
+#242527 Added number of views to the topic listing page. Thanks Zandroc. (Theme changes: advf-forum-topic-list.tpl.php, advanced_forum-structure.css)
+Removed some unused CSS from advanced_forum.css
+
 May 12, 2008
 ------------
 Made topic list icons link to topic. (Theme changes: advf-forum-icon.tpl.php) (Sponsored request by SamRose)
