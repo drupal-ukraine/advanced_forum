@@ -1,8 +1,36 @@
 <?php
-// $Id $
+// $Id$
 
 function advanced_forum_install() {
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
+
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      db_query("CREATE TABLE {advforum_last_post} (
+          tid int unsigned NOT NULL default '0',
+          nid int unsigned NOT NULL default '0',
+          cid int unsigned NOT NULL default '0',
+          PRIMARY KEY  (tid)
+        ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      break;
+
+    case 'pgsql':
+      db_query("CREATE TABLE {advforum_last_post} (
+          tid integer NOT NULL default '0',
+          nid integer NOT NULL default '0',
+          cid integer NOT NULL default '0',
+          PRIMARY KEY  (tid)
+        )");
+      break;
+  }
+}
+
+function advanced_forum_uninstall() {
+  db_query('DROP TABLE {advforum_last_post}');
+  variable_del('advanced_forum_themedir');
+  variable_del('advanced_forum_theme_all_comments');
+  variable_del('advforum_topic_pager_max');
 }
 
 function advanced_forum_update_5000() {
@@ -11,3 +39,27 @@ function advanced_forum_update_5000() {
   return $ret;
 }
 
+function advanced_forum_update_5001() {
+  $ret = array();
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("CREATE TABLE {advforum_last_post} (
+          tid int unsigned NOT NULL default '0',
+          nid int unsigned NOT NULL default '0',
+          cid int unsigned NOT NULL default '0',
+          PRIMARY KEY  (tid)
+        ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      break;
+
+    case 'pgsql':
+      $ret[] = update_sql("CREATE TABLE {advforum_last_post} (
+          tid integer NOT NULL default '0',
+          nid integer NOT NULL default '0',
+          cid integer NOT NULL default '0',
+          PRIMARY KEY  (tid)
+        )");
+      break;
+  }
+  return $ret;
+}
