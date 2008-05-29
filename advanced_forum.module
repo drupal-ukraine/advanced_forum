@@ -44,6 +44,28 @@ function advanced_forum_menu($may_cache) {
   return $items;
 }
 
+/**
+ * Implementation of hook_nodeapi.
+ */
+function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($op == 'insert') {
+    _advanced_forum_update_last_post($node->tid, $node->nid, 0);
+  }
+}
+
+/**
+ * Implementation of hook_comment.
+ */
+function advanced_forum_comment($a1, $op){
+  if ($op == 'insert') {
+    $vid = variable_get('forum_nav_vocabulary', '');
+    $terms = taxonomy_node_get_terms_by_vocabulary($a1['nid'], $vid);
+    foreach ($terms as $term) {
+      _advanced_forum_update_last_post($term->tid, $a1['nid'], $a1['cid']);
+    }
+  }
+}
+
 /*****************************************************************************/
 /************************* SETTINGS PAGE *************************************/
 /*****************************************************************************/
@@ -138,6 +160,7 @@ function advanced_forum_preprocess_node(&$vars) {
       }
     }
     
+    // TODO: Make this work.
     // Make a variable for the pager so it can be placed at the top of the post
     $comments_per_page = _comment_get_display_setting('comments_per_page');
     $vars['post_pager'] = theme('pager', NULL, $comments_per_page, 0);
@@ -514,10 +537,42 @@ function phptemplate_forum_submitted($topic) {
 }
 
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  if ($variables['topic']->topicid) {
-    // This was called by advforum and has the extra variables we need for the forum last topic
-    $shorttitle =  truncate_utf8($variables['topic']->topictitle, 15, TRUE, TRUE);
-    $variables['topiclink'] = l($shorttitle, "node/" . $variables['topic']->topicid);
+  // This check makes sure we only do the extra variables when this function is
+  // called by advforum and not by core forum.
+  if ($variables['topic']->topic_id) {
+    // Format the node title with a link
+    $short_topic_title =  truncate_utf8($variables['topic']->topic_title, 15, TRUE, TRUE);
+    $variables['topic_link'] = l($short_topic_title, "node/" . $variables['topic']->topic_id);
+    
+    // Format the comment title with a link (if there is a comment)
+    if (!empty($variables['topic']->reply_title)) {
+      $short_reply_title =  truncate_utf8($variables['topic']->reply_title, 15, TRUE, TRUE);
+      $comment_fragment = 'comment-' . $variables['topic']->reply_id;
+      $variables['reply_link'] = l($short_reply_title, "node/" . $variables['topic']->topic_id, 
+                                   NULL, NULL, $comment_fragment);
+    }
+    
+    // Format the time ago of the last post (node or comment)
+    if ($variables['topic']->reply_timestamp > 0) {
+      $variables['time'] =  format_interval(time() - $variables['topic']->reply_timestamp);
+    }
+    else {
+      $variables['time'] =  format_interval(time() - $variables['topic']->topic_timestamp);
+    }
+    
+    // Format the author of the last post (node or comment)
+    $author = new stdClass(); 
+    if (!empty($variables['topic']->reply_author_id)) {
+      $author->uid = $variables['topic']->reply_author_id;
+      $author->name = $variables['topic']->reply_author_name;
+    }
+    else {
+      $author->uid = $variables['topic']->topic_author_id;
+      $author->name = $variables['topic']->topic_author_name;
+    }
+    
+    $variables['author'] = theme('username',$author);
+    
   }
 }
 
@@ -770,47 +825,25 @@ function advanced_forum_markasread() {
  * Returns information about the last updated topics in all forums.
  */
 function advanced_forum_get_all_last_topics() {
-  // Query the info about the latest topic for the given forum
   $query = "
-    SELECT n.title AS topictitle, 
-           r.title AS replytitle, 
-           r.time timestamp, 
-           r.type AS replytype, 
-           n.type AS topictype, 
-           n.nid AS topicid, 
-           t.tid, 
-           r.cid AS cid, 
-           r.uid,
-           u.name
-    FROM {node} AS n 
-    INNER JOIN 
-      (
-        (SELECT title, 
-                created AS time,
-                nid, 
-                uid, 
-                type, 
-                'cid' AS cid 
-         FROM {node}
-         )
-         UNION 
-         (SELECT subject, 
-                  timestamp, 
-                  nid, 
-                  uid, 
-                  'comment', 
-                  cid 
-           FROM {comments}
-           WHERE {comments}.status = %d
-         ) 
-         ORDER BY time DESC
-      ) AS r ON n.nid=r.nid 
-      INNER JOIN {term_node} AS t ON n.nid = t.nid 
-      INNER JOIN {users} AS u ON r.uid = u.uid
-      WHERE n.status = 1 
-      GROUP BY tid;";
-
-  $result = db_query($query, COMMENT_PUBLISHED);
+    SELECT alp.tid,
+           alp.nid AS topic_id,
+           alp.cid AS reply_id,
+           n.title AS topic_title, 
+           c.subject AS reply_title, 
+           n.created AS topic_timestamp, 
+           c.timestamp AS reply_timestamp, 
+           n.type AS topic_type, 
+           n.uid AS topic_author_id,
+           c.uid AS reply_author_id,
+           u.name AS topic_author_name,
+           c.name AS reply_author_name
+    FROM {advforum_last_post} AS alp
+    LEFT JOIN {node} AS n ON alp.nid = n.nid
+    INNER JOIN {users} AS u ON u.uid = n.uid
+    LEFT JOIN {comments} AS c ON alp.cid = c.cid";
+           
+  $result = db_query($query);
   $topics = array();
   while ($topic = db_fetch_object($result)) {
     $topics[$topic->tid] = $topic;
@@ -959,3 +992,12 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
   }
 
 }
+
+/**
+ * Keeps a record of the latest node/comment in each forum
+ */
+function _advanced_forum_update_last_post($tid, $nid, $cid) {
+  db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
+  db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $tid, $nid, $cid);
+}
+

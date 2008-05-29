@@ -22,10 +22,18 @@
 ?>
 
 <?php if ($time): ?>
-  <?php if ($topiclink): ?>
+  <?php if ($reply_link): ?>
+    <?php print t(
+      '!rtitle<br />@time ago<br />by !author<br /> in !ttitle', array(
+        '!rtitle' => $reply_link,
+        '@time' => $time,
+        '!author' => $author,
+        '!ttitle' => $topic_link,
+      )); ?>   
+  <?php elseif ($topic_link): ?>
     <?php print t(
       '!title<br />@time ago<br />by !author', array(
-        '!title' => $topiclink,
+        '!title' => $topic_link,
         '@time' => $time,
         '!author' => $author,
       )); ?>

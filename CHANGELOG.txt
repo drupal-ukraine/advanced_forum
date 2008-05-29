@@ -1,13 +1,23 @@
 $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
+May 29, 2008
+------------
+#241982 by Michelle (based on idea from Bdragon): Use a table to store reference to last posts in forum to replace the monster query.
+
+Still to do: Account for deleted/unpublished comments and nodes. Write something in the install file to backfill table with existing posts. More testing.
+
+Theme changes:
+advf-forum-submitted.tpl.php - Added an extra section for adding more info when a comment is the latest.
+
+
 
 May 27, 2008
 ------------
 Fixed up function advanced_forum_treat_as_forum_post() to be better commented, more logical, and fix #260640 comment theming not defaulting to off.
 #217194 Added template file to theme the repeated node on paginated forum threads. Thanks, Morbus. (Theme changes: advf-forum-repeat-post.tpl.php)
-Pulled creating the "topic pager" out of advanced_forum_preprocess_forum_topic_list to simplify it.
-#242527 Added number of views to the topic listing page. Thanks Zandroc. (Theme changes: advf-forum-topic-list.tpl.php, advanced_forum-structure.css)
+Pulled creating the 'topic pager' out of advanced_forum_preprocess_forum_topic_list to simplify it.
+#242527 Added number of views to the topic listing page. Thanks to Zandroc for the starter code. (Theme changes: advf-forum-topic-list.tpl.php, advanced_forum-structure.css)
 Removed some unused CSS from advanced_forum.css
 
 May 12, 2008
@@ -128,7 +138,7 @@ Feb 07, 2008 - ALPHA 2
 ------------
 Minor theme tweaks - Fixed mark as read button & lightened post info background
 Added rest of CSS to theme links on forum topics like buttons
-#212329 Changed "Add comment" link to "Reply" on top post.
+#212329 Changed 'Add comment' link to 'Reply' on top post.
 
 Feb 5, 2008
 ------------
@@ -142,7 +152,7 @@ Committed all of eigentor's changes to the default theme
 
 Jan 23, 2007
 ------------
-Added t() to "posted on"
+Added t() to 'posted on'
 
 Dec 22, 2007
 ------------
