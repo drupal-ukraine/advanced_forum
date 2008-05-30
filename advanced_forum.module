@@ -1,19 +1,33 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * Add on module for Drupal's forum that provides a standard forum experience.
+ *
+ * Provides a default forum theme that looks similar to stand alone forum 
+ * software. Also adds additional features traditionally found in forums 
+ * including:
+ * - Mark all read
+ * - Jump links to more easily navigate forums
+ * - More information such as the last post in a forum and view count on topics
+ * - Extra user information such as join date, post count, 
+ *   and much more using other contrib modules
+ */
+ 
 /*****************************************************************************/
 /******************************** HOOKS **************************************/
 /*****************************************************************************/
 
 /**
  * Implementation of hook_perm().
-*/
+ */
 function advanced_forum_perm() {
   return array('administer advanced forum');
 }
 
 /**
- * Implementation of hook_menu.
+ * Implementation of hook_menu().
  */
 function advanced_forum_menu($may_cache) {
   $items = array();
@@ -45,7 +59,7 @@ function advanced_forum_menu($may_cache) {
 }
 
 /**
- * Implementation of hook_nodeapi.
+ * Implementation of hook_nodeapi().
  */
 function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($op == 'insert') {
@@ -54,7 +68,7 @@ function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 }
 
 /**
- * Implementation of hook_comment.
+ * Implementation of hook_comment().
  */
 function advanced_forum_comment($a1, $op){
   if ($op == 'insert') {
@@ -71,7 +85,7 @@ function advanced_forum_comment($a1, $op){
 /*****************************************************************************/
 
 /**
- * Define settings form
+ * Define settings form.
  */
 function advanced_forum_settings_page() {
   $form['advanced_forum_themedir'] = array(
@@ -99,7 +113,7 @@ function advanced_forum_settings_page() {
 /*****************************************************************************/
 
 /**
- * D5 compatability wrapper for node/comment preprocess functions.
+ * Provides D5 compatability wrapper for node/comment preprocess functions.
  */
 function advanced_forum_addvars($hook, $vars) {
   switch ($hook) {
@@ -114,6 +128,9 @@ function advanced_forum_addvars($hook, $vars) {
   return $vars;
 }
 
+/**
+ * Preprocesses template variables for the node template.
+ */
 function advanced_forum_preprocess_node(&$vars) {
   if (advanced_forum_treat_as_forum_post('node', $vars)) {
     $forum_theme = advanced_forum_get_forum_theme_directory();
@@ -180,6 +197,9 @@ function advanced_forum_preprocess_node(&$vars) {
   }
 }
 
+/**
+ * Preprocesses template variables for the comment template.
+ */
 function advanced_forum_preprocess_comment(&$vars) {
   if (advanced_forum_treat_as_forum_post('comment', $vars)) {
     // Use our combined node/comment template file
@@ -265,7 +285,7 @@ function advanced_forum_preprocess_comment(&$vars) {
 }
 
 /**
- * D5 compatability wrapper for forum user preprocess function.
+ * Provides D5 compatability wrapper for forum user preprocess function.
  */
 function theme_forum_user($account) {
   $variables = array();
@@ -279,6 +299,9 @@ function theme_forum_user($account) {
   return _phptemplate_callback("advf_forum_user", $variables, array("$forum_theme/advf-forum-user"));
 }
 
+/**
+ * Preprocesses template variables for the user info template.
+ */
 function template_preprocess_forum_user(&$variables) {
   // The passed in $variables['account'] refers to the user who's info is in the pane.
   $account = $variables['account'];
@@ -421,7 +444,7 @@ function template_preprocess_forum_user(&$variables) {
 include_once drupal_get_path('module', 'advanced_forum') .'/d6_compat.inc';
 
 /**
- * Implementation of theme_forum_display
+ * Implementation of theme_forum_display().
  */
 function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
   // Create a $variables array from the parameters
@@ -512,7 +535,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 }
 
 /*
- * D5 compatability wrapper for theme_forum_submitted.
+ * Provides D5 compatability wrapper for theme_forum_submitted.
  * Note: this function does not exist at all in D5's forum.module
  */
 function phptemplate_forum_submitted($topic) {
@@ -577,7 +600,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
 }
 
 /**
- * Implementation of theme_forum_topic_list
+ * Implementation of theme_forum_topic_list().
  */
 function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // Create a $variables array from the parameters
@@ -657,75 +680,6 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   }
 }
 
-function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
-  // Find the number of comments per page for the node type of the topic.
-  // It's the same for all types in D5, but varies in D6.
-  $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
-  
-  if ($max_pages_to_display > 0 && $topic->num_comments > $comments_per_page) {
-    // Topic has more than one page and a pager is wanted. Start off the
-    // first page because that doesn't have a query.
-    $pager_array = array();
-    $current_display_page = 1;
-    $pager_array[] = l('1', "node/$topic->nid");
-    
-    // Find the ending point. The pager URL is always 1 less than
-    // the number being displayed because the first page is 0.
-    $last_display_page = ceil($topic->num_comments / $comments_per_page);
-    $last_pager_page = $last_display_page - 1;
-    
-    // Add pages until we run out or until we hit the max to show.
-    while (($current_display_page < $last_display_page) && ($current_display_page < $max_pages_to_display)) {
-    // Move to the next page
-    $current_display_page++;
-    
-    // The page number we link to is 1 less than what's displayed
-    $link_to_page = $current_display_page - 1;
-    
-    // Add the link to the array
-    $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
-    }
-    
-    // Move to the next page
-    $current_display_page++;
-    
-    if ($current_display_page == $last_display_page) {
-    // We are one past the max to display, but it's the last page,
-    // so putting the ...last is silly. Just display it normally.
-    $link_to_page = $current_display_page - 1;
-    $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
-    }
-
-    $pager_last = '';
-    if ($current_display_page < $last_display_page) {
-    // We are one past the max to display and still aren't
-    // on the last page, so put in ... Last Page(N)
-    $text = t('Last Page') . '(' . $last_display_page . ')';
-    $pager_last = ' &hellip; ' . l($text, "node/$topic->nid", NULL, 'page=' . $last_pager_page);
-    }
-    
-    // Put it all together
-   return '[' . t('Page') . ' '. implode(", ", $pager_array) . $pager_last . ']';
-  }
-}
-
-/**
-* Retrieves a forum topic's "views count".
-*
-* @param $nid
-*   node ID
-*
-* @return
-*   - totalcount: count of the total number of times that node has been viewed.
-*/
-function _advanced_forum_get_topic_views_count($nid) {
-
-  if ($nid > 0) {
-    $views_count = db_result(db_query('SELECT totalcount FROM {node_counter} WHERE nid = %d', $nid));
-  }
-
-  return $views_count;
-}
 
 /**
  * Implementation of theme_forum_topic_navigation
@@ -780,80 +734,7 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
 }
 
 /*****************************************************************************/
-/*********************** ADDED FUNCTIONALITY *********************************/
-/*****************************************************************************/
-
-/**
- * Marks all posts in forums or in a given forum as read by the current user.
- */
-function advanced_forum_markasread() {
-  global $user;
-  $tid = arg(2);
-
-  $sql = 'REPLACE INTO {history} (uid,nid,timestamp)'
-         .' SELECT %d, n.nid, %d FROM {node} n'
-         .($tid ? ' INNER JOIN {term_node} r ON n.nid=r.nid' : '')
-         .' INNER JOIN {node_comment_statistics} l ON l.nid=n.nid'
-         .' WHERE (n.created > %d'
-         .' OR l.last_comment_timestamp > %d)';
-  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT);
-
-  if ($tid) {
-    $sql .= ' AND r.tid = %d';
-    $args[] = $tid;
-  }
-  
-  //*D6* Need to change this for all forum types
-  $type = 'forum';
-  $sql .= ' AND n.type = \'%s\'';
-  $args[] = $type;
-
-  db_query($sql, $args);
-  
-  if ($tid) {
-    drupal_set_message(t('All topics in forum marked as read'));
-    drupal_goto('forum/'.$tid);
-  } else {
-    drupal_set_message(t('All forum posts have been marked as read'));
-    drupal_goto('forum');
-  }
-  
-  drupal_goto('forum');
-}
-
-/**
- * Returns information about the last updated topics in all forums.
- */
-function advanced_forum_get_all_last_topics() {
-  $query = "
-    SELECT alp.tid,
-           alp.nid AS topic_id,
-           alp.cid AS reply_id,
-           n.title AS topic_title, 
-           c.subject AS reply_title, 
-           n.created AS topic_timestamp, 
-           c.timestamp AS reply_timestamp, 
-           n.type AS topic_type, 
-           n.uid AS topic_author_id,
-           c.uid AS reply_author_id,
-           u.name AS topic_author_name,
-           c.name AS reply_author_name
-    FROM {advforum_last_post} AS alp
-    LEFT JOIN {node} AS n ON alp.nid = n.nid
-    INNER JOIN {users} AS u ON u.uid = n.uid
-    LEFT JOIN {comments} AS c ON alp.cid = c.cid";
-           
-  $result = db_query($query);
-  $topics = array();
-  while ($topic = db_fetch_object($result)) {
-    $topics[$topic->tid] = $topic;
-  }   
-
-  return $topics;
-}
-
-/*****************************************************************************/
-/****************************** HELPERS **************************************/
+/***************************** THEME RELATED *********************************/
 /*****************************************************************************/
 
 /**
@@ -912,20 +793,6 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
 }
 
 /**
- * Helper function to hold the node ID of the thread we are on.
- * Used for linking the comment numbers.
- */
-function _advanced_forum_topic_nid($nodeid = 0) {
-  static $nid;
-  
-  if (!empty($nodeid)) {
-    $nid = $nodeid;
-  }
-  
-  return $nid;
-}
-
-/**
  * Return the directory of the forum theme files.
  */
 function advanced_forum_get_forum_theme_directory() {
@@ -971,7 +838,117 @@ function advanced_forum_theme_path() {
   return $advanced_forum_theme_path;
 }
 
-function advanced_forum_first_new_comment($nid, $timestamp = 0) {
+
+/*****************************************************************************/
+/************************* GENERAL FUNCTIONS *********************************/
+/*****************************************************************************/
+
+/**
+ * Keeps a record of the latest node/comment in each forum
+ */
+function _advanced_forum_update_last_post($tid, $nid, $cid) {
+  db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
+  db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $tid, $nid, $cid);
+}
+
+/**
+ * Returns information about the last updated topics in all forums.
+ */
+function advanced_forum_get_all_last_topics() {
+  $query = "
+    SELECT alp.tid,
+           alp.nid AS topic_id,
+           alp.cid AS reply_id,
+           n.title AS topic_title, 
+           c.subject AS reply_title, 
+           n.created AS topic_timestamp, 
+           c.timestamp AS reply_timestamp, 
+           n.type AS topic_type, 
+           n.uid AS topic_author_id,
+           c.uid AS reply_author_id,
+           u.name AS topic_author_name,
+           c.name AS reply_author_name
+    FROM {advforum_last_post} AS alp
+    LEFT JOIN {node} AS n ON alp.nid = n.nid
+    INNER JOIN {users} AS u ON u.uid = n.uid
+    LEFT JOIN {comments} AS c ON alp.cid = c.cid";
+           
+  $result = db_query($query);
+  $topics = array();
+  while ($topic = db_fetch_object($result)) {
+    $topics[$topic->tid] = $topic;
+  }   
+
+  return $topics;
+}
+
+/**
+ * Marks all posts in forums or in a given forum as read by the current user.
+ */
+function advanced_forum_markasread() {
+  global $user;
+  $tid = arg(2);
+
+  $sql = 'REPLACE INTO {history} (uid,nid,timestamp)'
+         .' SELECT %d, n.nid, %d FROM {node} n'
+         .($tid ? ' INNER JOIN {term_node} r ON n.nid=r.nid' : '')
+         .' INNER JOIN {node_comment_statistics} l ON l.nid=n.nid'
+         .' WHERE (n.created > %d'
+         .' OR l.last_comment_timestamp > %d)';
+  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT);
+
+  if ($tid) {
+    $sql .= ' AND r.tid = %d';
+    $args[] = $tid;
+  }
+  
+  $type = 'forum';
+  $sql .= ' AND n.type = \'%s\'';
+  $args[] = $type;
+
+  db_query($sql, $args);
+  
+  if ($tid) {
+    drupal_set_message(t('All topics in forum marked as read'));
+    drupal_goto('forum/'.$tid);
+  } else {
+    drupal_set_message(t('All forum posts have been marked as read'));
+    drupal_goto('forum');
+  }
+  
+  drupal_goto('forum');
+}
+
+
+/**
+ * Holds the node ID of the thread we are on.
+ *
+ * Used for linking the comment numbers.
+ *
+ * @param $nid
+ *   Node ID
+ */
+function _advanced_forum_topic_nid($nodeid = 0) {
+  static $nid;
+  
+  if (!empty($nodeid)) {
+    $nid = $nodeid;
+  }
+  
+  return $nid;
+}
+
+/**
+ * Returns the ID of the first unread comment.
+ *
+ * @param $nid
+ *   Node ID
+ * @param $timestamp
+ *   Date/time used to override when the user last viewed the node.
+ * @return
+ *   Comment ID
+ */
+ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
   global $user;
 
   if ($user->uid) {
@@ -994,10 +971,82 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
 }
 
 /**
- * Keeps a record of the latest node/comment in each forum
+ * Creates a pager to place on each multi-page topic of the topic listing page.
+ *
+ * @param $max_pages_to_display
+ *   Number of pages to include on the pager.
+ * @param $topic
+ *   Topic object to create a pager for.
+ * @return
+ *   Asembled pager.
  */
-function _advanced_forum_update_last_post($tid, $nid, $cid) {
-  db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
-  db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $tid, $nid, $cid);
+function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
+  // Find the number of comments per page for the node type of the topic.
+  // It's the same for all types in D5, but varies in D6.
+  $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
+  
+  if ($max_pages_to_display > 0 && $topic->num_comments > $comments_per_page) {
+    // Topic has more than one page and a pager is wanted. Start off the
+    // first page because that doesn't have a query.
+    $pager_array = array();
+    $current_display_page = 1;
+    $pager_array[] = l('1', "node/$topic->nid");
+    
+    // Find the ending point. The pager URL is always 1 less than
+    // the number being displayed because the first page is 0.
+    $last_display_page = ceil($topic->num_comments / $comments_per_page);
+    $last_pager_page = $last_display_page - 1;
+    
+    // Add pages until we run out or until we hit the max to show.
+    while (($current_display_page < $last_display_page) && ($current_display_page < $max_pages_to_display)) {
+    // Move to the next page
+    $current_display_page++;
+    
+    // The page number we link to is 1 less than what's displayed
+    $link_to_page = $current_display_page - 1;
+    
+    // Add the link to the array
+    $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
+    }
+    
+    // Move to the next page
+    $current_display_page++;
+    
+    if ($current_display_page == $last_display_page) {
+    // We are one past the max to display, but it's the last page,
+    // so putting the ...last is silly. Just display it normally.
+    $link_to_page = $current_display_page - 1;
+    $pager_array[] =  l($current_display_page, "node/$topic->nid", NULL, 'page=' . $link_to_page);
+    }
+
+    $pager_last = '';
+    if ($current_display_page < $last_display_page) {
+    // We are one past the max to display and still aren't
+    // on the last page, so put in ... Last Page(N)
+    $text = t('Last Page') . '(' . $last_display_page . ')';
+    $pager_last = ' &hellip; ' . l($text, "node/$topic->nid", NULL, 'page=' . $last_pager_page);
+    }
+    
+    // Put it all together
+   return '[' . t('Page') . ' '. implode(", ", $pager_array) . $pager_last . ']';
+  }
 }
+
+/**
+ * Retrieves a forum topic's "views count".
+ *
+ * @param $nid
+ *   Node ID
+ * @return
+ *   Total number of times that node has been viewed.
+ */
+function _advanced_forum_get_topic_views_count($nid) {
+
+  if ($nid > 0) {
+    $views_count = db_result(db_query('SELECT totalcount FROM {node_counter} WHERE nid = %d', $nid));
+  }
+
+  return $views_count;
+}
+
 
