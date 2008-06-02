@@ -4,6 +4,7 @@ $Id$
 June 2, 2008
 ------------
 #241982 by Michelle: Added checking to see if last topic has been deleted or unpublished. Has had only minimal testing.
+#241982 by Michelle: Had a join wrong so it wasn't picking up deleted nodes. Passes some initial testing now.
 
 May 30, 2008
 ------------

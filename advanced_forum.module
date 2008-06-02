@@ -884,9 +884,11 @@ function _advanced_forum_get_last_topic($tid) {
   $comment = db_fetch_object(db_query(db_rewrite_sql($query)));
 
   if ($node->created >= $comment->timestamp) {
+    dsm($node);
     return $node;
   }
   else {
+    dsm($comment);
     return $comment;
   }      
 }
@@ -912,7 +914,7 @@ function advanced_forum_get_all_last_topics() {
            c.status AS reply_status
     FROM {advforum_last_post} AS alp
     LEFT JOIN {node} AS n ON alp.nid = n.nid
-    INNER JOIN {users} AS u ON u.uid = n.uid
+    LEFT JOIN {users} AS u ON u.uid = n.uid
     LEFT JOIN {comments} AS c ON alp.cid = c.cid";
            
   $result = db_query(db_rewrite_sql($query));
@@ -925,6 +927,7 @@ function advanced_forum_get_all_last_topics() {
     // If the node status is 0, the node has been unpublished.
     // If the comment status is 1, the comment has been unpublished.
     // If any of this is true, we need to find the true last post for that forum.
+    dsm($topic);
     if (empty($topic->topic_title) ||
         ($topic->reply_id > 0 && empty($topic->reply_title)) ||
         $topic->topic_status == 0 || 
