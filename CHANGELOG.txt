@@ -1,6 +1,14 @@
 $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
+June 2, 2008
+------------
+#241982 by Michelle: Added checking to see if last topic has been deleted or unpublished. Has had only minimal testing.
+
+May 30, 2008
+------------
+#No issue by Michelle: Added some doxygen comments and moved around some functions for better readability.
+
 May 29, 2008
 ------------
 #241982 by Michelle (based on idea from Bdragon): Use a table to store reference to last posts in forum to replace the monster query.
