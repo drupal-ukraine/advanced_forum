@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced forum\n"
+"POT-Creation-Date: 2008-04-08 23:18+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bc. Petr Řezníček <petr@reznicek.name>\n"
+"Language-Team: Petr Řezníček <petr@reznicek.name>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: advanced_forum.module:64
+msgid "Reply"
+msgstr "Responder"
+
+#: advanced_forum.module:69
+msgid "Post Reply"
+msgstr "Enviar respuesta"
+
+#: advanced_forum.module:195
+msgid "Joined: "
+msgstr "Registrado desde: "
+
+#: advanced_forum.module:198
+msgid "Member since: "
+msgstr "Miembro desde: "
+
+#: advanced_forum.module:204
+msgid "Online"
+msgstr "Conectado/a"
+
+#: advanced_forum.module:209
+msgid "Offline"
+msgstr "Desconectado/a"
+
+#: advanced_forum.module:221
+msgid "Points: "
+msgstr "Puntos: "
+
+#: advanced_forum.module:227
+msgid "Posts: "
+msgstr "Posts: "
+
+#: advanced_forum.module:233
+msgid "IP: "
+msgstr ""
+
+#: advanced_forum.module:253
+msgid "Email"
+msgstr "E-mail"
+
+#: advanced_forum.module:266
+msgid "Send PM"
+msgstr "Enviar Mensaje Privado"
+
+#: advanced_forum.module:280
+msgid "Remove buddy"
+msgstr "Eliminar amigo"
+
+#: advanced_forum.module:287
+msgid "Add buddy"
+msgstr "Añadir amigo"
+
+#: advanced_forum.module:301
+msgid "Subscribe"
+msgstr "Suscribir"
+
+#: advanced_forum.module:356
+msgid "Mark all topics read"
+msgstr "Marcar todos como leídos"
+
+#: advanced_forum.module:359
+msgid "Mark all forums read"
+msgstr "Marcar todos como leídos"
+
+#: advanced_forum.module:514
+msgid "Last Page"
+msgstr "Últimos mensajes"
+
+#: advanced_forum.module:519
+msgid "Page"
+msgstr "P&aacute;ginas"
+
+#: advanced_forum.module:525
+msgid "This topic has been moved to "
+msgstr "Este tema ha sido movido a"
+
+#: advanced_forum.module:614
+msgid "All topics in forum marked as read"
+msgstr "Todos los temas de este foro han sido marcados como leídos"
+
+#: advanced_forum.module:617
+msgid "All forum posts have been marked as read"
+msgstr "Todos los temas de este foro han sido marcados como leídos"
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr ""
+
