@@ -638,7 +638,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
     array('data' => '&nbsp;', 'field' => NULL),
     array('data' => t('Topic'), 'field' => 'n.title'),
     array('data' => t('Replies'), 'field' => 'l.comment_count'),
-    array('data' =>t('Views'), 'field' => NULL),
+    array('data' => t('Views'), 'field' => NULL),
     array('data' => t('Created'), 'field' => 'n.created'),
     array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp'),
   );
@@ -1121,7 +1121,8 @@ function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
  *   Total number of times that node has been viewed.
  */
 function _advanced_forum_get_topic_views_count($nid) {
-
+  $views_count = 0;
+  
   if ($nid > 0) {
     $views_count = db_result(db_query('SELECT totalcount FROM {node_counter} WHERE nid = %d', $nid));
   }
