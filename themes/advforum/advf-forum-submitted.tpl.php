@@ -8,11 +8,13 @@
  *
  * Available variables:
  *
- * - $topiclink: On the forum overview page, this is the title of the last
+ * - $topic_link: On the forum overview page, this is the title of the last
  *   updated topic.
+ * - $topic_link: On the forum overview page, this is the title of the last
+ *   comment.
  * - $author: The author of the post.
  * - $time: How long ago the post was created.
- * - $topic: An object with the raw data of the post. Unsafe, be sure
+ * - $topic: An object with the raw data of the thread. Unsafe, be sure
  *   to clean this data before printing.
  *
  * @see template_preprocess_forum_submitted()
