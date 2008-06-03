@@ -161,6 +161,9 @@ function advanced_forum_preprocess_node(&$vars) {
       $reply_link['title'] = t("Post Reply");
       $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forumlinks'));
     }
+
+    // Make an array version of $links
+    $vars['links_array'] = $vars['node']->links;
     
     // Jump to first unread comment
     $comment_count = $vars['comment_count'];
@@ -182,9 +185,6 @@ function advanced_forum_preprocess_node(&$vars) {
     $comments_per_page = _comment_get_display_setting('comments_per_page');
     $vars['post_pager'] = theme('pager', NULL, $comments_per_page, 0);
     
-    // Make an array version of $links
-    $vars['links_array'] = $vars['node']->links;
-
     // User information
     $vars['account'] = user_load(array('uid' => $vars['node']->uid));
     $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
@@ -248,16 +248,17 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
              
     // Because the $links array isn't available here, we recreate it
-    $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
-    foreach (module_implements('link_alter') as $module) {
-      $function = $module .'_link_alter';
-      $function($node, $links);
+    if (arg(1) != 'reply') {
+      $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
+      foreach (module_implements('link_alter') as $module) {
+        $function = $module .'_link_alter';
+        $function($node, $links);
+      }
+      unset($links['comment_parent']);
+      $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
+      $vars['links_array'] = $links;
     }
-    unset($links['comment_parent']);
-    $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
-    $vars['links_array'] = $links;
     
-
     // Comment number with link
     if (!isset($post_number)) {
       static $post_number = 0;
@@ -753,7 +754,7 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
     case 'node':
       // Make sure this is a forum node type and that it's not being
       // shown on some other page (like a view or promoted to front page)
-      if (($vars['node']->type == 'forum') && arg(0) == 'node' && is_numeric(arg(1))) {
+      if (($vars['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) || arg(0) == 'comment')) {
         $forum_node_id = $vars['node']->nid;
         return true;
       } else {
