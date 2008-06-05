@@ -5,6 +5,7 @@ $Id$
 June 5, 2008
 ------------
 #241982 by Michelle: Added function to .install to fill last post table with initial values.
+#241982 by Michelle: Adjusted comment link to account for multiple pages.
 
 June 3, 2008
 ------------
