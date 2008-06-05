@@ -1,6 +1,18 @@
 $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
+
+June 5, 2008
+------------
+#241982 by Michelle: Added function to .install to fill last post table with initial values.
+
+June 3, 2008
+------------
+#242527 by Michelle: Initialized view count to 0 so it doesn't show blank when no views of topic.
+#208440 by Michelle: Made reference post use forum theme when replying. Also removed links from comment in reply mode. 
+#260397 by c-c-m: Added Spanish translation.
+#241982 by Michelle: Updated variable list in comments of advf-forum-submitted.tpl.php to account for changes.
+
 June 2, 2008
 ------------
 #241982 by Michelle: Added checking to see if last topic has been deleted or unpublished. Has had only minimal testing.
