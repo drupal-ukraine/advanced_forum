@@ -6,6 +6,7 @@ June 5, 2008
 ------------
 #241982 by Michelle: Added function to .install to fill last post table with initial values.
 #241982 by Michelle: Adjusted comment link to account for multiple pages.
+#241982 by Michelle: Added icon linked to most recent comment. (Theme changes: advf-forum-submitted.tpl.php)
 
 June 3, 2008
 ------------

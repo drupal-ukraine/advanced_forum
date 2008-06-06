@@ -591,8 +591,14 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
       }
       $variables['reply_link'] = l($short_reply_title, "node/" . $nid, 
                                    NULL, $pager, $comment_fragment);
+
+      // Create a linked icon to be used with or instead of the comment title
+      advanced_forum_preprocess_forum_icon($icon);
+      $image = theme('image', $icon['iconpath'] . "/newest_comment.gif");
+      $variables['reply_icon'] = l($image, "node/" . $variables['topic']->topic_id,    
+                                   NULL, $pager, $comment_fragment, false, true);
     }
-    
+        
     // Format the time ago of the last post (node or comment)
     if ($variables['topic']->reply_timestamp > 0) {
       $variables['time'] =  format_interval(time() - $variables['topic']->reply_timestamp);
