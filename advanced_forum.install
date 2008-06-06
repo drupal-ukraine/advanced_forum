@@ -68,11 +68,12 @@ function advanced_forum_update_5001() {
 
 function advanced_forum_update_5002() {
   $ret = array();
-  $ret[] = _advanced_forum_fill_last_topic_table();
+  $ret = _advanced_forum_fill_last_topic_table();
   return $ret;
 }
 
 function _advanced_forum_fill_last_topic_table() {
+  $ret = array();
   $tree = taxonomy_get_tree($vid = variable_get('forum_nav_vocabulary', ''));
   if ($tree) {
     $containers = variable_get('forum_containers', array());
@@ -80,44 +81,40 @@ function _advanced_forum_fill_last_topic_table() {
       $tid = $term->tid;
       if (!in_array($tid, $containers)) {
         // Get the latest published node in the forum
-        $query = "SELECT $tid AS tid,
-                                 n.nid, 
-                                 0 AS cid,
-                                 n.created
+        $query = "SELECT n.nid, 
+                         n.created
                   FROM {node} n
                   INNER JOIN {term_node} tn on n.nid = tn.nid
                   WHERE tn.tid = $tid AND n.status = 1
-                  ORDER BY n.created DESC
-                  LIMIT 1";
+                  ORDER BY n.created DESC";
             
-        $node = db_fetch_object(db_query(db_rewrite_sql($query)));
-  
+        $node = db_fetch_object(db_query_range(db_rewrite_sql($query), array(), 0, 1));
+
         // Get the latest published comment in the forum
-        $query = "SELECT $tid AS tid,
-                                 c.nid, 
-                                 c.cid,
-                                 c.timestamp
+        $query = "SELECT c.nid, 
+                         c.cid,
+                         c.timestamp
                   FROM {comments} c
                   INNER JOIN {term_node} tn ON c.nid = tn.nid
                   INNER JOIN {node} n ON c.nid = n.nid
                   WHERE tn.tid = $tid AND n.status = 1 AND c.status = 0
-                  ORDER BY c.timestamp DESC
-                   LIMIT 1";
-        $comment = db_fetch_object(db_query(db_rewrite_sql($query)));
+                  ORDER BY c.timestamp DESC";
+        $comment = db_fetch_object(db_query_range(db_rewrite_sql($query), array(), 0, 1));
 
+        // Update the table with the last node/comment (whichever is later)
         if ($node->created >= $comment->timestamp) {
-            db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
-            db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $node->tid, $node->nid, $node->cid);
+            $ret[] = update_sql("DELETE FROM {advforum_last_post} WHERE tid = $tid");
+            $ret[] = update_sql("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES($tid, $node->nid, 0)");
 
         }
         else {
-            db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
-            db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $comment->tid, $comment->nid, $comment->cid);
+            $ret[] = update_sql("DELETE FROM {advforum_last_post} WHERE tid = $tid");
+            $ret[] = update_sql("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES($tid, $comment->nid, $comment->cid)");
         }      
       }
     }
   }
-  // TODO: Add some logic so we can tell if this fails
-  return true;
+
+  return $ret;
 }
  

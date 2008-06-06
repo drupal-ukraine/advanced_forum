@@ -2,11 +2,16 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+June 6, 2008
+------------
+#241982 by Michelle: Fixed install function for filling table so it doesn't give warnings and returns success/failure properly. Since it was filling the table even with the warnings, there's no need to rerun this.
+
 June 5, 2008
 ------------
 #241982 by Michelle: Added function to .install to fill last post table with initial values.
 #241982 by Michelle: Adjusted comment link to account for multiple pages.
-#241982 by Michelle: Added icon linked to most recent comment. (Theme changes: advf-forum-submitted.tpl.php)
+#241982 by Michelle: Added icon linked to most recent comment. (Theme changes: advf-forum-submitted.tpl.php, added newest_comment.gif)
+#266765 by aMakUzr: Fixed class markup on forum posts.
 
 June 3, 2008
 ------------
