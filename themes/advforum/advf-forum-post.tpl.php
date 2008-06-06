@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * forum-post.tpl.php is the template file for both
+ * advf-forum-post.tpl.php is the template file for both
  * the top post (the node) and the comments/replies
  * Changes here will affect an individual forum post.
  
@@ -32,7 +32,7 @@ if ($top_post) {
   </div>
 <?php } ?>
 
-<div class="<?php print $postclass ?> forum-comment forum-comment-<?php print $row_class; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
+<div class="<?php print $postclass ? $postclass . ' ' : ''; ?>forum-comment<?php print $row_class ? ' forum-comment-' . $row_class : ''; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
 
   <div class="post-info">
      <span class="postedon"><?php print t("Posted on: ") . $date ?></span>
