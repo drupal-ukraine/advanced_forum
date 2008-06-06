@@ -1142,12 +1142,14 @@ function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
  *   Total number of times that node has been viewed.
  */
 function _advanced_forum_get_topic_views_count($nid) {
-  $views_count = 0;
-  
   if ($nid > 0) {
     $views_count = db_result(db_query('SELECT totalcount FROM {node_counter} WHERE nid = %d', $nid));
   }
 
+  // Make sure it's 0, not blank, for better display.
+  if (empty($views_count)) {
+    $views_count = 0;
+  }
   return $views_count;
 }
 
