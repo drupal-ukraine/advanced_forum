@@ -58,28 +58,6 @@ function advanced_forum_menu($may_cache) {
   return $items;
 }
 
-/**
- * Implementation of hook_nodeapi().
- */
-function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
-  if ($op == 'insert') {
-    _advanced_forum_update_last_post($node->tid, $node->nid, 0);
-  }
-}
-
-/**
- * Implementation of hook_comment().
- */
-function advanced_forum_comment($a1, $op){
-  if ($op == 'insert') {
-    $vid = variable_get('forum_nav_vocabulary', '');
-    $terms = taxonomy_node_get_terms_by_vocabulary($a1['nid'], $vid);
-    foreach ($terms as $term) {
-      _advanced_forum_update_last_post($term->tid, $a1['nid'], $a1['cid']);
-    }
-  }
-}
-
 /*****************************************************************************/
 /************************* SETTINGS PAGE *************************************/
 /*****************************************************************************/
@@ -527,14 +505,10 @@ function phptemplate_forum_list($forums, $parents, $tid) {
 }
 
 function advanced_forum_preprocess_forum_list(&$variables) {
-  // Gather information on the last topic in each forum
-  $last_topics = advanced_forum_get_all_last_topics();
-
   // In the forum overview, we want to overwrite the last reply with our custom one
   foreach ($variables['forums'] as $tid => $forum) {
-    if (isset($last_topics[$tid])) {
-      $variables['forums'][$tid]->last_reply = theme('forum_submitted', $last_topics[$tid]);
-    }
+   $topic = _advanced_forum_get_last_topic($tid);
+   $variables['forums'][$tid]->last_reply = theme('forum_submitted', $topic);
   }
 }
 
@@ -866,111 +840,53 @@ function advanced_forum_theme_path() {
 /********************** LAST UPDATED TOPIC ***********************************/
 /*****************************************************************************/
 
-/**
- * Keeps a record of the latest node/comment in each forum
- */
-function _advanced_forum_update_last_post($tid, $nid, $cid) {
-  db_query("DELETE FROM {advforum_last_post} WHERE tid = %d", $tid);
-  db_query("INSERT INTO {advforum_last_post} (tid, nid, cid) VALUES (%d, %d, %d)", $tid, $nid, $cid);
-}
-
-/**
- * Gets the info for the last topic in a single forum.
- */
 function _advanced_forum_get_last_topic($tid) {
-  // Get the latest published node in the forum
-  $query = "SELECT $tid AS tid,
-                   n.nid, 
-                   0 AS cid,
-                   n.created
+  // Get the most recently created node, in the given forum, that the user has access to
+  $query = "SELECT n.nid AS topic_id,
+                   n.title AS topic_title, 
+                   n.created AS topic_timestamp,
+                   n.type AS topic_type,
+                   n.uid topic_author_id,
+                   u.name AS topic_author_name
             FROM {node} n
             INNER JOIN {term_node} tn on n.nid = tn.nid
+            INNER JOIN {users} u on n.uid = u.uid
             WHERE tn.tid = $tid AND n.status = 1
-            ORDER BY n.created DESC
-            LIMIT 1";
+            ORDER BY n.created DESC";
             
-  $node = db_fetch_object(db_query(db_rewrite_sql($query)));
-  
-  // Get the latest published comment in the forum
-  $query = "SELECT $tid AS tid,
-                   c.nid, 
-                   c.cid,
-                   c.timestamp
-            FROM {comments} c
-            INNER JOIN {term_node} tn ON c.nid = tn.nid
-            INNER JOIN {node} n ON c.nid = n.nid
-            WHERE tn.tid = $tid AND n.status = 1 AND c.status = 0
-            ORDER BY c.timestamp DESC
-            LIMIT 1";
-  $comment = db_fetch_object(db_query(db_rewrite_sql($query)));
+  $node = db_fetch_object(db_query_range(db_rewrite_sql($query), array(), 0, 1));
 
-  if ($node->created >= $comment->timestamp) {
-    return $node;
-  }
-  else {
-    return $comment;
-  }      
-}
+  // If there is at least one node, then we need to look for the most recent comment       
+  if ($node) {
+    $query = "SELECT c.nid AS topic_id, 
+                     c.cid AS reply_id,
+                     c.timestamp AS reply_timestamp,
+                     c.subject AS reply_title,
+                     c.uid topic_author_id,
+                     n.title AS topic_title, 
+                     n.created AS topic_timestamp,
+                     n.type AS topic_type,     
+                     c.name AS reply_author_name           
+              FROM {comments} c
+              INNER JOIN {term_node} tn ON c.nid = tn.nid
+              INNER JOIN {node} n ON c.nid = n.nid
+              WHERE tn.tid = $tid AND n.status = 1 AND c.status = 0
+              ORDER BY c.timestamp DESC";
 
-/**
- * Returns information about the last updated topics in all forums.
- */
-function advanced_forum_get_all_last_topics() {
-  $query = "
-    SELECT alp.tid,
-           alp.nid AS topic_id,
-           alp.cid AS reply_id,
-           n.title AS topic_title, 
-           c.subject AS reply_title, 
-           n.created AS topic_timestamp, 
-           c.timestamp AS reply_timestamp, 
-           n.type AS topic_type, 
-           n.uid AS topic_author_id,
-           c.uid AS reply_author_id,
-           u.name AS topic_author_name,
-           c.name AS reply_author_name,
-           n.status AS topic_status,
-           c.status AS reply_status
-    FROM {advforum_last_post} AS alp
-    LEFT JOIN {node} AS n ON alp.nid = n.nid
-    LEFT JOIN {users} AS u ON u.uid = n.uid
-    LEFT JOIN {comments} AS c ON alp.cid = c.cid";
-           
-  $result = db_query(db_rewrite_sql($query));
-  
-  $topics = array();
-  while ($topic = db_fetch_object($result)) {
-    // If the topic title is empty, the node has been deleted
-    // If the comment ID is greater than 0 but the comment title is empty, the 
-    // comment has been deleted.
-    // If the node status is 0, the node has been unpublished.
-    // If the comment status is 1, the comment has been unpublished.
-    // If any of this is true, we need to find the true last post for that forum.
-    if (empty($topic->topic_title) ||
-        ($topic->reply_id > 0 && empty($topic->reply_title)) ||
-        $topic->topic_status == 0 || 
-        $topic->reply_status == 1) {
-      $bad_topic_found = true;
-      
-      $new_topic = _advanced_forum_get_last_topic($topic->tid);
-      _advanced_forum_update_last_post($new_topic->tid, $new_topic->nid, $new_topic->cid);
-    } 
-    else {
-      $topics[$topic->tid] = $topic;
+    $comment = db_fetch_object(db_query_range(db_rewrite_sql($query,'c','cid'), array(), 0, 1));
+
+    if ($node->topic_timestamp >= $comment->reply_timestamp) {
+      $node->tid = $tid;
+      $node->reply_id = 0;
+      return $node;
     }
+    else {
+      $comment->tid = $tid;
+      return $comment;
+    }  
   }
-  
-  if ($bad_topic_found) {
-    // One or more of the topics was out of date, so rerun the query
-    $result = db_query(db_rewrite_sql($query));
-    $topics = array();
-    while ($topic = db_fetch_object($result)) {
-      $topics[$topic->tid] = $topic;
-    }   
-  }
-  
-  return $topics;
 }
+
 
 /*****************************************************************************/
 /************************** MARK AS READ *************************************/
@@ -1152,6 +1068,5 @@ function _advanced_forum_get_topic_views_count($nid) {
   }
   return $views_count;
 }
-
 
 
