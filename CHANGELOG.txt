@@ -5,6 +5,7 @@ $Id$
 June 7, 2008
 ------------
 #267827 by Michelle: Ripped out the last week of work and am attempting to do this with a query again.
+Code cleanup and syncing the branches.
 
 June 6, 2008 -- ALPHA 9
 ------------

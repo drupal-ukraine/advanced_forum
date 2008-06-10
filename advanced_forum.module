@@ -3,20 +3,11 @@
 
 /**
  * @file
- * Add on module for Drupal's forum that provides a standard forum experience.
- *
- * Provides a default forum theme that looks similar to stand alone forum 
- * software. Also adds additional features traditionally found in forums 
- * including:
- * - Mark all read
- * - Jump links to more easily navigate forums
- * - More information such as the last post in a forum and view count on topics
- * - Extra user information such as join date, post count, 
- *   and much more using other contrib modules
+ * Enables the look and feel of other popular forum software.
  */
- 
+
 /*****************************************************************************/
-/******************************** HOOKS **************************************/
+/*** DRUPAL HOOKS ************************************************************/
 /*****************************************************************************/
 
 /**
@@ -59,7 +50,7 @@ function advanced_forum_menu($may_cache) {
 }
 
 /*****************************************************************************/
-/************************* SETTINGS PAGE *************************************/
+/*** SETTINGS PAGE ***********************************************************/
 /*****************************************************************************/
 
 /**
@@ -87,7 +78,7 @@ function advanced_forum_settings_page() {
 } 
 
 /*****************************************************************************/
-/******************* TEMPLATE PREPROCESS *************************************/
+/*** TEMPLATE PREPROCESS *****************************************************/
 /*****************************************************************************/
 
 /**
@@ -112,6 +103,7 @@ function advanced_forum_addvars($hook, $vars) {
 function advanced_forum_preprocess_node(&$vars) {
   if (advanced_forum_treat_as_forum_post('node', $vars)) {
     $forum_theme = advanced_forum_get_forum_theme_directory();
+    
     if ($_GET['page'] > 0) { 
       // This is the repeated node on the top of subsequent pages.
       // We send this to a special .tpl so people can wipe it out or whatever
@@ -158,20 +150,15 @@ function advanced_forum_preprocess_node(&$vars) {
       }
     }
     
-    // TODO: Make this work.
-    // Make a variable for the pager so it can be placed at the top of the post
-    $comments_per_page = _comment_get_display_setting('comments_per_page');
-    $vars['post_pager'] = theme('pager', NULL, $comments_per_page, 0);
-    
     // User information
     $vars['account'] = user_load(array('uid' => $vars['node']->uid));
     $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
 
     // TODO: This is copied from 6 but doesn't work in 5
     // Load the signature since Drupal doesn't put it on nodes
-    if (variable_get('user_signatures', 0)) {
-      $vars['signature'] = check_markup($vars['account']->signature, $vars['node']->format);
-    }        
+    //if (variable_get('user_signatures', 0)) {
+    //  $vars['signature'] = check_markup($vars['account']->signature, $vars['node']->format);
+    //}        
   }
 }
 
@@ -199,7 +186,8 @@ function advanced_forum_preprocess_comment(&$vars) {
     if (variable_get('comment_subject_field', 1) == 0) {
       // if comment titles are disabled, don't display it.
       $vars['title'] = '';
-    } else {
+    } 
+    else {
       // Assign the subject to the title variable for consistancy with nodes.
       $vars['title'] = check_plain($vars['comment']->subject);
     }
@@ -316,7 +304,8 @@ function template_preprocess_forum_user(&$variables) {
     $variables['online_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
-  } else {
+  } 
+  else {
     $variables['online_class'] = 'user-offline';
     $variables['online_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
@@ -392,7 +381,8 @@ function template_preprocess_forum_user(&$variables) {
       $variables['buddylist_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
       $variables['buddylist_text'] = t('Remove buddy');
       $variables['buddylist_link'] = 'buddy/delete/'. $accountid;
-    } else {
+    } 
+    else {
       // Add buddy
       if ($accountid != $user->uid && user_access('maintain buddy list')) {
         $variables['buddylist_class'] = "buddy-add";
@@ -414,10 +404,11 @@ function template_preprocess_forum_user(&$variables) {
       $variables['subscribe'] = l(t("Subscribe"), $variables['subscribe_link'], array('title' => 'Subscribe to forum posts by this user'));
     }
   }
-
 }
 
-/********************** FORUM MODULE THEME OVERRIDES *************************/
+/*****************************************************************************/
+/*** FORUM MODULE THEME OVERRIDES ********************************************/
+/*****************************************************************************/
 
 // Add in the D6 backports from the forum, taxonomy, and comment modules
 include_once drupal_get_path('module', 'advanced_forum') .'/d6_compat.inc';
@@ -445,41 +436,46 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
     return _phptemplate_callback('advf_forums', $variables, array("$forum_theme/advf-forums"));
-  } else {
+  } 
+  else {
     drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
   }
 }
 
+/**
+ * Preprocesses template variables for the forum template.
+ */
 function advanced_forum_preprocess_forums(&$variables) {
   if (empty($variables['topics'])) {
     // We don't want the links on the top of the forum overview
     $variables['links_orig'] = $variables['links'];
     $variables['links'] = array();
-  } else {
+  } 
+  else {
     // Grab the forum description and make it available to the template file
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
   }
 
   // Add in the mark as read link
-  global $user;
-  if (user_access('access content') && $user->uid) {
+  if (advanced_forum_markasread_access()) {
     $tid = $variables['tid'];
     if ($tid) {
       $title = t('Mark all topics read');
       $link = "forum/markasread/$tid";
-    } else {
+    } 
+    else {
       $title = t('Mark all forums read');
       $link = "forum/markasread";
     }
-    $variables['links']['markasread'] = array('title' => $title, 'href'=>$link);
-    $variables['links_orig']['markasread'] = array('title' => $title, 'href'=>$link);
+    $variables['links']['markasread'] = array('title' => $title, 'href' => $link);
+    $variables['links_orig']['markasread'] = array('title' => $title, 'href' => $link);
   }
 }
 
 /**
- * Implementation of theme_forum_list
+ * Implementation of theme_forum_list().
  */
 function phptemplate_forum_list($forums, $parents, $tid) {
   // Create a $variables array from the parameters
@@ -498,17 +494,21 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
     return _phptemplate_callback("advf_forum_list", $variables, array("$forum_theme/advf-forum-list"));
-  } else {
+  } 
+  else {
     drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_list($forums, $parents, $tid);
   }
 }
 
+/**
+ * Preprocesses template variables for the forum list template.
+ */
 function advanced_forum_preprocess_forum_list(&$variables) {
   // In the forum overview, we want to overwrite the last reply with our custom one
   foreach ($variables['forums'] as $tid => $forum) {
-   $topic = _advanced_forum_get_last_topic($tid);
-   $variables['forums'][$tid]->last_reply = theme('forum_submitted', $topic);
+    $topic = _advanced_forum_get_last_topic($tid);
+    $variables['forums'][$tid]->last_reply = theme('forum_submitted', $topic);
   }
 }
 
@@ -531,12 +531,16 @@ function phptemplate_forum_submitted($topic) {
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
     return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_theme/advf-forum-submitted"));
-  } else {
+  } 
+  else {
     drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
     return 'MISSING TPL';
   }
 }
 
+/**
+ * Preprocesses template variables for the submitted by/in template.
+ */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
   // This check makes sure we only do the extra variables when this function is
   // called by advforum and not by core forum.
@@ -618,12 +622,16 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
     return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_theme/advf-forum-topic-list"));
-  } else {
+  } 
+  else {
     drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
   }
 }
 
+/**
+ * Preprocesses template variables for the topic list template.
+ */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
   // Redo the table header so we can add in views. This is mostly copied from
   // core with just the views bit stuck in.
@@ -678,7 +686,6 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   }
 }
 
-
 /**
  * Implementation of theme_forum_topic_navigation
  */
@@ -709,12 +716,16 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   $forum_theme = advanced_forum_get_forum_theme_directory();
   if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
     return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_theme/advf-forum-icon"));
-  } else {
+  } 
+  else {
     drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
   }
 }
 
+/**
+ * Preprocesses template variables for the forum icon template.
+ */
 function advanced_forum_preprocess_forum_icon(&$variables) {
   // Find the icons for the forums by looking first in the theme and then
   // in the module. Use a static variable to hold the path so we don't need
@@ -732,7 +743,7 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
 }
 
 /*****************************************************************************/
-/***************************** THEME RELATED *********************************/
+/*** THEME RELATED ***********************************************************/
 /*****************************************************************************/
 
 /**
@@ -751,7 +762,8 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
       if (($vars['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) || arg(0) == 'comment')) {
         $forum_node_id = $vars['node']->nid;
         return true;
-      } else {
+      } 
+      else {
         // In D5, only forum types allowed in the forums so
         // we know this isn't a forum thread (or that it's not in the forums).
         unset($forum_node_id);
@@ -770,8 +782,8 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
           // This site wants all comments to use the forum comment template
           $forum_node_id = $vars['comment']->nid;
           return true;
-        } 
-        
+        }
+
         if (arg(0) == 'comment' && is_numeric(arg(1))) {
           // Comment is being shown alone via the comment_page module
           // For now, assume those should be themed like the forums.
@@ -779,11 +791,11 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
           $forum_node_id = $vars['comment']->nid;
           return true;
         }
-        
+
         // Comment is not part of a forum thread and there are no exceptions.
         return false;
       }
-     
+
     default:
       // We only deal with nodes and comments
       return false;
@@ -791,12 +803,15 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
 }
 
 /**
- * Return the directory of the forum theme files.
+ * Returns the directory of the forum theme files.
  */
 function advanced_forum_get_forum_theme_directory() {
   return variable_get('advanced_forum_themedir','advforum');
 }
 
+/**
+ * Loads the CSS files that come with advanced forum.
+ */
 function advanced_forum_add_css() {
   // Find the CSS files for the forums by looking first in the theme and then
   // in the module.
@@ -807,7 +822,7 @@ function advanced_forum_add_css() {
 
   // Load the structural CSS (heights, floats, padding, margins, etc)
   drupal_add_css($csspath . '/advanced_forum-structure.css');
-  
+
   // Add on the colors and graphics part
   drupal_add_css($csspath . '/advanced_forum.css');
 }
@@ -815,29 +830,30 @@ function advanced_forum_add_css() {
 function advanced_forum_theme_path() {
   // Create this as a static variable since it's used a lot on one page
   static $advanced_forum_theme_path;
-  
+
   // If we already stored the path, just send it back
   if (isset($advanced_forum_theme_path)) {
     return $advanced_forum_theme_path;
   }
-  
+
   // Check first if there is a subtheme. This function is defined in Zen
   // and potentially may exist in other themes with subthemes.
   init_theme();
   if (function_exists("path_to_subtheme")) {
     $advanced_forum_theme_path = path_to_subtheme();
   }
-  
+
   // If we had no luck finding a subtheme, find the theme path
   // the normal way.
   if (empty($advanced_forum_theme_path)) {
     $advanced_forum_theme_path = path_to_theme();
   }
+  
   return $advanced_forum_theme_path;
 }
 
 /*****************************************************************************/
-/********************** LAST UPDATED TOPIC ***********************************/
+/*** LAST UPDATED TOPIC ******************************************************/
 /*****************************************************************************/
 
 function _advanced_forum_get_last_topic($tid) {
@@ -889,51 +905,71 @@ function _advanced_forum_get_last_topic($tid) {
 
 
 /*****************************************************************************/
-/************************** MARK AS READ *************************************/
+/*** MARK AS READ ************************************************************/
 /*****************************************************************************/
-
-// TODO: Replace this with D6 version
 
 /**
  * Marks all posts in forums or in a given forum as read by the current user.
  */
 function advanced_forum_markasread() {
   global $user;
-  $tid = arg(2);
 
-  $sql = 'REPLACE INTO {history} (uid,nid,timestamp)'
-         .' SELECT %d, n.nid, %d FROM {node} n'
-         .($tid ? ' INNER JOIN {term_node} r ON n.nid=r.nid' : '')
-         .' INNER JOIN {node_comment_statistics} l ON l.nid=n.nid'
-         .' WHERE (n.created > %d'
-         .' OR l.last_comment_timestamp > %d)';
-  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT);
+  // See if we're on a forum or on the forum overview
+  // Path will be /forum/markasread or /forum/markasread/tid
+  $current_forum_id = arg(2);
 
-  if ($tid) {
-    $sql .= ' AND r.tid = %d';
-    $args[] = $tid;
-  }
-  
-  $type = 'forum';
-  $sql .= ' AND n.type = \'%s\'';
-  $args[] = $type;
+  if ($current_forum_id) {
+    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
+    // present in the history table, marking all unread nodes as read
+    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
+           .' SELECT %d, n.nid, %d FROM {node} AS n'
+           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid'
+           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
+           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
+           .' AND tn.tid = %d'
+           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)';
 
-  db_query($sql, $args);
-  
-  if ($tid) {
-    drupal_set_message(t('All topics in forum marked as read'));
-    drupal_goto('forum/'.$tid);
-  } else {
-    drupal_set_message(t('All forum posts have been marked as read'));
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id, $user->uid);
+
+    db_query($sql, $args);
+
+    drupal_set_message(t('All content in this forum has been marked as read'));
+    drupal_goto('forum/'. $current_forum_id);
+  } 
+  else {
+    // We are on the forum overview, requesting all forums be marked read
+    $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
+ 
+    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
+    // present in the history table, marking all unread nodes as read.
+    // This version adds another subselect to get all forums
+    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
+           .' SELECT %d, n.nid, %d FROM {node} AS n'
+           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid' 
+           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
+           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
+           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)'
+           .' AND tn.tid in (SELECT tid FROM {term_data} WHERE vid = %d)';
+
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $user->uid, $forum_vocabulary_id);
+
+    db_query($sql, $args);
+
+    drupal_set_message(t('All forum content been marked as read'));
     drupal_goto('forum');
   }
-  
-  drupal_goto('forum');
 }
 
+function advanced_forum_markasread_access() {
+  // This separate function is needed because the new menu system doesn't run
+  // hook_menu() every time and the logged in status of the user can get cached
+  // and re-used for other users.
+  global $user;
+  return user_access('access content') && $user->uid;
+}
 
 /*****************************************************************************/
-/************************* GENERAL FUNCTIONS *********************************/
+/*** GENERAL FUNCTIONS *******************************************************/
 /*****************************************************************************/
 
 
@@ -947,11 +983,11 @@ function advanced_forum_markasread() {
  */
 function _advanced_forum_topic_nid($nodeid = 0) {
   static $nid;
-  
+
   if (!empty($nodeid)) {
     $nid = $nodeid;
   }
-  
+
   return $nid;
 }
 
