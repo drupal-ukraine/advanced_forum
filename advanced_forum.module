@@ -85,16 +85,59 @@ function advanced_forum_settings_page() {
  * Provides D5 compatability wrapper for node/comment preprocess functions.
  */
 function advanced_forum_addvars($hook, $vars) {
+  _advanced_forum_load_preprocessors();
   switch ($hook) {
     case 'node':
-      advanced_forum_preprocess_node($vars);
-      break;
     case 'comment':
-      advanced_forum_preprocess_comment($vars);
+      advanced_forum_call_preprocess($hook, $vars);
       break;
   }
 
   return $vars;
+}
+
+/**
+ * Load advanced forum preprocessors includes on behalf of modules.
+ */
+function _advanced_forum_load_preprocessors() {
+  static $finished = FALSE;
+  if ($finished) {
+    return;
+  }
+  
+  // forum.inc is the extension on the includes such as contact.forum.inc
+  advanced_forum_include('forum.inc');
+}
+
+/**
+ * Load advanced forum files on behalf of modules.
+ *
+ * Blatent rip of views include system.
+ */
+function advanced_forum_include($file) {
+  $cache = cache_get('advforum_includes', 'cache');
+  if (isset($cache->data) && $cache->data) {
+    $includes = unserialize($cache->data);
+  }
+  else {
+    $advanced_forum_path = drupal_get_path('module', 'advanced_forum') . '/modules';
+    foreach (module_list() as $module) {
+      $module_path = drupal_get_path('module', $module);
+      if (file_exists("$module_path/$module.$file")) {
+        $includes[] = "./$module_path/$module.$file";
+      }
+      else if (file_exists("$module_path/includes/$module.$file")) {
+        $includes[] = "./$module_path/includes/$module.$file";
+      }
+      else if (file_exists("$advanced_forum_path/$module.$file")) {
+        $includes[] = "./$advanced_forum_path/$module.$file";
+      }
+    }
+    cache_set('advforum_includes', 'cache', serialize($includes));
+  }
+  foreach ($includes as $include) {
+    require_once $include;
+  }
 }
 
 /**
@@ -259,7 +302,7 @@ function theme_forum_user($account) {
   $variables['account'] = $account;
 
   // Call our preprocess function to create all the variables
-  template_preprocess_forum_user($variables);
+  advanced_forum_call_preprocess('forum_user', $variables);
     
   // Send the variables to the advf-forum-user.tpl.php
   $forum_theme =  advanced_forum_get_forum_theme_directory();
@@ -311,99 +354,6 @@ function template_preprocess_forum_user(&$variables) {
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
-
-  // Profile
-  if (module_exists('profile')) {
-    $variables['profile'] = profile_view_profile($account);
-  }
-  
-  // Points
-  if (module_exists('userpoints')) {
-    $variables['points_raw'] = userpoints_get_current_points($accountid);
-    $variables['points'] = '<div class="user-points"><strong>' . t('Points: ') . '</strong>' . $variables['points_raw'] . '</div>';
-  }
-
-  // Posts / IP
-  if (module_exists('user_stats')) {
-    $variables['posts_raw'] = user_stats_get_stats('post_count', $accountid);
-    $variables['posts'] = '<div class="user-posts"><strong>' . t('Posts: ') . '</strong>' . $variables['posts_raw'] . '</div>';
-    
-    // IP is only visible if the viewer has access, so do an extra check
-    $ip = user_stats_get_stats('ip_address', $accountid);
-    if (!empty($ip)) {
-      $variables['ip_raw'] = $ip;
-      $variables['ip'] = '<div class="user-ip"><strong>' . t('IP: ') . '</strong>' . $variables['ip_raw'] . '</div>';
-    }
-  }
- 
-  // Title
-  if (module_exists('user_titles')) {
-    $variables['user_title_raw'] = user_titles_get_user_title($accountid);
-    $variables['user_title'] = '<div class="user-title">' . $variables['user_title_raw'] . '</div>';
-  }
-
-  // Badges
-  if (module_exists('user_badges')) {
-    $variables['user_badges_raw'] = user_badges_for_uid($accountid);
-    $variables['user_badges'] = '<div class="user-badges">' . $variables['user_badges_raw'] . '</div>';
-  }
-
-  // Contact user
-  if (module_exists('contact') && ($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
-    $variables['contact_class'] = "contact";
-    $variables['contact_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . "/images/email.png", 'Email', 'Email', NULL, TRUE);
-    $variables['contact_text'] = t('Email');
-    $variables['contact_link'] = 'user/'. $accountid . '/contact';
-    $variables['contact'] = '<div class="contact">' . 
-                          l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) . 
-                          '</div>';
-  }
-           
-  // Send private message
-  if (module_exists('privatemsg') && 
-     ($account->uid != $user->uid) && 
-     user_access('access private messages') && 
-     (isset($account->privatemsg_allow) ? $account->privatemsg_allow : 1)) { 
-    $variables['privatemsg_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . "/images/user_comment.png", 'Private Message', 'Private Message', NULL, TRUE);
-    $variables['privatemsg_text'] = t('Send PM');
-    $variables['privatemsg_link'] = 'privatemsg/new/'. $accountid;
-    $variables['privatemsg'] = '<div class="privatemsg">' . 
-      l($variables['privatemsg_icon'] . ' '  . 
-      $variables['privatemsg_text'], $variables['privatemsg_link'],NULL,NULL,NULL,NULL,TRUE) . '</div>';
-  }
-
-  // Add / remove from buddylist
-  if (module_exists('buddylist')) {
-  
-    if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {
-      // Remove buddy
-      $variables['buddylist_class'] = "buddy-remove";
-      $variables['buddylist_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . "/images/group_delete.png", 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
-      $variables['buddylist_text'] = t('Remove buddy');
-      $variables['buddylist_link'] = 'buddy/delete/'. $accountid;
-    } 
-    else {
-      // Add buddy
-      if ($accountid != $user->uid && user_access('maintain buddy list')) {
-        $variables['buddylist_class'] = "buddy-add";
-        $variables['buddylist_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . "/images/group_add.png", 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
-        $variables['buddylist_text'] = t('Add buddy');
-        $variables['buddylist_link'] = 'buddy/add/'. $accountid;
-      }
-    }
-    
-    $variables['buddylist'] = '<div class="' . $variables['buddylist_class'] . '">' . 
-                         l($variables['buddylist_icon'] . ' '  . $variables['buddylist_text'], $variables['buddylist_link'],NULL,NULL,NULL,NULL,TRUE) . 
-                         '</div>';
-  } 
-  // Subscribe to user's posts 
-  // D6 alert: this assumes forum type.
-  if (module_exists('subscriptions')) { 
-    if (user_access('subscribe to content types')) {
-      $variables['subscribe_link'] = "subscriptions/add/type/forum/" . $account->uid;
-      $variables['subscribe'] = l(t("Subscribe"), $variables['subscribe_link'], array('title' => 'Subscribe to forum posts by this user'));
-    }
-  }
 }
 
 /*****************************************************************************/
@@ -425,11 +375,8 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   $variables['sortby'] = $sortby;
   $variables['forum_per_page'] = $forum_per_page;
    
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forums($variables);
-
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forums($variables);
+  advanced_forum_call_preprocess('forums', $variables);
 
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -483,11 +430,8 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   $variables['parents'] = $parents;
   $variables['tid'] = $tid;
 
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_list($variables);
-   
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_list($variables);
+  advanced_forum_call_preprocess('forum_list', $variables);
    
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -520,11 +464,8 @@ function phptemplate_forum_submitted($topic) {
   // Create a $variables array from the parameters
   $variables['topic'] = $topic;
    
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_submitted($variables);
- 
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_submitted($variables);
+  advanced_forum_call_preprocess('forum_submitted', $variables);
 
   // Look for the .tpl file in the theme. If found, use it. If not found, 
   // just warn because there is no stock code to default to.
@@ -611,11 +552,8 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   $variables['sortby'] = $sortby;
   $variables['forum_per_page'] = $forum_per_page;
    
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_topic_list($variables);
-  
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_topic_list($variables);
+  advanced_forum_call_preprocess('forum_topic_list', $variables);
       
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -705,11 +643,9 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   $variables['sticky'] = $sticky;
   $variables['topic_id'] = $topic_id;
    
-  // Pass the parameters into the D6 preprocess function
-  template_preprocess_forum_icon($variables);
 
   // Pass the parameters into our preprocess function
-  advanced_forum_preprocess_forum_icon($variables);
+  advanced_forum_call_preprocess('forum_icon', $variables);
 
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
@@ -1104,5 +1040,4 @@ function _advanced_forum_get_topic_views_count($nid) {
   }
   return $views_count;
 }
-
 

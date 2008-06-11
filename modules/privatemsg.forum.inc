@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ *   This file provides advanced forum preprocess functions for the private message module.
+ */
+
+/**
+ * Implementation of hook_preprocess_forum_user().
+ */
+function privatemsg_preprocess_forum_user(&$variables) {
+  global $user;
+  // TODO - Optimize this.
+  $account = $variables['account'];
+
+  // Send private message
+  if (($account->uid != $user->uid) &&
+     user_access('access private messages') && 
+     (isset($account->privatemsg_allow) ? $account->privatemsg_allow : 1)) {
+    $variables['privatemsg_icon'] = theme_image(path_to_theme() . '/' .
+      advanced_forum_get_forum_theme_directory() . '/images/user_comment.png',
+      'Private Message', 'Private Message', NULL, TRUE);
+    $variables['privatemsg_text'] = t('Send PM');
+    $variables['privatemsg_link'] = 'privatemsg/new/' . $variables['accountid'];
+    $variables['privatemsg'] = '<div class="privatemsg">' .
+      l($variables['privatemsg_icon'] . ' ' .
+      $variables['privatemsg_text'], $variables['privatemsg_link'], NULL, NULL, NULL, NULL, TRUE) .
+      '</div>';
+  }
+}
