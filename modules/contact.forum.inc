@@ -13,11 +13,9 @@ function contact_preprocess_forum_user(&$variables) {
 
   if (($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
     $variables['contact_class'] = "contact";
-    $variables['contact_icon'] = theme('image', advanced_forum_theme_path() . '/' . advanced_forum_get_forum_theme_directory() . "/images/email.png", 'Email', 'Email', NULL, TRUE);
+    $variables['contact_icon'] = theme('image', advanced_forum_get_icon_directory() . 'email.png', 'Email', 'Email', NULL, TRUE);
     $variables['contact_text'] = t('Email');
     $variables['contact_link'] = 'user/'. $account->id . '/contact';
-    $variables['contact'] = '<div class="contact">' .
-                          l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) .
-                          '</div>';
+    $variables['contact'] = '<div class="contact">' . l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) . '</div>';
   }
 }

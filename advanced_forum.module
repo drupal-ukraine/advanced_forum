@@ -43,7 +43,22 @@ function advanced_forum_menu($may_cache) {
   elseif(arg(2) != 'block') {
     // Avoids weird issue with block admin. See #239724
     // Should be replaced with a proper fix if one can be found.
-    advanced_forum_add_css();
+  
+    // Find the CSS files for the forums by looking first in the theme and then
+    // in the module.
+    $css_file = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/advanced_forum-structure.css';
+    if (!file_exists($css_file)) {
+      $css_file = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/advanced_forum-structure.css';
+    }
+  
+    drupal_add_css($css_file);
+
+    $css_file = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/advanced_forum.css';
+    if (!file_exists($css_file)) {
+      $css_file = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/advanced_forum.css';
+    }
+  
+    drupal_add_css($css_file);
   }
   
   return $items;
@@ -65,6 +80,14 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_themedir','advforum'),
   );
   
+  $form['advanced_forum_use_supplied_icons'] = array(
+    '#type' => 'radios',
+    '#title' => t('Use icons in module directory'),
+    '#options' => array(t("No"), t("Yes")),
+    '#description' => t('If you select "No", advanced forum will look for icons in a directory called "images" under the advanced forum theme directory.'),
+    '#default_value' => variable_get('advanced_forum_theme_all_comments', 1),
+  );
+
   $form['advanced_forum_theme_all_comments'] = array(
     '#type' => 'radios',
     '#title' => t('Treat all site comments like forum comments'),
@@ -344,13 +367,13 @@ function template_preprocess_forum_user(&$variables) {
   // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_theme() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   } 
   else {
     $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme('image', advanced_forum_theme_path() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_theme() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
@@ -381,11 +404,11 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
     return _phptemplate_callback('advf_forums', $variables, array("$forum_theme/advf-forums"));
   } 
   else {
-    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
   }
 }
@@ -436,11 +459,11 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
     return _phptemplate_callback("advf_forum_list", $variables, array("$forum_theme/advf-forum-list"));
   } 
   else {
-    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_list($forums, $parents, $tid);
   }
 }
@@ -470,11 +493,11 @@ function phptemplate_forum_submitted($topic) {
   // Look for the .tpl file in the theme. If found, use it. If not found, 
   // just warn because there is no stock code to default to.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
     return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_theme/advf-forum-submitted"));
   } 
   else {
-    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
     return 'MISSING TPL';
   }
 }
@@ -558,11 +581,11 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
     return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_theme/advf-forum-topic-list"));
   } 
   else {
-    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
   }
 }
@@ -650,11 +673,11 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   // Look for the .tpl file in the theme. If found, use it. If not found, default
   // to the stock forum code and put up a warning.
   $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
     return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_theme/advf-forum-icon"));
   } 
   else {
-    drupal_set_message(advanced_forum_theme_path() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
     return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
   }
 }
@@ -668,7 +691,7 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
   // to go through the process for each icon on the page.
   static $iconpath;
   if (!isset($iconpath)) {
-    $iconpath = advanced_forum_theme_path() . '/' . advanced_forum_get_forum_theme_directory() . '/images';
+    $iconpath = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/images';
     if (!file_exists($iconpath)) {
       $iconpath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/images';
     }
@@ -746,24 +769,22 @@ function advanced_forum_get_forum_theme_directory() {
 }
 
 /**
- * Loads the CSS files that come with advanced forum.
+ * Returns the directory of the forum icon files.
  */
-function advanced_forum_add_css() {
-  // Find the CSS files for the forums by looking first in the theme and then
-  // in the module.
-  $csspath = advanced_forum_theme_path() . '/' . advanced_forum_get_forum_theme_directory();
-  if (!file_exists($csspath)) {
-    $csspath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum';
+function advanced_forum_get_icon_directory() {
+  if (variable_get('advanced_forum_use_supplied_icons', 1)) {
+    return drupal_get_path('module', 'advanced_forum') . '/themes/advforum/images/';
   }
-
-  // Load the structural CSS (heights, floats, padding, margins, etc)
-  drupal_add_css($csspath . '/advanced_forum-structure.css');
-
-  // Add on the colors and graphics part
-  drupal_add_css($csspath . '/advanced_forum.css');
+  else {
+    // Use the icons in the forum theme
+    return advanced_forum_path_to_theme() . "/" . advanced_forum_get_forum_theme_directory() . "/images/";
+  }
 }
 
-function advanced_forum_theme_path() {
+/**
+ * Wrapper around path_to_theme() that will check for a subtheme first.
+ */
+function advanced_forum_path_to_theme() {
   // Create this as a static variable since it's used a lot on one page
   static $advanced_forum_theme_path;
 
