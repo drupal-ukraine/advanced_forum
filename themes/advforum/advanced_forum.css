@@ -1,74 +1,88 @@
 /* $Id$ */
 
-/********************************* BEGIN FORUM GENERAL******************************************/
+/*
+This file contains colors, graphics, and text effects. For structural markup,
+see advanced_forum-structure.css.
+*/
+
+/*** Color list:
+#ffffff - White
+#000000 - Black
+#2587C4 - Deep blue used all over
+#6FB7DF - Container background
+#95CDEF - Borders and button hover
+*/
+
+/*** Image list:
+images/gradient-inner.png - Pager number background
+images/forum-separater.jpg - Background of posts. User info side blue.
+*/
+
+/*** FORUM GENERAL ***********************************************************/
 #forum a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 
-
-/********************************* BEGIN PAGER ************************************************/
-
-#forum .pager {
-	clear:none;
-	float:right;
-}
+/*** PAGER *******************************************************************/
 
 #forum .pager a {
   text-decoration: none;
-  border: 1px solid #2788C5;
-  background: #fff url(images/gradient-inner.png) repeat-x left top;
+  border: 1px solid #2587C4;
+  background: #ffffff url(images/gradient-inner.png) repeat-x left top;
   font-weight: bold;
 }
 
-#forum .pager a.active { 
-  color: #006; 
+#forum .pager a.active {
+  color: #000000;
 }
 
-#forum .pager-current, 
-#forum .pager a:hover { 
-  background: #2788C5; 
-  color: #fff;
+#forum .pager-current,
+#forum .pager a:hover {
+  background: #2587C4;
+  color: #ffffff;
 }
 
-/********************************* END PAGER ************************************************/
-
-/********************************* BEGIN FORUM TABLES ********************************************/
+/*** FORUM TABLES ************************************************************/
 
 /* General */
 
 #forum table {
-  border: 1px solid #A7C1DF;
-  clear:both;
+  border: 1px solid #95CDEF;
 }
 
 #forum th {
-  background-color: #2788C5;
-  color: white;	
+  background-color: #2587C4;
+  color: #ffffff;
 }
 
 #forum th a, #forum th a:link, #forum th a:hover, #forum th a:visited{
   font-weight: bold;
-  color: white;	
+  color: #ffffff;
 }
 
-/* Containers & Forums*/
+
+#forum td {
+  border: 1px solid #95CDEF;
+}
+
+/* Containers & Forums */
 
 #forum td.container {
   background-color: #6FB7DF;
-  color: white;
+  color: #ffffff;
 }
 
-#forum td.container a { 
+#forum td.container a {
   font-weight: bold;
-  color: white;
+  color: #ffffff;
 }
 
 #forum .description {
   font-size: 75%;
-  color: white;
+  color: #ffffff;
 }
 
-#forum .forum .description { 
+#forum .forum .description {
  color: #6FB5DF;
 }
 
@@ -90,22 +104,20 @@
 
 /* Topic listings */
 
-#forum td.statistics, #forum td.settings, #forum td.pager {
-  border: 1px solid #bbb;
-}
-
 #forum td .links {
   font-size: 0.9em;
 }
 
 #forum tr.notsticky {
-	
+
 }
+
 #forum tr.firstnotsticky {
-	
+
 }
+
 #forum tr.stickytopic {
-	background: #95CDEF;
+  background: #95CDEF;
 }
 
 /* Top links */
@@ -115,13 +127,10 @@
 }
 
 .indent {
-	margin-left: 30px;
+  margin-left: 30px;
 }
 
-/********************************* END FORUM TABLES ********************************************/
-
-
-/********************************* BEGIN FORUM THREADS ********************************************/
+/*** FORUM THREADS ***********************************************************/
 
 .toppost {
 /* This can be used for any special formatting of the main node */
@@ -131,15 +140,20 @@
   border: 1px solid #2587C4;
 }
 
+.forum-post-wrapper {
+  background: url(images/forum-separater.jpg) repeat-y;
+  border-top: 1px solid #2587C4;
+}
+
 /* Header at the top of each post */
 .post-info {
-  background: #3898D3 ;
-  color:white;
+  background: #2587C4 ;
+  color: #ffffff;
 }
 
 .postedon{
-	font-weight: bold;
-	font-size: .8em;
+  font-weight: bold;
+  font-size: .8em;
 }
 
 .posttitle{
@@ -149,132 +163,92 @@
 
 .forum-comment .new {
   font-weight:bold;
-  font-family: "Trebuchet MS", Arial, Verdana, Sans-serif;
 }
 
-.post-num a, .post-num a:link, .post-num a:visited, .post-num a:active, .post-num a:hover {
-	color:white;	
+.post-num a, .post-num a:link,
+.post-num a:visited,
+.post-num a:active,
+.post-num a:hover {
+  color:#ffffff;
 }
 
-.forum-post-wrapper {
-  background: url(images/forum-separater.jpg) repeat-y;
-  border-top: 1px solid #2587C4;
-  border-bottom: none;
-  height: 1%;
-}
-
+/* User info */
 .forum-comment-left .author-name {
   font-weight: bold;
   font-size: 1.1em;
-  padding: 0 0 0.2em;
 }
 
 .forum-comment-left .picture img {
-	border: 1px solid #2587C4;
-	background: White;
+  border: 1px solid #2587C4;
+  background: #ffffff;
 }
 
-#main #content .node .forum-comment .forum-comment-right .content {
-  border:none;
-}
-.author-title, .author-posts, .author-regdate, .author-points {
-font-size: 0.8em;
-}
-.author-icons {
-  padding: 0.4em 0 0 0;
-}
-.forum-comment-right .posttitle, .forum-comment-right .content {
-  padding-left: 2.5%;
-  margin-left: 0;
-}
-.forum-comment-right p {
-  margin-right: 2%;
-}
-.pager strong.pager-current {
-  padding: 0.3em 0.4em;
-  margin: 0 0.1em 0 ;
-}
-#forum td.created, #forum td.last-reply {
-  font-size: 0.9em;
-  line-height: 1.7;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-#forum th {
-  padding-left: 1em;
-  padding-right: 1em;
-}
-#forum td {
-  border: 1px solid #95CDEF;
+.author-title, 
+.author-posts, 
+.author-regdate, 
+.author-points {
+  font-size: 0.8em;
 }
 
+/* Signature */
 .user-signature {
-	margin: 15px 0px 1px 0px;
-	padding: 0px 1px 0px 5px;
-	font-size: 80%;
-	color: #2587C4;
+  margin: 15px 0px 1px 0px;
+  padding: 0px 1px 0px 5px;
+  font-size: 80%;
+  color: #2587C4;
 }
 
-/********************************* END FORUM THREADS ********************************************/
-
-/********************************* BEGIN USER INFO **********************************************/
-.user-info div {
-	margin-bottom: 6px;
-}
-/********************************* END USER INFO ************************************************/
-
-/********************************* BEGIN LINKS AS BUTTONS ***************************************/
+/*** LINKS AS BUTTONS ********************************************************/
 
 /* Attempt to override spacing around the buttons by theme */
 .forum-post-wrapper ul.inline li,
 .forum-post-wrapper ul.links li {
-   padding: 0pt;
-	padding-right: 0pt;
-	margin: 0pt;
+  padding: 0pt;
+  padding-right: 0pt;
+  margin: 0pt;
 }
 
 .forum-top-links {
-	float:left;
+  float:left;
 }
 
 .forumlinks li {
-	background: none;
-	margin: 0pt;
-	padding:0pt;
-	padding-right: 0pt;
+  background: none;
+  margin: 0pt;
+  padding:0pt;
+  padding-right: 0pt;
 }
 
 .forumlinks li a {
   background: #2587C4;
   border: 2px #2587C4 outset;
   padding: 1px 4px;
-  color: white;
+  color: #ffffff;
   text-decoration: none;
-  font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+  font: bold 90%;
 }
 
 .forumlinks li a:link {
-  color: white;
+  color: #ffffff;
 }
 
 .forumlinks li a:active {
-  color: white;
+  color: #ffffff;
 }
 
 .forumlinks li a:visited {
-  color: white;
+  color: #ffffff;
 }
 
 .forumlinks li a:hover {
   border-style: inset;
-  background-color: #B3D8EF;
+  background-color: #95CDEF;
   padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
 }
 
 .topic_reply {
-	font-size: 1.2em;
+  font-size: 1.2em;
 }
-/********************************* END LINKS AS BUTTONS ********************************************/
 
 
 

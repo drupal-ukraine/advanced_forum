@@ -1,14 +1,27 @@
 /* $Id$ */
 
-/* 
-This document contains structural markup such as widths, margins, padding, and floats
+/*
+This document contains structural markup such as widths, margins,
+padding, and floats
 */
 
-/********************************* BEGIN PAGER ************************************************/
+
+/*** FORUM GENERAL ***********************************************************/
+
+.clear {
+  clear:both;
+}
+
+/*** PAGER *******************************************************************/
+
+#forum .pager {
+  clear:none;
+  float:right;
+}
 
 #forum .pager a {
-  padding: .1em .3em; 
-  margin: .1em; 
+  padding: .1em .3em;
+  margin: .1em;
   border: 1px solid black;
 }
 
@@ -17,13 +30,10 @@ This document contains structural markup such as widths, margins, padding, and f
 }
 
 #forum .pager li.pager-current {
-	padding: .2em .3em .2em .3em;
+  padding: .2em .3em .2em .3em;
 }
 
-
-/********************************* END PAGER ************************************************/
-
-/********************************* BEGIN FORUM CONTAINERS ********************************************/
+/*** FORUM CONTAINERS ********************************************************/
 
 .forum-description {
   padding: 10px 0px 10px 0px;
@@ -52,18 +62,18 @@ td.forum {
   padding-left: 0px;
   margin-left: 0;
 }
-/********************************* END FORUM CONTAINERS ********************************************/
 
-/********************************* BEGIN FORUM TABLES ********************************************/
+/*** FORUM TABLES ************************************************************/
 
 /* General */
 
 #forum table {
-  border: thin solid black
+  border: 1px solid black;
+  clear: both;
 }
 
 #forum {
-	width: 100%;
+  width: 100%;
 }
 
 #forum table {
@@ -74,14 +84,25 @@ td.forum {
   border-bottom: 0px !important;
 }
 
-#forum tr.even, 
+#forum td.created, #forum td.last-reply {
+  font-size: 0.9em;
+  line-height: 1.7;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+#forum th {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#forum tr.even,
 #forum tr.odd {
   border: 0px none;
-  border-bottom: 0px none; 
+  border-bottom: 0px none;
 }
 
 .forum-indented {
-	padding-left: 3em;
+  padding-left: 3em;
 }
 
 /* Containers */
@@ -116,42 +137,48 @@ td.forum {
 
 /* Top links */
 #forum li {
-	margin: 0;
-	padding-right:1em;
+  margin: 0;
+  padding-right:1em;
 }
 
 /* Icons */
 #forum td.icon{
-	padding: 10px;
+  padding: 10px;
 }
 
 .icon-explain {
-	padding: 2px;
+  padding: 2px;
 }
 
-
-/********************************* BEGIN FORUM TOPIC ********************************************/
+/*** FORUM THREADS ***********************************************************/
 
 .forum-comment {
   margin: 0px 0px 5px 0;
   padding: 0 0 0 0;
-  border: thin solid black;
+  border: 1px solid black;
+}
+
+.forum-post-wrapper {
+  clear: both;
+  border-top: 1px solid black;
+  border-bottom: none;
+  height: 1%;
 }
 
 /* Header at the top of each post */
 .post-info {
-	height: 2em;
+  height: 2em;
 }
 
 .postedon{
-	padding: 0 5px;
-	float: left;
+  padding: 0 5px;
+  float: left;
 }
 
 .posttitle{
-	padding: 5px;
-	width: 96%;
-	border-bottom: thin solid black;
+  padding: 5px;
+  width: 96%;
+  border-bottom: 1px solid black;
 }
 
 .forum-comment .new {
@@ -159,67 +186,78 @@ td.forum {
 }
 
 .post-num{
-	float: right;
-	margin-right: 5px;
+  float: right;
+  margin-right: 5px;
 }
 
-.forum-post-wrapper {
-  clear:both;
-  border-top: thin solid black;
-  border-bottom: thin solid black;
+/* User info section */
+
+
+.user-info div {
+  margin-bottom: 6px;
 }
 
 .forum-comment-left {
-	float: left;
-	width: 150px;
-	line-height: 110%;
+  float: left;
+  width: 150px;
+  line-height: 110%;
 }
 
 .forum-comment-left .author-name {
   margin-bottom: 5px;
+  padding: 0 0 0.2em;
 }
 
 .forum-comment-left .picture {
-	float: none;
-	padding-left: 0px;
-	margin: .5em 0px .5em 0px;
+  float: none;
+  padding-left: 0px;
+  margin: .5em 0px .5em 0px;
 }
 
 .forum-comment-left .picture img {
-	padding: .5em;
-	height: 85px;  /* reducing and unifying size of user pictures Thomas */
-	width: auto;
+  padding: .5em;
+  height: 85px; 
+  width: auto;
 }
 
-.author-title, .author-posts, .author-regdate, .author-points {
-padding-bottom: .2em;
+.author-title, 
+.author-posts, 
+.author-regdate, 
+.author-points {
+  padding-bottom: .2em;
 }
 
+.author-icons {
+  padding: 0.4em 0 0 0;
+}
+
+/* Post text area */
 .forum-comment-right {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
 }
 
 .forum-comment-right .content {
-	margin: .5em;
+  margin: .5em;
 }
 
-#main #content .node .forum-comment .forum-comment-right .content {
-  padding-right: 5px;
+.forum-comment-right .posttitle, .forum-comment-right .content {
+  padding-left: 2.5%;
+  margin-left: 0;
+}
+
+.forum-comment-right p {
+  margin-right: 2%;
 }
 
 .innertube{
   margin: 10px 7px 10px 9px;
 }
 
+/* Links */
+
 .forum-comment .links {
-	text-align: right;
-	height: 2.5em;
-	line-height: 2.5em;
-	margin: 2px 2px 2px 0px;
-}
-
-/********************************* END FORUM TOPIC ********************************************/
-
-.clear {
-	clear:both;
+  text-align: right;
+  height: 2.5em;
+  line-height: 2.5em;
+  margin: 2px 2px 2px 0px;
 }
