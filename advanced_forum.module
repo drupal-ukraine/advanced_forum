@@ -525,9 +525,8 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     // Find the page of the first unread comment, if any
     $num_comments = db_result(db_query('SELECT COUNT(cid) FROM {comments} WHERE nid = %d', $nid));
     $new_replies = comment_num_new($nid);
-    dsm($new_replies);
     $query = comment_new_page_count($num_comments, $new_replies, $node);
-dsm($query);
+
     // Format the node title with a link
     $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
     $fragment = ($new_replies) ? 'new' : '';
