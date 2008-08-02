@@ -9,9 +9,7 @@
  * Available variables:
  *
  * - $topic_link: On the forum overview page, this is the title of the last
- *   updated topic.
- * - $topic_link: On the forum overview page, this is the title of the last
- *   comment.
+ *   updated topic (node).
  * - $author: The author of the post.
  * - $time: How long ago the post was created.
  * - $topic: An object with the raw data of the thread. Unsafe, be sure
@@ -19,20 +17,11 @@
  *
  * @see template_preprocess_forum_submitted()
  * @see advanced_forum_preprocess_forum_submitted()
- * @see theme_forum_submitted()
  */
 ?>
 
 <?php if ($time): ?>
-  <?php if ($reply_link): ?>
-    <?php print t(
-      '!rtitle<br />@time ago<br />by !author<br /> in !ttitle', array(
-        '!rtitle' => $reply_link,
-        '@time' => $time,
-        '!author' => $author,
-        '!ttitle' => $topic_link,
-      )); ?>   
-  <?php elseif ($topic_link): ?>
+  <?php if ($topic_link): ?>
     <?php print t(
       '!title<br />@time ago<br />by !author', array(
         '!title' => $topic_link,

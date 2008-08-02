@@ -23,7 +23,13 @@ function advanced_forum_perm() {
 function advanced_forum_menu($may_cache) {
   $items = array();
   if ($may_cache) {
-    global $user;
+    $items[] = array('path' => 'forum',
+      'title' => t('Forums'),
+      'callback' => 'advanced_forum_page',
+      'access' => user_access('access content'),
+      'type' => MENU_SUGGESTED_ITEM);
+
+      global $user;
     $items[] = array(
                'path' => "forum/markasread",
                'title' => 'Helper page to mark forums read.',
@@ -138,6 +144,7 @@ function _advanced_forum_load_preprocessors() {
  * Blatent rip of views include system.
  */
 function advanced_forum_include($file) {
+  $includes = array();
   $cache = cache_get('advforum_includes', 'cache');
   if (isset($cache->data) && $cache->data) {
     $includes = unserialize($cache->data);
@@ -158,8 +165,11 @@ function advanced_forum_include($file) {
     }
     cache_set('advforum_includes', 'cache', serialize($includes));
   }
-  foreach ($includes as $include) {
-    require_once $include;
+  
+  if (!empty($includes)) {
+    foreach ($includes as $include) {
+      require_once $include;
+    }
   }
 }
 
@@ -472,12 +482,10 @@ function phptemplate_forum_list($forums, $parents, $tid) {
  * Preprocesses template variables for the forum list template.
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
-  // In the forum overview, we want to overwrite the last reply with our custom one
-  foreach ($variables['forums'] as $tid => $forum) {
-    $topic = _advanced_forum_get_last_topic($tid);
-    $variables['forums'][$tid]->last_reply = theme('forum_submitted', $topic);
-  }
+
+//Code removed... Placeholder left for the moment.
 }
+
 
 /*
  * Provides D5 compatability wrapper for theme_forum_submitted.
@@ -486,7 +494,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 function phptemplate_forum_submitted($topic) {
   // Create a $variables array from the parameters
   $variables['topic'] = $topic;
-   
+
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forum_submitted', $variables);
 
@@ -506,62 +514,24 @@ function phptemplate_forum_submitted($topic) {
  * Preprocesses template variables for the submitted by/in template.
  */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  // This check makes sure we only do the extra variables when this function is
-  // called by advforum and not by core forum.
-  if ($variables['topic']->topic_id) {
-    $nid = $variables['topic']->topic_id;
-    
+  if ($variables['topic']->node_title) {
+    $nid = $variables['topic']->nid;
+
+    // Make a fake node object to avoid the node load
+    $node = new stdClass();
+    $node->nid = $nid;
+    $node->type = $variables['topic']->type;
+
+    // Find the page of the first unread comment, if any
+    $num_comments = db_result(db_query('SELECT COUNT(cid) FROM {comments} WHERE nid = %d', $nid));
+    $new_replies = comment_num_new($nid);
+    dsm($new_replies);
+    $query = comment_new_page_count($num_comments, $new_replies, $node);
+dsm($query);
     // Format the node title with a link
-    $short_topic_title =  truncate_utf8($variables['topic']->topic_title, 15, TRUE, TRUE);
-    $variables['topic_link'] = l($short_topic_title, "node/" . $nid);
-    
-    // Format the comment title with a link (if there is a comment)
-    if (!empty($variables['topic']->reply_title)) {
-      $short_reply_title =  truncate_utf8($variables['topic']->reply_title, 15, TRUE, TRUE);
-      $comment_fragment = 'comment-' . $variables['topic']->reply_id;
-
-      // Figure out the link to the last comment
-      $posts_per_page = _comment_get_display_setting('comments_per_page');
-      $comment_count = db_result(db_query('SELECT COUNT(cid) FROM {comments} WHERE nid = %d', $nid));
-      $last_page = ceil($comment_count / $posts_per_page) - 1;
-
-      if ($last_page > 0) { 
-        $pager = 'page=' . $last_page;
-      }
-      else {
-        $pager = NULL;
-      }
-      $variables['reply_link'] = l($short_reply_title, "node/" . $nid, 
-                                   NULL, $pager, $comment_fragment);
-
-      // Create a linked icon to be used with or instead of the comment title
-      advanced_forum_preprocess_forum_icon($icon);
-      $image = theme('image', $icon['iconpath'] . "/newest_comment.gif");
-      $variables['reply_icon'] = l($image, "node/" . $variables['topic']->topic_id,    
-                                   NULL, $pager, $comment_fragment, false, true);
-    }
-        
-    // Format the time ago of the last post (node or comment)
-    if ($variables['topic']->reply_timestamp > 0) {
-      $variables['time'] =  format_interval(time() - $variables['topic']->reply_timestamp);
-    }
-    else {
-      $variables['time'] =  format_interval(time() - $variables['topic']->topic_timestamp);
-    }
-    
-    // Format the author of the last post (node or comment)
-    $author = new stdClass(); 
-    if (!empty($variables['topic']->reply_author_id)) {
-      $author->uid = $variables['topic']->reply_author_id;
-      $author->name = $variables['topic']->reply_author_name;
-    }
-    else {
-      $author->uid = $variables['topic']->topic_author_id;
-      $author->name = $variables['topic']->topic_author_name;
-    }
-    
-    $variables['author'] = theme('username',$author);
-    
+    $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
+    $fragment = ($new_replies) ? 'new' : '';
+    $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
   }
 }
 
@@ -809,57 +779,6 @@ function advanced_forum_path_to_theme() {
   return $advanced_forum_theme_path;
 }
 
-/*****************************************************************************/
-/*** LAST UPDATED TOPIC ******************************************************/
-/*****************************************************************************/
-
-function _advanced_forum_get_last_topic($tid) {
-  // Get the most recently created node, in the given forum, that the user has access to
-  $query = "SELECT n.nid AS topic_id,
-                   n.title AS topic_title, 
-                   n.created AS topic_timestamp,
-                   n.type AS topic_type,
-                   n.uid topic_author_id,
-                   u.name AS topic_author_name
-            FROM {node} n
-            INNER JOIN {term_node} tn on n.nid = tn.nid
-            INNER JOIN {users} u on n.uid = u.uid
-            WHERE tn.tid = $tid AND n.status = 1
-            ORDER BY n.created DESC";
-            
-  $node = db_fetch_object(db_query_range(db_rewrite_sql($query), array(), 0, 1));
-
-  // If there is at least one node, then we need to look for the most recent comment       
-  if ($node) {
-    $query = "SELECT c.nid AS topic_id, 
-                     c.cid AS reply_id,
-                     c.timestamp AS reply_timestamp,
-                     c.subject AS reply_title,
-                     c.uid topic_author_id,
-                     n.title AS topic_title, 
-                     n.created AS topic_timestamp,
-                     n.type AS topic_type,     
-                     c.name AS reply_author_name           
-              FROM {comments} c
-              INNER JOIN {term_node} tn ON c.nid = tn.nid
-              INNER JOIN {node} n ON c.nid = n.nid
-              WHERE tn.tid = $tid AND n.status = 1 AND c.status = 0
-              ORDER BY c.timestamp DESC";
-
-    $comment = db_fetch_object(db_query_range(db_rewrite_sql($query,'c','cid'), array(), 0, 1));
-
-    if ($node->topic_timestamp >= $comment->reply_timestamp) {
-      $node->tid = $tid;
-      $node->reply_id = 0;
-      return $node;
-    }
-    else {
-      $comment->tid = $tid;
-      return $comment;
-    }  
-  }
-}
-
 
 /*****************************************************************************/
 /*** MARK AS READ ************************************************************/
@@ -1060,5 +979,93 @@ function _advanced_forum_get_topic_views_count($nid) {
     $views_count = 0;
   }
   return $views_count;
+}
+
+/**
+ * Menu callback; prints a forum listing.
+ *
+ * This is copied from the forum module and adapted.
+ */
+function advanced_forum_page($tid = 0) {
+  drupal_add_css(drupal_get_path('module', 'forum') .'/forum.css');
+  $forum_per_page = variable_get('forum_per_page', 25);
+  $sortby = variable_get('forum_order', 1);
+
+  $forums = advanced_forum_get_forums($tid);
+  $parents = taxonomy_get_parents_all($tid);
+  if ($tid && !in_array($tid, variable_get('forum_containers', array()))) {
+    $topics = forum_get_topics($tid, $sortby, $forum_per_page);
+  }
+
+  return theme('forum_display', $forums, $topics, $parents, $tid, $sortby, $forum_per_page);
+}
+
+/**
+ * Returns a list of all forums for a given taxonomy id
+ *
+ * This is copied from the forum module and adapted.
+ *
+ * Forum objects contain the following fields
+ * -num_topics Number of topics in the forum
+ * -num_posts Total number of posts in all topics
+ * -last_post Most recent post for the forum
+ *
+ * @param $tid
+ *   Taxonomy ID of the vocabulary that holds the forum list.
+ * @return
+ *   Array of object containing the forum information.
+ */
+function advanced_forum_get_forums($tid = 0) {
+
+  $forums = array();
+  $_forums = taxonomy_get_tree(variable_get('forum_nav_vocabulary', ''), $tid);
+
+  if (count($_forums)) {
+
+    $counts = array();
+
+    $sql = "SELECT r.tid, COUNT(n.nid) AS topic_count, SUM(l.comment_count) AS comment_count FROM {node} n INNER JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {term_node} r ON n.nid = r.nid WHERE n.status = 1 AND n.type = 'forum' GROUP BY r.tid";
+    $sql = db_rewrite_sql($sql);
+    $_counts = db_query($sql, $forum->tid);
+    while ($count = db_fetch_object($_counts)) {
+      $counts[$count->tid] = $count;
+    }
+  }
+
+  foreach ($_forums as $forum) {
+    if (in_array($forum->tid, variable_get('forum_containers', array()))) {
+      $forum->container = 1;
+    }
+
+    if ($counts[$forum->tid]) {
+      $forum->num_topics = $counts[$forum->tid]->topic_count;
+      $forum->num_posts = $counts[$forum->tid]->topic_count + $counts[$forum->tid]->comment_count;
+    }
+    else {
+      $forum->num_topics = 0;
+      $forum->num_posts = 0;
+    }
+
+    // This query does not use full ANSI syntax since MySQL 3.x does not support
+    // table1 INNER JOIN table2 INNER JOIN table3 ON table2_criteria ON table3_criteria
+    // used to join node_comment_statistics to users.
+    $sql = "SELECT n.title, n.nid, n.type, ncs.last_comment_timestamp, IF (ncs.last_comment_uid != 0, u2.name, ncs.last_comment_name) AS last_comment_name, ncs.last_comment_uid FROM {node} n INNER JOIN {users} u1 ON n.uid = u1.uid INNER JOIN {term_node} tn ON n.nid = tn.nid INNER JOIN {node_comment_statistics} ncs ON n.nid = ncs.nid INNER JOIN {users} u2 ON ncs.last_comment_uid=u2.uid WHERE n.status = 1 AND n.type='forum' AND tn.tid = %d ORDER BY ncs.last_comment_timestamp DESC";
+    $sql = db_rewrite_sql($sql);
+    $topic = db_fetch_object(db_query_range($sql, $forum->tid, 0, 1));
+    $last_post = new stdClass();
+    $last_post->timestamp = $topic->last_comment_timestamp;
+    $last_post->name = $topic->last_comment_name;
+    $last_post->uid = $topic->last_comment_uid;
+    $last_post->nid = $topic->nid;
+    // Note, we call it "node_title" otherwise it gets picked up on the  
+    // topic list as well.
+    $last_post->node_title = $topic->title;
+    $last_post->type = $topic->type;
+    $forum->last_post = $last_post;
+
+    $forums[$forum->tid] = $forum;
+  }
+
+  return $forums;
 }
 

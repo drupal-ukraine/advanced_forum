@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+August, 2, 2008
+---------------
+#268273 by Michelle: Backported fix for last topic in forum from 6.x branch. (Theme changes: advf-forum-submitted.tpl.php, modified to match reduced options.)
+
 June 10, 2008
 -------------
 #228557 by neclimdul: Added preprocessor code to emulate the preprocessor in Drupal 6 which allows other modules to add to advanced forum. This patch created a new "modules" directory which holds individual includes for each module adding to advforum.
