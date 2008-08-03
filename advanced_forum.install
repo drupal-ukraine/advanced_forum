@@ -27,7 +27,7 @@ function advanced_forum_update_5002() {
 
 function advanced_forum_update_5003() {
   $ret = array();
-  $ret[] = update_sql('DROP TABLE {advforum_last_post}');
+  $ret[] = update_sql('DROP TABLE IF EXISTS {advforum_last_post}');
   return $ret;
 }
 
