@@ -8,6 +8,11 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function userpoints_preprocess_forum_user(&$variables) {
+  // We don't want to do this for anonymous users.
+  if ($variables['account']->uid == 0) {
+    return;
+  }
+  
   $variables['points_raw'] = userpoints_get_current_points($variables['account']->uid);
   $variables['points'] = '<div class="user-points"><strong>' . t('Points: ') . '</strong>' . $variables['points_raw'] . '</div>';
 }

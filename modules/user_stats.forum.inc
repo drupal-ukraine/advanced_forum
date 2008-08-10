@@ -8,6 +8,11 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function user_stats_preprocess_forum_user(&$variables) {
+  // We don't want to do this for anonymous users.
+  if ($variables['account']->uid == 0) {
+    return;
+  }
+  
   if (user_access('View statistics')) {
     $variables['posts_raw'] = user_stats_get_stats('post_count', $variables['account']->uid);
     $variables['posts'] = '<div class="user-posts"><strong>' . t('Posts: ') . '</strong>' . $variables['posts_raw'] . '</div>';

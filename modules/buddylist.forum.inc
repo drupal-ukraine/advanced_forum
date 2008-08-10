@@ -8,6 +8,11 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function buddylist_preprocess_forum_user(&$variables) {
+  // We don't want to do this for anonymous users.
+  if ($variables['account']->uid == 0) {
+    return;
+  }
+  
   $accountid = $variables['account']->uid;
 
   if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {

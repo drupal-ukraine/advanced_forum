@@ -8,6 +8,11 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function subscriptions_preprocess_forum_user(&$variables) {
+  // We don't want to do this for anonymous users.
+  if ($variables['account']->uid == 0) {
+    return;
+  }
+  
   if (user_access('subscribe to content types')) {
     // BUG: D6 - this assumes forum type.
     $variables['subscribe_link'] = "subscriptions/add/type/forum/" . $variables['account']->uid;
