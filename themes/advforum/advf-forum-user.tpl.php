@@ -36,7 +36,8 @@ $buddylist_link
 $buddylist 
 $ip_raw
 $ip
-$profile - Profile object from core profile. Usage: $profile->fieldname
+$profile - Profile object from core profile. Usage: $profile['category']['field_name']['value']
+  Example: Real name: <?php print $profile['Personal info']['profile_name']['value']; ?>
 $subscribe - Formatted link to subscribe to the author's forum topics
 $subscribe_link - As above but just the relative path
 
@@ -45,9 +46,9 @@ $subscribe_link - As above but just the relative path
 <div class="user-info">
 
   <?php print $name; ?>
+  <?php print $user_title; ?>
   <?php print $picture; ?>
   <br />
-  <?php print $user_title; ?>
   <?php print $posts; ?>
   <?php print $joined; ?>
   <?php print $points; ?>
