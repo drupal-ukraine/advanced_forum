@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- *   This file provides advanced forum preprocess functions for buddylist module
+ *   This file provides advanced forum preprocess functions for buddylist (1) module
  */
 
 /**
  * Implementation of hook_preprocess_forum_user().
  */
 function buddylist_preprocess_forum_user(&$variables) {
-  $accountid = $variables['accountid'];
+  $accountid = $variables['account']->uid;
 
   if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {
     // Remove buddy
