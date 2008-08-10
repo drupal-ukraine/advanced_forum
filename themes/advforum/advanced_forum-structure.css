@@ -216,8 +216,8 @@ td.forum {
 
 .forum-comment-left .picture img {
   padding: .5em;
-  height: 85px; 
-  width: auto;
+  height: auto; 
+  max-width: 85px;
 }
 
 .author-title, 
