@@ -377,13 +377,13 @@ function template_preprocess_forum_user(&$variables) {
   // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_theme() . '/' . $themedir . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_get_icon_directory() . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   } 
   else {
     $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_theme() . '/' . $themedir . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_get_icon_directory() . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
@@ -655,18 +655,14 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
  * Preprocesses template variables for the forum icon template.
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
-  // Find the icons for the forums by looking first in the theme and then
-  // in the module. Use a static variable to hold the path so we don't need
-  // to go through the process for each icon on the page.
+  // Set the path to use for the icons. Use a static variable to hold the path 
+  // so we don't need to go through the process for each icon on the page.
   static $iconpath;
   if (!isset($iconpath)) {
-    $iconpath = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/images';
-    if (!file_exists($iconpath)) {
-      $iconpath = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/images';
-    }
-  }
+    $iconpath = advanced_forum_get_icon_directory();
+   }
   $variables['iconpath'] = $iconpath;
-  
+  dsm($iconpath);
   return;
 }
 
@@ -687,7 +683,7 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
     case 'node':
       // Make sure this is a forum node type and that it's not being
       // shown on some other page (like a view or promoted to front page)
-      if (($vars['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) || arg(0) == 'comment')) {
+      if (($vars['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $vars['node']->nid|| arg(0) == 'comment')) {
         $forum_node_id = $vars['node']->nid;
         return true;
       } 
