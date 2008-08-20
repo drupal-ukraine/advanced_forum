@@ -2,8 +2,21 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-August, 2, 2008
----------------
+August 19, 2008
+--------------
+#266003 by Michelle: Fixed issue with forum posts not showing as teasers inside of other nodes.
+#268684 by Michelle, stephthegeek: Backported changes made to D6 last week.
+
+August 9, 2008
+--------------
+#291597 by rallycivic: Put nid first in query to make db_rewrite_sql happy.
+#276232 by Michelle. Fixed wrong variable in all of the user info code which made the whole user info side all wrong.
+#207920 by Michelle: Better documented use of $profile variable. (Theme changes: advf-forum-user.tpl.php)
+No issue by Michelle: Fixed anonymous commenters having user info showing.
+#248815 by Michelle, Funkymoses: Changed CSS for avatar. (Theme changes: advanced_forum-structure.css)
+
+August 2, 2008
+--------------
 #268273 by Michelle: Backported fix for last topic in forum from 6.x branch. (Theme changes: advf-forum-submitted.tpl.php, modified to match reduced options.)
 
 June 10, 2008

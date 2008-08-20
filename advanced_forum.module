@@ -50,21 +50,9 @@ function advanced_forum_menu($may_cache) {
     // Avoids weird issue with block admin. See #239724
     // Should be replaced with a proper fix if one can be found.
   
-    // Find the CSS files for the forums by looking first in the theme and then
-    // in the module.
-    $css_file = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/advanced_forum-structure.css';
-    if (!file_exists($css_file)) {
-      $css_file = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/advanced_forum-structure.css';
-    }
-  
-    drupal_add_css($css_file);
-
-    $css_file = advanced_forum_path_to_theme() . '/' . advanced_forum_get_forum_theme_directory() . '/advanced_forum.css';
-    if (!file_exists($css_file)) {
-      $css_file = drupal_get_path('module', 'advanced_forum') . '/themes/advforum/advanced_forum.css';
-    }
-  
-    drupal_add_css($css_file);
+    $style_directory = advanced_forum_path_to_style();
+    drupal_add_css("$style_directory/advanced_forum-structure.css" );
+    drupal_add_css("$style_directory/advanced_forum.css" );
   }
   
   return $items;
@@ -75,36 +63,28 @@ function advanced_forum_menu($may_cache) {
 /*****************************************************************************/
 
 /**
- * Define settings form.
+ * Defines the Advanced Forum settings form.
  */
 function advanced_forum_settings_page() {
-  $form['advanced_forum_themedir'] = array(
+  $form['advanced_forum_style'] = array(
     '#type' => 'textfield',
-    '#title' => t('Advanced forum theme directory'),
+    '#title' => t('Advanced forum style'),
     '#size' => 25,
-    '#description' => t('Path from site theme directory to advanced forum theme directory. Defaults to "advforum"'),
-    '#default_value' => variable_get('advanced_forum_themedir','advforum'),
-  );
-  
-  $form['advanced_forum_use_supplied_icons'] = array(
-    '#type' => 'radios',
-    '#title' => t('Use icons in module directory'),
-    '#options' => array(t("No"), t("Yes")),
-    '#description' => t('If you select "No", advanced forum will look for icons in a directory called "images" under the advanced forum theme directory.'),
-    '#default_value' => variable_get('advanced_forum_theme_all_comments', 1),
+    '#description' => t('Name of advanced forum style. Defaults to "advforum"'),
+    '#default_value' => variable_get('advanced_forum_style', 'advforum'),
   );
 
   $form['advanced_forum_theme_all_comments'] = array(
     '#type' => 'radios',
     '#title' => t('Treat all site comments like forum comments'),
-    '#options' => array(t("No"),t("Yes")),
+    '#options' => array(t("No"), t("Yes")),
     '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
-    '#default_value' => variable_get('advanced_forum_theme_all_comments',0),
+    '#default_value' => variable_get('advanced_forum_theme_all_comments', 0),
   );
 
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
-} 
+}
 
 /*****************************************************************************/
 /*** TEMPLATE PREPROCESS *****************************************************/
@@ -655,14 +635,8 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
  * Preprocesses template variables for the forum icon template.
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
-  // Set the path to use for the icons. Use a static variable to hold the path 
-  // so we don't need to go through the process for each icon on the page.
-  static $iconpath;
-  if (!isset($iconpath)) {
-    $iconpath = advanced_forum_get_icon_directory();
-   }
-  $variables['iconpath'] = $iconpath;
-  dsm($iconpath);
+  $variables['iconpath'] = advanced_forum_path_to_images();
+
   return;
 }
 
@@ -774,6 +748,66 @@ function advanced_forum_path_to_theme() {
   return $advanced_forum_theme_path;
 }
 
+/**
+ * Returns the directory of the forum style files.
+ */
+function advanced_forum_get_style() {
+  return variable_get('advanced_forum_style', 'advforum');
+}
+
+/**
+ * Returns the path to the advanced forum style, including the style name
+ */
+function advanced_forum_path_to_style() {
+  static $style_path;
+  
+  if (!$style_path) {
+    $style = advanced_forum_get_style();
+  
+    // Look for it in the theme directory
+    $path = path_to_theme() . '/' . $style;
+    if (file_exists($path)) {
+      $style_path = $path;
+      advanced_forum_style_in_theme(TRUE);
+    } else {
+      // Look for the style in the module directory
+      $path = drupal_get_path('module', 'advanced_forum') . "/themes/$style/";
+      if (file_exists($path)) {
+        $style_path = $path;
+        advanced_forum_style_in_theme(FALSE);
+      } else {
+        // Fall back to a known style
+        $style_path = drupal_get_path('module', 'advanced_forum') . "/themes/advforum/";
+        advanced_forum_style_in_theme(FALSE);
+      }
+    }
+  }
+  
+  return $style_path;
+}
+
+/**
+ * Keeps track of whether the style was found in the theme or the module
+ */
+function advanced_forum_style_in_theme($in_theme = NULL) {
+  static $is_in_theme;
+  
+  if ($in_theme != NULL) {
+    $is_in_theme = $in_theme;
+  }
+  
+  return $is_in_theme;
+}
+
+function advanced_forum_path_to_images() {
+  static $image_path;
+  
+  if (!$image_path) {
+    $image_path = advanced_forum_path_to_style() . '/images';
+  }
+  
+  return $image_path;
+}
 
 /*****************************************************************************/
 /*** MARK AS READ ************************************************************/
