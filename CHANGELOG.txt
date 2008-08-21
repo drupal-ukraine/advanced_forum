@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+August 21, 2008
+---------------
+#295562 by catch: Make 'views' column in topic list statistics.module dependent.
+
 August 19, 2008
 --------------
 #266003 by Michelle: Fixed issue with forum posts not showing as teasers inside of other nodes.

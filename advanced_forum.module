@@ -547,14 +547,15 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   // core with just the views bit stuck in.
   global $forum_topic_list_header;
 
-  $forum_topic_list_header = array(
-    array('data' => '&nbsp;', 'field' => NULL),
-    array('data' => t('Topic'), 'field' => 'n.title'),
-    array('data' => t('Replies'), 'field' => 'l.comment_count'),
-    array('data' => t('Views'), 'field' => NULL),
-    array('data' => t('Created'), 'field' => 'n.created'),
-    array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp'),
-  );
+  $forum_topic_list_header = array();
+  $forum_topic_list_header[] = array('data' => '&nbsp;', 'field' => NULL);
+  $forum_topic_list_header[] = array('data' => t('Topic'), 'field' => 'n.title');
+  $forum_topic_list_header[] = array('data' => t('Replies'), 'field' => 'l.comment_count');
+  if (module_exists('statistics')) {
+    $forum_topic_list_header[] =  array('data' => t('Views'), 'field' => NULL);
+  }
+  $forum_topic_list_header[] =  array('data' => t('Created'), 'field' => 'n.created');
+  $forum_topic_list_header[] =  array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp');
   
   // Create the tablesorting header.
   $ts = tablesort_init($forum_topic_list_header);
@@ -591,7 +592,9 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
       $variables['topics'][$id]->icon = theme('forum_icon', $topic->new, $topic->num_comments, $topic->comment_mode, $topic->sticky, $topic->nid);
       
       // Add in the number of views
-      $variables['topics'][$id]->views =  _advanced_forum_get_topic_views_count($topic->nid);
+      if (module_exists('statistics')) {
+        $variables['topics'][$id]->views =  _advanced_forum_get_topic_views_count($topic->nid);
+      }
     }
   }
 }
