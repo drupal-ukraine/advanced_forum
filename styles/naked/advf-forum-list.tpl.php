@@ -75,7 +75,7 @@
         <?php print str_repeat('<div class="indent">', $forum->depth); ?>
           <?php if (!$forum->is_container): ?>
             <div class="forum-icon">  
-              <img src="<?php print advanced_forum_path_to_images() . '/forum-folder.png'; ?>" alt="" />
+              <?php print $forum->icon ?>
             </div>
           <?php endif; ?>
           <div class="forum-details">  
