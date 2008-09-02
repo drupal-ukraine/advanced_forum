@@ -20,7 +20,7 @@ function privatemsg_preprocess_forum_user(&$variables) {
   if (($account->uid != $user->uid) &&
      user_access('access private messages') && 
      (isset($account->privatemsg_allow) ? $account->privatemsg_allow : 1)) {
-    $variables['privatemsg_icon'] = theme('image', advanced_forum_get_icon_directory() . 'user_comment.png', 'Private Message', 'Private Message', NULL, TRUE);
+    $variables['privatemsg_icon'] = theme('image', advanced_forum_path_to_images() . '/user_comment.png', 'Private Message', 'Private Message', NULL, TRUE);
     $variables['privatemsg_text'] = t('Send PM');
     $variables['privatemsg_link'] = 'privatemsg/new/' . $variables['account']->uid;
     $variables['privatemsg'] = '<div class="privatemsg">' .

@@ -18,7 +18,7 @@ function buddylist_preprocess_forum_user(&$variables) {
   if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {
     // Remove buddy
     $variables['buddylist_class'] = "buddy-remove";
-    $variables['buddylist_icon'] = theme('image', advanced_forum_get_icon_directory() . 'group_delete.png', 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
+    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/group_delete.png', 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
     $variables['buddylist_text'] = t('Remove buddy');
     $variables['buddylist_link'] = "buddy/delete/$accountid";
   } 
@@ -26,7 +26,7 @@ function buddylist_preprocess_forum_user(&$variables) {
     // Add buddy
     if ($accountid != $user->uid && user_access('maintain buddy list')) {
       $variables['buddylist_class'] = "buddy-add";
-      $variables['buddylist_icon'] = theme('image', advanced_forum_get_icon_directory() . 'group_add.png', 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
+      $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/group_add.png', 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
       $variables['buddylist_text'] = t('Add buddy');
       $variables['buddylist_link'] = "buddy/add/$accountid";
     }

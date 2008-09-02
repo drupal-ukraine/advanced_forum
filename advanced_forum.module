@@ -66,8 +66,8 @@ function advanced_forum_settings_page() {
     '#type' => 'textfield',
     '#title' => t('Advanced forum style'),
     '#size' => 25,
-    '#description' => t('Name of advanced forum style. Defaults to "advforum"'),
-    '#default_value' => variable_get('advanced_forum_style', 'advforum'),
+    '#description' => t('Name of advanced forum style. Defaults to "naked"'),
+    '#default_value' => variable_get('advanced_forum_style', 'naked'),
   );
 
   $form['advanced_forum_theme_all_comments'] = array(
@@ -158,8 +158,8 @@ function theme_forum_user($account) {
   advanced_forum_call_preprocess('forum_user', $variables);
     
   // Send the variables to the advf-forum-user.tpl.php
-  $forum_theme =  advanced_forum_get_forum_theme_directory();
-  return _phptemplate_callback("advf_forum_user", $variables, array("$forum_theme/advf-forum-user"));
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf_forum_user", $variables, array("$forum_style/advf-forum-user"));
 }
 
 // Add in the D6 backports from the forum, taxonomy, and comment modules
@@ -180,16 +180,9 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forums', $variables);
 
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
-    return _phptemplate_callback('advf_forums', $variables, array("$forum_theme/advf-forums"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
-  }
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback('advf_forums', $variables, array("$forum_style/advf-forums"));
 }
 
 /**
@@ -204,16 +197,9 @@ function phptemplate_forum_list($forums, $parents, $tid) {
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forum_list', $variables);
    
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
-    return _phptemplate_callback("advf_forum_list", $variables, array("$forum_theme/advf-forum-list"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_list($forums, $parents, $tid);
-  }
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf_forum_list", $variables, array("$forum_style/advf-forum-list"));
 }
 
 /*
@@ -228,16 +214,9 @@ function phptemplate_forum_submitted($topic) {
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forum_submitted', $variables);
 
-  // Look for the .tpl file in the theme. If found, use it. If not found, 
-  // just warn because there is no stock code to default to.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
-    return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_theme/advf-forum-submitted"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
-    return 'MISSING TPL';
-  }
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf-forum-submitted", $variables, array("$forum_style/advf-forum-submitted"));
 }
 
 /**
@@ -253,16 +232,9 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forum_topic_list', $variables);
       
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
-    return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_theme/advf-forum-topic-list"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
-  }
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf-forum-topic-list", $variables, array("$forum_style/advf-forum-topic-list"));
 }
 
 /**
@@ -288,16 +260,9 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('forum_icon', $variables);
 
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
-    return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_theme/advf-forum-icon"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
-  }
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf-forum-icon", $variables, array("$forum_style/advf-forum-icon"));
 }
 
 // TEMPLATE PREPROCESS *******************************************************/
@@ -307,17 +272,16 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
  */
 function advanced_forum_preprocess_node(&$vars) {
   if (advanced_forum_treat_as_forum_post('node', $vars)) {
-    $forum_theme = advanced_forum_get_forum_theme_directory();
+    $forum_style = advanced_forum_get_current_style();
     
     if ($_GET['page'] > 0) { 
       // This is the repeated node on the top of subsequent pages.
       // We send this to a special .tpl so people can wipe it out or whatever
-      $vars['template_files'][] = "$forum_theme/advf-forum-repeat-post";
+      $vars['template_files'][] = "$forum_style/advf-forum-repeat-post";
     }
     else {
       // Use our combined node/comment template file
-      // D5 won't find templates in subdirectories so we need to give it that
-      $vars['template_files'][] = "$forum_theme/advf-forum-post";
+       $vars['template_files'][] = "$forum_style/advf-forum-post";
     }
 
     // The node is the first post, aka topic
@@ -374,8 +338,8 @@ function advanced_forum_preprocess_comment(&$vars) {
   if (advanced_forum_treat_as_forum_post('comment', $vars)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
-    $forum_theme = advanced_forum_get_forum_theme_directory();
-    $vars['template_files'][] = "$forum_theme/advf-forum-post";
+    $forum_style = advanced_forum_get_current_style();
+    $vars['template_files'][] = "$forum_style/advf-forum-post";
     
     // Thread is being shown in the forum (not on the front page or in a view)
     $vars['is_forum'] = TRUE;
@@ -489,13 +453,13 @@ function template_preprocess_forum_user(&$variables) {
   // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme('image', advanced_forum_get_icon_directory() . '/images/status_online.png', 'User is online', 'User is online', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_online.png', 'User is online', 'User is online', NULL, TRUE);
     $variables['online_text'] = t('Online');
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   } 
   else {
     $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme('image', advanced_forum_get_icon_directory() . '/images/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
     $variables['online_text'] = t('Offline');
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
   }
@@ -787,7 +751,54 @@ function advanced_forum_markasread_access() {
   return user_access('access content') && $user->uid;
 }
 
-// THEME UTILITY FUNCTIONS ***************************************************/
+// STYLE UTILITY FUNCTIONS ***************************************************/
+
+/**
+ * Returns the name of the forum style to use.
+ */
+function advanced_forum_get_current_style() {
+  return variable_get('advanced_forum_style', 'naked');
+}
+
+/**
+ * Returns the full path to the advanced forum style, including the style name
+ */
+function advanced_forum_path_to_style() {
+  static $style_path;
+  
+  if (!$style_path) {
+    // Retrieve the style name 
+    $style = advanced_forum_get_current_style();
+    
+    // Check first if there is a subtheme. This function is defined in Zen
+    // and potentially may exist in other themes with subthemes.
+    init_theme();
+    if (function_exists("path_to_subtheme")) {
+      $style_path = path_to_subtheme() . '/' . $style;
+    }
+
+    // If we had no luck finding the style in a subtheme, find the style path
+    // the normal way.
+    if (empty($style_path) || !file_exists($style_path)) {
+      $style_path = path_to_theme() . '/' . $style;
+    } 
+  }
+
+  return $style_path;
+}
+
+/**
+ * Returns the path to the advanced forum image directory
+ */
+function advanced_forum_path_to_images() {
+  static $image_path;
+  
+  if (!$image_path) {
+    $image_path = advanced_forum_path_to_style() . '/images';
+  }
+  
+  return $image_path;
+}
 
 /**
  * This function returns true if the node/comment should be themed and 
@@ -845,114 +856,6 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
   }
 }
 
-/**
- * Returns the directory of the forum theme files.
- */
-function advanced_forum_get_forum_theme_directory() {
-  return variable_get('advanced_forum_themedir','advforum');
-}
-
-/**
- * Returns the directory of the forum icon files.
- */
-function advanced_forum_get_icon_directory() {
-  if (variable_get('advanced_forum_use_supplied_icons', 1)) {
-    return drupal_get_path('module', 'advanced_forum') . '/themes/advforum/images/';
-  }
-  else {
-    // Use the icons in the forum theme
-    return advanced_forum_path_to_theme() . "/" . advanced_forum_get_forum_theme_directory() . "/images/";
-  }
-}
-
-/**
- * Wrapper around path_to_theme() that will check for a subtheme first.
- */
-function advanced_forum_path_to_theme() {
-  // Create this as a static variable since it's used a lot on one page
-  static $advanced_forum_theme_path;
-
-  // If we already stored the path, just send it back
-  if (isset($advanced_forum_theme_path)) {
-    return $advanced_forum_theme_path;
-  }
-
-  // Check first if there is a subtheme. This function is defined in Zen
-  // and potentially may exist in other themes with subthemes.
-  init_theme();
-  if (function_exists("path_to_subtheme")) {
-    $advanced_forum_theme_path = path_to_subtheme();
-  }
-
-  // If we had no luck finding a subtheme, find the theme path
-  // the normal way.
-  if (empty($advanced_forum_theme_path)) {
-    $advanced_forum_theme_path = path_to_theme();
-  }
-  
-  return $advanced_forum_theme_path;
-}
-
-/**
- * Returns the directory of the forum style files.
- */
-function advanced_forum_get_style() {
-  return variable_get('advanced_forum_style', 'advforum');
-}
-
-/**
- * Returns the path to the advanced forum style, including the style name
- */
-function advanced_forum_path_to_style() {
-  static $style_path;
-  
-  if (!$style_path) {
-    $style = advanced_forum_get_style();
-  
-    // Look for it in the theme directory
-    $path = path_to_theme() . '/' . $style;
-    if (file_exists($path)) {
-      $style_path = $path;
-      advanced_forum_style_in_theme(TRUE);
-    } else {
-      // Look for the style in the module directory
-      $path = drupal_get_path('module', 'advanced_forum') . "/themes/$style/";
-      if (file_exists($path)) {
-        $style_path = $path;
-        advanced_forum_style_in_theme(FALSE);
-      } else {
-        // Fall back to a known style
-        $style_path = drupal_get_path('module', 'advanced_forum') . "/themes/advforum/";
-        advanced_forum_style_in_theme(FALSE);
-      }
-    }
-  }
-  
-  return $style_path;
-}
-
-/**
- * Keeps track of whether the style was found in the theme or the module
- */
-function advanced_forum_style_in_theme($in_theme = NULL) {
-  static $is_in_theme;
-  
-  if ($in_theme != NULL) {
-    $is_in_theme = $in_theme;
-  }
-  
-  return $is_in_theme;
-}
-
-function advanced_forum_path_to_images() {
-  static $image_path;
-  
-  if (!$image_path) {
-    $image_path = advanced_forum_path_to_style() . '/images';
-  }
-  
-  return $image_path;
-}
 
 // GENERAL UTILITY FUNCTIONS *************************************************/
 
