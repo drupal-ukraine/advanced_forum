@@ -23,11 +23,11 @@
 <?php if ($forums_defined): ?>
 <div id="forum">
 
-  <?php if (isset($forum_description)) : ?>
-    <div class="forum-description"><?php print $forum_description ?></div>
-  <?php endif; ?>
+  <div class="forum-description">
+  <?php print $forum_description ?>
+  </div>
 
-  <div class="forum-top-links"><?php print theme('links', $links, array('class'=>'links forumlinks')); ?></div>
+  <div class="forum-top-links"><?php print theme('links', $links, array('class'=>'links forum-links')); ?></div>
   <?php print $forums; ?>
   <?php print $topics; ?>
 </div>

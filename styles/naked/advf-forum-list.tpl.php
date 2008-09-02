@@ -31,67 +31,78 @@
  * @see theme_forum_list()
  */
 ?>
-<table id="forum-<?php print $forum_id; ?>">
-  <thead>
+<table id="forum-<?php print $forum_id; ?>" class="forum-table">
+  
+  <thead class="forum-header">
     <tr>
-      <th><?php print t('Forum'); ?></th>
-      <th><?php print t('Topics');?></th>
-      <th><?php print t('Posts'); ?></th>
-      <th><?php print t('Last post'); ?></th>
+      <th class="forum-name"><?php print t('Forum'); ?></th>
+      <th class="forum-topics"><?php print t('Topics');?></th>
+      <th class="forum-posts"><?php print t('Posts'); ?></th>
+      <th class="forum-last-post"><?php print t('Last post'); ?></th>
     </tr>
   </thead>
+  
   <tbody>
-  <?php 
-  $num_forums = count($forums); 
-  $forum_num = 0;
-  ?>
-  <?php foreach ($forums as $child_id => $forum): ?>
     <?php 
-    // Counter to label the rows by position
+    $num_forums = count($forums); 
+    $forum_num = 0;
+    ?>
+  
+    <?php foreach ($forums as $child_id => $forum): ?>
+      <?php 
+      // Counter to label the rows by position
     $forum_num++;
     switch ($forum_num) {
       case "1":
-        $position = 'first_row';
+        $position = 'first-row';
         break;
       case $num_forums:
-        $position = 'last_row';
+        $position = 'last-row';
         break;
       default:
-        $position = 'middle_row';
+        $position = 'middle-row';
     }
     ?>
     <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $position;?>">
     <td <?php 
         if( $forum->is_container) {
           print 'colspan="4" class="container"';
-          } elseif ($forum->new_topics) {
-            // Special class when the forum has new topics for changing icon
-            print 'class="forum forum-list-new"';
-          }else{
-            print 'class="forum"';
-          }
-        ?>>        
+        } ?>>
         <?php /* Enclose the contents of this cell with X divs, where X is the
                * depth this forum resides at. This will allow us to use CSS
                * left-margin for indenting.
                */ ?>
         <?php print str_repeat('<div class="indent">', $forum->depth); ?>
-          <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
-          <?php if ($forum->description): ?>
-            <div class="description"><?php print $forum->description; ?></div>
+          <?php if (!$forum->is_container): ?>
+            <div class="forum-icon">  
+              <img src="<?php print advanced_forum_path_to_images() . '/forum-folder.png'; ?>" alt="" />
+            </div>
           <?php endif; ?>
+          <div class="forum-details">  
+            <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
+            <?php if ($forum->description): ?>
+              <div class="description"><?php print $forum->description; ?></div>
+            <?php endif; ?>
+          </div>
         <?php print str_repeat('</div>', $forum->depth); ?>
       </td>
       <?php if (!$forum->is_container): ?>
         <td class="topics">
-          <?php print $forum->num_topics ?>
+          <div class="num num-topics"><?php print $forum->num_topics ?></div>
           <?php if ($forum->new_topics): ?>
-            <br />
-            <a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a>
+            <div class="num num-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
           <?php endif; ?>
         </td>
-        <td class="posts"><?php print $forum->num_posts ?></td>
-        <td class="last-reply"><?php print $forum->last_reply ?></td>
+        
+        <td class="num posts">
+          <?php print $forum->num_posts ?>
+          <?php if ($forum->new_posts): ?>
+              <br />
+              <a href="<?php print $forum->new_url_posts; ?>"><?php print $forum->new_text_posts; ?></a>
+          <?php endif; ?>        
+       </td>
+        
+      <td class="last-reply"><?php print $forum->last_reply ?></td>
       <?php endif; ?>
     </tr>
   <?php endforeach; ?>

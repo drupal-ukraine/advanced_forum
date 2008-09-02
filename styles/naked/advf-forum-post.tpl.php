@@ -32,63 +32,51 @@ if ($top_post) {
   </div>
 <?php } ?>
 
-<div class="<?php print $postclass ? $postclass . ' ' : ''; ?>forum-comment<?php print $row_class ? ' forum-comment-' . $row_class : ''; print $comment->new ? ' comment-new forum-comment-new' : ''; ?>">
+<div class="<?php print $postclass ? $postclass . ' ' : ''; ?>forum-comment<?php print $row_class ? ' forum-comment-' . $row_class : ''; print $comment->new ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
-  <div class="post-info">
-     <span class="postedon"><?php print t("Posted on: ") . $date ?></span>
-    
-    <?php if ($comment->new) : ?>
-      <a id="new"></a>
-      <span class="new"><?php print $new ?></span>
-    <?php endif ?>
-
+  <div class="post-info clearfix">
     <?php
       if (!$top_post) {
-        print '<span class="post-num">';
-        print $comment_link;
-        print ' ' . $page_link;
-        print '</span>' ;
+    ?>
+    <div class="post-title"><?php print $title ?></div>
+    <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
+    <?php
       }
     ?>
   </div>
-  <div class="clear"></div>
 
   <div class="forum-post-wrapper">
     <div class="forum-comment-left">
-      <div class="innertube">
+      <div class="user-info">
       <?php print $user_info_pane; ?>   
      </div>
     </div>
 
-    <div class="forum-comment-right">
-      <div class="posttitle">
-        <?php print $title ?>
+    <div class="forum-comment-right clearfix">
+      <div class="posted-on"><?php print t("Posted: ") . $date ?>
+        <?php if ($comment->new) : ?>
+          <a id="new"></a>
+          <span class="new">- <?php print $new ?></span>
+        <?php endif ?>
       </div>
-      
       <div class="content">
         <?php print $content ?>
-       </div>  
+      </div>  
 
-      <!-- Note: This is only used in 6.x -->
-      <?php if ($signature): ?>
-        <div class="user-signature clear-block">
-          <?php print $signature ?>
-        </div>
-      <?php endif; ?>
- 
     </div>
-    <div class="clear"></div>
-    <div class="links">
-    <?php print $links ?>
+    
+    <!-- Note: This is only used in 6.x -->
+    <?php if ($signature): ?>
+      <div class="user-signature clear-block">
+        <?php print $signature ?>
+      </div>
+    <?php endif; ?> 
+    
+    <?php if ($links): ?>
+      <div class="links">
+        <?php print $links ?>
+      </div>
+    <?php endif; ?>
+ 
   </div>
-  
-  </div>
-  <div class="clear"></div>
-  
 </div>
-
-<div class="clear"></div>
-
-<?php if ($top_post) { ?>
-  <br />
-<?php } ?>

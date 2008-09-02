@@ -43,12 +43,11 @@ $subscribe_link - As above but just the relative path
 
 */
 ?>
-<div class="user-info">
+<div class="user-info-inner">
 
   <?php print $name; ?>
   <?php print $user_title; ?>
   <?php print $picture; ?>
-  <br />
   <?php print $posts; ?>
   <?php print $joined; ?>
   <?php print $points; ?>
