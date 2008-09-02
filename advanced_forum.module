@@ -501,7 +501,27 @@ function advanced_forum_preprocess_forums(&$variables) {
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
 
-//Code removed... Placeholder left for the moment.
+  global $user;
+  foreach ($variables['forums'] as $id => $forum) {
+    $variables['forums'][$id]->new_posts = 0;
+    $variables['forums'][$id]->new_text_posts = '';
+    $variables['forums'][$id]->new_url_posts = '';
+    $variables['forums'][$id]->old_posts = $forum->num_posts;
+    
+    if ($user->uid) {
+      if (variable_get('advforum_get_new_comments', TRUE)) {
+        // This can cause performance issues, so allow it to be turned off
+        $variables['forums'][$id]->new_posts = advanced_forum_unread_posts_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics; 
+      }
+      
+      if ($variables['forums'][$id]->new_posts) {
+        $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
+        $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", array('fragment' => 'new'));
+      }
+      
+      $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
+    }  
+  }  
 }
 
 /**
@@ -532,20 +552,26 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
  * Preprocesses template variables for the topic list template.
  */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
-  // Redo the table header so we can add in views. This is mostly copied from
-  // core with just the views bit stuck in.
+  // Redo the table header so we can add in views. 
   global $forum_topic_list_header;
 
   $forum_topic_list_header = array();
-  $forum_topic_list_header[] = array('data' => '&nbsp;', 'field' => NULL);
-  $forum_topic_list_header[] = array('data' => t('Topic'), 'field' => 'n.title');
-  $forum_topic_list_header[] = array('data' => t('Replies'), 'field' => 'l.comment_count');
-  if (module_exists('statistics')) {
-    $forum_topic_list_header[] =  array('data' => t('Views'), 'field' => NULL);
-  }
-  $forum_topic_list_header[] =  array('data' => t('Created'), 'field' => 'n.created');
-  $forum_topic_list_header[] =  array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp');
+  $forum_topic_list_header[] = array('data' => '&nbsp;', 'class' => 'column_icon');
+  $forum_topic_list_header[] = array('data' => t('Topic'), 'field' => 'n.title', 'class' => 'column_topic');
+  $forum_topic_list_header[] = array('data' => t('Replies'), 'field' => 'l.comment_count', 'class' => 'column_replies');
   
+  // Topic views require the statistics module so don't show if it's not enabled
+  if (module_exists('statistics')) {
+    $forum_topic_list_header[] =  array('data' => t('Views'), 'class' => 'column_views');
+  }
+  
+  // Allow admins to turn off the created column
+  if (variable_get('advanced_forum_show_created', TRUE)) {
+    $forum_topic_list_header[] =  array('data' => t('Created'), 'field' => 'n.created', 'class' => 'column_created');
+  }
+  
+  $forum_topic_list_header[] =  array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp', 'class' => 'column_lreply');
+
   // Create the tablesorting header.
   $ts = tablesort_init($forum_topic_list_header);
   $header = '';
@@ -584,6 +610,23 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
       if (module_exists('statistics')) {
         $variables['topics'][$id]->views =  _advanced_forum_get_topic_views_count($topic->nid);
       }
+      
+      // Set classes based on stickiness. This allows themers to seperate out
+      // all the sticky posts into their own section.
+      if ($topic->sticky) {
+        $sticky_class = 'sticky-topic';
+        $was_sticky = TRUE;
+      } 
+      elseif ($wassticky) {
+        $sticky_class = 'first-not-sticky not-sticky';
+        $was_sticky = FALSE;
+      } 
+      else {
+        $sticky_class  = 'not-sticky';
+      }
+      
+      $topic->sticky_class = $sticky_class;      
+      
     }
   }
 }
@@ -991,3 +1034,11 @@ function _advanced_forum_get_topic_views_count($nid) {
   return $views_count;
 }
 
+/**
+ * Returns the number of unread posts in a given forum for a given user
+ */
+function advanced_forum_unread_posts_in_forum($tid, $uid) {
+  $sql = "SELECT COUNT(c.cid) FROM {comments} c INNER JOIN {node} n INNER JOIN {term_node} tn ON c.nid = n.nid AND c.nid = tn.nid AND tn.tid = %d LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d WHERE n.status = 1 AND n.type = 'forum' AND c.timestamp > h.timestamp";
+  $sql = db_rewrite_sql($sql);
+  return db_result(db_query($sql, $term, $uid, NODE_NEW_LIMIT));
+}

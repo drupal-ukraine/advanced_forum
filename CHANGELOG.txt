@@ -2,6 +2,16 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 2, 2008
+-----------------
+#NOISSUE by Michelle: Fixed joined date to not use hardcoded format. Regex provided by Morbus.
+#NOISSUE by Michelle: Re-arranged functions and cleaned up some comments.
+#268684 by Michelle: Removed old themes directory.
+#268684 by Michelle: Switched to using styles.  (Theme changes: Numerous. Will have docs by next alpha.)
+#268684 by Michelle: Backport: Cleaned up advf-forum-topic-list.tpl.php and moved some logic into the preprocess.
+#268684 by Michelle: Backport: Added classes to table header for topic list and cleaned up empty fields.
+#238668 by ixeft, Michelle: Backport: Added N new posts to forum overview. 
+
 August 21, 2008
 ---------------
 #295562 by catch: Make 'views' column in topic list statistics.module dependent.
