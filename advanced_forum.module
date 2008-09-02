@@ -6,9 +6,7 @@
  * Enables the look and feel of other popular forum software.
  */
 
-/*****************************************************************************/
-/*** DRUPAL HOOKS ************************************************************/
-/*****************************************************************************/
+// DRUPAL HOOKS **************************************************************/
 
 /**
  * Implementation of hook_perm().
@@ -58,9 +56,7 @@ function advanced_forum_menu($may_cache) {
   return $items;
 }
 
-/*****************************************************************************/
-/*** SETTINGS PAGE ***********************************************************/
-/*****************************************************************************/
+// SETTINGS PAGE *************************************************************/
 
 /**
  * Defines the Advanced Forum settings form.
@@ -86,9 +82,7 @@ function advanced_forum_settings_page() {
   return system_settings_form($form);
 }
 
-/*****************************************************************************/
-/*** TEMPLATE PREPROCESS *****************************************************/
-/*****************************************************************************/
+// THEME TO PREPROCESS CONVERTER *********************************************/
 
 /**
  * Provides D5 compatability wrapper for node/comment preprocess functions.
@@ -152,6 +146,161 @@ function advanced_forum_include($file) {
     }
   }
 }
+
+/**
+ * Provides D5 compatability wrapper for forum user preprocess function.
+ */
+function theme_forum_user($account) {
+  $variables = array();
+  $variables['account'] = $account;
+
+  // Call our preprocess function to create all the variables
+  advanced_forum_call_preprocess('forum_user', $variables);
+    
+  // Send the variables to the advf-forum-user.tpl.php
+  $forum_theme =  advanced_forum_get_forum_theme_directory();
+  return _phptemplate_callback("advf_forum_user", $variables, array("$forum_theme/advf-forum-user"));
+}
+
+// Add in the D6 backports from the forum, taxonomy, and comment modules
+include_once drupal_get_path('module', 'advanced_forum') .'/d6_compat.inc';
+
+/**
+ * Implementation of theme_forum_display().
+ */
+function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
+  // Create a $variables array from the parameters
+  $variables['forums'] = $forums;
+  $variables['topics'] = $topics;
+  $variables['parents'] = $parents;
+  $variables['tid'] = $tid;
+  $variables['sortby'] = $sortby;
+  $variables['forum_per_page'] = $forum_per_page;
+   
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('forums', $variables);
+
+  // Look for the .tpl file in the theme. If found, use it. If not found, default
+  // to the stock forum code and put up a warning.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
+    return _phptemplate_callback('advf_forums', $variables, array("$forum_theme/advf-forums"));
+  } 
+  else {
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
+    return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
+  }
+}
+
+/**
+ * Implementation of theme_forum_list().
+ */
+function phptemplate_forum_list($forums, $parents, $tid) {
+  // Create a $variables array from the parameters
+  $variables['forums'] = $forums;
+  $variables['parents'] = $parents;
+  $variables['tid'] = $tid;
+
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('forum_list', $variables);
+   
+  // Look for the .tpl file in the theme. If found, use it. If not found, default
+  // to the stock forum code and put up a warning.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
+    return _phptemplate_callback("advf_forum_list", $variables, array("$forum_theme/advf-forum-list"));
+  } 
+  else {
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
+    return theme_forum_list($forums, $parents, $tid);
+  }
+}
+
+/*
+ * Provides D5 compatability wrapper for theme_forum_submitted.
+ * Note: this function does not exist at all in D5's forum.module
+ */
+ 
+function phptemplate_forum_submitted($topic) {
+  // Create a $variables array from the parameters
+  $variables['topic'] = $topic;
+
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('forum_submitted', $variables);
+
+  // Look for the .tpl file in the theme. If found, use it. If not found, 
+  // just warn because there is no stock code to default to.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
+    return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_theme/advf-forum-submitted"));
+  } 
+  else {
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
+    return 'MISSING TPL';
+  }
+}
+
+/**
+ * Implementation of theme_forum_topic_list().
+ */
+function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
+  // Create a $variables array from the parameters
+  $variables['tid'] = $tid;
+  $variables['topics'] = $topics;
+  $variables['sortby'] = $sortby;
+  $variables['forum_per_page'] = $forum_per_page;
+   
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('forum_topic_list', $variables);
+      
+  // Look for the .tpl file in the theme. If found, use it. If not found, default
+  // to the stock forum code and put up a warning.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
+    return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_theme/advf-forum-topic-list"));
+  } 
+  else {
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
+    return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
+  }
+}
+
+/**
+ * Implementation of theme_forum_topic_navigation
+ */
+function phptemplate_forum_topic_navigation($node) {
+  // Removes post title navigation from forum posts.
+  return ;
+}
+
+/**
+ * Implementation of theme_forum_icon
+ */
+function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0, $topic_id = 0) {
+  // Create a $variables array from the parameters
+  $variables['new_posts'] = $new_posts;
+  $variables['num_posts'] = $num_posts;
+  $variables['comment_mode'] = $comment_mode;
+  $variables['sticky'] = $sticky;
+  $variables['topic_id'] = $topic_id;
+   
+
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('forum_icon', $variables);
+
+  // Look for the .tpl file in the theme. If found, use it. If not found, default
+  // to the stock forum code and put up a warning.
+  $forum_theme = advanced_forum_get_forum_theme_directory();
+  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
+    return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_theme/advf-forum-icon"));
+  } 
+  else {
+    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
+    return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
+  }
+}
+
+// TEMPLATE PREPROCESS *******************************************************/
 
 /**
  * Preprocesses template variables for the node template.
@@ -308,21 +457,6 @@ function advanced_forum_preprocess_comment(&$vars) {
 }
 
 /**
- * Provides D5 compatability wrapper for forum user preprocess function.
- */
-function theme_forum_user($account) {
-  $variables = array();
-  $variables['account'] = $account;
-
-  // Call our preprocess function to create all the variables
-  advanced_forum_call_preprocess('forum_user', $variables);
-    
-  // Send the variables to the advf-forum-user.tpl.php
-  $forum_theme =  advanced_forum_get_forum_theme_directory();
-  return _phptemplate_callback("advf_forum_user", $variables, array("$forum_theme/advf-forum-user"));
-}
-
-/**
  * Preprocesses template variables for the user info template.
  */
 function template_preprocess_forum_user(&$variables) {
@@ -367,40 +501,6 @@ function template_preprocess_forum_user(&$variables) {
   }
 }
 
-/*****************************************************************************/
-/*** FORUM MODULE THEME OVERRIDES ********************************************/
-/*****************************************************************************/
-
-// Add in the D6 backports from the forum, taxonomy, and comment modules
-include_once drupal_get_path('module', 'advanced_forum') .'/d6_compat.inc';
-
-/**
- * Implementation of theme_forum_display().
- */
-function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page) {
-  // Create a $variables array from the parameters
-  $variables['forums'] = $forums;
-  $variables['topics'] = $topics;
-  $variables['parents'] = $parents;
-  $variables['tid'] = $tid;
-  $variables['sortby'] = $sortby;
-  $variables['forum_per_page'] = $forum_per_page;
-   
-  // Pass the parameters into our preprocess function
-  advanced_forum_call_preprocess('forums', $variables);
-
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php")) {
-    return _phptemplate_callback('advf_forums', $variables, array("$forum_theme/advf-forums"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forums.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_display($forums, $topics, $parents, $tid, $sortby, $forum_per_page);
-  }
-}
-
 /**
  * Preprocesses template variables for the forum template.
  */
@@ -433,59 +533,11 @@ function advanced_forum_preprocess_forums(&$variables) {
 }
 
 /**
- * Implementation of theme_forum_list().
- */
-function phptemplate_forum_list($forums, $parents, $tid) {
-  // Create a $variables array from the parameters
-  $variables['forums'] = $forums;
-  $variables['parents'] = $parents;
-  $variables['tid'] = $tid;
-
-  // Pass the parameters into our preprocess function
-  advanced_forum_call_preprocess('forum_list', $variables);
-   
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php")) {
-    return _phptemplate_callback("advf_forum_list", $variables, array("$forum_theme/advf-forum-list"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-list.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_list($forums, $parents, $tid);
-  }
-}
-
-/**
  * Preprocesses template variables for the forum list template.
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
 
 //Code removed... Placeholder left for the moment.
-}
-
-
-/*
- * Provides D5 compatability wrapper for theme_forum_submitted.
- * Note: this function does not exist at all in D5's forum.module
- */
-function phptemplate_forum_submitted($topic) {
-  // Create a $variables array from the parameters
-  $variables['topic'] = $topic;
-
-  // Pass the parameters into our preprocess function
-  advanced_forum_call_preprocess('forum_submitted', $variables);
-
-  // Look for the .tpl file in the theme. If found, use it. If not found, 
-  // just warn because there is no stock code to default to.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php")) {
-    return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_theme/advf-forum-submitted"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-submitted.tpl.php not found.", "error");
-    return 'MISSING TPL';
-  }
 }
 
 /**
@@ -509,31 +561,6 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
     $fragment = ($new_replies) ? 'new' : '';
     $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
-  }
-}
-
-/**
- * Implementation of theme_forum_topic_list().
- */
-function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
-  // Create a $variables array from the parameters
-  $variables['tid'] = $tid;
-  $variables['topics'] = $topics;
-  $variables['sortby'] = $sortby;
-  $variables['forum_per_page'] = $forum_per_page;
-   
-  // Pass the parameters into our preprocess function
-  advanced_forum_call_preprocess('forum_topic_list', $variables);
-      
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php")) {
-    return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_theme/advf-forum-topic-list"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-topic-list.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_topic_list($tid, $topics, $sortby, $forum_per_page);
   }
 }
 
@@ -598,41 +625,6 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
 }
 
 /**
- * Implementation of theme_forum_topic_navigation
- */
-function phptemplate_forum_topic_navigation($node) {
-  // Removes post title navigation from forum posts.
-  return ;
-}
-
-/**
- * Implementation of theme_forum_icon
- */
-function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0, $topic_id = 0) {
-  // Create a $variables array from the parameters
-  $variables['new_posts'] = $new_posts;
-  $variables['num_posts'] = $num_posts;
-  $variables['comment_mode'] = $comment_mode;
-  $variables['sticky'] = $sticky;
-  $variables['topic_id'] = $topic_id;
-   
-
-  // Pass the parameters into our preprocess function
-  advanced_forum_call_preprocess('forum_icon', $variables);
-
-  // Look for the .tpl file in the theme. If found, use it. If not found, default
-  // to the stock forum code and put up a warning.
-  $forum_theme = advanced_forum_get_forum_theme_directory();
-  if (file_exists(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php")) {
-    return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_theme/advf-forum-icon"));
-  } 
-  else {
-    drupal_set_message(advanced_forum_path_to_theme() . '/' . $forum_theme . "/advf-forum-icon.tpl.php not found. Defaulting to stock page.", "error");
-    return theme_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $sticky = 0);
-  }
-}
-
-/**
  * Preprocesses template variables for the forum icon template.
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
@@ -641,9 +633,161 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
   return;
 }
 
-/*****************************************************************************/
-/*** THEME RELATED ***********************************************************/
-/*****************************************************************************/
+
+// CORE FORUM PAGE OVERRIDE **************************************************/
+
+/**
+ * Menu callback; prints a forum listing.
+ *
+ * This is copied from the forum module and adapted.
+ */
+function advanced_forum_page($tid = 0) {
+  drupal_add_css(drupal_get_path('module', 'forum') .'/forum.css');
+  $forum_per_page = variable_get('forum_per_page', 25);
+  $sortby = variable_get('forum_order', 1);
+
+  $forums = advanced_forum_get_forums($tid);
+  $parents = taxonomy_get_parents_all($tid);
+  if ($tid && !in_array($tid, variable_get('forum_containers', array()))) {
+    $topics = forum_get_topics($tid, $sortby, $forum_per_page);
+  }
+
+  return theme('forum_display', $forums, $topics, $parents, $tid, $sortby, $forum_per_page);
+}
+
+/**
+ * Returns a list of all forums for a given taxonomy id
+ *
+ * This is copied from the forum module and adapted.
+ *
+ * Forum objects contain the following fields
+ * -num_topics Number of topics in the forum
+ * -num_posts Total number of posts in all topics
+ * -last_post Most recent post for the forum
+ *
+ * @param $tid
+ *   Taxonomy ID of the vocabulary that holds the forum list.
+ * @return
+ *   Array of object containing the forum information.
+ */
+function advanced_forum_get_forums($tid = 0) {
+
+  $forums = array();
+  $_forums = taxonomy_get_tree(variable_get('forum_nav_vocabulary', ''), $tid);
+
+  if (count($_forums)) {
+
+    $counts = array();
+
+    $sql = "SELECT r.tid, COUNT(n.nid) AS topic_count, SUM(l.comment_count) AS comment_count FROM {node} n INNER JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {term_node} r ON n.nid = r.nid WHERE n.status = 1 AND n.type = 'forum' GROUP BY r.tid";
+    $sql = db_rewrite_sql($sql);
+    $_counts = db_query($sql, $forum->tid);
+    while ($count = db_fetch_object($_counts)) {
+      $counts[$count->tid] = $count;
+    }
+  }
+
+  foreach ($_forums as $forum) {
+    if (in_array($forum->tid, variable_get('forum_containers', array()))) {
+      $forum->container = 1;
+    }
+
+    if ($counts[$forum->tid]) {
+      $forum->num_topics = $counts[$forum->tid]->topic_count;
+      $forum->num_posts = $counts[$forum->tid]->topic_count + $counts[$forum->tid]->comment_count;
+    }
+    else {
+      $forum->num_topics = 0;
+      $forum->num_posts = 0;
+    }
+
+    // This query does not use full ANSI syntax since MySQL 3.x does not support
+    // table1 INNER JOIN table2 INNER JOIN table3 ON table2_criteria ON table3_criteria
+    // used to join node_comment_statistics to users.
+    $sql = "SELECT n.nid, n.title, n.type, ncs.last_comment_timestamp, IF (ncs.last_comment_uid != 0, u2.name, ncs.last_comment_name) AS last_comment_name, ncs.last_comment_uid FROM {node} n INNER JOIN {users} u1 ON n.uid = u1.uid INNER JOIN {term_node} tn ON n.nid = tn.nid INNER JOIN {node_comment_statistics} ncs ON n.nid = ncs.nid INNER JOIN {users} u2 ON ncs.last_comment_uid=u2.uid WHERE n.status = 1 AND n.type='forum' AND tn.tid = %d ORDER BY ncs.last_comment_timestamp DESC";
+    $sql = db_rewrite_sql($sql);
+    $topic = db_fetch_object(db_query_range($sql, $forum->tid, 0, 1));
+    $last_post = new stdClass();
+    $last_post->timestamp = $topic->last_comment_timestamp;
+    $last_post->name = $topic->last_comment_name;
+    $last_post->uid = $topic->last_comment_uid;
+    $last_post->nid = $topic->nid;
+    // Note, we call it "node_title" otherwise it gets picked up on the  
+    // topic list as well.
+    $last_post->node_title = $topic->title;
+    $last_post->type = $topic->type;
+    $forum->last_post = $last_post;
+
+    $forums[$forum->tid] = $forum;
+  }
+
+  return $forums;
+}
+
+
+// MARK AS READ **************************************************************/
+
+/**
+ * Marks all posts in forums or in a given forum as read by the current user.
+ */
+function advanced_forum_markasread() {
+  global $user;
+
+  // See if we're on a forum or on the forum overview
+  // Path will be /forum/markasread or /forum/markasread/tid
+  $current_forum_id = arg(2);
+
+  if ($current_forum_id) {
+    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
+    // present in the history table, marking all unread nodes as read
+    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
+           .' SELECT %d, n.nid, %d FROM {node} AS n'
+           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid'
+           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
+           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
+           .' AND tn.tid = %d'
+           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)';
+
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id, $user->uid);
+
+    db_query($sql, $args);
+
+    drupal_set_message(t('All content in this forum has been marked as read'));
+    drupal_goto('forum/'. $current_forum_id);
+  } 
+  else {
+    // We are on the forum overview, requesting all forums be marked read
+    $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
+ 
+    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
+    // present in the history table, marking all unread nodes as read.
+    // This version adds another subselect to get all forums
+    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
+           .' SELECT %d, n.nid, %d FROM {node} AS n'
+           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid' 
+           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
+           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
+           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)'
+           .' AND tn.tid in (SELECT tid FROM {term_data} WHERE vid = %d)';
+
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $user->uid, $forum_vocabulary_id);
+
+    db_query($sql, $args);
+
+    drupal_set_message(t('All forum content been marked as read'));
+    drupal_goto('forum');
+  }
+}
+
+function advanced_forum_markasread_access() {
+  // This separate function is needed because the new menu system doesn't run
+  // hook_menu() every time and the logged in status of the user can get cached
+  // and re-used for other users.
+  global $user;
+  return user_access('access content') && $user->uid;
+}
+
+// THEME UTILITY FUNCTIONS ***************************************************/
 
 /**
  * This function returns true if the node/comment should be themed and 
@@ -810,74 +954,7 @@ function advanced_forum_path_to_images() {
   return $image_path;
 }
 
-/*****************************************************************************/
-/*** MARK AS READ ************************************************************/
-/*****************************************************************************/
-
-/**
- * Marks all posts in forums or in a given forum as read by the current user.
- */
-function advanced_forum_markasread() {
-  global $user;
-
-  // See if we're on a forum or on the forum overview
-  // Path will be /forum/markasread or /forum/markasread/tid
-  $current_forum_id = arg(2);
-
-  if ($current_forum_id) {
-    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
-    // present in the history table, marking all unread nodes as read
-    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
-           .' SELECT %d, n.nid, %d FROM {node} AS n'
-           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid'
-           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
-           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
-           .' AND tn.tid = %d'
-           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)';
-
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id, $user->uid);
-
-    db_query($sql, $args);
-
-    drupal_set_message(t('All content in this forum has been marked as read'));
-    drupal_goto('forum/'. $current_forum_id);
-  } 
-  else {
-    // We are on the forum overview, requesting all forums be marked read
-    $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
- 
-    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
-    // present in the history table, marking all unread nodes as read.
-    // This version adds another subselect to get all forums
-    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
-           .' SELECT %d, n.nid, %d FROM {node} AS n'
-           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid' 
-           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
-           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
-           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)'
-           .' AND tn.tid in (SELECT tid FROM {term_data} WHERE vid = %d)';
-
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $user->uid, $forum_vocabulary_id);
-
-    db_query($sql, $args);
-
-    drupal_set_message(t('All forum content been marked as read'));
-    drupal_goto('forum');
-  }
-}
-
-function advanced_forum_markasread_access() {
-  // This separate function is needed because the new menu system doesn't run
-  // hook_menu() every time and the logged in status of the user can get cached
-  // and re-used for other users.
-  global $user;
-  return user_access('access content') && $user->uid;
-}
-
-/*****************************************************************************/
-/*** GENERAL FUNCTIONS *******************************************************/
-/*****************************************************************************/
-
+// GENERAL UTILITY FUNCTIONS *************************************************/
 
 /**
  * Holds the node ID of the thread we are on.
@@ -1009,93 +1086,5 @@ function _advanced_forum_get_topic_views_count($nid) {
     $views_count = 0;
   }
   return $views_count;
-}
-
-/**
- * Menu callback; prints a forum listing.
- *
- * This is copied from the forum module and adapted.
- */
-function advanced_forum_page($tid = 0) {
-  drupal_add_css(drupal_get_path('module', 'forum') .'/forum.css');
-  $forum_per_page = variable_get('forum_per_page', 25);
-  $sortby = variable_get('forum_order', 1);
-
-  $forums = advanced_forum_get_forums($tid);
-  $parents = taxonomy_get_parents_all($tid);
-  if ($tid && !in_array($tid, variable_get('forum_containers', array()))) {
-    $topics = forum_get_topics($tid, $sortby, $forum_per_page);
-  }
-
-  return theme('forum_display', $forums, $topics, $parents, $tid, $sortby, $forum_per_page);
-}
-
-/**
- * Returns a list of all forums for a given taxonomy id
- *
- * This is copied from the forum module and adapted.
- *
- * Forum objects contain the following fields
- * -num_topics Number of topics in the forum
- * -num_posts Total number of posts in all topics
- * -last_post Most recent post for the forum
- *
- * @param $tid
- *   Taxonomy ID of the vocabulary that holds the forum list.
- * @return
- *   Array of object containing the forum information.
- */
-function advanced_forum_get_forums($tid = 0) {
-
-  $forums = array();
-  $_forums = taxonomy_get_tree(variable_get('forum_nav_vocabulary', ''), $tid);
-
-  if (count($_forums)) {
-
-    $counts = array();
-
-    $sql = "SELECT r.tid, COUNT(n.nid) AS topic_count, SUM(l.comment_count) AS comment_count FROM {node} n INNER JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {term_node} r ON n.nid = r.nid WHERE n.status = 1 AND n.type = 'forum' GROUP BY r.tid";
-    $sql = db_rewrite_sql($sql);
-    $_counts = db_query($sql, $forum->tid);
-    while ($count = db_fetch_object($_counts)) {
-      $counts[$count->tid] = $count;
-    }
-  }
-
-  foreach ($_forums as $forum) {
-    if (in_array($forum->tid, variable_get('forum_containers', array()))) {
-      $forum->container = 1;
-    }
-
-    if ($counts[$forum->tid]) {
-      $forum->num_topics = $counts[$forum->tid]->topic_count;
-      $forum->num_posts = $counts[$forum->tid]->topic_count + $counts[$forum->tid]->comment_count;
-    }
-    else {
-      $forum->num_topics = 0;
-      $forum->num_posts = 0;
-    }
-
-    // This query does not use full ANSI syntax since MySQL 3.x does not support
-    // table1 INNER JOIN table2 INNER JOIN table3 ON table2_criteria ON table3_criteria
-    // used to join node_comment_statistics to users.
-    $sql = "SELECT n.nid, n.title, n.type, ncs.last_comment_timestamp, IF (ncs.last_comment_uid != 0, u2.name, ncs.last_comment_name) AS last_comment_name, ncs.last_comment_uid FROM {node} n INNER JOIN {users} u1 ON n.uid = u1.uid INNER JOIN {term_node} tn ON n.nid = tn.nid INNER JOIN {node_comment_statistics} ncs ON n.nid = ncs.nid INNER JOIN {users} u2 ON ncs.last_comment_uid=u2.uid WHERE n.status = 1 AND n.type='forum' AND tn.tid = %d ORDER BY ncs.last_comment_timestamp DESC";
-    $sql = db_rewrite_sql($sql);
-    $topic = db_fetch_object(db_query_range($sql, $forum->tid, 0, 1));
-    $last_post = new stdClass();
-    $last_post->timestamp = $topic->last_comment_timestamp;
-    $last_post->name = $topic->last_comment_name;
-    $last_post->uid = $topic->last_comment_uid;
-    $last_post->nid = $topic->nid;
-    // Note, we call it "node_title" otherwise it gets picked up on the  
-    // topic list as well.
-    $last_post->node_title = $topic->title;
-    $last_post->type = $topic->type;
-    $forum->last_post = $last_post;
-
-    $forums[$forum->tid] = $forum;
-  }
-
-  return $forums;
 }
 
