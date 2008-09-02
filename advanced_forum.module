@@ -345,10 +345,8 @@ function template_preprocess_forum_user(&$variables) {
     return;
   }
   
-  $themedir =  advanced_forum_get_forum_theme_directory();
-
   // Join date / since
-  $variables['joined_raw'] = format_date($account->created, 'custom', 'Y-m-d');
+  $variables['joined_raw'] = preg_replace('/\s*-?\s*\d{2}:\d{2}\s*-?\s*/', '', format_date($account->created, 'small'));
   $variables['joined'] = '<div class="account-joined"><strong>' . t('Joined: ') . '</strong>' . $variables['joined_raw'] . '</div>';
 
   $variables['member_since_raw'] = format_interval(time() - $account->created);
