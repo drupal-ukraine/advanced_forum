@@ -11,6 +11,12 @@ September 2, 2008
 #268684 by Michelle: Backport: Cleaned up advf-forum-topic-list.tpl.php and moved some logic into the preprocess.
 #268684 by Michelle: Backport: Added classes to table header for topic list and cleaned up empty fields.
 #238668 by ixeft, Michelle: Backport: Added N new posts to forum overview. 
+#268684 by Michelle: Added code to change forum icon when new posts. 
+#268684 by Michelle: Added new forum icons.
+#268684 by Michelle: Changed "mark as read" to use new icon.
+#301089 by George2: Only print title div if there is a title on the comment.
+#NOISSUE by Michelle: Changed "ago" to showing actual dates when over 48 hours.
+#302125 by IceCreamYou, Michelle: Added facebook status support.
 
 August 21, 2008
 ---------------

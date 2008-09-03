@@ -21,34 +21,34 @@
  */
 ?>
 
-<?php
-if ($top_post) {
-  // Class that shows we are on the node to allow for special theming
-  $postclass = "top-post";
-?> 
+<?php if ($top_post): ?>
+  <?php $postclass = "top-post"; ?> 
+  
   <div class="forum-post-header">
-  <?php print $reply_link; ?>
-  <?php print $jump_first_new; ?>
+    <?php print $reply_link; ?>
+    <?php print $jump_first_new; ?>
   </div>
-<?php } ?>
+  
+<?php endif; ?>
 
 <div class="<?php print $postclass ? $postclass . ' ' : ''; ?>forum-comment<?php print $row_class ? ' forum-comment-' . $row_class : ''; print $comment->new ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
   <div class="post-info clearfix">
-    <?php
-      if (!$top_post) {
-    ?>
-    <div class="post-title"><?php print $title ?></div>
-    <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
-    <?php
-      }
-    ?>
+    <?php if (!$top_post): ?>
+      <?php if ($title): ?>
+        <div class="posttitle">
+          <?php print $title ?>
+        </div>
+      <?php endif; ?>    
+      
+      <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
+    <?php endif; ?>
   </div>
 
   <div class="forum-post-wrapper">
     <div class="forum-comment-left">
       <div class="user-info">
-      <?php print $user_info_pane; ?>   
+        <?php print $user_info_pane; ?>   
      </div>
     </div>
 
@@ -59,13 +59,13 @@ if ($top_post) {
           <span class="new">- <?php print $new ?></span>
         <?php endif ?>
       </div>
+      
       <div class="content">
         <?php print $content ?>
       </div>  
 
     </div>
     
-    <!-- Note: This is only used in 6.x -->
     <?php if ($signature): ?>
       <div class="user-signature clear-block">
         <?php print $signature ?>

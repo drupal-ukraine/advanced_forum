@@ -40,7 +40,7 @@ $profile - Profile object from core profile. Usage: $profile['category']['field_
   Example: Real name: <?php print $profile['Personal info']['profile_name']['value']; ?>
 $subscribe - Formatted link to subscribe to the author's forum topics
 $subscribe_link - As above but just the relative path
-
+$facebook_status - Status from the facebook status module.
 */
 ?>
 <div class="user-info-inner">
@@ -51,6 +51,7 @@ $subscribe_link - As above but just the relative path
   <?php print $posts; ?>
   <?php print $joined; ?>
   <?php print $points; ?>
+  <?php print $facebook_status; ?>
   <?php print $user_badges;  ?>
   <?php print $online_status; ?>
   <?php print $contact; ?>

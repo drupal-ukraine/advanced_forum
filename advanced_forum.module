@@ -78,6 +78,15 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_theme_all_comments', 0),
   );
 
+
+/*
+Hidden options
+variable_get('advanced_forum_show_created', TRUE)) {
+variable_get('advforum_topic_pager_max', 5);
+variable_get('advforum_get_new_comments', TRUE);
+variable_get('advanced_forum_button_links', TRUE)
+*/ 
+
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
 }
@@ -480,7 +489,7 @@ function advanced_forum_preprocess_forums(&$variables) {
     $variables['forum_description'] = $forum->description;
   }
 
-  // Add in the mark as read link
+  // Add in the mark as read link if user has access
   if (advanced_forum_markasread_access()) {
     $tid = $variables['tid'];
     if ($tid) {
@@ -491,8 +500,17 @@ function advanced_forum_preprocess_forums(&$variables) {
       $title = t('Mark all forums read');
       $link = "forum/markasread";
     }
-    $variables['links']['markasread'] = array('title' => $title, 'href' => $link);
-    $variables['links_orig']['markasread'] = array('title' => $title, 'href' => $link);
+    
+    // To avoid translation issues, make the button version optional
+    if (variable_get('advanced_forum_button_links', TRUE)) {
+      $title_image = theme('image', advanced_forum_path_to_images() . '/' . 'mark-read.png');
+      $variables['links']['markasread'] = array('title' => $title_image, 'href'=>$link, 'html' => TRUE);
+      $variables['links_orig']['markasread'] = array('title' => $title_image, 'href'=>$link, 'html' => TRUE);
+    }
+    else {
+      $variables['links']['markasread'] = array('title' => $title, 'href'=>$link);
+      $variables['links_orig']['markasread'] = array('title' => $title, 'href'=>$link);
+    }
   }
 }
 
@@ -509,18 +527,27 @@ function advanced_forum_preprocess_forum_list(&$variables) {
     $variables['forums'][$id]->old_posts = $forum->num_posts;
     
     if ($user->uid) {
+      // Show number of new posts as well as topics
       if (variable_get('advforum_get_new_comments', TRUE)) {
         // This can cause performance issues, so allow it to be turned off
         $variables['forums'][$id]->new_posts = advanced_forum_unread_posts_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics; 
-      }
       
-      if ($variables['forums'][$id]->new_posts) {
-        $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
-        $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", array('fragment' => 'new'));
-      }
+        if ($variables['forums'][$id]->new_posts) {
+          $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
+          $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", array('fragment' => 'new'));
+        }
       
-      $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
-    }  
+        $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
+      }
+    }
+      
+    // If there are new topics/posts, change the icon
+    if ($forum->new_topics || $forum->new_posts) {
+      $forum->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder-new-posts.png');
+    }
+    else {
+      $forum->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder.png');
+    }
   }  
 }
 
@@ -545,6 +572,12 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
     $fragment = ($new_replies) ? 'new' : '';
     $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
+  }
+
+  // For items posted more than 48 hours ago, offer an actual date.
+  $timestamp = $variables['topic']->timestamp;
+  if (time() - $timestamp > 172800) {
+    $variables['date_posted'] = format_date($timestamp, 'small');
   }
 }
 

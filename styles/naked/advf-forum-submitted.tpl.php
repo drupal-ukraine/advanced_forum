@@ -22,18 +22,35 @@
 
 <?php if ($time): ?>
   <?php if ($topic_link): ?>
-    <?php print t(
-      '!title<br />@time ago<br />by !author', array(
+    <?php if ($date_posted): ?>
+      <?php print t(
+        '!title<br />by !author<br />@date_posted', array(
+        '!title' => $topic_link,
+        '@date_posted' => $date_posted,
+        '!author' => $author,
+      )); ?>
+    <?php else: ?>
+     <?php print t(
+        '!title<br />by !author<br />@time ago', array(
         '!title' => $topic_link,
         '@time' => $time,
         '!author' => $author,
-      )); ?>
+      )); ?>    
+    <?php endif; ?>
   <?php else: ?>
-    <?php print t(
-      '@time ago<br />by !author', array(
+    <?php if ($date_posted): ?>
+      <?php print t(
+        'by !author<br />@date_posted', array(
+        '@date_posted' => $date_posted,
+        '!author' => $author,
+      )); ?>
+    <?php else: ?>
+     <?php print t(
+        'by !author<br />@time ago', array(
         '@time' => $time,
         '!author' => $author,
-       )); ?>  
+      )); ?>    
+    <?php endif; ?>
   <?php endif; ?>      
 <?php else: ?>
   <?php print t('n/a'); ?>
