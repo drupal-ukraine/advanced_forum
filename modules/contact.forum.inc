@@ -12,10 +12,13 @@ function contact_preprocess_forum_user(&$variables) {
   $account = $variables['account'];
 
   if (($account->contact) && ($account->uid != $user->uid) && ($user->uid != 0)) {
-    $variables['contact_class'] = "contact";
-    $variables['contact_icon'] = theme('image', advanced_forum_path_to_images() . '/email.png', 'Email', 'Email', NULL, TRUE);
-    $variables['contact_text'] = t('Email');
+    $variables['contact_icon'] = theme('image', advanced_forum_path_to_images() . '/email.png', t('Email'), t('Email'), NULL, TRUE);
     $variables['contact_link'] = 'user/'. $account->uid . '/contact';
-    $variables['contact'] = '<div class="contact">' . l($variables['contact_icon'] . ' '  . $variables['contact_text'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) . '</div>';
+    $variables['contact'] = 
+      '<div class="contact">' . 
+      l($variables['contact_icon'], $variables['contact_link'], NULL, NULL, NULL, NULL, TRUE) . 
+      ' ' .      
+      l(t('Email'), $variables['contact_link']) . 
+      '</div>';
   }
 }

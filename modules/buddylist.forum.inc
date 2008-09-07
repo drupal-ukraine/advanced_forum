@@ -8,29 +8,31 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function buddylist_preprocess_forum_user(&$variables) {
-  // We don't want to do this for anonymous users.
-  if ($variables['account']->uid == 0) {
+  global $user;
+  $account_id = $variables['account']->uid;
+  if (!user_access('maintain buddy list') || $user->uid == $account_id) {
+    // User doesn't have access to buddy list or user is poster.
     return;
   }
   
-  $accountid = $variables['account']->uid;
-
-  if (user_access('maintain buddy list') && @in_array($accountid, array_keys(buddylist_get_buddies($user->uid)))) {
+  if (@in_array($account_id, array_keys(buddylist_get_buddies($user->uid)))) {
     // Remove buddy
-    $variables['buddylist_class'] = "buddy-remove";
-    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/group_delete.png', 'Remove Buddy', 'Remove Buddy', NULL, TRUE);
-    $variables['buddylist_text'] = t('Remove buddy');
-    $variables['buddylist_link'] = "buddy/delete/$accountid";
+    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/buddy_remove.png', t('Remove Buddy'), t('Remove Buddy'), NULL, TRUE);
+    $variables['buddylist_link'] = "buddy/delete/$account_id";
+    $variables['buddylist'] = '<div class="buddylist">' . 
+      l($variables['buddylist_icon'], $variables['buddylist_link'], NULL, NULL, NULL, NULL, TRUE) . 
+      ' '  . 
+      l(t('Remove buddy'), $variables['buddylist_link']) .
+      '</div>';
   } 
   else {
     // Add buddy
-    if ($accountid != $user->uid && user_access('maintain buddy list')) {
-      $variables['buddylist_class'] = "buddy-add";
-      $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/group_add.png', 'Add to buddy list', 'Add to buddy list', NULL, TRUE);
-      $variables['buddylist_text'] = t('Add buddy');
-      $variables['buddylist_link'] = "buddy/add/$accountid";
-    }
+    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/buddy_add.png', t('Add to buddy list'), t('Add to buddy list'), NULL, TRUE);
+    $variables['buddylist_link'] = "buddy/add/$account_id";
+    $variables['buddylist'] = '<div class="buddylist">' . 
+      l($variables['buddylist_icon'], $variables['buddylist_link'], NULL, NULL, NULL, NULL, TRUE) . 
+      ' '  . 
+      l(t('Add buddy'), $variables['buddylist_link']) .
+      '</div>';
   }
-
-  $variables['buddylist'] = '<div class="' . $variables['buddylist_class'] . '">' .l($variables['buddylist_icon'] . ' '  . $variables['buddylist_text'], $variables['buddylist_link'], NULL, NULL, NULL, NULL, TRUE) .'</div>';
 }

@@ -8,20 +8,21 @@
  * Implementation of hook_preprocess_forum_user().
  */
 function user_stats_preprocess_forum_user(&$variables) {
-  // We don't want to do this for anonymous users.
-  if ($variables['account']->uid == 0) {
+  $account_id = $variables['account']->uid;
+  if ($account_id == 0) {
+    // Stats not available for anonymous users.
     return;
   }
-  
+ 
   if (user_access('View statistics')) {
-    $variables['posts_raw'] = user_stats_get_stats('post_count', $variables['account']->uid);
-    $variables['posts'] = '<div class="user-posts"><strong>' . t('Posts: ') . '</strong>' . $variables['posts_raw'] . '</div>';
+    $variables['user_stats_posts_raw'] = user_stats_get_stats('post_count', $account_id);
+    $variables['user_stats_posts'] = '<div class="user-posts"><span class="user-info-label">' . t('Posts: ') . '</span>' . $variables['user_stats_posts_raw'] . '</div>';
   }
 
   // IP is only visible if the viewer has access, so do an extra check
-  $ip = user_stats_get_stats('ip_address', $variables['account']->uid);
+  $ip = user_stats_get_stats('ip_address', $account_id);
   if (!empty($ip)) {
-    $variables['ip_raw'] = $ip;
-    $variables['ip'] = '<div class="user-ip"><strong>' . t('IP: ') . '</strong>' . $variables['ip_raw'] . '</div>';
+    $variables['user_stats_ip_raw'] = $ip;
+    $variables['user_stats_ip'] = '<div class="user-ip"><span class="user-info-label">' . t('IP: ') . '</span>' . $variables['user_stats_ip_raw'] . '</div>';
   }
 }
