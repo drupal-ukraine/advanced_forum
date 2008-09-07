@@ -93,16 +93,16 @@ see advanced_forum-structure.css.
   font-size: 0.9em;
 }
 
-#forum tr.notsticky {
+#forum tr.not-sticky {
 
 }
 
-#forum tr.firstnotsticky {
+#forum tr.first-not-sticky {
 
 }
 
-#forum tr.stickytopic {
-  background: #BCBCBC;
+#forum tr.sticky-topic {
+  background: #DEDEDE;
 }
 
 /* Top links */
@@ -143,6 +143,7 @@ see advanced_forum-structure.css.
 }
 
 .forum-comment .new {
+  float: none;
   font-weight: bold;
 }
 
@@ -162,11 +163,12 @@ see advanced_forum-structure.css.
   border: 1px solid #000;
 }
 
-.author-title, 
-.author-posts, 
-.author-regdate, 
-.author-points {
-  font-size: 0.8em;
+.forum-fomment-left .user-info-label {
+  font-weight: bold;
+}
+
+.user-info-inner img {
+  vertical-align: top;
 }
 
 /* Signature */
@@ -200,7 +202,7 @@ see advanced_forum-structure.css.
 .forum-links li a:active {
 }
 
-.topic_reply {
+.topic-reply {
   font-size: 1.2em;
 }
 
@@ -209,6 +211,7 @@ see advanced_forum-structure.css.
 .clearfix:after {
   content: ".";
   display: block;
+  font-size: 0;
   height: 0;
   clear: both;
   visibility: hidden;

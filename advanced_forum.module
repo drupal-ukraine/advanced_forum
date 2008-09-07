@@ -1073,5 +1073,5 @@ function _advanced_forum_get_topic_views_count($nid) {
 function advanced_forum_unread_posts_in_forum($tid, $uid) {
   $sql = "SELECT COUNT(c.cid) FROM {comments} c INNER JOIN {node} n INNER JOIN {term_node} tn ON c.nid = n.nid AND c.nid = tn.nid AND tn.tid = %d LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d WHERE n.status = 1 AND n.type = 'forum' AND c.timestamp > h.timestamp";
   $sql = db_rewrite_sql($sql);
-  return db_result(db_query($sql, $term, $uid, NODE_NEW_LIMIT));
+  return db_result(db_query($sql, $tid, $uid, NODE_NEW_LIMIT));
 }

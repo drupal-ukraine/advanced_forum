@@ -36,7 +36,7 @@
   <div class="post-info clearfix">
     <?php if (!$top_post): ?>
       <?php if ($title): ?>
-        <div class="posttitle">
+        <div class="post-title">
           <?php print $title ?>
         </div>
       <?php endif; ?>    

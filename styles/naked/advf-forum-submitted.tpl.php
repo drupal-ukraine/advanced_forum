@@ -21,8 +21,8 @@
 ?>
 
 <?php if ($time): ?>
-  <?php if ($topic_link): ?>
-    <?php if ($date_posted): ?>
+  <?php if (!empty($topic_link)): ?>
+    <?php if (isset($date_posted)): ?>
       <?php print t(
         '!title<br />by !author<br />@date_posted', array(
         '!title' => $topic_link,
@@ -38,7 +38,7 @@
       )); ?>    
     <?php endif; ?>
   <?php else: ?>
-    <?php if ($date_posted): ?>
+    <?php if (isset($date_posted)): ?>
       <?php print t(
         'by !author<br />@date_posted', array(
         '@date_posted' => $date_posted,

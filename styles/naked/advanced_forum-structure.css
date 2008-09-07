@@ -135,7 +135,6 @@ td.forum {
 }
 
 #forum .description {
-  padding-left: 3px;
 }
 
 /* Topic listings */
@@ -168,7 +167,7 @@ td.forum {
 /* Icons */
 #forum .forum-icon {
   float: left;
-  padding: 10px;
+  padding: 0 10px;
 }
 
 .icon-explain {
