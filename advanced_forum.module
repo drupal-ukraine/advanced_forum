@@ -453,24 +453,22 @@ function template_preprocess_forum_user(&$variables) {
   }
   
   // Join date / since
-  $variables['joined_raw'] = preg_replace('/\s*-?\s*\d{2}:\d{2}\s*-?\s*/', '', format_date($account->created, 'small'));
-  $variables['joined'] = '<div class="account-joined"><strong>' . t('Joined: ') . '</strong>' . $variables['joined_raw'] . '</div>';
+  $just_date = str_replace(array('H:i', 'g:ia', ' - '), '', variable_get('date_format_short', 'm/d/Y - H:i'));
+  $variables['joined_raw'] = format_date($account->created, 'custom', $just_date);
+  $variables['joined_raw'] = format_date($account->created, 'custom', $just_date);
+  $variables['joined'] = '<div class="account-joined"><span class="user-info-label">' . t('Joined:') . ' </span>' . $variables['joined_raw'] . '</div>';
 
-  $variables['member_since_raw'] = format_interval(time() - $account->created);
-  $variables['member_since'] = '<div class="account-member-since">' . t('Member since: ') . $variables['member_since_raw'] . '</div>';
+  $variables['joined_ago_raw'] = format_interval(time() - $account->created);
+  $variables['joined_ago'] = '<div class="account-member-since"><span class="user-info-label">' . t('Joined:')  . ' </span>' . $variables['member_since_raw'] . 'ago </div>';
   
-  // Online status
+ // Online status
   if (round((time()-$account->access)/60) < 15) {
-    $variables['online_class'] = 'user-online';
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_online.png', 'User is online', 'User is online', NULL, TRUE);
-    $variables['online_text'] = t('Online');
-    $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_online.png', t('User is online'), t('User is online'), NULL, TRUE);
+    $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . t('Online') . '</div>';
   } 
   else {
-    $variables['online_class'] = 'user-offline';
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_offline.png', 'User is offline', 'User is offline', NULL, TRUE);
-    $variables['online_text'] = t('Offline');
-    $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . $variables['online_text'] . '</div>';
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_offline.png', t('User is offline'), t('User is offline'), NULL, TRUE);
+    $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . t('Offline') . '</div>';
   }
 }
 
@@ -520,12 +518,30 @@ function advanced_forum_preprocess_forums(&$variables) {
 function advanced_forum_preprocess_forum_list(&$variables) {
 
   global $user;
+  
+  $number_of_forums = count($forums); 
+  $forum_counter = 0;
+
   foreach ($variables['forums'] as $id => $forum) {
+    // Counter to label the rows by position
+    $$forum_counter++;
+    switch ($forum_counter) {
+      case "1":
+        $position = 'first-row';
+        break;
+      case $number_of_forums:
+        $position = 'last-row';
+        break;
+      default:
+        $position = 'middle-row';
+    }
+ 
     $variables['forums'][$id]->new_posts = 0;
     $variables['forums'][$id]->new_text_posts = '';
     $variables['forums'][$id]->new_url_posts = '';
     $variables['forums'][$id]->old_posts = $forum->num_posts;
-    
+    $variables['forums'][$id]->position = $position;
+ 
     if ($user->uid) {
       // Show number of new posts as well as topics
       if (variable_get('advforum_get_new_comments', TRUE)) {
