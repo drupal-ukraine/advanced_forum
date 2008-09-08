@@ -44,6 +44,7 @@
   </thead>
   
   <tbody>
+    <?php $container_adjustment = 0; ?>
     <?php foreach ($forums as $child_id => $forum): ?>
       <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->position;?>">
     
@@ -56,19 +57,23 @@
               <?php endif; ?>
             </div>
           </td>
-       
+          
+          <?php $container_adjustment = 1; ?>
+
         <?php else: ?>
+          <?php if ($forum->depth == 0) {$container_adjustment = 0;} ?>
+          
           <td class="forum-icon"> <?php print $forum->icon ?> </td>
           
           <td> 
-            <?php print str_repeat('<div class="indent">', $forum->depth); ?>
+            <?php print str_repeat('<div class="indent">', $forum->depth - $container_adjustment); ?>
               <div class="forum-details">  
                 <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
                 <?php if ($forum->description): ?>
                   <div class="description"><?php print $forum->description; ?></div>
                 <?php endif; ?>
               </div>
-            <?php print str_repeat('</div>', $forum->depth); ?>
+            <?php print str_repeat('</div>', $forum->depth - $container_adjustment); ?>
           </td>
       
           <td class="topics">
@@ -88,7 +93,8 @@
           </td>
             
           <td class="last-reply"><?php print $forum->last_reply ?></td>
-        <?php endif; ?>
+
+          <?php endif; ?>
       </tr>
     <?php endforeach; ?>
   </tbody>
