@@ -54,7 +54,7 @@ DEMO SITE:
 http://socnet.shellmultimedia.com 
 
 FUTURE PLANS:
-This module is still under active development. The master to do list is here: http://groups.drupal.org/node/8426
+This module is still under active development. The master to do list is here: http://groups.drupal.org/node/8426.
 
 
 
