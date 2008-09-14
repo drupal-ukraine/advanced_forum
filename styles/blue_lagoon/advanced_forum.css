@@ -42,7 +42,8 @@ see advanced_forum-structure.css.
   border: 1px solid #2385c2;
 }
 
-#forum thead.forum-header {
+#forum thead.forum-header,
+#forum .forum-topics thead {
   background-color: #0072b9;
   color: white;	
 }
