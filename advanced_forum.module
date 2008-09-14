@@ -322,11 +322,13 @@ function advanced_forum_preprocess_node(&$vars) {
       $current_page = $_GET['page'];
       $number_new_comments = comment_num_new($nid);
       
+      $vars['jump_first_new'] = format_plural($comment_count, '1 ' . t('reply'), '@count ' . t('replies'));
       if ($number_new_comments > 0) {
         $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']);   
         $cid_of_first_new = advanced_forum_first_new_comment($nid);   
-        $link_text = format_plural($number_new_comments, '1 new reply', '@count replies');
-        $vars['jump_first_new'] = l($link_text, 'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new");
+        $vars['jump_first_new'].= " (" . l($number_new_comments . ' ' . t('new'), 
+          'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new") .
+          ")";
       }
     }
     
