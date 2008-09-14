@@ -49,10 +49,11 @@
     <?php foreach ($forums as $child_id => $forum): ?>
     
         <?php if ($forum->is_container): ?>
-          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> container-<?php print $forum->container_id;?>" <?php print 'onClick="jq_collapse(\'' . $forum->container_id . '\')"'; ?>>
+          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> container-<?php print $forum->container_id;?>" <?php print 'onclick="jq_collapse(\'' . $forum->container_id . '\')"'; ?>>
           
-            <td colspan="5" class="container">
-              <span id="collapse-toggle-<?php print $forum->container_id;?>"></span>
+            <td colspan="5" class="container">   
+              <?php print theme('image', advanced_forum_path_to_images() . '/container_close.gif', "Show/hide", "Show/hide", array('id' => "collapse-toggle-$forum->container_id")); ?>
+              
               <div class="forum-details">  
                 <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
                 <?php if ($forum->description): ?>

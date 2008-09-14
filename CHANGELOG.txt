@@ -1,69 +1,95 @@
 $Id$
 
-****************************** DRUPAL 5 BRANCH ********************************
+****************************** DRUPAL 6 BRANCH ********************************
+
+September 14, 2008
+------------------
+#291084 by grn, Michelle: More fixes for collapsable containers.
+
+September 13, 2008
+------------------
+#291084 by grn: Added initial jquery to make collapsable containers work. Still rough but usable.
+#303556 by alpritt: Fixed no background showing in header on forum icon column.
+NOISSUE by Michelle: Changed jump to first reply on top of forum nodes to show total replies as well.
+#303556 by Michelle: Fixed issue with topic list header.
 
 September 10, 2008
 ------------------
-#291084 by grn, Michelle: grn dded initial jquery to make collapsable containers work. Michelle added the PHP to set the classes.
+#303816 by Michelle: Fixed post reply bug.
+#303556 by Michelle: Added blue_lagoon style.
+
+September 8, 2008
+-----------------
+#291084 by Michelle: Some preliminary work to set up the classes for collapsable containers.
 
 September 7, 2008
 -----------------
-#NOISSUE by Michelle: Cleaned up user info .tpl and modules that feed it.
+NOISSUE by Michelle: Cleaned up user info .tpl and modules that feed it.
 #303799 by Michelle: Moved folder icons into their own column. Also cleaned up forum list tpl.
 #303799 by Michelle: Fixed issue with indenting when no containers.
 
+September 6, 2008
+-----------------
+#303553 by stephthegeek: Tweaks to naked style.
+#303740 by nigel, Michelle, neclimdul: Fixed some E_ALL warnings.
+#228557 by neclimdul: Collect extra user info variables via hook.
+
 September 2, 2008
 -----------------
-#NOISSUE by Michelle: Fixed joined date to not use hardcoded format. Regex provided by Morbus.
-#NOISSUE by Michelle: Re-arranged functions and cleaned up some comments.
+NOISSUE by Michelle: Fixed joined date to not use hardcoded format. Regex provided by Morbus.
+#274978 by Michelle: Fixed signatures so they work with and without signature for forums installed.
+NOISSUE by Michelle: Re-arranged functions and cleaned up some comments.
 #268684 by Michelle: Removed old themes directory.
-#268684 by Michelle: Switched to using styles.  (Theme changes: Numerous. Will have docs by next alpha.)
-#268684 by Michelle: Backport: Cleaned up advf-forum-topic-list.tpl.php and moved some logic into the preprocess.
-#268684 by Michelle: Backport: Added classes to table header for topic list and cleaned up empty fields.
-#238668 by ixeft, Michelle: Backport: Added N new posts to forum overview. 
 #268684 by Michelle: Added code to change forum icon when new posts. 
 #268684 by Michelle: Added new forum icons.
 #268684 by Michelle: Changed 'mark as read' to use new icon.
+#268684 by Michelle: Added advf-comment-wrapper.tpl.php and used it to add reply link at bottom of each page.
 #301089 by George2: Only print title div if there is a title on the comment.
-#NOISSUE by Michelle: Changed 'ago' to showing actual dates when over 48 hours.
+NOISSUE by Michelle: Fixed bad copy of &variables when calling functions. Thanks afeijo for reporting it.
+NOISSUE by Michelle: Changed 'ago' to showing actual dates when over 48 hours.
 #302125 by IceCreamYou, Michelle: Added facebook status support.
+
+September 1, 2008
+-----------------
+#238668 by Michelle: Added advanced setting to turn this off if it causes performance problems.
+#268684 by Michelle: Added support for flatgrey style. Actual style has not been added yet.
+#228557 by Michelle: Moved contrib code into individual files to pave the way for plugin system. Removed modules not yet ported to D6.
+#300594 by Michelle: Updated private message code to work with D6 rewrite.
 
 August 21, 2008
 ---------------
 #295562 by catch: Make 'views' column in topic list statistics.module dependent.
+#268684 by Michelle: Cleaned up advf-forum-topic-list.tpl.php and moved some logic into the preprocess.
+#268684 by Michelle: Added classes to table header for topic list and cleaned up empty fields.
+Made advanced setting for turning off created column. 
+#238668 by ixeft, Michelle: Added N new posts to forum overview. 
 
-August 19, 2008
+August 20, 2008
+---------------
+#268684 by merlinofchaos, sdboyer, and a tiny bit Michelle: Adapted panels plug in system to allow any module to add styles to advanced forum. This paves the way for offering multiple styles with the module as well as letting others contribute styles. Also 'renamed' themes directory to styles so much moving around of files. (Theme changes: The default advforum style as well as any customized themes won't work at this point. Instructions coming once this stabalizes.)
+
+August 15, 2008
+---------------
+#297227 by Michelle: Missed spot affected by D6's change to per type comment settings.
+
+August 15, 2008
+---------------
+#268684 by stephthegeek: Added new "naked" style. This completely revamped basic style will be the base for future styles.
+#268684 by Michelle: Simplified style switching / icon finding to pave the way for this issue. This is a temporary measure until the new style plugin system is written. (Theme changes: Themes are now styles and these notes will be called "Style changes" after this. As of this change, you need to set the name of the style on the options page. Advf will look for a directory by that name first in the active theme and then in the module. If you want to customize a style, copy the entire directory into your theme and make changes there.)
+
+August 1, 2008
 --------------
-#266003 by Michelle: Fixed issue with forum posts not showing as teasers inside of other nodes.
-#268684 by Michelle, stephthegeek: Backported changes made to D6 last week.
+#268273 by Michelle: Another fix for the last comment in forum mess.
 
-August 9, 2008
---------------
-#291597 by rallycivic: Put nid first in query to make db_rewrite_sql happy.
-#276232 by Michelle. Fixed wrong variable in all of the user info code which made the whole user info side all wrong.
-#207920 by Michelle: Better documented use of $profile variable. (Theme changes: advf-forum-user.tpl.php)
-No issue by Michelle: Fixed anonymous commenters having user info showing.
-#248815 by Michelle, Funkymoses: Changed CSS for avatar. (Theme changes: advanced_forum-structure.css)
-
-August 2, 2008
---------------
-#268273 by Michelle: Backported fix for last topic in forum from 6.x branch. (Theme changes: advf-forum-submitted.tpl.php, modified to match reduced options.)
-
-June 10, 2008
--------------
-#228557 by neclimdul: Added preprocessor code to emulate the preprocessor in Drupal 6 which allows other modules to add to advanced forum. This patch created a new "modules" directory which holds individual includes for each module adding to advforum.
-#NONE by Michelle: Backported the refactored theme path related functions including adding a new setting for the icon directory.
-
-June 9, 2008 -- ALPHA 10
+June 9, 2008
 ------------
-#267827 by Michelle: Ripped out the last week of work and am attempting to do this with a query again.
+#268680 by Morbus: Whitespace / comment cleanup.
 Code cleanup and syncing the branches.
 
-June 6, 2008 -- ALPHA 9
+June 6, 2008 - ALPHA 1
 ------------
 #241982 by Michelle: Fixed install function for filling table so it doesn't give warnings and returns success/failure properly. Since it was filling the table even with the warnings, there's no need to rerun this.
 #242527 by Michelle: Re-fixed the problem with views showing blank instead of 0.
-Re-added advf-forum-repeat-post.tpl.php which somehow got dropped from cvs.
 
 June 5, 2008
 ------------
@@ -76,20 +102,15 @@ June 3, 2008
 ------------
 #242527 by Michelle: Initialized view count to 0 so it doesn't show blank when no views of topic.
 #208440 by Michelle: Made reference post use forum theme when replying. Also removed links from comment in reply mode. 
-#260397 by c-c-m: Added Spanish translation.
 #241982 by Michelle: Updated variable list in comments of advf-forum-submitted.tpl.php to account for changes.
 
 June 2, 2008
 ------------
-#241982 by Michelle: Added checking to see if last topic has been deleted or unpublished. Has had only minimal testing.
-#241982 by Michelle: Had a join wrong so it wasn't picking up deleted nodes. Passes some initial testing now.
+#241982 by Michelle: Added checking to see if last topic has been deleted or unpublished.
 
 May 30, 2008
 ------------
-#No issue by Michelle: Added some doxygen comments and moved around some functions for better readability.
-
-May 29, 2008
-------------
+#241982 by Michelle with tons of help from litwol and neclimdul: Updated install file to create the new table.
 #241982 by Michelle (based on idea from Bdragon): Use a table to store reference to last posts in forum to replace the monster query.
 
 Still to do: Account for deleted/unpublished comments and nodes. Write something in the install file to backfill table with existing posts. More testing.
@@ -97,72 +118,60 @@ Still to do: Account for deleted/unpublished comments and nodes. Write something
 Theme changes:
 advf-forum-submitted.tpl.php - Added an extra section for adding more info when a comment is the latest.
 
+#No issue by Michelle, Added some doxygen comments and moved around some functions for better readability.
+
 May 27, 2008
 ------------
-Fixed up function advanced_forum_treat_as_forum_post() to be better commented, more logical, and fix #260640 comment theming not defaulting to off.
+#263943 by SkoalFyfan: Changed template name from forums to advf-forums in preprocess code.
+#256174 by seals: Swedish translation update.
+
+May 27, 2008
+------------
+Fixed up function advanced_forum_treat_as_forum_post() to be better commented, more logical, #232513 allow other content types (thanks nbz for the starter code), and fix #260640 comment theming not defaulting to off.
 #217194 Added template file to theme the repeated node on paginated forum threads. Thanks, Morbus. (Theme changes: advf-forum-repeat-post.tpl.php)
 Pulled creating the 'topic pager' out of advanced_forum_preprocess_forum_topic_list to simplify it.
 #242527 Added number of views to the topic listing page. Thanks to Zandroc for the starter code. (Theme changes: advf-forum-topic-list.tpl.php, advanced_forum-structure.css)
 Removed some unused CSS from advanced_forum.css
 
-May 12, 2008
+May 13, 2008
 ------------
-Made topic list icons link to topic. (Theme changes: advf-forum-icon.tpl.php) (Sponsored request by SamRose)
-#258083 Added check that the forum description exists before printing divs. (Theme changes: advf-forum-topic-list.tpl.php)
+Removed debug code left in MAR and cleaned up comments. Thanks afeijo.
 
 May 12, 2008
 ------------
-Fixed pluralizing of '1 new replies' on top of post jump link.
+Port from D5: #255949 Added link to top of forum threads that lists the number of unread comments and links to the first one. This links to the comment id and so will work across pages. (Theme changes: advf-forum-post.tpl.php - Added $jump_first_new)
 Added extra markup for the post header area. (Theme changes: advf-forum-post.tpl.php - Added div.forum-post-header)
-#253155 Changed _is_forum() to advanced_forum_treat_as_forum_post() to comply with coding standards and clarify purpose. 
+#253155 Changed _is_forum() to advanced_forum_treat_as_forum_post() to comply with coding standards and clarify purpose.
 #253155 Changed _topic_nid() to _advanced_forum_topic_nid().
+#253155 Changed theme_image... to theme('image'...
+Ported path_to_subtheme() related code from D5.
 #246701 IE 6 fixes. Thanks, CompShack. (Theme changes: Affects both .css files)
 
-May 11, 2008
-------------
-#255949 Added link to top of forum threads that lists the number of unread comments and links to the first one. This links to the comment id and so will work across pages. (Theme changes: advf-forum-post.tpl.php - Added $jump_first_new) (Sponsored by SamRose)
-
-May 10, 2008
-------------
-#253365 Patch to make advforum and Zen subthemes play nice. Also fixes my goof with theme_image(). Thanks, JohnAlbin.
-
-May 7, 2008 -- Alpha 8
+May 9, 2008
 -----------
-#253778 Fixed typo that prevented advforum directory from being found. Thanks VValdo.
-#254892 Added variable for forum description to forum topic list. Theme changes: advf-forums.tpl.php - Added description. advf-forum-topic-list.tpl.php - Updated variable list to include $forum_description. advf-forum-topic-list.tpl.php - padding around new class.
-#239724 Excluded CSS from block admin page due to weird issue. Thanks ajevans85.
-#246778 Fixed extra = that caused anon posters to show joined, etc.
-#249651 Added check that contact module is enabled.
-#248652 Fixed PHP 4 incompatibility in showing last post in forum. Thanks jamix.
-Fixed 'user' information not showing for visitors on comments.
+#241071 Mark as read function rewritten by afeijo (with some early help from konfuzed) on IRC. Thanks for the late night debugging to get this working.
 
-April 17, 2008
---------------
-#246701 Fix for IE 6 hiding post info. Thanks CompShack.
-#241258 Changed the forum overview 'new topics' folder from red to green and kept red version as forum-all-new-red.png. Thanks Zandroc.
-
-April 8, 2008
--------------
-Added code to advf-forum-topic-list.tpl.php and advf-forum-list.tpl.php to give rows first/middle/last for class to aid in theming.
-Minor CSS change to remove forced left align of topics/points count.
-#239406 Removed default to theme_forum_submitted when the .tpl file is missing.
-#244228 Added Czech translation. Thanks to kecinzer.
-#241258 Change folder icon when there are new posts in a forum. Thanks Zandroc. (Affects advf-forum-list.tpl.php and advanced_forum.css. Adds forum-all-new.png)
-Created settings page and added option to change name of advforum theme directory as well as an option to theme all site comments like forum comments which fixes #213335 
-
-April 2, 2008
---------------
-Fixed typo that prevented comment page link from showing.
-
-March 24, 2008 -- Alpha 7
---------------
+May 8, 2008
+-----------
 #238125 Removed the sql rewrite since it doesn't work with subqueries.
+#248652 Fixed PHP 4 incompatibility in showing last post in forum. Thanks jamix.
+#249651 Added check that contact module is enabled.
+#254051 Fixed error in mark as read menu item.
+#256174 Added Swedish translation. Thanks seals.
+Ported settings page from 5.x.
+#241071 Got mark as read partially working. Still an error.
 
-March 23, 2008
---------------
-#237742 Fixed missing semicolon in info file.
+May 7, 2008
+-----------
+#254892 Added variable for forum description to forum topic list. Theme changes: advf-forums.tpl.php - Added description. advf-forum-topic-list.tpl.php - Updated variable list to include $forum_description. advf-forum-topic-list.tpl.php - padding around new class.
 
-March 22, 2008 -- ALPHA 6
+May 1, 2008
+-----------
+Ported some small fixes that were done for D5 but not D6.
+Updated D6 with all D5 theme changes.
+#237362 Loaded user object in preprocesses for node and comment rather than in template_preprocess_forum_user so it is available in the main forum post template. Fixed #236870 in the process.
+
+March 22, 2008
 --------------
 Fixed remaining issues with advanced_forum_get_all_last_topics (I hope!)
 Updated README.txt and CHANGELOG.txt
@@ -172,26 +181,9 @@ March 18, 2008
 --------------
 #222212 #235749 Removed caching from advanced_forum_get_all_last_topics due to too many problems.
 
-March 4, 2008
--------------
-#229761 Fixed url() function calls that were missed in the backport from D6. Thanks andrew_kabai for bringing it to my attention.
-
 March 3, 2008
 -------------
-Fixed up the user info pane. Added support for user_stats.
-
-Feb 29, 2008
-------------
-#226569 Changed file names of .tpl files to avoid having Drupal use them when advforum not installed.
-  
-Feb 27, 2008
-------------
-Fixed comment numbering that broke in the port/backport.
-Put pager back on top of topic list.
-
-Feb 26, 2008
-------------
-Changed forum-post.tpl.php to only print full user info for authors that are registered.
+Added some tweaks to the user info pane
 
 Feb 25, 2008
 ------------
@@ -215,9 +207,10 @@ Feb 22, 2008
 Recreated links on comments so we can theme them better and changed CSS to match.
 Small CSS fixes to adapt to new .tpl files.
 
-Feb 22, 2008 
-------------
-Massive changes due to backport from D6 code.
+FEB 21, 2008 - D6 BRANCH
+Massive changes to begin porting this to 6.x
+
+----------------------- Pre-Port -----------------------------------------------
 
 Feb 07, 2008 - ALPHA 2
 ------------
