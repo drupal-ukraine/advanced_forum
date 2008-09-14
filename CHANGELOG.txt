@@ -2,6 +2,16 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 10, 2008
+------------------
+#291084 by grn, Michelle: grn dded initial jquery to make collapsable containers work. Michelle added the PHP to set the classes.
+
+September 7, 2008
+-----------------
+#NOISSUE by Michelle: Cleaned up user info .tpl and modules that feed it.
+#303799 by Michelle: Moved folder icons into their own column. Also cleaned up forum list tpl.
+#303799 by Michelle: Fixed issue with indenting when no containers.
+
 September 2, 2008
 -----------------
 #NOISSUE by Michelle: Fixed joined date to not use hardcoded format. Regex provided by Morbus.
@@ -13,9 +23,9 @@ September 2, 2008
 #238668 by ixeft, Michelle: Backport: Added N new posts to forum overview. 
 #268684 by Michelle: Added code to change forum icon when new posts. 
 #268684 by Michelle: Added new forum icons.
-#268684 by Michelle: Changed "mark as read" to use new icon.
+#268684 by Michelle: Changed 'mark as read' to use new icon.
 #301089 by George2: Only print title div if there is a title on the comment.
-#NOISSUE by Michelle: Changed "ago" to showing actual dates when over 48 hours.
+#NOISSUE by Michelle: Changed 'ago' to showing actual dates when over 48 hours.
 #302125 by IceCreamYou, Michelle: Added facebook status support.
 
 August 21, 2008

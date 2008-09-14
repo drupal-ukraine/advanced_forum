@@ -31,6 +31,7 @@
  * @see theme_forum_list()
  */
 ?>
+
 <table id="forum-<?php print $forum_id; ?>" class="forum-table">
   
   <thead class="forum-header">
@@ -46,56 +47,58 @@
   <tbody>
     <?php $container_adjustment = 0; ?>
     <?php foreach ($forums as $child_id => $forum): ?>
-      <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->position;?>">
     
         <?php if ($forum->is_container): ?>
-          <td colspan="5" class="container">
-            <div class="forum-details">  
-              <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
-              <?php if ($forum->description): ?>
-                <div class="description"><?php print $forum->description; ?></div>
-              <?php endif; ?>
-            </div>
-          </td>
+          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> container-<?php print $forum->container_id;?>" <?php print 'onClick="jq_collapse(\'' . $forum->container_id . '\')"'; ?>>
           
-          <?php $container_adjustment = 1; ?>
-
-        <?php else: ?>
-          <?php if ($forum->depth == 0) {$container_adjustment = 0;} ?>
-          
-          <td class="forum-icon"> <?php print $forum->icon ?> </td>
-          
-          <td> 
-            <?php print str_repeat('<div class="indent">', $forum->depth - $container_adjustment); ?>
+            <td colspan="5" class="container">
+              <span id="collapse-toggle-<?php print $forum->container_id;?>"></span>
               <div class="forum-details">  
                 <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
                 <?php if ($forum->description): ?>
                   <div class="description"><?php print $forum->description; ?></div>
                 <?php endif; ?>
               </div>
-            <?php print str_repeat('</div>', $forum->depth - $container_adjustment); ?>
-          </td>
-      
-          <td class="topics">
-            <div class="num num-topics"><?php print $forum->num_topics ?></div>
-              <?php if ($forum->new_topics): ?>
-                <div class="num num-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
-              <?php endif; ?>
-            </div>
-          </td>
+            </td>
             
-          <td class="num posts">
-            <?php print $forum->num_posts ?>
-            <?php if ($forum->new_posts): ?>
-                <br />
-                <a href="<?php print $forum->new_url_posts; ?>"><?php print $forum->new_text_posts; ?></a>
-            <?php endif; ?>        
-          </td>
+            <?php $container_adjustment = 1; ?>
+          </tr>
+        <?php else: ?>
+          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> in-container-<?php print $forum->container_id;?>">
+            <?php if ($forum->depth == 0) {$container_adjustment = 0;} ?>
             
-          <td class="last-reply"><?php print $forum->last_reply ?></td>
-
-          <?php endif; ?>
-      </tr>
+            <td class="forum-icon"> <?php print $forum->icon ?> </td>
+            
+            <td> 
+              <?php print str_repeat('<div class="indent">', $forum->depth - $container_adjustment); ?>
+                <div class="forum-details">  
+                  <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
+                  <?php if ($forum->description): ?>
+                    <div class="description"><?php print $forum->description; ?></div>
+                  <?php endif; ?>
+                </div>
+              <?php print str_repeat('</div>', $forum->depth - $container_adjustment); ?>
+            </td>
+        
+            <td class="topics">
+              <div class="num num-topics"><?php print $forum->num_topics ?></div>
+                <?php if ($forum->new_topics): ?>
+                  <div class="num num-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
+                <?php endif; ?>
+              </div>
+            </td>
+              
+            <td class="num posts">
+              <?php print $forum->num_posts ?>
+              <?php if ($forum->new_posts): ?>
+                  <br />
+                  <a href="<?php print $forum->new_url_posts; ?>"><?php print $forum->new_text_posts; ?></a>
+              <?php endif; ?>        
+            </td>
+              
+            <td class="last-reply"><?php print $forum->last_reply ?></td>
+        </tr>
+        <?php endif; ?>
     <?php endforeach; ?>
   </tbody>
 </table>

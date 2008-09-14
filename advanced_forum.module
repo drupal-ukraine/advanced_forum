@@ -51,6 +51,8 @@ function advanced_forum_menu($may_cache) {
     $style_directory = advanced_forum_path_to_style();
     drupal_add_css("$style_directory/advanced_forum-structure.css" );
     drupal_add_css("$style_directory/advanced_forum.css" );
+
+    drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
   }
   
   return $items;
@@ -524,7 +526,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
   foreach ($variables['forums'] as $id => $forum) {
     // Counter to label the rows by position
-    $$forum_counter++;
+    $forum_counter++;
     switch ($forum_counter) {
       case "1":
         $position = 'first-row';
@@ -542,6 +544,17 @@ function advanced_forum_preprocess_forum_list(&$variables) {
     $variables['forums'][$id]->old_posts = $forum->num_posts;
     $variables['forums'][$id]->position = $position;
  
+    if ($forum->is_container) {
+      $current_container = $forum->tid;
+      $current_container_depth = $forum->depth;
+      $variables['forums'][$id]->container_id = $current_container;
+    }
+    else {
+      if ($forum->depth > $current_container_depth ) {
+        $variables['forums'][$id]->container_id = $current_container;
+      }     
+    }
+
     if ($user->uid) {
       // Show number of new posts as well as topics
       if (variable_get('advforum_get_new_comments', TRUE)) {
