@@ -83,5 +83,5 @@ The Naked style was created by stephthegeek (http://drupal.org/user/47874). Prev
 theme work was done by eigentor (http://drupal.org/user/96718) and jacine 
 (http://drupal.org/user/88931)
 
-Icons provided by paris (http://drupal.org/user/14747) and yoroy (http://drupal.org/user/41502) 
+Icons provided by paris (http://drupal.org/user/14747), yoroy (http://drupal.org/user/41502), Psicomante (http://drupal.org/user/29518), and lullabot (http://lullabot.com) 
 
