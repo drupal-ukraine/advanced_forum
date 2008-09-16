@@ -574,10 +574,10 @@ function advanced_forum_preprocess_forum_list(&$variables) {
       
     // If there are new topics/posts, change the icon
     if ($forum->new_topics || $forum->new_posts) {
-      $forum->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder-new-posts.png');
+       $variables['forums'][$id]->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder-new-posts.png');
     }
     else {
-      $forum->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder.png');
+       $variables['forums'][$id]->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder.png');
     }
   }  
 }
