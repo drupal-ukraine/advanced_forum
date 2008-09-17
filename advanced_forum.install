@@ -9,6 +9,7 @@ function advanced_forum_uninstall() {
   variable_del('advanced_forum_themedir');
   variable_del('advanced_forum_theme_all_comments');
   variable_del('advforum_topic_pager_max');
+  variable_del('advanced_forum_collapse_defaults');
 }
 
 function advanced_forum_update_5000() {

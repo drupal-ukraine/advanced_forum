@@ -49,8 +49,7 @@
     <?php foreach ($forums as $child_id => $forum): ?>
     
         <?php if ($forum->is_container): ?>
-          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> container-<?php print $forum->container_id;?>" <?php print 'onclick="jq_collapse(\'' . $forum->container_id . '\', \'' . drupal_get_path('module', 'advanced_forum') . '\')"';?>
-          
+          <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_position;?> container-<?php print $forum->container_id;?>" onclick="jq_collapse('<?php print $forum->container_id ?>')">
             <td colspan="5" class="container">   
               <div class="forum-details">  
                 <div class="name">
@@ -83,7 +82,7 @@
             </td>
         
             <td class="topics">
-              <div class="num num-topics"><?php print $forum->num_topics ?></div>
+              <div class="num num-topics"><?php print $forum->num_topics ?>
                 <?php if ($forum->new_topics): ?>
                   <div class="num num-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
                 <?php endif; ?>

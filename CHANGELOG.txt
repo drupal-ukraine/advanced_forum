@@ -2,9 +2,14 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 17, 2008
+------------------
+#291084 by cridenour: More work on the collapsable forum containers: setting initial state and remembering state.
+
 September 16, 2008
 ------------------
 #309066 by asxnot: Fixed PHP 4 issue with forum list icons.
+#291084 by Michelle: Minor tweak to placement of +/- icon.
 
 September 14, 2008
 ------------------

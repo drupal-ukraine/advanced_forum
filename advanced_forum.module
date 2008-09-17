@@ -27,7 +27,7 @@ function advanced_forum_menu($may_cache) {
       'access' => user_access('access content'),
       'type' => MENU_SUGGESTED_ITEM);
 
-      global $user;
+    global $user;
     $items[] = array(
                'path' => "forum/markasread",
                'title' => 'Helper page to mark forums read.',
@@ -35,6 +35,7 @@ function advanced_forum_menu($may_cache) {
                'access' => user_access('access content') && $user->uid,
                'type' => MENU_CALLBACK,
                );
+    
     // Add menu entry for settings page
     $items[] = array(
                'path' => "admin/settings/advanced-forum",
@@ -43,6 +44,14 @@ function advanced_forum_menu($may_cache) {
                'callback arguments' => array('advanced_forum_settings_page'),
                'access' => user_access('administer advanced forum'),
     );
+   
+    $items[] = array(
+               'path' => "advanced_forum/collapse",
+               'callback' => 'advanced_form_ajax',
+               'access' => user_access('access content'),
+               'type' => MENU_CALLBACK,
+   );
+    
   } 
   elseif(arg(2) != 'block') {
     // Avoids weird issue with block admin. See #239724
@@ -53,6 +62,7 @@ function advanced_forum_menu($may_cache) {
     drupal_add_css("$style_directory/advanced_forum.css" );
 
     drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
+    drupal_add_js(array('advanced_forum_ajax' => url('advanced_forum/collapse')), 'setting');
   }
   
   return $items;
@@ -794,6 +804,55 @@ function advanced_forum_get_forums($tid = 0) {
 
   return $forums;
 }
+
+// COLLAPSABLE CONTAINERS ****************************************************/
+
+/**
+ * Allows users with javascript enabled to collapse / expand containers.
+ */
+function advanced_form_ajax($op, $container_id = NULL) {
+  global $base_url;
+  $base_url = str_replace('.', '_', $base_url);
+  switch($op) {
+    case 'load':
+      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
+        //Set defaults in the cookie.
+        $defaults = variable_get('advanced_forum_collapse_defaults', '');
+        if($defaults != '') {
+          $initial_state = unserialize($defaults);
+        } 
+        else {
+          $initial_state = array();
+        }
+        setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
+      }
+      else {
+        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
+      }
+      print drupal_json(array('tids' => $initial_state));
+      //print_r($_COOKIE);
+      break;
+    case 'toggle':
+      if(!$container_id)
+        exit;
+      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
+        $defaults = variable_get('advanced_forum_collapse_defaults', '');
+        if($defaults) {
+          $initial_state = unserialize($defaults);
+        } 
+        else {
+          $initial_state = array();
+        } 
+      }
+      else {
+        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
+      }
+      $initial_state[$container_id] = 1 - $initial_state[$container_id];
+      setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
+      break;
+  }
+}
+
 
 
 // MARK AS READ **************************************************************/
