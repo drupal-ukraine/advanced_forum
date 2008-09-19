@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 18, 2008
+------------------
+#310547 by Michelle: Added 'hidden options' to settings page as well as other work on the settings page. This also necessitated a change to the collapsable container code.
+
 September 17, 2008
 ------------------
 #291084 by cridenour: More work on the collapsable forum containers: setting initial state and remembering state.

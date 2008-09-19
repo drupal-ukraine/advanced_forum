@@ -78,27 +78,76 @@ function advanced_forum_settings_page() {
     '#type' => 'textfield',
     '#title' => t('Advanced forum style'),
     '#size' => 25,
-    '#description' => t('Name of advanced forum style. Defaults to "naked"'),
+    '#description' => t('Name of advanced forum style. Defaults to "naked" Don\'t forget to copy this style to your theme.'),
     '#default_value' => variable_get('advanced_forum_style', 'naked'),
   );
 
+  // Use buttons for links
+  $form['advanced_forum_button_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use graphical buttons for links'),
+    '#default_value' => variable_get('advanced_forum_button_links', 1),
+    '#description' => t('Included buttons are in English. Uncheck this to use translatable links instead.'),
+  );
+  
+  // Theme all site comments as forums
   $form['advanced_forum_theme_all_comments'] = array(
-    '#type' => 'radios',
+    '#type' => 'checkbox',
     '#title' => t('Treat all site comments like forum comments'),
-    '#options' => array(t("No"), t("Yes")),
-    '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
     '#default_value' => variable_get('advanced_forum_theme_all_comments', 0),
+    '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
   );
 
+  // Collapsible containers
+  $containers = variable_get('forum_containers', array());
+  $forums_including_containers = advanced_forum_get_forum_list();
+  foreach($forums_including_containers as $forum_or_container) {
+    if (in_array($forum_or_container->tid, $containers)) {
+      $options[$forum_or_container->tid] = $forum_or_container->name;
+    }
+  }
 
-/*
-Hidden options
-variable_get('advanced_forum_show_created', TRUE)) {
-variable_get('advforum_topic_pager_max', 5);
-variable_get('advforum_get_new_comments', TRUE);
-variable_get('advanced_forum_button_links', TRUE)
-*/ 
+  $form['advanced_forum_collapse_defaults'] = array(
+    '#type' => 'checkboxes', 
+    '#title' => t('Default collapsed containers'), 
+    '#default_value' => variable_get('advanced_forum_collapse_defaults', array()),
+    '#options' => $options,
+    '#description' => t('Check containers to collapse by default.'),
+  );
 
+  // Hide 'created' column
+  $form['advanced_forum_hide_created'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Hide the created column on the topic list.'),
+    '#default_value' => variable_get('advanced_forum_hide_created', 0),
+    '#description' => t('This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title.'),
+  );
+  
+  // Pager max
+  $form['advanced_forum_topic_pager_max'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum number of pages to show on per title pager'),
+    '#size' => 5,
+    '#description' => t('Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10'),
+    '#default_value' => variable_get('advanced_forum_topic_pager_max', 5),
+  );
+
+  // Retrieve new comments on forum listing
+  $form['advanced_forum_get_new_comments'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Get the number of new comments per forum on the forum list'),
+    '#default_value' => variable_get('advanced_forum_get_new_comments', 1),
+    '#description' => t('Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under "posts" on the forum overview. This is optional because the query has performance issues.'),
+  );
+
+  // Use topic navigation
+  $form['advanced_forum_use_topic_navigation'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use topic navigation'),
+    '#default_value' => variable_get('advanced_forum_use_topic_navigation', 0),
+    '#description' => t('Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor.'),
+  );
+  
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
 }
@@ -514,7 +563,7 @@ function advanced_forum_preprocess_forums(&$variables) {
     }
     
     // To avoid translation issues, make the button version optional
-    if (variable_get('advanced_forum_button_links', TRUE)) {
+    if (variable_get('advanced_forum_button_links', 1)) {
       $title_image = theme('image', advanced_forum_path_to_images() . '/' . 'mark-read.png');
       $variables['links']['markasread'] = array('title' => $title_image, 'href'=>$link, 'html' => TRUE);
       $variables['links_orig']['markasread'] = array('title' => $title_image, 'href'=>$link, 'html' => TRUE);
@@ -569,7 +618,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
     if ($user->uid) {
       // Show number of new posts as well as topics
-      if (variable_get('advforum_get_new_comments', TRUE)) {
+      if (variable_get('advanced_forum_get_new_comments', 1)) {
         // This can cause performance issues, so allow it to be turned off
         $variables['forums'][$id]->new_posts = advanced_forum_unread_posts_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics; 
       
@@ -640,7 +689,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
   }
   
   // Allow admins to turn off the created column
-  if (variable_get('advanced_forum_show_created', TRUE)) {
+  if (!variable_get('advanced_forum_hide_created', 0)) {
     $forum_topic_list_header[] =  array('data' => t('Created'), 'field' => 'n.created', 'class' => 'column_created');
   }
   
@@ -665,7 +714,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
       
     // Find out how many pages to show on the topic pager. We do this outside
     // the loop because it will be the same for all topics.
-    $max_pages_to_display = variable_get('advforum_topic_pager_max', 5);
+    $max_pages_to_display = variable_get('advanced_forum_topic_pager_max', 5);
     
     foreach ($variables['topics'] as $id => $topic) {
       // Get a pager to add to the topic, if there is one
@@ -805,56 +854,6 @@ function advanced_forum_get_forums($tid = 0) {
   return $forums;
 }
 
-// COLLAPSABLE CONTAINERS ****************************************************/
-
-/**
- * Allows users with javascript enabled to collapse / expand containers.
- */
-function advanced_form_ajax($op, $container_id = NULL) {
-  global $base_url;
-  $base_url = str_replace('.', '_', $base_url);
-  switch($op) {
-    case 'load':
-      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
-        //Set defaults in the cookie.
-        $defaults = variable_get('advanced_forum_collapse_defaults', '');
-        if($defaults != '') {
-          $initial_state = unserialize($defaults);
-        } 
-        else {
-          $initial_state = array();
-        }
-        setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
-      }
-      else {
-        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
-      }
-      print drupal_json(array('tids' => $initial_state));
-      //print_r($_COOKIE);
-      break;
-    case 'toggle':
-      if(!$container_id)
-        exit;
-      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
-        $defaults = variable_get('advanced_forum_collapse_defaults', '');
-        if($defaults) {
-          $initial_state = unserialize($defaults);
-        } 
-        else {
-          $initial_state = array();
-        } 
-      }
-      else {
-        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
-      }
-      $initial_state[$container_id] = 1 - $initial_state[$container_id];
-      setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
-      break;
-  }
-}
-
-
-
 // MARK AS READ **************************************************************/
 
 /**
@@ -964,6 +963,41 @@ function advanced_forum_path_to_images() {
   }
   
   return $image_path;
+}
+
+// COLLAPSABLE CONTAINERS ****************************************************/
+
+/**
+ * Allows users with javascript enabled to collapse / expand containers.
+ */
+function advanced_form_ajax($op, $container_id = NULL) {
+  global $base_url;
+  $base_url = str_replace('.', '_', $base_url);
+  switch($op) {
+    case 'load':
+      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
+        //Set defaults in the cookie.
+        $defaults = variable_get('advanced_forum_collapse_defaults', array());
+        setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
+      }
+      else {
+        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
+      }
+      print drupal_json(array('tids' => $initial_state));
+      break;
+    case 'toggle':
+      if(!$container_id)
+        exit;
+      if(!isset($_COOKIE[$base_url.'_advanced_forum'])) {
+        $defaults = variable_get('advanced_forum_collapse_defaults', array());
+      }
+      else {
+        $initial_state = unserialize($_COOKIE[$base_url.'_advanced_forum']['tids']);
+      }
+      $initial_state[$container_id] = 1 - $initial_state[$container_id];
+      setcookie($base_url.'_advanced_forum[tids]', serialize($initial_state), time()+60*60*24*30, '/');
+      break;
+  }
 }
 
 /**
@@ -1164,4 +1198,12 @@ function advanced_forum_unread_posts_in_forum($tid, $uid) {
   $sql = "SELECT COUNT(c.cid) FROM {comments} c INNER JOIN {node} n INNER JOIN {term_node} tn ON c.nid = n.nid AND c.nid = tn.nid AND tn.tid = %d LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d WHERE n.status = 1 AND n.type = 'forum' AND c.timestamp > h.timestamp";
   $sql = db_rewrite_sql($sql);
   return db_result(db_query($sql, $tid, $uid, NODE_NEW_LIMIT));
+}
+
+function advanced_forum_get_forum_list($tid = 0) {
+  $forums = array();
+  $vid = variable_get('forum_nav_vocabulary', '');
+  $forums = taxonomy_get_tree($vid, $tid);
+  
+  return $forums;
 }
