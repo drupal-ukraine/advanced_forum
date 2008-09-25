@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 25, 2008
+------------------
+#312602 by Michelle, merlinofchaos: Fixed broken query for counting the unread comments in a forum.
+
 September 24, 2008
 ------------------
 #306633 by Michelle: Added more icons.

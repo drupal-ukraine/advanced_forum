@@ -137,8 +137,8 @@ function advanced_forum_settings_page() {
   $form['advanced_forum_get_new_comments'] = array(
     '#type' => 'checkbox',
     '#title' => t('Get the number of new comments per forum on the forum list'),
-    '#default_value' => variable_get('advanced_forum_get_new_comments', 1),
-    '#description' => t('Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under "posts" on the forum overview. This is optional because the query has performance issues.'),
+    '#default_value' => variable_get('advanced_forum_get_new_comments', 0),
+    '#description' => t('Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under "posts" on the forum overview. Slow query not recommended on large forums.'),
   );
 
   // Use topic navigation
@@ -670,9 +670,10 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
     if ($user->uid) {
       // Show number of new posts as well as topics
-      if (variable_get('advanced_forum_get_new_comments', 1)) {
+      if (variable_get('advanced_forum_get_new_comments', 0)) {
         // This can cause performance issues, so allow it to be turned off
-        $variables['forums'][$id]->new_posts = advanced_forum_unread_posts_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics; 
+        $number_of_new_comments = advanced_forum_unread_comments_in_forum($forum->tid, $user->uid);
+        $variables['forums'][$id]->new_posts =  $number_of_new_comments + $variables['forums'][$id]->new_topics; 
       
         if ($variables['forums'][$id]->new_posts) {
           $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
@@ -1246,9 +1247,13 @@ function _advanced_forum_get_topic_views_count($nid) {
 /**
  * Returns the number of unread posts in a given forum for a given user
  */
-function advanced_forum_unread_posts_in_forum($tid, $uid) {
-  $sql = "SELECT COUNT(c.cid) FROM {comments} c INNER JOIN {node} n INNER JOIN {term_node} tn ON c.nid = n.nid AND c.nid = tn.nid AND tn.tid = %d LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d WHERE n.status = 1 AND n.type = 'forum' AND c.timestamp > h.timestamp";
-  $sql = db_rewrite_sql($sql);
+function advanced_forum_unread_comments_in_forum($tid, $uid) {
+  $sql = "SELECT COUNT(c.cid) 
+          FROM {comments} c 
+            INNER JOIN {term_node} tn ON c.nid = tn.nid AND tn.tid = %d 
+            LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d 
+          WHERE c.status = 0 AND ((c.timestamp > h.timestamp AND c.timestamp > %d) OR h.timestamp IS NULL)";
+  $sql = db_rewrite_sql($sql, 'c', 'cid');
   return db_result(db_query($sql, $tid, $uid, NODE_NEW_LIMIT));
 }
 
