@@ -13,7 +13,7 @@ function privatemsg_preprocess_forum_user(&$variables) {
   
   // Send private message
   if ($account_id != 0 && $account_id != $user->uid && user_access('write privatemsg')) {
-    $variables['privatemsg_icon'] = theme('image', advanced_forum_path_to_images() . '/privatemsg.png', t('Private Message'), t('Private Message'), NULL, TRUE);
+    $variables['privatemsg_icon'] = theme('image', advanced_forum_path_to_images() . '/private-message.png', t('Private Message'), t('Private Message'), NULL, TRUE);
     $variables['privatemsg_link'] = 'messages/new/'. $account_id;
     $variables['privatemsg'] = 
       '<div class="privatemsg">' .

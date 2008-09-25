@@ -2,6 +2,13 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 24, 2008
+------------------
+#306633 by Michelle: Added more icons.
+#291084 by halkeye: Cleared options before collapsable container setting.
+NOISSUE by waawaamilk: Fixed bug with counting forums in forum list preprocess.
+#306633 by Michelle: Renamed most of the icons for a more consistant naming and replaced some.
+
 September 18, 2008
 ------------------
 #310547 by Michelle: Added 'hidden options' to settings page as well as other work on the settings page. This also necessitated a change to the collapsable container code.

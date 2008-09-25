@@ -99,6 +99,7 @@ function advanced_forum_settings_page() {
   );
 
   // Collapsible containers
+  $options = array();
   $containers = variable_get('forum_containers', array());
   $forums_including_containers = advanced_forum_get_forum_list();
   foreach($forums_including_containers as $forum_or_container) {
@@ -360,16 +361,45 @@ function advanced_forum_preprocess_node(&$vars) {
     // Node is being shown in the forum (not on the front page or in a view)
     $vars['is_forum'] = TRUE;
     
-    if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
+   if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
       // Change first post from "add comment" to "Reply"
       $vars['node']->links['comment_add']['title'] = t('Reply');
-      $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forumlinks'));
-      
+
       // Make a separate variable for the reply link so it can be put on top of the thread
       $reply_link = $vars['node']->links['comment_add'];
-      $reply_link['title'] = t("Post Reply");
+      
+      if (variable_get('advanced_forum_button_links', 1)) {
+        $reply_link['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'post-reply.png');
+        $reply_link['html'] = TRUE;
+      }
+      else {
+        $reply_link['title'] = t("Post Reply");
+      }
       $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forumlinks'));
     }
+    
+    // Iconify common links (optional to avoid translation issues)
+    if (variable_get('advanced_forum_button_links', 1)) {
+      if (!empty($vars['node']->links['comment_add']['title'])) {
+        $vars['node']->links['comment_add']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
+        $vars['node']->links['comment_add']['html'] = TRUE;
+      }
+      if (!empty($vars['node']->links['quote']['title'])) {
+        $vars['node']->links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
+        $vars['node']->links['quote']['html'] = TRUE;
+      }
+      if (!empty($vars['node']->links['edit']['title'])) {
+        $vars['node']->links['edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
+        $vars['node']->links['edit']['html'] = TRUE;
+      }
+      if (!empty($vars['node']->links['delete']['title'])) {
+        $vars['node']->links['delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
+        $vars['node']->links['delete']['html'] = TRUE;
+      }
+    }
+    
+    // Remake the links with our changes
+    $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forumlinks'));
 
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
@@ -462,10 +492,32 @@ function advanced_forum_preprocess_comment(&$vars) {
         $function($node, $links);
       }
       unset($links['comment_parent']);
-      $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
-      $vars['links_array'] = $links;
     }
     
+      // Iconify common links (optional to avoid translation issues)
+      if (variable_get('advanced_forum_button_links', 1)) {
+        if (!empty($links['comment_reply']['title'])) {
+          $links['comment_reply']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
+          $links['comment_reply']['html'] = TRUE;
+        }
+        if (!empty($links['quote']['title'])) {
+          $links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
+          $links['quote']['html'] = TRUE;
+        }
+        if (!empty($links['comment_edit']['title'])) {
+          $links['comment_edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
+          $links['comment_edit']['html'] = TRUE;
+        }
+        if (!empty($links['comment_delete']['title'])) {
+          $links['comment_delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
+          $links['comment_delete']['html'] = TRUE;
+        }
+      }
+      
+      // Remake the links with our changes
+      $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
+      $vars['links_array'] = $links;
+
     // Comment number with link
     if (!isset($post_number)) {
       static $post_number = 0;
@@ -526,11 +578,11 @@ function template_preprocess_forum_user(&$variables) {
   
  // Online status
   if (round((time()-$account->access)/60) < 15) {
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_online.png', t('User is online'), t('User is online'), NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-online.png', t('User is online'), t('User is online'), NULL, TRUE);
     $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . t('Online') . '</div>';
   } 
   else {
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/status_offline.png', t('User is offline'), t('User is offline'), NULL, TRUE);
+    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-offline.png', t('User is offline'), t('User is offline'), NULL, TRUE);
     $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . t('Offline') . '</div>';
   }
 }
@@ -582,7 +634,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
   global $user;
   
-  $number_of_forums = count($forums); 
+  $number_of_forums = count($variables['forums']); 
   $forum_counter = 0;
 
   foreach ($variables['forums'] as $id => $forum) {
