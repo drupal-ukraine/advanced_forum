@@ -574,7 +574,7 @@ function template_preprocess_forum_user(&$variables) {
   $variables['joined'] = '<div class="account-joined"><span class="user-info-label">' . t('Joined:') . ' </span>' . $variables['joined_raw'] . '</div>';
 
   $variables['joined_ago_raw'] = format_interval(time() - $account->created);
-  $variables['joined_ago'] = '<div class="account-member-since"><span class="user-info-label">' . t('Joined:')  . ' </span>' . $variables['member_since_raw'] . 'ago </div>';
+  $variables['joined_ago'] = '<div class="account-joined-ago"><span class="user-info-label">' . t('Joined:')  . ' </span>' . $variables['joined_ago_raw'] . 'ago </div>';
   
  // Online status
   if (round((time()-$account->access)/60) < 15) {
@@ -595,6 +595,7 @@ function advanced_forum_preprocess_forums(&$variables) {
     // We don't want the links on the top of the forum overview
     $variables['links_orig'] = $variables['links'];
     $variables['links'] = array();
+    $variables['forum_description'] = '';
   } 
   else {
     // Grab the forum description and make it available to the template file
@@ -642,21 +643,29 @@ function advanced_forum_preprocess_forum_list(&$variables) {
     $forum_counter++;
     switch ($forum_counter) {
       case "1":
-        $position = 'first-row';
+        $row_classes = 'first-row';
         break;
       case $number_of_forums:
-        $position = 'last-row';
+        $row_classes = 'last-row';
         break;
       default:
-        $position = 'middle-row';
+        $row_classes = 'middle-row';
     }
- 
+    
+    if ($forum->is_container) {
+      $row_classes .= ' container';
+    }
+    
+    $variables['forums'][$id]->row_classes = $row_classes;
+  
     $variables['forums'][$id]->new_posts = 0;
     $variables['forums'][$id]->new_text_posts = '';
     $variables['forums'][$id]->new_url_posts = '';
     $variables['forums'][$id]->old_posts = $forum->num_posts;
     $variables['forums'][$id]->position = $position;
- 
+
+    $current_container = $current_container_depth = 0;    
+    
     if ($forum->is_container) {
       $current_container = $forum->tid;
       $current_container_depth = $forum->depth;
@@ -666,6 +675,9 @@ function advanced_forum_preprocess_forum_list(&$variables) {
       if ($forum->depth > $current_container_depth ) {
         $variables['forums'][$id]->container_id = $current_container;
       }     
+      else {
+        $variables['forums'][$id]->container_id = 0;
+      }
     }
 
     if ($user->uid) {
@@ -718,9 +730,11 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
   }
 
   // For items posted more than 48 hours ago, offer an actual date.
-  $timestamp = $variables['topic']->timestamp;
-  if (time() - $timestamp > 172800) {
-    $variables['date_posted'] = format_date($timestamp, 'small');
+  if (isset($variables['topic']->timestamp)) {
+      $timestamp = $variables['topic']->timestamp;
+      if (time() - $timestamp > 172800) {
+        $variables['date_posted'] = format_date($timestamp, 'small');
+      }
   }
 }
 
@@ -793,7 +807,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
         $sticky_class = 'sticky-topic';
         $was_sticky = TRUE;
       } 
-      elseif ($wassticky) {
+      elseif ($was_sticky) {
         $sticky_class = 'first-not-sticky not-sticky';
         $was_sticky = FALSE;
       } 

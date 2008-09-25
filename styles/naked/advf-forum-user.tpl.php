@@ -62,19 +62,19 @@
 <div class="user-info-inner">
 
   <?php print $name; ?>
-  <?php print $user_title; ?>
-  <?php print $user_badges;  ?>
+  <?php if (isset($user_title)) print $user_title; ?>
+  <?php if (isset($user_badges)) print $user_badges;  ?>
   <?php print $picture; ?>
   <br />
   <?php print $joined; ?>
-  <?php print $user_stats_posts; ?>
-  <?php print $userpoints_points; ?>
+  <?php if (isset($user_stats_posts)) print $user_stats_posts; ?>
+  <?php if (isset($userpoints_points)) print $userpoints_points; ?>
   <br />
-  <?php print $contact; ?>
-  <?php print $privatemsg; ?>
-  <?php print $buddylist; ?>
+  <?php if (isset($contact)) print $contact; ?>
+  <?php if (isset($privatemsg)) print $privatemsg; ?>
+  <?php if (isset($buddylist)) print $buddylist; ?>
   <br />
   <?php print $online_status; ?>
-  <?php print $user_stats_ip; ?>
+  <?php if (isset($users_stats_ip)) print $user_stats_ip; ?>
   
 </div>

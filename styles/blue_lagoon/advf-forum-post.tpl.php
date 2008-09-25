@@ -31,7 +31,7 @@
   
 <?php endif; ?>
 
-<div class="<?php print $postclass ? $postclass . ' ' : ''; ?>forum-comment<?php print $row_class ? ' forum-comment-' . $row_class : ''; print $comment->new ? ' comment-new forum-comment-new' : ''; ?> clearfix">
+<div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
   <div class="post-info clearfix">
     <?php if (!$top_post): ?>
@@ -54,7 +54,7 @@
 
     <div class="forum-comment-right clearfix">
       <div class="posted-on"><?php print t("Posted: ") . $date ?>
-        <?php if ($comment->new) : ?>
+        <?php if (!empty($comment->new)) : ?>
           <a id="new"></a>
           <span class="new">- <?php print $new ?></span>
         <?php endif ?>
