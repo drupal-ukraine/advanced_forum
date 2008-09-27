@@ -12,6 +12,26 @@ padding, and floats
   clear:both;
 }
 
+.clearfix:after {
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+* html>body .clearfix {
+  display: inline;
+  width: 100%;
+}
+
+* html .clearfix {
+  /* Hides from IE-mac \*/
+  height: 1%;
+  /* End hide from IE-mac */
+}
+
 /*** PAGER *******************************************************************/
 
 #forum .pager,
@@ -39,10 +59,24 @@ padding, and floats
   clear: both;
 }
 
-/*** FORUM CONTAINERS ********************************************************/
+/*** FORUM LINK LISTS ********************************************************/
 
-.forum-details {
+.forum-top-links {
+  margin-bottom: 10px;
+  float: left;
 }
+
+.forum-links li {
+  margin: 0;
+  padding: 0pt 15px 0pt 0pt;
+}
+
+.forum-links li a {
+  font-weight: bold;
+}
+
+
+/*** FORUM CONTAINERS ********************************************************/
 
 .forum-description {
   padding: 10px 0;
@@ -111,8 +145,8 @@ td.forum {
   border: 0;
 }
 
-.forum-indented {
-  padding-left: 20px;
+#forum div.indent {
+  margin-left: 30px;
 }
 
 #forum td.replies,
@@ -134,9 +168,6 @@ td.forum {
   padding-top: 5px;
 }
 
-#forum .description {
-}
-
 /* Topic listings */
 
 #forum td.views {
@@ -144,24 +175,8 @@ td.forum {
   white-space: nowrap;
 }
 
-#forum td.statistics,
-#forum td.settings,
-#forum td.pager {
-
-}
-
 #forum td .links {
   padding-top: 10px;
-}
-
-/* Top links */
-#forum .forum-top-links {
-  margin-bottom: 10px;
-}
-
-#forum .forum-top-links li {
-  margin: 0;
-  padding-right: 15px;
 }
 
 /* Icons */
@@ -187,19 +202,14 @@ td.forum {
 }
 
 /* Header at the top of each post */
-.post-info {
-}
-
+/* Note: Changes from Naked in this section */
 .posted-on {
   padding: 0 10px;
+  float: left;
 }
 
 .post-title {
-  float: left;
-  padding-left: 160px;
-}
-
-.forum-comment .new {
+  padding: 5px 0px 5px 10px;
 }
 
 .post-num {
@@ -207,31 +217,43 @@ td.forum {
   margin-right: 5px;
 }
 
-/* User info section */
-
-.user-info {
-  margin: 5px;
-}
+/* Author information pane */
+/* Note: Changes from Naked in this section */
 
 .forum-comment-left {
-  /*float: left; stacked */
   line-height: 110%;
   overflow: hidden;
-  /*width: 150px; stacked*/
 }
 
-.forum-comment-left .author-name {
+.author-info {
+  margin: 0px;
+}
+
+.author-info-first {
+  float: left;
+}
+
+.author-info-last {
+  float: right;
+  margin-top: 10px;
+  width: 30%;
+}
+
+.author-info-name-section {
+  margin: 10px 0 0 10px;
+  float: left;
+}
+
+.author-info .author-name {
   margin-bottom: 10px;
   padding: 0;
 }
 
-.forum-comment-left .picture {
-  float: none;
-  margin: 10px 0;
-  padding-left: 0px;
+.author-info-inner .picture {
+  float: left
 }
 
-.forum-comment-left .picture img {
+.author-info .picture img {
   height: auto; 
   padding: 8px;
   max-width: 120px;
@@ -247,15 +269,16 @@ td.forum {
 }
 
 /* Post text area */
-.forum-comment-right {
-  /*margin-left: 150px; stacked*/ /*Set left margin to LeftColumnWidth*/
+/* Note: Changes from Naked in this section */
+
+.forum-post-wrapper .forum-comment-right {
+  clear: both;
 }
 
 .forum-comment-right .content {
   margin: 10px;
 }
 
-.forum-comment-right .post-title,
 .forum-comment-right .content {
   margin-left: 0;
   padding-left: 10px;
@@ -272,50 +295,4 @@ td.forum {
   line-height: 160%;
   margin: 2px;
   text-align: right;
-}
-
-
-/* STACKED */
-
-.author-info-last {
-  float: right;
-  margin-top: 10px;
-  width: 30%;
-}
-
-.forum-post-wrapper .user-signature,
-.posted-on {
-  margin-left: 10px;
-  padding: 0;
-}
-
-.forum-post-wrapper .post-title {
-  float: none;
-}
-
-.forum-post-wrapper .forum-comment-right {
-  clear: both;
-}
-
-.user-info {
-  margin: 0;
-}
-
-.posted-on,
-.author-info-first,
-.author-info-inner .picture,
-.author-info-name-section {
-  float: left;
-}
-
-.author-info-inner .picture {
-  margin: 10px;
-}
-
-.author-info-name-section {
-  margin: 10px 0 0 10px;
-}
-
-.forum-post-wrapper .forum-comment-left {
-  border-right: 0;
 }
