@@ -13,13 +13,12 @@ function privatemsg_preprocess_forum_user(&$variables) {
   
   // Send private message
   if ($account_id != 0 && $account_id != $user->uid && user_access('write privatemsg')) {
-    $variables['privatemsg_icon'] = theme('image', advanced_forum_path_to_images() . '/private-message.png', t('Private Message'), t('Private Message'), NULL, TRUE);
-    $variables['privatemsg_link'] = 'messages/new/'. $account_id;
     $variables['privatemsg'] = 
-      '<div class="privatemsg">' .
-      l($variables['privatemsg_icon'], $variables['privatemsg_link'], NULL, NULL, NULL, NULL, TRUE) . 
-      ' '  . 
-      l(t('Send PM'), $variables['privatemsg_link'], array('absolute' => TRUE)) . 
-      '</div>';
-  }
+      l(theme('image', advanced_forum_path_to_images() . '/private-message.png', 
+              t('Send private message'), t('Send private message'), NULL, TRUE), 
+        "privatemsg/new/$account_id",
+        array(), NULL, NULL, FALSE, TRUE); 
+       
+    $variables['privatemsg_link'] = l(t('Send PM'), 'privatemsg/new/'. $account_id);
+   }
 }

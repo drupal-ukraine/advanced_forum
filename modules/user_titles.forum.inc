@@ -9,11 +9,7 @@
  */
 function user_titles_preprocess_forum_user(&$variables) {
   $account_id = $variables['account']->uid;
-  if ($account_id == 0) {
-    // Anonymous users don't have titles
-    return;
-  }
-  
-  $variables['user_title_raw'] = user_titles_get_user_title($account_id);
-  $variables['user_title'] = '<div class="user-title">' . $variables['user_title_raw'] . '</div>';
+  if ($account_id != 0) {
+    $variables['user_title'] = user_titles_get_user_title($account_id);
+  }  
 }

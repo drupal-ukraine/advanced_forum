@@ -213,10 +213,6 @@ td.forum {
   margin: 5px;
 }
 
-.user-info div {
-  margin-bottom: 6px;
-}
-
 .forum-comment-left {
   float: left;
   line-height: 110%;
@@ -225,7 +221,7 @@ td.forum {
 }
 
 .forum-comment-left .author-name {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 0;
 }
 
@@ -238,17 +234,16 @@ td.forum {
 .forum-comment-left .picture img {
   height: auto; 
   padding: 8px;
+  max-width: 120px;
 }
 
-.author-title, 
-.author-posts, 
-.author-regdate, 
-.author-points {
+.author-info-line {
   padding-bottom: 5px;
 }
 
-.author-icons {
-  padding: 5px 0 0 0;
+.author-info-icon {
+  display: inline;
+  padding: 10px 2px 2px 0;
 }
 
 /* Post text area */

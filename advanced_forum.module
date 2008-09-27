@@ -470,8 +470,8 @@ function advanced_forum_preprocess_comment(&$vars) {
     $vars['content'] = $vars['comment']->comment;
       
     // User information
-    $accountid = $vars['comment']->uid;
-    if ($accountid == 0) {
+    $account_id = $vars['comment']->uid;
+    if ($account_id == 0) {
       // Anonymous user. Make a fake user object for theme_username
       $vars['account']->name = $vars['comment']->name;
       $vars['account']->homepage = $vars['comment']->homepage;
@@ -550,40 +550,37 @@ function advanced_forum_preprocess_comment(&$vars) {
 function template_preprocess_forum_user(&$variables) {
   // The passed in $variables['account'] refers to the user who's info is in the pane.
   $account = $variables['account'];
-  $accountid = $account->uid;
+  $account_id = $account->uid;
   
   // Get a reference to the currently logged in user.
   global $user;
   
   // Username
-  $variables['name_raw'] =  theme('username', $account);
-  $variables['name'] =  '<div class="username">' .$variables['name_raw'] . '</div>';
-   
+  $variables['account_name'] =  theme('username', $account);
+  $variables['account_id'] = $account_id;
+  
   // Avatar
   $variables['picture'] = theme('user_picture', $account);
 
   // Nothing else applies to anon users, so just stop here
-  if ($accountid == 0) {
+  if ($account_id == 0) {
     return;
   }
   
   // Join date / since
   $just_date = str_replace(array('H:i', 'g:ia', ' - '), '', variable_get('date_format_short', 'm/d/Y - H:i'));
-  $variables['joined_raw'] = format_date($account->created, 'custom', $just_date);
-  $variables['joined_raw'] = format_date($account->created, 'custom', $just_date);
-  $variables['joined'] = '<div class="account-joined"><span class="user-info-label">' . t('Joined:') . ' </span>' . $variables['joined_raw'] . '</div>';
+  $variables['joined'] = format_date($account->created, 'custom', $just_date);
 
-  $variables['joined_ago_raw'] = format_interval(time() - $account->created);
-  $variables['joined_ago'] = '<div class="account-joined-ago"><span class="user-info-label">' . t('Joined:')  . ' </span>' . $variables['joined_ago_raw'] . 'ago </div>';
+  $variables['joined_ago'] = format_interval(time() - $account->created);
   
  // Online status
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-online.png', t('User is online'), t('User is online'), NULL, TRUE);
-    $variables['online_status'] = '<div class="user-online">' . $variables['online_icon'] . ' ' . t('Online') . '</div>';
-  } 
+    $variables['online_status'] = t('Online');
+ } 
   else {
     $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-offline.png', t('User is offline'), t('User is offline'), NULL, TRUE);
-    $variables['online_status'] = '<div class="user-offline">' . $variables['online_icon'] . ' ' . t('Offline') . '</div>';
+    $variables['online_status'] = t('Offline');
   }
 }
 
@@ -601,6 +598,21 @@ function advanced_forum_preprocess_forums(&$variables) {
     // Grab the forum description and make it available to the template file
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
+
+    // To avoid translation issues, make the button version optional
+    if (variable_get('advanced_forum_button_links', 1)) {
+      if (isset($variables['links']['forum'])) {
+        $title_image = theme('image', advanced_forum_path_to_images() . '/' . 'new-topic.png');
+        $variables['links']['forum']['title'] = $title_image;
+        $variables['links']['forum']['html'] = TRUE;
+      }
+      
+      if (isset($variables['links']['poll'])) {
+        $title_image = theme('image', advanced_forum_path_to_images() . '/' . 'new-poll.png');
+        $variables['links']['poll']['title'] = $title_image;
+        $variables['links']['poll']['html'] = TRUE;
+      }
+    }
   }
 
   // Add in the mark as read link if user has access

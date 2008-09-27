@@ -2,9 +2,14 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 26, 2008
+------------------
+#303549 by Michelle: Cleaned up author info pane.
+
 September 25, 2008
 ------------------
 #312602 by Michelle, merlinofchaos: Fixed broken query for counting the unread comments in a forum.
+#303740 by nigel, Michelle: Fixed lots of little bugs found with E_ALL warnings.
 
 September 24, 2008
 ------------------

@@ -154,8 +154,12 @@ see advanced_forum-structure.css.
 }
 
 /* User info */
-.forum-comment-left .username {
-  font-size: 1.1em;
+.forum-comment-left {
+  border-right: 2px solid #F7F5EE;
+}
+
+.forum-comment-left .author-name {
+  font-size: 120%;
   font-weight: bold;
 }
 
@@ -163,7 +167,7 @@ see advanced_forum-structure.css.
   border: 1px solid #000;
 }
 
-.forum-fomment-left .user-info-label {
+.forum-comment-left .author-info-label {
   font-weight: bold;
 }
 
@@ -171,6 +175,7 @@ see advanced_forum-structure.css.
   vertical-align: top;
 }
 
+  
 /* Signature */
 .user-signature {
   font-size: .8em;

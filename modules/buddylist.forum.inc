@@ -17,22 +17,22 @@ function buddylist_preprocess_forum_user(&$variables) {
   
   if (@in_array($account_id, array_keys(buddylist_get_buddies($user->uid)))) {
     // Remove buddy
-    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/buddy-remove.png', t('Remove Buddy'), t('Remove Buddy'), NULL, TRUE);
-    $variables['buddylist_link'] = "buddy/delete/$account_id";
-    $variables['buddylist'] = '<div class="buddylist">' . 
-      l($variables['buddylist_icon'], $variables['buddylist_link'], NULL, NULL, NULL, NULL, TRUE) . 
-      ' '  . 
-      l(t('Remove buddy'), $variables['buddylist_link']) .
-      '</div>';
+    $variables['buddylist'] =   
+      l(theme('image', advanced_forum_path_to_images() . '/buddy-remove.png', 
+              t('Remove from buddylist'), t('Remove from buddylist'), NULL, TRUE), 
+        "buddy/delete/$account_id",
+        array(), NULL, NULL, FALSE, TRUE); 
+    
+    $variables['buddylist_link'] = l("Remove buddy", "buddy/delete/$account_id");
   } 
   else {
     // Add buddy
-    $variables['buddylist_icon'] = theme('image', advanced_forum_path_to_images() . '/buddy-add.png', t('Add to buddy list'), t('Add to buddy list'), NULL, TRUE);
-    $variables['buddylist_link'] = "buddy/add/$account_id";
-    $variables['buddylist'] = '<div class="buddylist">' . 
-      l($variables['buddylist_icon'], $variables['buddylist_link'], NULL, NULL, NULL, NULL, TRUE) . 
-      ' '  . 
-      l(t('Add buddy'), $variables['buddylist_link']) .
-      '</div>';
+    $variables['buddylist'] =   
+      l(theme('image', advanced_forum_path_to_images() . '/buddy-add.png', 
+              t('Add to buddylist'), t('Add to buddylist'), NULL, TRUE), 
+        "buddy/add/$account_id",
+        array(), NULL, NULL, FALSE, TRUE); 
+    
+    $variables['buddylist_link'] = l("Add buddy", "buddy/add/$account_id");
   }
 }
