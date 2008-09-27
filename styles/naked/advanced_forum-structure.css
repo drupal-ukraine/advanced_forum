@@ -39,6 +39,23 @@ padding, and floats
   clear: both;
 }
 
+/*** FORUM LINK LISTS ********************************************************//* Top links */
+
+#forum .forum-top-links {
+  margin-bottom: 10px;
+  float: left;
+}
+
+#forum .forum-links li {
+  margin: 0;
+  padding-right: 15px;
+}
+
+.forum-links li a {
+  font-weight: bold;
+}
+
+
 /*** FORUM CONTAINERS ********************************************************/
 
 .forum-details {
@@ -154,16 +171,6 @@ td.forum {
   padding-top: 10px;
 }
 
-/* Top links */
-#forum .forum-top-links {
-  margin-bottom: 10px;
-}
-
-#forum .forum-top-links li {
-  margin: 0;
-  padding-right: 15px;
-}
-
 /* Icons */
 #forum .forum-icon {
   float: left;
@@ -207,11 +214,7 @@ td.forum {
   margin-right: 5px;
 }
 
-/* User info section */
-
-.user-info {
-  margin: 5px;
-}
+/* Author information pane */
 
 .forum-comment-left {
   float: left;
@@ -220,18 +223,33 @@ td.forum {
   width: 150px;
 }
 
-.forum-comment-left .author-name {
+.author-info {
+  margin: 5px;
+}
+
+.author-info-inner{
+}
+
+.author-info-first {
+  margin-bottom: 5px;
+}
+
+.author-info-last {
+  margin-top: 5px;
+}
+
+.author-info .author-name {
   margin-bottom: 10px;
   padding: 0;
 }
 
-.forum-comment-left .picture {
+.author-info .picture {
   float: none;
   margin: 10px 0;
   padding-left: 0px;
 }
 
-.forum-comment-left .picture img {
+.author-info .picture img {
   height: auto; 
   padding: 8px;
   max-width: 120px;

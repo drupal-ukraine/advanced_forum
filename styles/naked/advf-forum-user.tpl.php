@@ -3,19 +3,20 @@
 
 /**
  * @file advf-forum-user.tpl.php
- * Theme implementation to display information about the posting user.
+ * Theme implementation to display information about the post author.
  *
- * Available variables (core modules):
- * - $account: The entire user object.
- * - $picture: Themed user picture.
- * - $account_name: Themed user name. 
- * - $account_id: User ID number. 
+  * Available variables (core modules):
+ * - $account: The entire user object for the author.
+ * - $picture: Themed user picture for the author.
+ * - $account_name: Themed user name for the author. 
+ * - $account_id: User ID number for the author. 
  *
- * - $joined: Date the user joined the site.
- * - $joined_ago: Time since the user registered in the format "TIME ago"
+ * - $joined: Date the post author joined the site.
+ * - $joined_ago: Time since the author registered in the format "TIME ago"
  *
- * - $online_icon: Online/Offline icon.
+ * - $online_icon: Icon that changes depending on whether the author is online.
  * - $online_status: Translated text "Online" or "Offline"
+ * - $last_active: Time since author was last active. eg: "5 days 3 hours"
  *
  * - $contact: Linked icon.
  * - $contact_link: Linked translated text "Contact user".
@@ -50,61 +51,66 @@
  
 */
 ?>
+
 <div class="author-info-inner">
 
-  <div class="author-info-line author-name"> <?php print $account_name; ?> </div>
+  <div class="author-info-first">
+    <div class="author-info-name-section"> 
+      <div class="author-info-line author-name"> <?php print $account_name; ?> </div>
 
-  <?php if (!empty($user_title)): ?>
-    <div class="author-info-line author-title"> <?php print $user_title; ?> </div>
-  <?php endif; ?>
-  
-  <?php if (!empty($user_badges)): ?>
-    <div class="author-info-line author-badges"> <?php print $user_badges;  ?> </div>
-  <?php endif; ?>
+      <?php if (!empty($user_title)): ?>
+        <div class="author-info-line author-title"> <?php print $user_title; ?> </div>
+      <?php endif; ?>
+      
+      <?php if (!empty($user_badges)): ?>
+        <div class="author-info-line author-badges"> <?php print $user_badges;  ?> </div>
+      <?php endif; ?>
 
-  <?php if (!empty($picture)): ?>
-    <?php print $picture; ?>
-  <?php endif; ?>
-  
-  <div class="author-info-line author-id">
-    <span class="author-info-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?> 
-  </div>
-  
-  <div class="author-info-line author-joined">
-    <span class="author-info-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?> 
-  </div>
-  
-  <?php if (isset($user_stats_posts)): ?>
-    <div class="author-info-line author-posts">
-      <span class="author-info-label"><?php print t('Posts'); ?>:</span> <?php print $user_stats_posts; ?> 
+      <?php if (!empty($picture)): ?>
+        <?php print $picture; ?>
+      <?php endif; ?>
     </div>
-  <?php endif; ?>
-  
-  <?php if (isset($userpoints_points)): ?>
-    <div class="author-info-line author-points">
-      <span class="author-info-label"><?php print t('!Points: ', userpoints_translation()); ?></span> <?php print $userpoints_points; ?> 
+    
+    <div class="author-info-line author-id">
+      <span class="author-info-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?> 
     </div>
-  <?php endif; ?>
-  
-  <?php if (!empty($user_stats_ip)): ?>
-    <div class="author-info-line author-ip">
-      <span class="author-info-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?> 
+    
+    <div class="author-info-line author-joined">
+      <span class="author-info-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?> 
     </div>
-  <?php endif; ?>
-  
-  <br />
-  <div class="author-info-icon"><?php print $online_icon; ?></div>
+    
+    <?php if (isset($user_stats_posts)): ?>
+      <div class="author-info-line author-posts">
+        <span class="author-info-label"><?php print t('Posts'); ?>:</span> <?php print $user_stats_posts; ?> 
+      </div>
+    <?php endif; ?>
+    
+    <?php if (isset($userpoints_points)): ?>
+      <div class="author-info-line author-points">
+        <span class="author-info-label"><?php print t('!Points: ', userpoints_translation()); ?></span> <?php print $userpoints_points; ?> 
+      </div>
+    <?php endif; ?>
+    
+    <?php if (!empty($user_stats_ip)): ?>
+      <div class="author-info-line author-ip">
+        <span class="author-info-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?> 
+      </div>
+    <?php endif; ?>
+  </div>  
 
-  <?php if (!empty($contact)): ?>
-    <div class="author-info-icon"><?php print $contact; ?></div>
-  <?php endif; ?>
-  
-  <?php if (!empty($privatemsg)): ?>
-    <div class="author-info-icon"><?php print $privatemsg; ?></div>
-  <?php endif; ?>
-  
-  <?php if (!empty($buddylist)): ?>
-    <div class="author-info-icon"><?php print $buddylist; ?></div>
-  <?php endif; ?>
-  
+  <div class="author-info-last">  
+    <div class="author-info-icon"><?php print $online_icon; ?></div>
+
+    <?php if (!empty($contact)): ?>
+      <div class="author-info-icon"><?php print $contact; ?></div>
+    <?php endif; ?>
+    
+    <?php if (!empty($privatemsg)): ?>
+      <div class="author-info-icon"><?php print $privatemsg; ?></div>
+    <?php endif; ?>
+    
+    <?php if (!empty($buddylist)): ?>
+      <div class="author-info-icon"><?php print $buddylist; ?></div>
+    <?php endif; ?>
+  </div>  
 </div>

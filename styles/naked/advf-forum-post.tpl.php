@@ -7,17 +7,19 @@
  * Changes here will affect an individual forum post.
  
  * The following standard variables are available to you:
-    $top_post    - TRUE if we are formatting the main post (ie, not a comment)
-    $title       - Title of this post/comment
-    $content     - Content of this post/comment
-    $reply_link  - Separated out link to reply to topic
-    $jump_first_new - Shows number of new (to user) comments and links to the first one
-    $links       - Formatted links (reply, edit, delete, etc)
-    $links_array - Unformatted array of links
-    $submitted   - Formatted date post/comment submitted
+ * - $top_post: TRUE if we are formatting the main post (ie, not a comment)
+ * - $title: Title of this post/comment
+ * - $content: Content of this post/comment
+ * - $reply_link: Separated out link to reply to topic
+ * - $jump_first_new: Shows number of new (to user) comments and links to the first one
+ * - $links: Formatted links (reply, edit, delete, etc)
+ * - $links_array: Unformatted array of links
+ * - $submitted: Formatted date post/comment submitted
 
-    $accountid   - ID of the poster
-    $name        - User name of poster
+ * - $account: User object of the poster
+ * - $name: User name of poster
+ * - $user_info_pane: Entire contents of advf-user-info.tpl.php
+    
  */
 ?>
 
@@ -44,7 +46,7 @@
   <div class="forum-post-wrapper">
     
     <div class="forum-comment-left">
-      <div class="user-info">
+      <div class="author-info">
         <?php print $user_info_pane; ?>   
      </div>
     </div>

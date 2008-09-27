@@ -375,7 +375,7 @@ function advanced_forum_preprocess_node(&$vars) {
       else {
         $reply_link['title'] = t("Post Reply");
       }
-      $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forumlinks'));
+      $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
     }
     
     // Iconify common links (optional to avoid translation issues)
@@ -399,7 +399,7 @@ function advanced_forum_preprocess_node(&$vars) {
     }
     
     // Remake the links with our changes
-    $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forumlinks'));
+    $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forum-links'));
 
     // Make an array version of $links
     $vars['links_array'] = $vars['node']->links;
@@ -515,7 +515,7 @@ function advanced_forum_preprocess_comment(&$vars) {
       }
       
       // Remake the links with our changes
-      $vars['links'] = theme('links', $links, array('class' => 'links forumlinks'));
+      $vars['links'] = theme('links', $links, array('class' => 'links forum-links'));
       $vars['links_array'] = $links;
 
     // Comment number with link

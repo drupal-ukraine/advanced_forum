@@ -51,10 +51,8 @@ see advanced_forum-structure.css.
 #forum tr.odd {
 }
 
+#forum tr.even td,
 #forum tr.odd td {
-}
-
-#forum tr.even td {
 }
 
 /* Containers & Forums */
@@ -154,29 +152,29 @@ see advanced_forum-structure.css.
 .post-num a:hover {
 }
 
-/* User info */
+/* Author information pane */
+
 .forum-comment-left {
   border-right: 2px solid #F7F5EE;
 }
 
-.forum-comment-left .author-name {
+.author-info .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.forum-comment-left .picture img {
+.author-info .picture img {
   border: 1px solid #000;
 }
 
-.forum-comment-left .author-info-label {
+.author-info .author-info-label {
   font-weight: bold;
 }
 
-.user-info-inner img {
+.author-info img {
   vertical-align: top;
 }
 
-  
 /* Signature */
 .user-signature {
   font-size: .8em;
@@ -184,35 +182,7 @@ see advanced_forum-structure.css.
   padding: 0 1px 0 5px;
 }
 
-/* Forum links */
-
-.forum-top-links {
-  float: left;
-}
-
-.forum-links li {
-  background: none;
-  margin: 0;
-  padding: 0;
-}
-
-.forum-links li a {
-  font-weight: bold;
-}
-
-.forum-links li a:link,
-.forum-links li a:visited {
-}
-
-.forum-links li a:hover,
-.forum-links li a:active {
-}
-
-.topic-reply {
-  font-size: 1.2em;
-}
-
-/* Helper classes */
+/*** HELPER CLASSES *********************************************************/
 
 .clearfix:after {
   content: ".";

@@ -2,9 +2,16 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+September 27, 2008
+------------------
+#271471 by stephthegeek: Added naked_stacked style
+NOISSUE by Michelle: General style fixes. Work in progress; still some glitches.
+#314205 by Michelle: First round of style cleanup.
+
 September 26, 2008
 ------------------
 #303549 by Michelle: Cleaned up author info pane.
+#250112 by Michelle: Added userpoints categorization. Also added branding suggested by Vuds in #310460. Also fixed missing t()s.
 
 September 25, 2008
 ------------------
