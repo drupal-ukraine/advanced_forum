@@ -33,7 +33,8 @@
  * - $user_stats_posts: Number of posts from user stats module.
  * - $user_stats_ip: IP address from user stats module.
  *
- * - $userpoints_points: Number of points from userpoints module.
+ * - $userpoints_points: Number of points from default category of the userpoints module.
+ * - $userpoints_categories: Array holding each category and the points for that category.
  *
  * 5.x only at this time:
  *
@@ -65,20 +66,30 @@
     <?php print $picture; ?>
   <?php endif; ?>
   
-  <div class="author-info-line author-id"><span class="author-info-label">Member:</span> <?php print $account_id; ?> </div>
+  <div class="author-info-line author-id">
+    <span class="author-info-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?> 
+  </div>
   
-  <div class="author-info-line author-joined"><span class="author-info-label">Joined:</span> <?php print $joined; ?> </div>
+  <div class="author-info-line author-joined">
+    <span class="author-info-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?> 
+  </div>
   
   <?php if (isset($user_stats_posts)): ?>
-    <div class="author-info-line author-posts"><span class="author-info-label">Posts:</span> <?php print $user_stats_posts; ?> </div>
+    <div class="author-info-line author-posts">
+      <span class="author-info-label"><?php print t('Posts'); ?>:</span> <?php print $user_stats_posts; ?> 
+    </div>
   <?php endif; ?>
   
   <?php if (isset($userpoints_points)): ?>
-    <div class="author-info-line author-points"><span class="author-info-label">Points:</span> <?php print $userpoints_points; ?> </div>
+    <div class="author-info-line author-points">
+      <span class="author-info-label"><?php print t('!Points: ', userpoints_translation()); ?></span> <?php print $userpoints_points; ?> 
+    </div>
   <?php endif; ?>
   
   <?php if (!empty($user_stats_ip)): ?>
-    <div class="author-info-line author-ip"><span class="author-info-label">IP:</span> <?php print $user_stats_ip; ?> </div>
+    <div class="author-info-line author-ip">
+      <span class="author-info-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?> 
+    </div>
   <?php endif; ?>
   
   <br />

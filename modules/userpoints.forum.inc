@@ -12,6 +12,11 @@ function userpoints_preprocess_forum_user(&$variables) {
   
   if ($account_id != 0) {
     $variables['userpoints_points'] = userpoints_get_current_points($account_id);
+
+    $categories = userpoints_get_categories();
+    foreach ($categories AS $tid => $category) {
+      $variables['userpoints_categories'][$category] =  userpoints_get_current_points($account_id, $tid);
+    }
   }
 }
   
