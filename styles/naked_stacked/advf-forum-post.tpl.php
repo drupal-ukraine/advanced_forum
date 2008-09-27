@@ -55,13 +55,12 @@
           <?php print $title ?>
         </div>
       <?php endif; ?>  
-        
-      <?php if (!$top_post): ?>
-        <?php if (!empty($comment->new)) : ?>
-          <a id="new"></a>
-          <span class="new">- <?php print $new ?></span>
+        <?php if (!$top_post): ?>
+          <?php if (!empty($comment->new)) : ?>
+            <a id="new"></a>
+            <span class="new">- <?php print $new ?></span>
+          <?php endif ?>
         <?php endif ?>
-      <?php endif ?>
       
       <div class="content">
         <?php print $content ?>

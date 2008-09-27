@@ -34,18 +34,15 @@
 <div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
   <div class="post-info clearfix">
-    <?php if (!$top_post): ?>
-      <?php if ($title): ?>
-        <div class="post-title">
-          <?php print $title ?>
-        </div>
-      <?php endif; ?>    
+    <div class="posted-on"><?php print t("Posted: ") . $date ?></div> 
       
+    <?php if (!$top_post): ?>
       <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
   </div>
 
   <div class="forum-post-wrapper">
+    
     <div class="forum-comment-left">
       <div class="user-info">
         <?php print $user_info_pane; ?>   
@@ -53,12 +50,18 @@
     </div>
 
     <div class="forum-comment-right clearfix">
-      <div class="posted-on"><?php print t("Posted: ") . $date ?>
+      <?php if ($title): ?>
+        <div class="post-title">
+          <?php print $title ?>
+        </div>
+      <?php endif; ?>  
+        
+      <?php if (!$top_post): ?>
         <?php if (!empty($comment->new)) : ?>
           <a id="new"></a>
           <span class="new">- <?php print $new ?></span>
         <?php endif ?>
-      </div>
+      <?php endif ?>
       
       <div class="content">
         <?php print $content ?>

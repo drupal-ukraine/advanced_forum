@@ -188,15 +188,15 @@ td.forum {
 
 /* Header at the top of each post */
 .post-info {
+  margin-bottom: 3px;
 }
 
 .posted-on {
-  padding: 0 10px;
+  padding: 0 2px;
+  float: left;
 }
 
 .post-title {
-  float: left;
-  padding-left: 160px;
 }
 
 .forum-comment .new {
