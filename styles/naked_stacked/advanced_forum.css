@@ -34,11 +34,6 @@ see advanced_forum-structure.css.
   font-size: 75%;
 }
 
-#forum tr td.forum .name,
-#forum tr td.forum .description {
-  margin-left: 12px;
-}
-
 /* Topic listings */
 
 #forum tr.sticky-topic {
@@ -49,11 +44,6 @@ see advanced_forum-structure.css.
 
 .forum-comment {
   border-top: 1px solid #ccc;
-}
-
-.top-post {
-  border-top: 0;
-  margin: 15px 0;
 }
 
 /* Header at the top of each post */
@@ -69,11 +59,6 @@ see advanced_forum-structure.css.
 .post-title {
   font-weight: bold;
   border-bottom: 2px solid #F7F5EE;
-}
-
-.forum-comment .new {
-  float: none;
-  font-weight: bold;
 }
 
 /* Author information pane */

@@ -5,38 +5,17 @@ This file contains colors, graphics, and text effects. For structural markup,
 see advanced_forum-structure.css.
 */
 
-/*** FORUM GENERAL ***********************************************************/
-#forum a:hover {
-}
+/*** FORUM LINK LISTS ********************************************************/
 
-/*** PAGER *******************************************************************/
-
-#forum .pager a:link,
-#forum .pager a:visited,
-#forum-comments .pager a:link,
-#forum-comments .pager a:visited {
-}
-
-#forum .pager-current,
-#forum .pager a:hover,
-#forum-comments .pager-current,
-#forum-comments .pager a:hover {
-}
-
-#forum .pager a.active,
-#forum-comments .pager a.active {
+.forum-links li {
+  list-style-image: none;
+  list-style-type: none;
+  background: none;
 }
 
 /*** FORUM TABLES ************************************************************/
 
-/* General */
-
-#forum table {
-}
-
-#forum th {
-}
-
+/* Headers */
 #forum th a,
 #forum th a:link,
 #forum th a:hover,
@@ -44,22 +23,7 @@ see advanced_forum-structure.css.
   font-weight: bold;
 }
 
-#forum td {
-}
-
-#forum tr.even,
-#forum tr.odd {
-}
-
-#forum tr.even td,
-#forum tr.odd td {
-}
-
 /* Containers & Forums */
-
-#forum td.container {
-}
-
 #forum td.container a {
   font-weight: bold;
 }
@@ -68,63 +32,15 @@ see advanced_forum-structure.css.
   font-size: 75%;
 }
 
-#forum .forum .description {
-}
-
-#forum tr td.forum {
-}
-
-#forum tr td.forum-list-new {
-}
-
-#forum tr td.forum .name,
-#forum tr td.forum .description {
-  margin-left: 12px;
-}
-
 /* Topic listings */
-
-#forum .forum-topics td.title {
-}
-
-#forum td .links {
-  font-size: 0.9em;
-}
-
-#forum tr.not-sticky {
-
-}
-
-#forum tr.first-not-sticky {
-
-}
-
 #forum tr.sticky-topic {
   background: #DEDEDE;
-}
-
-/* Top links */
-#forum li {
-  list-style-image: none;
-  list-style-type: none;
-}
-
-.indent {
-  margin-left: 30px;
 }
 
 /*** FORUM THREADS ***********************************************************/
 
 .forum-comment {
   border-top: 1px solid #ccc;
-}
-
-.top-post {
-  border-top: 0;
-  margin: 15px 0;
-}
-
-.forum-post-wrapper {
 }
 
 /* Header at the top of each post */
@@ -139,17 +55,6 @@ see advanced_forum-structure.css.
 
 .post-title {
   font-weight: bold;
-}
-
-.forum-comment .new {
-  float: none;
-  font-weight: bold;
-}
-
-.post-num a:link,
-.post-num a:visited,
-.post-num a:active,
-.post-num a:hover {
 }
 
 /* Author information pane */
@@ -178,28 +83,4 @@ see advanced_forum-structure.css.
 /* Signature */
 .user-signature {
   font-size: .8em;
-  margin: 15px 0 1px 155px;
-  padding: 0 1px 0 5px;
-}
-
-/*** HELPER CLASSES *********************************************************/
-
-.clearfix:after {
-  content: ".";
-  display: block;
-  font-size: 0;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-* html>body .clearfix {
-  display: inline;
-  width: 100%;
-}
-
-* html .clearfix {
-  /* Hides from IE-mac \*/
-  height: 1%;
-  /* End hide from IE-mac */
 }
