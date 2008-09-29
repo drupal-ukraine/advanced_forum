@@ -573,13 +573,19 @@ function template_preprocess_author_pane(&$variables) {
 
   $variables['joined_ago'] = format_interval(time() - $account->created);
   
- // Online status
+  // Online status
+  $variables['last_active'] = format_interval(time() - $account->access);
   if (round((time()-$account->access)/60) < 15) {
     $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-online.png', t('User is online'), t('User is online'), NULL, TRUE);
     $variables['online_status'] = t('Online');
  } 
   else {
-    $variables['online_icon'] = theme('image', advanced_forum_path_to_images() . '/user-offline.png', t('User is offline'), t('User is offline'), NULL, TRUE);
+    $variables['online_icon'] = theme('image', 
+      advanced_forum_path_to_images() . '/user-offline.png', 
+      t('User offline. Last seen @time ago.', array('@time' => $variables['last_active'])), 
+      t('User offline. Last seen @time ago.', array('@time' => $variables['last_active'])), 
+      NULL, 
+      TRUE);
     $variables['online_status'] = t('Offline');
   }
 }

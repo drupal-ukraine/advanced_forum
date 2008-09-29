@@ -6,6 +6,7 @@ September 28, 2008
 ------------------
 #314205 by Michelle, stephthegeek: Lots of style cleanup.
 NOISSUE by Michelle: Changed 'forum user' to 'author pane' for clarity.
+#311136 by Michelle: Backported "last seen" from D6.
 
 September 27, 2008
 ------------------
