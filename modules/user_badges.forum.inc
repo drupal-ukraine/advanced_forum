@@ -5,9 +5,9 @@
  */
 
 /**
- * Implementation of hook_preprocess_forum_user().
+ * Implementation of hook_preprocess_author_pane().
  */
-function user_badges_preprocess_forum_user(&$variables) {
+function user_badges_preprocess_author_pane(&$variables) {
   $account_id = $variables['account']->uid;
   
   if ($account_id != 0) {

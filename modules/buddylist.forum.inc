@@ -5,9 +5,9 @@
  */
 
 /**
- * Implementation of hook_preprocess_forum_user().
+ * Implementation of hook_preprocess_author_pane().
  */
-function buddylist_preprocess_forum_user(&$variables) {
+function buddylist_preprocess_author_pane(&$variables) {
   global $user;
   $account_id = $variables['account']->uid;
   if (!user_access('maintain buddy list') || $user->uid == $account_id) {

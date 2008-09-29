@@ -50,67 +50,67 @@
  
 */
 ?>
-<div class="author-info-inner">
+<div class="author-pane-inner">
   
-  <div class="author-info-first">
+  <div class="author-pane-first">
   
     <?php if (!empty($picture)): ?> 
       <?php print $picture; ?>
     <?php endif; ?>
     
-    <div class="author-info-name-section">
-      <div class="author-info-line author-name"> <?php print $account_name; ?> </div>
+    <div class="author-pane-name-section">
+      <div class="author-pane-line author-name"> <?php print $account_name; ?> </div>
       
       <?php if (!empty($user_title)): ?>
-        <div class="author-info-line author-title"> <?php print $user_title; ?> </div>
+        <div class="author-pane-line author-title"> <?php print $user_title; ?> </div>
       <?php endif; ?>
       
       <?php if (!empty($user_badges)): ?>
-        <div class="author-info-line author-badges"> <?php print $user_badges;  ?> </div>
+        <div class="author-pane-line author-badges"> <?php print $user_badges;  ?> </div>
       <?php endif; ?>
     </div>
   </div> 
   
-  <div class="author-info-last"> 
+  <div class="author-pane-last"> 
     
-    <div class="author-info-line author-id">
-      <span class="author-info-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?> 
+    <div class="author-pane-line author-id">
+      <span class="author-pane-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?> 
     </div>
     
-    <div class="author-info-line author-joined">
-      <span class="author-info-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?> 
+    <div class="author-pane-line author-joined">
+      <span class="author-pane-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?> 
     </div>
     
     <?php if (isset($user_stats_posts)): ?>
-      <div class="author-info-line author-posts">
-        <span class="author-info-label"><?php print t('Posts'); ?>:</span> <?php print $user_stats_posts; ?> 
+      <div class="author-pane-line author-posts">
+        <span class="author-pane-label"><?php print t('Posts'); ?>:</span> <?php print $user_stats_posts; ?> 
       </div>
     <?php endif; ?>
     
     <?php if (isset($userpoints_points)): ?>
-      <div class="author-info-line author-points">
-        <span class="author-info-label"><?php print t('!Points: ', userpoints_translation()); ?></span> <?php print $userpoints_points; ?> 
+      <div class="author-pane-line author-points">
+        <span class="author-pane-label"><?php print t('!Points: ', userpoints_translation()); ?></span> <?php print $userpoints_points; ?> 
       </div>
     <?php endif; ?>
     
     <?php if (!empty($user_stats_ip)): ?>
-      <div class="author-info-line author-ip">
-        <span class="author-info-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?> 
+      <div class="author-pane-line author-ip">
+        <span class="author-pane-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?> 
       </div>
     <?php endif; ?>
     
-    <div class="author-info-icon"><?php print $online_icon; ?></div>
+    <div class="author-pane-icon"><?php print $online_icon; ?></div>
   
     <?php if (!empty($contact)): ?>
-      <div class="author-info-icon"><?php print $contact; ?></div>
+      <div class="author-pane-icon"><?php print $contact; ?></div>
     <?php endif; ?>
     
     <?php if (!empty($privatemsg)): ?>
-      <div class="author-info-icon"><?php print $privatemsg; ?></div>
+      <div class="author-pane-icon"><?php print $privatemsg; ?></div>
     <?php endif; ?>
     
     <?php if (!empty($buddylist)): ?>
-      <div class="author-info-icon"><?php print $buddylist; ?></div>
+      <div class="author-pane-icon"><?php print $buddylist; ?></div>
     <?php endif; ?>
   
   </div>

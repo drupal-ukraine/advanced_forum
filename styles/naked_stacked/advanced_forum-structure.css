@@ -181,45 +181,45 @@ padding, and floats
   overflow: hidden;
 }
 
-.author-info {
+.author-pane {
   margin: 0px;
 }
 
-.author-info-first {
+.author-pane-first {
   float: left;
 }
 
-.author-info-last {
+.author-pane-last {
   float: right;
   margin-top: 10px;
   width: 30%;
 }
 
-.author-info-name-section {
+.author-pane-name-section {
   margin: 10px 0 0 10px;
   float: left;
 }
 
-.author-info .author-name {
+.author-pane .author-name {
   margin-bottom: 10px;
   padding: 0;
 }
 
-.author-info-inner .picture {
+.author-pane-inner .picture {
   float: left
 }
 
-.author-info .picture img {
+.author-pane .picture img {
   height: auto; 
   padding: 8px;
   max-width: 120px;
 }
 
-.author-info-line {
+.author-pane-line {
   padding-bottom: 5px;
 }
 
-.author-info-icon {
+.author-pane-icon {
   display: inline;
   padding: 10px 2px 2px 0;
 }

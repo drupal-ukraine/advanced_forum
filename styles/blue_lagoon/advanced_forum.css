@@ -3,6 +3,19 @@
 /*
 This file contains colors, graphics, and text effects. For structural markup,
 see advanced_forum-structure.css.
+
+Colors used:
+#ffffff Text on headers
+#0062A0 Pager number
+#91CDF5 Borders & headers
+#BDE0F5 Container background, sticky topic
+#5F67A5 Container description
+#898989 Forum description
+
+Images used:
+images/pager-bg.png Pager background gradient.
+images/author-pane-bg.png Colored background behind author info pane on posts.
+                          149x1 of #EDF5FA and 1x1 of #91CDF5 for right border.
 */
 
 /*** FORUM LINK LISTS ********************************************************/
@@ -24,8 +37,8 @@ see advanced_forum-structure.css.
 #forum-comments .pager a:link,
 #forum-comments .pager a:visited {
   text-decoration: none;
-  border: 1px solid #2788C5;
-  background: #fff url(images/pager-bg.png) repeat-x left top;
+  border: 1px solid #91CDF5;
+  background: #ffffff url(images/pager-bg.png) repeat-x left top;
   font-weight: bold;
 }
 
@@ -58,7 +71,7 @@ see advanced_forum-structure.css.
 #forum .forum-topics th a:hover,
 #forum .forum-topics th a:visited {
   background-color: #91CDF5;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
 }
 
@@ -73,19 +86,14 @@ see advanced_forum-structure.css.
   border-bottom: none;
 }
 
-#forum .container .forum-details .name {
+#forum .forum-details .description {
+  font-size: 85%;
+  color: #898989;
 }
 
 #forum .container .forum-details .description {
+  font-weight: normal;
   color: #5F67A5;
-}
-
-#forum .forum-details .name {
-}
-
-#forum .forum-details .description {
-  font-size: 75%;
-  color: #898989;
 }
 
 /* Topic listings */
@@ -107,7 +115,7 @@ see advanced_forum-structure.css.
 /* Header at the top of each post */
 .post-info {
   background: #91CDF5 ;
-  color: white;
+  color: #ffffff;
 }
 
 .posted-on {
@@ -116,7 +124,7 @@ see advanced_forum-structure.css.
 }
 
 .forum-comment .new {
-  color: white;
+  color: #ffffff;
 }
 
 .post-title {
@@ -128,26 +136,26 @@ see advanced_forum-structure.css.
 .post-num a:visited,
 .post-num a:active,
 .post-num a:hover {
-  color: white;
+  color: #ffffff;
 }
 
 /* Author information pane */
 .forum-post-wrapper {
-  background: url(images/user-pane-bg.jpg) repeat-y;
+  background: url(images/author-pane-bg.png) repeat-y;
   border: 1px solid #91CDF5;
 }
 
-.author-info .author-name {
+.author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.author-info  .picture img {
+.author-pane  .picture img {
 	border: 1px solid #91CDF5;
-	background: White;
+	background: #ffffff;
 }
 
-.author-info  .author-info-label {
+.author-pane  .author-pane-label {
   font-weight: bold;
 }
 

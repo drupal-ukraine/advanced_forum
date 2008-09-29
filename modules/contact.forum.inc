@@ -5,9 +5,9 @@
  */
 
 /**
- * Implementation of hook_preprocess_forum_user().
+ * Implementation of hook_preprocess_author_pane().
  */
-function contact_preprocess_forum_user(&$variables) {
+function contact_preprocess_author_pane(&$variables) {
   global $user;
   $account = $variables['account'];
   $account_id = $account->uid;

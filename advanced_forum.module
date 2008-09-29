@@ -221,16 +221,16 @@ function advanced_forum_include($file) {
 /**
  * Provides D5 compatability wrapper for forum user preprocess function.
  */
-function theme_forum_user($account) {
+function theme_author_pane($account) {
   $variables = array();
   $variables['account'] = $account;
 
   // Call our preprocess function to create all the variables
-  advanced_forum_call_preprocess('forum_user', $variables);
+  advanced_forum_call_preprocess('author_pane', $variables);
     
-  // Send the variables to the advf-forum-user.tpl.php
+  // Send the variables to the advf-author-pane.tpl.php
   $forum_style = advanced_forum_get_current_style();
-  return _phptemplate_callback("advf_forum_user", $variables, array("$forum_style/advf-forum-user"));
+  return _phptemplate_callback("advf_author_pane", $variables, array("$forum_style/advf-author-pane"));
 }
 
 // Add in the D6 backports from the forum, taxonomy, and comment modules
@@ -423,7 +423,7 @@ function advanced_forum_preprocess_node(&$vars) {
     
     // User information
     $vars['account'] = user_load(array('uid' => $vars['node']->uid));
-    $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
+    $vars['author_pane'] = theme('author_pane', $vars['account']);   
 
     // TODO: This is copied from 6 but doesn't work in 5
     // Load the signature since Drupal doesn't put it on nodes
@@ -482,7 +482,7 @@ function advanced_forum_preprocess_comment(&$vars) {
     }
     
     // Create the user info pane
-    $vars['user_info_pane'] = theme('forum_user', $vars['account']);   
+    $vars['author_pane'] = theme('author_pane', $vars['account']);   
              
     // Because the $links array isn't available here, we recreate it
     if (arg(1) != 'reply') {
@@ -547,7 +547,7 @@ function advanced_forum_preprocess_comment(&$vars) {
 /**
  * Preprocesses template variables for the user info template.
  */
-function template_preprocess_forum_user(&$variables) {
+function template_preprocess_author_pane(&$variables) {
   // The passed in $variables['account'] refers to the user who's info is in the pane.
   $account = $variables['account'];
   $account_id = $account->uid;

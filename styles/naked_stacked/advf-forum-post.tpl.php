@@ -55,8 +55,8 @@
   <div class="forum-post-wrapper">
     
     <div class="forum-comment-left">
-      <div class="author-info">
-        <?php print $user_info_pane; ?>   
+      <div class="author-pane">
+        <?php print $author_pane; ?>   
      </div>
     </div>
 

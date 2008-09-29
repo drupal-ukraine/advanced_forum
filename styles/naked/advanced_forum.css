@@ -66,16 +66,16 @@ see advanced_forum-structure.css.
   border-right: 2px solid #F7F5EE;
 }
 
-.author-info .author-name {
+.author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.author-info .picture img {
+.author-pane .picture img {
   border: 1px solid #000;
 }
 
-.author-info .author-info-label {
+.author-pane .author-pane-label {
   font-weight: bold;
 }
 

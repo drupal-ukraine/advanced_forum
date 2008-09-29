@@ -5,9 +5,9 @@
  */
 
 /**
- * Implementation of hook_preprocess_forum_user().
+ * Implementation of hook_preprocess_author_pane().
  */
-function facebook_status_preprocess_forum_user(&$variables) {
+function facebook_status_preprocess_author_pane(&$variables) {
   // We don't want to do this for anonymous users.
   if ($variables['account']->uid == 0) {
     return;

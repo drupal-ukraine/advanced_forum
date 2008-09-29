@@ -180,40 +180,40 @@ padding, and floats
   width: 150px;
 }
 
-.author-info {
+.author-pane {
   margin: 5px;
 }
 
-.author-info-first {
+.author-pane-first {
   margin-bottom: 10px;
 }
 
-.author-info-last {
+.author-pane-last {
   margin-top: 25px;
 }
 
-.author-info .author-name {
+.author-pane .author-name {
   margin: 10px 0pt 10px 0pt;
   padding: 0;
 }
 
-.author-info .picture {
+.author-pane .picture {
   float: none;
   margin: 10px 0;
   padding-left: 0px;
 }
 
-.author-info .picture img {
+.author-pane .picture img {
   height: auto; 
   padding: 8px;
   max-width: 120px;
 }
 
-.author-info-line {
+.author-pane-line {
   padding-bottom: 5px;
 }
 
-.author-info-icon {
+.author-pane-icon {
   display: inline;
   padding: 10px 2px 2px 0;
 }
