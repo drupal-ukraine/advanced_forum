@@ -74,7 +74,7 @@
     </div>
     
     <?php if ($signature): ?>
-      <div class="user-signature clear-block">
+      <div class="author-signature clear-block">
         <?php print $signature ?>
       </div>
     <?php endif; ?> 

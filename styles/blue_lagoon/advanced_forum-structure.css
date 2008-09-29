@@ -8,8 +8,24 @@ padding, and floats
 
 /*** FORUM GENERAL ***********************************************************/
 
-.clear {
-  clear:both;
+.clearfix:after {
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+* html>body .clearfix {
+  display: inline;
+  width: 100%;
+}
+
+* html .clearfix {
+  /* Hides from IE-mac \*/
+  height: 1%;
+  /* End hide from IE-mac */
 }
 
 /*** PAGER *******************************************************************/
@@ -29,6 +45,7 @@ padding, and floats
 #forum .pager li,
 #forum-comments .pager li {
   padding:0pt;
+  margin: 0pt;
 }
 
 #forum .pager li.pager-current,
@@ -36,73 +53,43 @@ padding, and floats
   padding: 2px 3px 2px 3px;
 }
 
-#forum-comments .item-list ul li {
-}
-
 #forum-comments .box {
   clear: both;
 }
 
-/*** FORUM CONTAINERS ********************************************************/
+/*** FORUM LINK LISTS ********************************************************/
 
-.forum-details {
+.forum-top-links {
+  margin-bottom: 10px;
+  float: left;
 }
 
-.forum-description {
-  padding: 10px 0;
-}
-
-td.forum {
-  padding-left: 15px;
-}
-
-#forum td.container {
-  border-top: 0;
-  margin-top: 0;
-  padding-left: 15px;
-  padding-top: 5px;
-}
-#forum .container .description {
-  font-size: .8em;
-  font-weight: normal;
+.forum-links li {
   margin: 0;
-  padding: 3px 0 0 0;
+  padding: 0pt 15px 0pt 0pt;
 }
 
-#forum .description {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-/*** FORUM TABLES ************************************************************/
-
-/* General */
-
-#forum table {
-  clear: both;
-}
+/*** FORUM & TOPIC LIST ******************************************************/
 
 #forum {
   width: 100%;
 }
 
 #forum table {
+  clear: both;
   width: 100%;
 }
 
+#forum div.indent {
+  margin-left: 30px;
+}
+
+/* Header */
 #forum th {
   border-bottom: 0;
   text-align: center;
 }
 
-#forum td.created,
-#forum td.last-reply {
-  font-size: 0.9em;
-  line-height: 140%;
-  padding: 0 10px;
-}
-
-#forum th.topic-topic,
 #forum th.forum-name {
   padding-left: 35px;
   text-align: left;
@@ -113,71 +100,56 @@ td.forum {
   border: 0;
 }
 
-.forum-indented {
-  padding-left: 20px;
-}
-
-.indent {
-  margin-left: 30px;
-}
-
-#forum td.replies,
-#forum td.views,
-#forum td.topics,
-#forum td.posts {
-  width: 35px;
-}
-
-#forum td.last-reply,
-#forum td.created {
-  white-space: normal !important;
-  width: 130px;
-}
-
-/* Containers */
-
+/* Forum listing */
 #forum td.container {
   padding-top: 5px;
 }
 
-#forum .description {
+#forum td.container {
+  border-top: 0;
+  margin-top: 0;
+  padding-left: 15px;
+  padding-top: 5px;
+}
+#forum .container .description {
+  margin: 0;
+  padding: 3px 0 0 0;
 }
 
-/* Topic listings */
+#forum td.forum-icon {
+  width: 1px;
+  padding: 0 5px;
+}
+
+#forum .description {
+  margin-left: 0;
+  padding-left: 0;
+  padding: 3px 0;
+}
+
+/* Topic listing */
+
+#forum td.icon {
+  width: 1px;
+}
 
 #forum td.views {
   text-align: center;
   white-space: nowrap;
+  width: 35px;
 }
 
-#forum td.statistics,
-#forum td.settings,
-#forum td.pager {
-
+#forum td.created,
+#forum td.last-reply {
+  font-size: 0.9em;
+  line-height: 140%;
+  padding: 0 10px;
+  white-space: normal !important;
+  width: 130px;
 }
 
 #forum td .links {
   padding-top: 10px;
-}
-
-/* Top links */
-#forum .forum-top-links {
-  margin-bottom: 10px;
-}
-
-#forum .forum-top-links li {
-  margin: 0;
-  padding-right: 15px;
-}
-
-/* Icons */
-#forum .forum-icon {
-  float: left;
-  padding: 0 10px;
-}
-
-.icon-explain {
-  padding: 2px;
 }
 
 /*** FORUM THREADS ***********************************************************/
@@ -192,19 +164,18 @@ td.forum {
   height: 1%;
 }
 
-/* Header at the top of each post */
-.post-info {
+.top-post {
+  margin: 15px 0;
 }
 
+/* Header at the top of each post */
 .posted-on {
-  padding: 0 3px;
+  padding: 0 5px;
   float: left;
 }
 
-.post-title {
-}
-
 .forum-comment .new {
+  float: none;
 }
 
 .post-num {
@@ -212,11 +183,7 @@ td.forum {
   margin-right: 5px;
 }
 
-/* User info section */
-
-.user-info {
-  margin: 5px;
-}
+/* Author information pane */
 
 .forum-comment-left {
   float: left;
@@ -225,18 +192,30 @@ td.forum {
   width: 150px;
 }
 
-.forum-comment-left .author-name {
+.author-info {
+  margin: 10px;
+}
+
+.author-info-first {
   margin-bottom: 10px;
+}
+
+.author-info-last {
+  margin-top: 25px;
+}
+
+.author-info .author-name {
+  margin: 10px 0pt 10px 0pt;
   padding: 0;
 }
 
-.forum-comment-left .picture {
+.author-info .picture {
   float: none;
   margin: 10px 0;
   padding-left: 0px;
 }
 
-.forum-comment-left .picture img {
+.author-info .picture img {
   height: auto; 
   padding: 8px;
   max-width: 120px;
@@ -270,8 +249,13 @@ td.forum {
   margin-right: 10px;
 }
 
-/* Links */
+/* Signature */
+.author-signature {
+  margin: 15px 0 1px 155px;
+  padding: 0 1px 0 5px;
+}
 
+/* Links */
 .forum-comment .links {
   height: 20px;
   line-height: 160%;

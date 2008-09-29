@@ -13,6 +13,10 @@ see advanced_forum-structure.css.
   background: none;
 }
 
+.forum-links li a {
+  font-weight: bold;
+}
+
 /*** FORUM TABLES ************************************************************/
 
 /* General */
@@ -86,6 +90,6 @@ see advanced_forum-structure.css.
 }
 
 /* Signature */
-.user-signature {
+.author-signature {
   font-size: .8em;
 }

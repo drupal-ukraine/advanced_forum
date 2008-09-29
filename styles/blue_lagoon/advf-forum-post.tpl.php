@@ -7,17 +7,19 @@
  * Changes here will affect an individual forum post.
  
  * The following standard variables are available to you:
-    $top_post    - TRUE if we are formatting the main post (ie, not a comment)
-    $title       - Title of this post/comment
-    $content     - Content of this post/comment
-    $reply_link  - Separated out link to reply to topic
-    $jump_first_new - Shows number of new (to user) comments and links to the first one
-    $links       - Formatted links (reply, edit, delete, etc)
-    $links_array - Unformatted array of links
-    $submitted   - Formatted date post/comment submitted
+ * - $top_post: TRUE if we are formatting the main post (ie, not a comment)
+ * - $title: Title of this post/comment
+ * - $content: Content of this post/comment
+ * - $reply_link: Separated out link to reply to topic
+ * - $jump_first_new: Shows number of new (to user) comments and links to the first one
+ * - $links: Formatted links (reply, edit, delete, etc)
+ * - $links_array: Unformatted array of links
+ * - $submitted: Formatted date post/comment submitted
 
-    $accountid   - ID of the poster
-    $name        - User name of poster
+ * - $account: User object of the poster
+ * - $name: User name of poster
+ * - $user_info_pane: Entire contents of advf-user-info.tpl.php
+    
  */
 ?>
 
@@ -34,8 +36,17 @@
 <div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
   <div class="post-info clearfix">
-    <div class="posted-on"><?php print t("Posted: ") . $date ?></div> 
+    <div class="posted-on"><?php print $date ?>
       
+    <?php if (!$top_post): ?>
+      <?php if (!empty($comment->new)) : ?>
+         <a id="new"></a>
+        <span class="new">(<?php print $new ?>)</span>
+      <?php endif ?>
+    <?php endif; ?>
+
+    </div> 
+    
     <?php if (!$top_post): ?>
       <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
@@ -44,25 +55,18 @@
   <div class="forum-post-wrapper">
     
     <div class="forum-comment-left">
-      <div class="user-info">
+      <div class="author-info">
         <?php print $user_info_pane; ?>   
      </div>
     </div>
 
     <div class="forum-comment-right clearfix">
-      <?php if ($title): ?>
+      <?php if ($title && !$top_post): ?>
         <div class="post-title">
           <?php print $title ?>
         </div>
       <?php endif; ?>  
-        
-      <?php if (!$top_post): ?>
-        <?php if (!empty($comment->new)) : ?>
-          <a id="new"></a>
-          <span class="new">- <?php print $new ?></span>
-        <?php endif ?>
-      <?php endif ?>
-      
+              
       <div class="content">
         <?php print $content ?>
       </div>  
@@ -70,7 +74,7 @@
     </div>
     
     <?php if ($signature): ?>
-      <div class="user-signature clear-block">
+      <div class="author-signature clear-block">
         <?php print $signature ?>
       </div>
     <?php endif; ?> 

@@ -52,11 +52,6 @@ padding, and floats
   padding: 0pt 15px 0pt 0pt;
 }
 
-.forum-links li a {
-  font-weight: bold;
-}
-
-
 /*** FORUM & TOPIC LIST ******************************************************/
 
 #forum {
@@ -250,7 +245,7 @@ padding, and floats
 }
 
 /* Signature */
-.user-signature {
+.author-signature {
   margin: 15px 0 1px 155px;
   padding: 0 1px 0 5px;
 }

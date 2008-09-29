@@ -52,39 +52,7 @@ padding, and floats
   padding: 0pt 15px 0pt 0pt;
 }
 
-.forum-links li a {
-  font-weight: bold;
-}
-
-/*** FORUM CONTAINERS ********************************************************/
-
-.forum-description {
-  padding: 10px 0;
-}
-
-td.forum {
-  padding-left: 15px;
-}
-
-#forum td.container {
-  border-top: 0;
-  margin-top: 0;
-  padding-left: 15px;
-  padding-top: 5px;
-}
-#forum .container .description {
-  font-size: .8em;
-  font-weight: normal;
-  margin: 0;
-  padding: 3px 0 0 0;
-}
-
-#forum .description {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-/*** FORUM TABLES ************************************************************/
+/*** FORUM & TOPIC LIST ******************************************************/
 
 #forum {
   width: 100%;
@@ -120,18 +88,31 @@ td.forum {
   padding-top: 5px;
 }
 
+#forum td.container {
+  border-top: 0;
+  margin-top: 0;
+  padding-left: 15px;
+  padding-top: 5px;
+}
+#forum .container .description {
+  font-size: .8em;
+  font-weight: normal;
+  margin: 0;
+  padding: 3px 0 0 0;
+}
+
 #forum td.forum-icon {
   width: 1px;
   padding: 0 5px;
 }
 
-#forum tr td.forum .name,
-#forum tr td.forum .description {
-  margin-left: 12px;
+#forum .description {
+  margin-left: 0;
+  padding-left: 0;
+  padding: 5px 0;
 }
 
 /* Topic listing */
-
 #forum td.icon {
   width: 1px;
 }
@@ -257,7 +238,7 @@ td.forum {
 }
 
 /* Signature */
-.user-signature {
+.author-signature {
   margin: 15px 0 1px 155px;
   padding: 0 1px 0 5px;
 }

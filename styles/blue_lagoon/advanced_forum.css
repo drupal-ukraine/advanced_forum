@@ -5,8 +5,16 @@ This file contains colors, graphics, and text effects. For structural markup,
 see advanced_forum-structure.css.
 */
 
-/*** FORUM GENERAL ***********************************************************/
-#forum a:hover {
+/*** FORUM LINK LISTS ********************************************************/
+
+.forum-links li {
+  list-style-image: none;
+  list-style-type: none;
+  background: none;
+}
+
+.forum-links li a {
+  font-weight: bold;
 }
 
 /*** PAGER *******************************************************************/
@@ -25,71 +33,54 @@ see advanced_forum-structure.css.
 #forum .pager a:hover,
 #forum-comments .pager-current,
 #forum-comments .pager a:hover {
-  color: #006; 
+  color: #0062A0; 
 }
 
 #forum .pager a.active,
 #forum-comments .pager a.active {
   background: #fff url(images/pager-bg.png) repeat-x left top;
-  color: #006; 
+  color: #0062A0; 
 }
 
-/*** FORUM TABLES ************************************************************/
+/*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
-
-#forum table {
-  border: 1px solid #2385c2;
+#forum .forum-table,
+#forum .forum-topics {
+  border: 1px solid #91CDF5;
 }
 
-#forum thead.forum-header,
-#forum .forum-topics thead {
-  background-color: #0072b9;
-  color: white;	
-}
-
-#forum th,
-#forum th a,
-#forum th a:link,
-#forum th a:hover,
-#forum th a:visited {
-  color: white;	
+/* Headers */
+#forum .forum-table th,
+#forum .forum-topics th,
+#forum .forum-topics th a,
+#forum .forum-topics th a:link,
+#forum .forum-topics th a:hover,
+#forum .forum-topics th a:visited {
+  background-color: #91CDF5;
+  color: white;
   font-weight: bold;
 }
 
-#forum td {
-}
-
-#forum tr.even,
-#forum tr.odd {
-}
-
-#forum tr.odd td {
-}
-
-#forum tr.even td {
+#forum .forum-table tbody,
+#forum .forum-topics tbody {
+  border-top: none;
 }
 
 /* Containers & Forums */
-
 #forum td.container {
-  background-color: #5ab5ee;
-  color: white;
+  background-color: #BDE0F5;
+  border-bottom: none;
 }
 
-#forum td.container a {
-  font-weight: bold;
-  color: white;
+#forum .container .forum-details .name {
 }
 
-#forum tr td.forum {
+#forum .container .forum-details .description {
+  color: #5F67A5;
 }
 
-#forum tr td.forum-list-new {
-}
-
-#forum .forum-details .name{
-  font-weight: bold;
+#forum .forum-details .name {
 }
 
 #forum .forum-details .description {
@@ -99,48 +90,23 @@ see advanced_forum-structure.css.
 
 /* Topic listings */
 
-#forum .forum-topics td.title {
-}
-
 #forum td .links {
   font-size: 0.9em;
 }
 
-#forum tr.not-sticky {
-
-}
-
-#forum tr.first-not-sticky {
-
-}
-
 #forum tr.sticky-topic {
-  background: #DEDEDE;
-}
-
-/* Top links */
-#forum li {
-  list-style-image: none;
-  list-style-type: none;
+  background-color: #BDE0F5;
 }
 
 /*** FORUM THREADS ***********************************************************/
 
 .forum-comment {
-  border-top: 1px solid #2587C4;
-}
-
-.top-post {
-  border-top: 0;
-  margin: 15px 0;
-}
-
-.forum-post-wrapper {
+  border-top: 1px solid #91CDF5;
 }
 
 /* Header at the top of each post */
 .post-info {
-  background: #2385c2 ;
+  background: #91CDF5 ;
   color: white;
 }
 
@@ -149,104 +115,43 @@ see advanced_forum-structure.css.
   font-weight: bold;
 }
 
-.post-title {
-  font-weight: bold;
-  border-bottom: 1px solid #2385c2;
+.forum-comment .new {
+  color: white;
 }
 
-.forum-comment .new {
-  float: none;
+.post-title {
   font-weight: bold;
+  border-bottom: 1px solid #91CDF5;
 }
 
 .post-num a:link,
 .post-num a:visited,
 .post-num a:active,
 .post-num a:hover {
-  color:white;
+  color: white;
 }
 
-/* User info */
+/* Author information pane */
 .forum-post-wrapper {
   background: url(images/user-pane-bg.jpg) repeat-y;
-  border: 1px solid #2587C4;
+  border: 1px solid #91CDF5;
 }
 
-.forum-comment-left {
-  border-right: 2px solid #F7F5EE;
-}
-
-.forum-comment-left .author-name {
+.author-info .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.forum-comment-left .picture img {
-	border: 1px solid #2587C4;
+.author-info  .picture img {
+	border: 1px solid #91CDF5;
 	background: White;
 }
 
-.forum-comment-left .author-info-label {
+.author-info  .author-info-label {
   font-weight: bold;
-}
-
-.user-info-inner img {
-  vertical-align: top;
 }
 
 /* Signature */
-.user-signature {
+.author-signature {
   font-size: .8em;
-  margin: 15px 0 1px 155px;
-  padding: 0 1px 0 5px;
-}
-
-/* Forum links */
-
-.forum-top-links {
-  float: left;
-}
-
-.forum-links li {
-  background: none;
-  margin: 0;
-  padding: 0;
-}
-
-.forum-links li a {
-  font-weight: bold;
-}
-
-.forum-links li a:link,
-.forum-links li a:visited {
-}
-
-.forum-links li a:hover,
-.forum-links li a:active {
-}
-
-.topic-reply {
-  font-size: 1.2em;
-}
-
-/* Helper classes */
-
-.clearfix:after {
-  content: ".";
-  display: block;
-  font-size: 0;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-* html>body .clearfix {
-  display: inline;
-  width: 100%;
-}
-
-* html .clearfix {
-  /* Hides from IE-mac \*/
-  height: 1%;
-  /* End hide from IE-mac */
 }
