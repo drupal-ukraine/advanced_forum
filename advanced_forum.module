@@ -158,16 +158,16 @@ function advanced_forum_settings_page() {
 /**
  * Provides D5 compatability wrapper for node/comment preprocess functions.
  */
-function advanced_forum_addvars($hook, $vars) {
+function advanced_forum_addvars($hook, $variables) {
   _advanced_forum_load_preprocessors();
   switch ($hook) {
     case 'node':
     case 'comment':
-      advanced_forum_call_preprocess($hook, $vars);
+      advanced_forum_call_preprocess($hook, $variables);
       break;
   }
 
-  return $vars;
+  return $variables;
 }
 
 /**
@@ -341,15 +341,15 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
 /**
  * Preprocesses template variables for the node template.
  */
-function advanced_forum_preprocess_node(&$vars) {
-  if (!advanced_forum_treat_as_forum_post('node', $vars)) {
+function advanced_forum_preprocess_node(&$variables) {
+  if (!advanced_forum_treat_as_forum_post('node', $variables)) {
     // We only deal with forum posts.
     return;
   }
   
   // Set the static variables of the comment wrapper theme function.
   if (function_exists('phptemplate_comment_wrapper')) {
-    phptemplate_comment_wrapper(NULL, 'forum', $vars['node']); 
+    phptemplate_comment_wrapper(NULL, 'forum', $variables['node']); 
   }
   
   $forum_style = advanced_forum_get_current_style();
@@ -357,16 +357,19 @@ function advanced_forum_preprocess_node(&$vars) {
   if ($_GET['page'] > 0) { 
     // This is the repeated node on the top of subsequent pages.
     // We send this to a special .tpl so people can wipe it out or whatever
-    $vars['template_files'][] = "$forum_style/advf-forum-repeat-post";
+    $variables['template_files'][] = "$forum_style/advf-forum-repeat-post";
   }
   else {
     // Use our combined node/comment template file
-     $vars['template_files'][] = "$forum_style/advf-forum-post";
+     $variables['template_files'][] = "$forum_style/advf-forum-post";
   }
 
   // The node is the first post, aka topic
-  $vars['top_post'] = TRUE;
+  $variables['top_post'] = TRUE;
         
+  // Process the links section and make our adjustments.
+  _advanced_forum_adjust_node_links($variables);
+  
   // Total & new replies
   if (!empty($variables['comment_count'])) {
     $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
@@ -378,8 +381,8 @@ function advanced_forum_preprocess_node(&$vars) {
   $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
     
   // User information
-  $vars['account'] = user_load(array('uid' => $vars['node']->uid));
-  $vars['author_pane'] = theme('author_pane', $vars['account']);   
+  $variables['account'] = user_load(array('uid' => $variables['node']->uid));
+  $variables['author_pane'] = theme('author_pane', $variables['account']);   
 
 }
 
@@ -387,12 +390,12 @@ function advanced_forum_preprocess_node(&$vars) {
  * Part of the node preprocess, pulled out to simplify code.
  */
 function _advanced_forum_adjust_node_links(&$variables) {
-  if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
+  if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
     // Change first post from "add comment" to "Reply"
-    $vars['node']->links['comment_add']['title'] = t('Reply');
+    $variables['node']->links['comment_add']['title'] = t('Reply');
 
     // Make a separate variable for the reply link so it can be put on top of the thread
-    $reply_link = $vars['node']->links['comment_add'];
+    $reply_link = $variables['node']->links['comment_add'];
     
     if (variable_get('advanced_forum_button_links', 1)) {
       $reply_link['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'post-reply.png');
@@ -401,90 +404,90 @@ function _advanced_forum_adjust_node_links(&$variables) {
     else {
       $reply_link['title'] = t("Post Reply");
     }
-    $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
+    $variables['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
   }
   
   // Iconify common links (optional to avoid translation issues)
   if (variable_get('advanced_forum_button_links', 1)) {
-    if (!empty($vars['node']->links['comment_add']['title'])) {
-      $vars['node']->links['comment_add']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
-      $vars['node']->links['comment_add']['html'] = TRUE;
+    if (!empty($variables['node']->links['comment_add']['title'])) {
+      $variables['node']->links['comment_add']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
+      $variables['node']->links['comment_add']['html'] = TRUE;
     }
-    if (!empty($vars['node']->links['quote']['title'])) {
-      $vars['node']->links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
-      $vars['node']->links['quote']['html'] = TRUE;
+    if (!empty($variables['node']->links['quote']['title'])) {
+      $variables['node']->links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
+      $variables['node']->links['quote']['html'] = TRUE;
     }
-    if (!empty($vars['node']->links['edit']['title'])) {
-      $vars['node']->links['edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
-      $vars['node']->links['edit']['html'] = TRUE;
+    if (!empty($variables['node']->links['edit']['title'])) {
+      $variables['node']->links['edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
+      $variables['node']->links['edit']['html'] = TRUE;
     }
-    if (!empty($vars['node']->links['delete']['title'])) {
-      $vars['node']->links['delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
-      $vars['node']->links['delete']['html'] = TRUE;
+    if (!empty($variables['node']->links['delete']['title'])) {
+      $variables['node']->links['delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
+      $variables['node']->links['delete']['html'] = TRUE;
     }
   }
   
   // Remake the links with our changes
-  $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forum-links'));
+  $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
 
   // Make an array version of $links
-  $vars['links_array'] = $vars['node']->links;
+  $variables['links_array'] = $variables['node']->links;
 }
 
 /**
  * Preprocesses template variables for the comment template.
  */
-function advanced_forum_preprocess_comment(&$vars) {
-  if (advanced_forum_treat_as_forum_post('comment', $vars)) {
+function advanced_forum_preprocess_comment(&$variables) {
+  if (advanced_forum_treat_as_forum_post('comment', $variables)) {
     // Use our combined node/comment template file
     // D5 won't find templates in subdirectories so we need to give it that
     $forum_style = advanced_forum_get_current_style();
-    $vars['template_files'][] = "$forum_style/advf-forum-post";
+    $variables['template_files'][] = "$forum_style/advf-forum-post";
     
     // Thread is being shown in the forum (not on the front page or in a view)
-    $vars['is_forum'] = TRUE;
+    $variables['is_forum'] = TRUE;
     
     // This is a comment, not the node.
-    $vars['top_post'] = FALSE;
+    $variables['top_post'] = FALSE;
 
     // We need some information from the parent node so load it here
-    $node = node_load($vars['comment']->nid);
-    $vars['node'] = $node;
+    $node = node_load($variables['comment']->nid);
+    $variables['node'] = $node;
 
     // Title
     if (variable_get('comment_subject_field', 1) == 0) {
       // if comment titles are disabled, don't display it.
-      $vars['title'] = '';
+      $variables['title'] = '';
     } 
     else {
       // Assign the subject to the title variable for consistancy with nodes.
-      $vars['title'] = check_plain($vars['comment']->subject);
+      $variables['title'] = check_plain($variables['comment']->subject);
     }
     
     // Just use the date for the submitted on.
-    $vars['submitted'] = format_date($vars['comment']->timestamp);
+    $variables['submitted'] = format_date($variables['comment']->timestamp);
 
     // Assign the comment to the content variable for consistancy with nodes.
-    $vars['content'] = $vars['comment']->comment;
+    $variables['content'] = $variables['comment']->comment;
       
     // User information
-    $account_id = $vars['comment']->uid;
+    $account_id = $variables['comment']->uid;
     if ($account_id == 0) {
       // Anonymous user. Make a fake user object for theme_username
-      $vars['account']->name = $vars['comment']->name;
-      $vars['account']->homepage = $vars['comment']->homepage;
+      $variables['account']->name = $variables['comment']->name;
+      $variables['account']->homepage = $variables['comment']->homepage;
     }
     else {
       // Load up the real user object
-      $vars['account'] = user_load(array('uid' => $vars['comment']->uid));
+      $variables['account'] = user_load(array('uid' => $variables['comment']->uid));
     }
     
     // Create the user info pane
-    $vars['author_pane'] = theme('author_pane', $vars['account']);   
+    $variables['author_pane'] = theme('author_pane', $variables['account']);   
              
     // Because the $links array isn't available here, we recreate it
     if (arg(1) != 'reply') {
-      $links = module_invoke_all('link', 'comment', $vars['comment'], 1);
+      $links = module_invoke_all('link', 'comment', $variables['comment'], 1);
       foreach (module_implements('link_alter') as $module) {
         $function = $module .'_link_alter';
         $function($node, $links);
@@ -513,31 +516,31 @@ function advanced_forum_preprocess_comment(&$vars) {
       }
       
       // Remake the links with our changes
-      $vars['links'] = theme('links', $links, array('class' => 'links forum-links'));
-      $vars['links_array'] = $links;
+      $variables['links'] = theme('links', $links, array('class' => 'links forum-links'));
+      $variables['links_array'] = $links;
 
     // Comment number with link
     if (!isset($post_number)) {
       static $post_number = 0;
     }
-    _advanced_forum_topic_nid($vars['node']->nid);
+    _advanced_forum_topic_nid($variables['node']->nid);
 
-    $post_per_page = _comment_get_display_setting('comments_per_page', $vars['node']);
+    $post_per_page = _comment_get_display_setting('comments_per_page', $variables['node']);
     $page_number = $_GET['page'];
     if (!$page_number) { 
       $page_number = 0; 
     }
     
     $post_number++;
-    $fragment = 'comment-' . $vars['comment']->cid;
+    $fragment = 'comment-' . $variables['comment']->cid;
     $query = ($page_number) ? 'page=' . $page_number : NULL;
     $linktext = '#' . (($page_number * $post_per_page) + $post_number);
     $linkpath = 'node/' . _advanced_forum_topic_nid();
-    $vars['comment_link'] = l($linktext, $linkpath, NULL, $query, $fragment);
+    $variables['comment_link'] = l($linktext, $linkpath, NULL, $query, $fragment);
 
     // Link to page created by Comment Page module, if it exists
-    if (!empty($vars['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $vars['comment']->cid)) {
-      $variables['page_link'] = l('(permalink)', $vars['comment']->page_url);
+    if (!empty($variables['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $variables['comment']->cid)) {
+      $variables['page_link'] = l('(permalink)', $variables['comment']->page_url);
     }
   }
 }
@@ -1113,7 +1116,7 @@ function advanced_form_ajax($op, $container_id = NULL) {
  * This function returns true if the node/comment should be themed and 
  * otherwise treated as a forum post.
  */
-function advanced_forum_treat_as_forum_post($hook, $vars) {
+function advanced_forum_treat_as_forum_post($hook, $variables) {
   // Setting this static means the check only needs to be done once per page
   // as long as we haven't hit a non forum node on the page
   static $forum_node_id;
@@ -1122,8 +1125,8 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
     case 'node':
       // Make sure this is a forum node type and that it's not being
       // shown on some other page (like a view or promoted to front page)
-      if (($vars['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $vars['node']->nid|| arg(0) == 'comment')) {
-        $forum_node_id = $vars['node']->nid;
+      if (($variables['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $variables['node']->nid|| arg(0) == 'comment')) {
+        $forum_node_id = $variables['node']->nid;
         return true;
       } 
       else {
@@ -1134,7 +1137,7 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
       }
       
     case 'comment':
-      if (isset($forum_node_id) && ($vars['comment']->nid == $forum_node_id)) {
+      if (isset($forum_node_id) && ($variables['comment']->nid == $forum_node_id)) {
         // We already know this comment is either part of a forum thread
         // or that comments on this thread are known exceptions.
         return true;
@@ -1143,7 +1146,7 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
         // Not part of a forum thread. Check for exceptions.
         if (variable_get("advanced_forum_theme_all_comments", 0) == 1) {
           // This site wants all comments to use the forum comment template
-          $forum_node_id = $vars['comment']->nid;
+          $forum_node_id = $variables['comment']->nid;
           return true;
         }
 
@@ -1151,7 +1154,7 @@ function advanced_forum_treat_as_forum_post($hook, $vars) {
           // Comment is being shown alone via the comment_page module
           // For now, assume those should be themed like the forums.
           // TODO: Possibly add a setting for this?
-          $forum_node_id = $vars['comment']->nid;
+          $forum_node_id = $variables['comment']->nid;
           return true;
         }
 
