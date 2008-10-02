@@ -725,11 +725,12 @@ function advanced_forum_preprocess_forum_list(&$variables) {
       if (variable_get('advanced_forum_get_new_comments', 0)) {
         // This can cause performance issues, so allow it to be turned off
         $number_of_new_comments = advanced_forum_unread_comments_in_forum($forum->tid, $user->uid);
+
         $variables['forums'][$id]->new_posts =  $number_of_new_comments + $variables['forums'][$id]->new_topics; 
       
         if ($variables['forums'][$id]->new_posts) {
           $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
-          $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", array('fragment' => 'new'));
+          $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", NULL, 'new');
         }
       
         $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
@@ -1341,7 +1342,7 @@ function advanced_forum_unread_comments_in_forum($tid, $uid) {
               INNER JOIN {term_node} tn ON c.nid = tn.nid
               INNER JOIN {term_data} td ON td.tid = tn.tid AND td.vid = %d
               LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
-              WHERE c.status = 0 AND ((c.timestamp > h.timestamp AND c.timestamp > %d) OR h.timestamp IS NULL)
+              WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
               GROUP BY tn.tid";
     $sql = db_rewrite_sql($sql, 'c', 'cid');
     $result = db_query($sql, $vid, $uid, NODE_NEW_LIMIT);
