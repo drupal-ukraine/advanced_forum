@@ -34,7 +34,7 @@
       
       <?php if (!empty($new_posts)): ?>
         (<?php print $new_posts; ?>)
-      <? endif; ?>
+      <?php endif; ?>
     </div>
     
   </div>
