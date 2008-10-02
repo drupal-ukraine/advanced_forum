@@ -7,7 +7,7 @@
  *
  * Available variables:
  * - $header: The table header. This is pre-generated with click-sorting
- *   information. If you need to change this, @see template_preprocess_forum_topic_list().
+ *   information. If you need to change this, see template_preprocess_forum_topic_list().
  * - $pager: The pager to display beneath the table.
  * - $topics: An array of topics to be displayed.
  * - $topic_id: Numeric id for the current forum topic.
@@ -42,26 +42,26 @@
   <thead>
     <tr><?php print $header; ?></tr>
   </thead>
-  
+
   <tbody>
   <?php foreach ($topics as $topic): ?>
-    <?php 
+    <?php
     if ($topic->sticky) {
       // Extra label on sticky topics
       $topic->title = t('Sticky') . ': ' . $topic->title;
-    }  
+    }
     ?>
-    
+
     <tr class="<?php print $topic->zebra;?> <?php print $topic->sticky_class;?>">
       <td class="icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
-      
+
       <td class="title">
       <?php print $topic->title; ?>
       <?php if (!empty($topic->pager)): ?>
          <div class="forum-topic-pager"> <?php print $topic->pager ?> </div>
       <?php endif; ?>
       </td>
-       
+
       <?php if ($topic->moved): ?>
         <td colspan="3">
         <?php print $topic->message; ?>
@@ -73,12 +73,14 @@
             <div class="num num-new-replies"><a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a></div>
           <?php endif; ?>
         </td>
-      
-      <?php if (module_exists('statistics')): ?> 
+
+      <?php if (module_exists('statistics')): ?>
         <td class="views"><?php print $topic->views;?> </td>
-      <?php endif; ?>      
-    
-      <td class="created"><?php print $topic->created; ?></td>
+      <?php endif; ?>
+
+      <?php if (!variable_get('advanced_forum_hide_created', 0)): ?>
+        <td class="created"><?php print $topic->created; ?></td>
+      <?php endif; ?>
 
       <td class="last-reply"><?php print $topic->last_reply; ?></td>
     <?php endif; ?>

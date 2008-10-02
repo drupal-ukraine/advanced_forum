@@ -342,95 +342,93 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
  * Preprocesses template variables for the node template.
  */
 function advanced_forum_preprocess_node(&$vars) {
-  if (advanced_forum_treat_as_forum_post('node', $vars)) {
-    $forum_style = advanced_forum_get_current_style();
+  if (!advanced_forum_treat_as_forum_post('node', $vars)) {
+    // We only deal with forum posts.
+    return;
+  }
+  
+  // Set the static variables of the comment wrapper theme function.
+  if (function_exists('phptemplate_comment_wrapper')) {
+    phptemplate_comment_wrapper(NULL, 'forum', $vars['node']); 
+  }
+  
+  $forum_style = advanced_forum_get_current_style();
+  
+  if ($_GET['page'] > 0) { 
+    // This is the repeated node on the top of subsequent pages.
+    // We send this to a special .tpl so people can wipe it out or whatever
+    $vars['template_files'][] = "$forum_style/advf-forum-repeat-post";
+  }
+  else {
+    // Use our combined node/comment template file
+     $vars['template_files'][] = "$forum_style/advf-forum-post";
+  }
+
+  // The node is the first post, aka topic
+  $vars['top_post'] = TRUE;
+        
+  // Total & new replies
+  if (!empty($variables['comment_count'])) {
+    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
+  }
+  else {
+    $variables['total_posts'] = t('No replies');
+  }
+  
+  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
     
-    if ($_GET['page'] > 0) { 
-      // This is the repeated node on the top of subsequent pages.
-      // We send this to a special .tpl so people can wipe it out or whatever
-      $vars['template_files'][] = "$forum_style/advf-forum-repeat-post";
+  // User information
+  $vars['account'] = user_load(array('uid' => $vars['node']->uid));
+  $vars['author_pane'] = theme('author_pane', $vars['account']);   
+
+}
+
+/** 
+ * Part of the node preprocess, pulled out to simplify code.
+ */
+function _advanced_forum_adjust_node_links(&$variables) {
+  if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
+    // Change first post from "add comment" to "Reply"
+    $vars['node']->links['comment_add']['title'] = t('Reply');
+
+    // Make a separate variable for the reply link so it can be put on top of the thread
+    $reply_link = $vars['node']->links['comment_add'];
+    
+    if (variable_get('advanced_forum_button_links', 1)) {
+      $reply_link['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'post-reply.png');
+      $reply_link['html'] = TRUE;
     }
     else {
-      // Use our combined node/comment template file
-       $vars['template_files'][] = "$forum_style/advf-forum-post";
+      $reply_link['title'] = t("Post Reply");
     }
-
-    // The node is the first post, aka topic
-    $vars['top_post'] = TRUE;
-    
-    // Node is being shown in the forum (not on the front page or in a view)
-    $vars['is_forum'] = TRUE;
-    
-   if (!empty($vars['node']->links) && !empty($vars['node']->links['comment_add'])) {
-      // Change first post from "add comment" to "Reply"
-      $vars['node']->links['comment_add']['title'] = t('Reply');
-
-      // Make a separate variable for the reply link so it can be put on top of the thread
-      $reply_link = $vars['node']->links['comment_add'];
-      
-      if (variable_get('advanced_forum_button_links', 1)) {
-        $reply_link['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'post-reply.png');
-        $reply_link['html'] = TRUE;
-      }
-      else {
-        $reply_link['title'] = t("Post Reply");
-      }
-      $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
-    }
-    
-    // Iconify common links (optional to avoid translation issues)
-    if (variable_get('advanced_forum_button_links', 1)) {
-      if (!empty($vars['node']->links['comment_add']['title'])) {
-        $vars['node']->links['comment_add']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
-        $vars['node']->links['comment_add']['html'] = TRUE;
-      }
-      if (!empty($vars['node']->links['quote']['title'])) {
-        $vars['node']->links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
-        $vars['node']->links['quote']['html'] = TRUE;
-      }
-      if (!empty($vars['node']->links['edit']['title'])) {
-        $vars['node']->links['edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
-        $vars['node']->links['edit']['html'] = TRUE;
-      }
-      if (!empty($vars['node']->links['delete']['title'])) {
-        $vars['node']->links['delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
-        $vars['node']->links['delete']['html'] = TRUE;
-      }
-    }
-    
-    // Remake the links with our changes
-    $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forum-links'));
-
-    // Make an array version of $links
-    $vars['links_array'] = $vars['node']->links;
-    
-    // Jump to first unread comment
-    $comment_count = $vars['comment_count'];
-    if ($comment_count > 0) {
-      $nid = $vars['node']->nid;
-      $current_page = $_GET['page'];
-      $number_new_comments = comment_num_new($nid);
-      
-      $vars['jump_first_new'] = format_plural($comment_count, '1 ' . t('reply'), '@count ' . t('replies'));
-      if ($number_new_comments > 0) {
-        $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $vars['node']);   
-        $cid_of_first_new = advanced_forum_first_new_comment($nid);   
-        $vars['jump_first_new'].= " (" . l($number_new_comments . ' ' . t('new'), 
-          'node/' . $nid, NULL, $page_of_first_new, "comment-$cid_of_first_new") .
-          ")";
-      }
-    }
-    
-    // User information
-    $vars['account'] = user_load(array('uid' => $vars['node']->uid));
-    $vars['author_pane'] = theme('author_pane', $vars['account']);   
-
-    // TODO: This is copied from 6 but doesn't work in 5
-    // Load the signature since Drupal doesn't put it on nodes
-    //if (variable_get('user_signatures', 0)) {
-    //  $vars['signature'] = check_markup($vars['account']->signature, $vars['node']->format);
-    //}        
+    $vars['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
   }
+  
+  // Iconify common links (optional to avoid translation issues)
+  if (variable_get('advanced_forum_button_links', 1)) {
+    if (!empty($vars['node']->links['comment_add']['title'])) {
+      $vars['node']->links['comment_add']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'reply.png');
+      $vars['node']->links['comment_add']['html'] = TRUE;
+    }
+    if (!empty($vars['node']->links['quote']['title'])) {
+      $vars['node']->links['quote']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'quote.png');
+      $vars['node']->links['quote']['html'] = TRUE;
+    }
+    if (!empty($vars['node']->links['edit']['title'])) {
+      $vars['node']->links['edit']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'edit.png');
+      $vars['node']->links['edit']['html'] = TRUE;
+    }
+    if (!empty($vars['node']->links['delete']['title'])) {
+      $vars['node']->links['delete']['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'delete.png');
+      $vars['node']->links['delete']['html'] = TRUE;
+    }
+  }
+  
+  // Remake the links with our changes
+  $vars['links'] = theme('links', $vars['node']->links, array('class' => 'links inline forum-links'));
+
+  // Make an array version of $links
+  $vars['links_array'] = $vars['node']->links;
 }
 
 /**
@@ -545,7 +543,28 @@ function advanced_forum_preprocess_comment(&$vars) {
 }
 
 /**
- * Preprocesses template variables for the user info template.
+ * Preprocesses template variables for the comment wrapper template.
+ */
+function advanced_forum_preprocess_comment_wrapper(&$variables) {
+  // Make a variable for the reply link so it can be put on the bottom of the thread
+  $reply_link = $variables['node']->links['comment_add'];
+
+  if (!empty($reply_link)) {
+    if (variable_get('advanced_forum_button_links', 1)) {
+      $reply_link['title'] = theme('image', advanced_forum_path_to_images() . '/' . 'post-reply.png');
+      $reply_link['html'] = TRUE;
+    }
+    else {
+      $reply_link['title'] = t("Post Reply");
+    }
+
+    $variables['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
+  }
+}
+
+
+/**
+ * Preprocesses template variables for the author pane template.
  */
 function template_preprocess_author_pane(&$variables) {
   // The passed in $variables['account'] refers to the user who's info is in the pane.
@@ -721,7 +740,12 @@ function advanced_forum_preprocess_forum_list(&$variables) {
     else {
        $variables['forums'][$id]->icon = theme('image', advanced_forum_path_to_images() . '/forum-folder.png');
     }
-  }  
+ 
+    // Make container description more accessable
+    if (!empty($variables['parents']['0'])) {
+      $variables['container_description'] = $variables['parents']['0']->description;
+    }
+  }
 }
 
 /**
@@ -1191,7 +1215,31 @@ function _advanced_forum_topic_nid($nodeid = 0) {
   else {
     return 0;
   }
+}
 
+/**
+ * Returns a link directly to the first new post in a topic.
+ *
+ * @param $node
+ *   Node object
+ * @param $comment_count
+ *   Number of comments on passed node.
+ * @return
+ *   Link to the first unread comment with text as "42 new".
+ */
+function advanced_forum_first_new_post_link($node, $comment_count) {
+  $nid = $node->nid;
+  $current_page = $_GET['page'];
+  $number_new_comments = comment_num_new($nid);
+
+  if ($number_new_comments > 0) {
+    // Note that we are linking to the cid anchor rather than "new" because
+    // the new links will be gone if we go to another page.
+    $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $node);
+    $cid_of_first_new = advanced_forum_first_new_comment($nid);
+
+    return l($number_new_comments . ' ' . t('new'), "node/$nid", NULL, $page_of_first_new, "comment-$cid_of_first_new") ;
+  }
 }
 
 /**
@@ -1280,13 +1328,26 @@ function _advanced_forum_get_topic_views_count($nid) {
  * Returns the number of unread posts in a given forum for a given user
  */
 function advanced_forum_unread_comments_in_forum($tid, $uid) {
-  $sql = "SELECT COUNT(c.cid) 
-          FROM {comments} c 
-            INNER JOIN {term_node} tn ON c.nid = tn.nid AND tn.tid = %d 
-            LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d 
-          WHERE c.status = 0 AND ((c.timestamp > h.timestamp AND c.timestamp > %d) OR h.timestamp IS NULL)";
-  $sql = db_rewrite_sql($sql, 'c', 'cid');
-  return db_result(db_query($sql, $tid, $uid, NODE_NEW_LIMIT));
+  static $result_cache = null;
+
+  if (is_null($result_cache)) {
+    $result_cache = array();
+    $vid = variable_get('forum_nav_vocabulary', '');
+    $sql = "SELECT tn.tid, COUNT(c.cid) AS count
+            FROM {comments} c
+              INNER JOIN {term_node} tn ON c.nid = tn.nid
+              INNER JOIN {term_data} td ON td.tid = tn.tid AND td.vid = %d
+              LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
+              WHERE c.status = 0 AND ((c.timestamp > h.timestamp AND c.timestamp > %d) OR h.timestamp IS NULL)
+              GROUP BY tn.tid";
+    $sql = db_rewrite_sql($sql, 'c', 'cid');
+    $result = db_query($sql, $vid, $uid, NODE_NEW_LIMIT);
+    while ($row = db_fetch_array($result)) {
+        $result_cache[$row['tid']] = $row['count'];
+    }
+  }
+
+  return (isset($result_cache[$tid])) ? $result_cache[$tid] : 0;
 }
 
 function advanced_forum_get_forum_list($tid = 0) {

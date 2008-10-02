@@ -13,7 +13,7 @@
  *
  * @see template_preprocess_forum_icon()
  * @see advanced_forum_preprocess_forum_icon()
-*/
+ */
 ?>
 
 <?php if ($new_posts): ?>

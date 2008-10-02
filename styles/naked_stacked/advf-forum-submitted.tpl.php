@@ -35,7 +35,7 @@
         '!title' => $topic_link,
         '@time' => $time,
         '!author' => $author,
-      )); ?>    
+      )); ?>
     <?php endif; ?>
   <?php else: ?>
     <?php if (isset($date_posted)): ?>
@@ -49,9 +49,9 @@
         'by !author<br />@time ago', array(
         '@time' => $time,
         '!author' => $author,
-      )); ?>    
+      )); ?>
     <?php endif; ?>
-  <?php endif; ?>      
+  <?php endif; ?>
 <?php else: ?>
   <?php print t('n/a'); ?>
 <?php endif; ?>

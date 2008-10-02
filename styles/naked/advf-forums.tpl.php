@@ -27,7 +27,7 @@
   <?php print $forum_description ?>
   </div>
 
-  <div class="forum-top-links"><?php print theme('links', $links, array('class'=>'links forum-links')); ?></div>
+  <div class="forum-top-links"><?php print theme('links', $links, array('class' => 'links forum-links')); ?></div>
   <?php print $forums; ?>
   <?php print $topics; ?>
 </div>

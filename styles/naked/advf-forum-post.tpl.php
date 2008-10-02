@@ -5,7 +5,7 @@
  * advf-forum-post.tpl.php is the template file for both
  * the top post (the node) and the comments/replies
  * Changes here will affect an individual forum post.
- 
+
  * The following standard variables are available to you:
  * - $top_post: TRUE if we are formatting the main post (ie, not a comment)
  * - $title: Title of this post/comment
@@ -19,25 +19,33 @@
  * - $account: User object of the poster
  * - $name: User name of poster
  * - $user_info_pane: Entire contents of advf-user-info.tpl.php
-    
+
  */
 ?>
 
 <?php if ($top_post): ?>
-  <?php $postclass = "top-post"; ?> 
-  
-  <div class="forum-post-header">
+  <?php $postclass = "top-post"; ?>
+
+  <div class="forum-post-header clearfix">
     <?php print $reply_link; ?>
-    <?php print $jump_first_new; ?>
+    
+    <div class="reply-count">
+      <?php print $total_posts; ?>
+      
+      <?php if (!empty($new_posts)): ?>
+        (<?php print $new_posts; ?>)
+      <? endif; ?>
+    </div>
+    
   </div>
-  
+
 <?php endif; ?>
 
 <div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clearfix">
 
   <div class="post-info clearfix">
     <div class="posted-on"><?php print $date ?>
-      
+
     <?php if (!$top_post): ?>
       <?php if (!empty($comment->new)) : ?>
          <a id="new"></a>
@@ -45,18 +53,18 @@
       <?php endif ?>
     <?php endif; ?>
 
-    </div> 
-    
+    </div>
+
     <?php if (!$top_post): ?>
       <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
   </div>
 
   <div class="forum-post-wrapper">
-    
+
     <div class="forum-comment-left">
       <div class="author-pane">
-        <?php print $author_pane; ?>   
+        <?php print $author_pane; ?>
      </div>
     </div>
 
@@ -65,25 +73,25 @@
         <div class="post-title">
           <?php print $title ?>
         </div>
-      <?php endif; ?>  
-              
+      <?php endif; ?>
+
       <div class="content">
         <?php print $content ?>
-      </div>  
+      </div>
 
     </div>
-    
+
     <?php if ($signature): ?>
       <div class="author-signature clear-block">
         <?php print $signature ?>
       </div>
-    <?php endif; ?> 
-    
+    <?php endif; ?>
+
     <?php if ($links): ?>
       <div class="links">
         <?php print $links ?>
       </div>
     <?php endif; ?>
- 
+
   </div>
 </div>

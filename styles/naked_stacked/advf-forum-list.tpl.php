@@ -33,27 +33,27 @@
 ?>
 
 <table id="forum-<?php print $forum_id; ?>" class="forum-table">
-  
+
   <thead class="forum-header">
     <tr>
       <th class="forum-icon"></th>
       <th class="forum-name"><?php print t('Forum'); ?></th>
-      <th class="forum-num-topics"><?php print t('Topics');?></th>
-      <th class="forum-num-posts"><?php print t('Posts'); ?></th>
+      <th class="forum-topics"><?php print t('Topics');?></th>
+      <th class="forum-posts"><?php print t('Posts'); ?></th>
       <th class="forum-last-post"><?php print t('Last post'); ?></th>
     </tr>
   </thead>
-  
+
   <tbody>
     <?php $container_adjustment = 0; ?>
     <?php foreach ($forums as $child_id => $forum): ?>
-    
+
         <?php if ($forum->is_container): ?>
           <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_classes;?> container-<?php print $forum->container_id;?>" onclick="jq_collapse('<?php print $forum->container_id ?>')">
-            <td colspan="5" class="container">   
-              <div class="forum-details">  
+            <td colspan="5" class="container">
+              <div class="forum-details">
                 <div class="name">
-                  <?php print theme('image', advanced_forum_path_to_images() . '/container_close.gif', "Show/hide", "Show/hide", array('id' => "collapse-toggle-$forum->container_id")); ?>             
+                  <?php print theme('image', advanced_forum_path_to_images() . '/container_close.gif', "Show/hide", "Show/hide", array('id' => "collapse-toggle-$forum->container_id")); ?>
                   <a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a>
                 </div>
                 <?php if ($forum->description): ?>
@@ -61,18 +61,18 @@
                 <?php endif; ?>
               </div>
             </td>
-            
+
             <?php $container_adjustment = 1; ?>
           </tr>
         <?php else: ?>
           <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?> <?php print $forum->row_classes;?> in-container-<?php print $forum->container_id;?>">
             <?php if ($forum->depth == 0) {$container_adjustment = 0;} ?>
-            
+
             <td class="forum-icon"> <?php print $forum->icon ?> </td>
-            
-            <td> 
+
+            <td>
               <?php print str_repeat('<div class="indent">', $forum->depth - $container_adjustment); ?>
-                <div class="forum-details">  
+                <div class="forum-details">
                   <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
                   <?php if ($forum->description): ?>
                     <div class="description"><?php print $forum->description; ?></div>
@@ -80,7 +80,7 @@
                 </div>
               <?php print str_repeat('</div>', $forum->depth - $container_adjustment); ?>
             </td>
-        
+
             <td class="topics">
               <div class="num num-topics"><?php print $forum->num_topics ?>
                 <?php if ($forum->new_topics): ?>
@@ -88,15 +88,15 @@
                 <?php endif; ?>
               </div>
             </td>
-              
+
             <td class="num posts">
               <?php print $forum->num_posts ?>
               <?php if ($forum->new_posts): ?>
                   <br />
                   <a href="<?php print $forum->new_url_posts; ?>"><?php print $forum->new_text_posts; ?></a>
-              <?php endif; ?>        
+              <?php endif; ?>
             </td>
-              
+
             <td class="last-reply"><?php print $forum->last_reply ?></td>
         </tr>
         <?php endif; ?>

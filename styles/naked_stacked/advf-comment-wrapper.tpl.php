@@ -33,5 +33,5 @@
 ?>
 <div id="forum-comments">
   <?php print $content; ?>
-  <?php print $reply_link; ?>  
+  <?php print $reply_link; ?>
 </div>

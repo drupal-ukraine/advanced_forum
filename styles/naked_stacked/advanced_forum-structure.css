@@ -43,8 +43,8 @@ padding, and floats
 /*** FORUM LINK LISTS ********************************************************/
 
 .forum-top-links {
-  margin-bottom: 10px;
-  float: left;
+  margin: 10px 0 10px 0;
+  float: right;
 }
 
 .forum-links li {
@@ -65,6 +65,10 @@ padding, and floats
 
 #forum div.indent {
   margin-left: 30px;
+}
+
+.forum-description {
+  margin: 5px 0 5px 0;
 }
 
 /* Header */
@@ -109,7 +113,7 @@ padding, and floats
 #forum .description {
   margin-left: 0;
   padding-left: 0;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 /* Topic listing */
@@ -139,6 +143,13 @@ padding, and floats
 
 /*** FORUM THREADS ***********************************************************/
 
+.forum-post-header .forum-links {
+  float: left;
+}
+.forum-post-header .reply-count {
+  float: right;
+}
+
 .forum-comment {
   margin: 0 0 5px 0;
   padding: 0;
@@ -147,10 +158,6 @@ padding, and floats
 .forum-post-wrapper {
   clear: both;
   height: 1%;
-}
-
-.top-post {
-  margin: 15px 0;
 }
 
 /* Header at the top of each post */

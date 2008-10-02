@@ -2,11 +2,19 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+October 1, 2008
+---------------
+#314205 by Michelle: More style cleanup.
+NOISSUE by Michelle: Code cleanup.
+#313693 by nigel: Sped up function to retrieve the count of new comments in a forum.
+#312958 by Michelle: Added $container_description to forum list template.
+NOISSUE by Michelle: Added some hoop jumping code to make the comment wrapper template work.
+
 September 28, 2008
 ------------------
 #314205 by Michelle, stephthegeek: Lots of style cleanup.
 NOISSUE by Michelle: Changed 'forum user' to 'author pane' for clarity.
-#311136 by Michelle: Backported "last seen" from D6.
+#311136 by Michelle: Backported 'last seen' from D6.
 
 September 27, 2008
 ------------------
