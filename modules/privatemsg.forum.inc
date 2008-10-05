@@ -9,10 +9,14 @@
  */
 function privatemsg_preprocess_author_pane(&$variables) {
   global $user;
-  $account_id = $variables['account']->uid;
+  $account = $variables['account'];
+  $account_id = $variables['account']->uid;  
+  $variables['privatemsg'] = '';
+  $can_access = user_access('access private messages');
+  $author_allows = (isset($account->privatemsg_allow)) ? $account->privatemsg_allow : 1;
   
   // Send private message
-  if ($account_id != 0 && $account_id != $user->uid && user_access('write privatemsg')) {
+  if ($can_access && $account_id != $user->uid && $author_allows) {
     $variables['privatemsg'] = 
       l(theme('image', advanced_forum_path_to_images() . '/private-message.png', 
               t('Send private message'), t('Send private message'), NULL, TRUE), 
