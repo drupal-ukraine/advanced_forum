@@ -52,18 +52,11 @@ function advanced_forum_menu($may_cache) {
                'type' => MENU_CALLBACK,
    );
     
-  } 
-  elseif(arg(2) != 'block') {
-    // Avoids weird issue with block admin. See #239724
-    // Should be replaced with a proper fix if one can be found.
-  
-    $style_directory = advanced_forum_path_to_style();
-    drupal_add_css("$style_directory/advanced_forum-structure.css" );
-    drupal_add_css("$style_directory/advanced_forum.css" );
-
-    drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
-    drupal_add_js(array('advanced_forum_ajax' => url('advanced_forum/collapse')), 'setting');
   }
+  elseif (arg(0) == 'forum') {   
+    // Add the CSS & JS since we know we're on a page that needs them
+    advanced_forum_drupal_adds();
+  }  
   
   return $items;
 }
@@ -1128,6 +1121,9 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
       // shown on some other page (like a view or promoted to front page)
       if (($variables['node']->type == 'forum') && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $variables['node']->nid|| arg(0) == 'comment')) {
         $forum_node_id = $variables['node']->nid;
+        
+        // Add the CSS & JS since we know we're on a node that needs them
+        advanced_forum_drupal_adds();
         return true;
       } 
       else {
@@ -1148,6 +1144,9 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
         if (variable_get("advanced_forum_theme_all_comments", 0) == 1) {
           // This site wants all comments to use the forum comment template
           $forum_node_id = $variables['comment']->nid;
+          
+          // Add the CSS & JS since we know we're on a comment that needs them
+          advanced_forum_drupal_adds();
           return true;
         }
 
@@ -1156,6 +1155,9 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
           // For now, assume those should be themed like the forums.
           // TODO: Possibly add a setting for this?
           $forum_node_id = $variables['comment']->nid;
+ 
+          // Add the CSS & JS since we know we're on a page that needs them
+          advanced_forum_drupal_adds();
           return true;
         }
 
@@ -1360,4 +1362,19 @@ function advanced_forum_get_forum_list($tid = 0) {
   $forums = taxonomy_get_tree($vid, $tid);
   
   return $forums;
+}
+
+/**
+ * Adds the needed CSS and JS.
+ *
+ * These are pulled into this function because there was some interference with
+ * other modules when they were in the menu hook.
+ */
+function advanced_forum_drupal_adds() {
+  $style_directory = advanced_forum_path_to_style();
+  drupal_add_css("$style_directory/advanced_forum-structure.css" );
+  drupal_add_css("$style_directory/advanced_forum.css" );
+
+  drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
+  drupal_add_js(array('advanced_forum_ajax' => url('advanced_forum/collapse')), 'setting');
 }

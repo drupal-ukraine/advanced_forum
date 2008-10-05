@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+October 5, 2008
+---------------
+#317276 by Michelle, Edlund: Fixed issues with private message module.
+#317174 by Michelle: Moved CSS/JS calls out of menu code except for main forum pages to avoid conflicts with other theme changing modules.
+
 October 1, 2008
 ---------------
 #314205 by Michelle: More style cleanup.
