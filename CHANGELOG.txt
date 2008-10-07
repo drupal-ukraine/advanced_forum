@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+October 7, 2008
+---------------
+#291084 by Michelle: Removed all collapsable container code as it caused too many issues. Many thanks to jmorahan for tracing the bizarre pagers to this code.
+
 October 5, 2008
 ---------------
 #317276 by Michelle, Edlund: Fixed issues with private message module.
