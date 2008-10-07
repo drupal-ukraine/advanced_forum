@@ -162,6 +162,8 @@ padding, and floats
 
 /* Header at the top of each post */
 .post-info {
+  height:100%;
+  clear: both;
   margin-bottom: 3px;
 }
 
@@ -257,4 +259,5 @@ padding, and floats
   line-height: 160%;
   margin: 2px;
   text-align: right;
+  clear: both;  
 }

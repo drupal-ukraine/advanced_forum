@@ -162,6 +162,12 @@ padding, and floats
 
 /* Header at the top of each post */
 /* Note: Changes from Naked in this section */
+.post-info {
+  height:100%;
+  clear: both;
+  margin-bottom: 3px;
+}
+
 .posted-on {
   padding: 0 10px;
   float: left;
@@ -263,4 +269,5 @@ padding, and floats
   line-height: 160%;
   margin: 2px;
   text-align: right;
+  clear: both;  
 }

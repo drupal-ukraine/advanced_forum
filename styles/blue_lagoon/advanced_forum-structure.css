@@ -185,6 +185,11 @@ padding, and floats
   float: none;
 }
 
+.post-info {
+  height:100%;
+  clear: both;
+}
+
 .post-num {
   float: right;
   margin-right: 5px;
@@ -268,4 +273,5 @@ padding, and floats
   line-height: 160%;
   margin: 2px;
   text-align: right;
+  clear: both;  
 }
