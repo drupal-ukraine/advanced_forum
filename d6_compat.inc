@@ -386,7 +386,7 @@ function advanced_forum_get_preprocess($hook) {
   }
 
   // If we don't have registry or don't have an entry, build one and cache it.
-  // This will build the registry as needed so unused functions won't be poluting it.
+  // This will build the registry as needed so unused functions won't be polluting it.
   if (empty($registry) || !isset($registry[$hook])) {
     global $theme;
     $registry[$hook] = _advanced_forum_build_preprocess($hook);
@@ -412,6 +412,14 @@ function _advanced_forum_build_preprocess($hook) {
   // Add all modules so they can intervene with their own preprocessors. This allows them
   // to provide preprocess functions even if they are not the owner of the current hook.
   $prefixes += module_list();
+
+  // Some modules in d5 already have functions that look like preprocess hooks.
+  // We black list those from being added.
+  $blacklist = array('search');
+
+  foreach ($blacklist as $module) {
+    unset($prefixes[array_search($module, $prefixes)]);
+  }
 
   foreach ($prefixes as $prefix) {
     if (function_exists($prefix .'_preprocess')) {
