@@ -167,8 +167,14 @@ function _advanced_forum_load_preprocessors() {
  * Blatent rip of views include system.
  */
 function advanced_forum_include($file) {
+  static $cache;
+  
   $includes = array();
-  $cache = cache_get('advforum_includes', 'cache');
+  
+  if (!isset($cache->data) || !$cache->data) {
+    $cache = cache_get('advforum_includes', 'cache');
+  }
+  
   if (isset($cache->data) && $cache->data) {
     $includes = unserialize($cache->data);
   }
