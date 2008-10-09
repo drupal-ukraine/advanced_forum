@@ -38,7 +38,7 @@
     <tr>
       <th class="forum-icon"></th>
       <th class="forum-name"><?php print t('Forum'); ?></th>
-      <th class="forum-topics"><?php print t('Topics');?></th>
+      <th class="forum-num-topics"><?php print t('Topics');?></th>
       <th class="forum-posts"><?php print t('Posts'); ?></th>
       <th class="forum-last-post"><?php print t('Last post'); ?></th>
     </tr>
