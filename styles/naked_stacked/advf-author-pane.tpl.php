@@ -74,12 +74,18 @@
   <div class="author-pane-last">
 
     <div class="author-pane-line author-id">
-      <span class="author-pane-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?>
+      <?php if (empty($account_id)): ?> 
+        <span class="author-pane-label"><?php print t('Member'); ?>:</span> <?php print variable_get('anonymous', t('Anonymous')) ?>
+      <?php else: ?>
+        <span class="author-pane-label"><?php print t('Member'); ?>:</span> <?php print $account_id; ?>
+      <?php endif; ?>
     </div>
 
-    <div class="author-pane-line author-joined">
-      <span class="author-pane-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?>
-    </div>
+    <?php if (!empty($joined)): ?> 
+      <div class="author-pane-line author-joined">
+        <span class="author-pane-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?>
+      </div>
+    <?php endif; ?>
 
     <?php if (isset($user_stats_posts)): ?>
       <div class="author-pane-line author-posts">
