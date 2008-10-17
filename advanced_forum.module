@@ -32,7 +32,7 @@ function advanced_forum_menu($may_cache) {
                'path' => "forum/markasread",
                'title' => 'Helper page to mark forums read.',
                'callback' => 'advanced_forum_markasread',
-               'access' => user_access('access content') && $user->uid,
+               'access' => advanced_forum_markasread_access(),
                'type' => MENU_CALLBACK,
                );
     
@@ -964,18 +964,22 @@ function advanced_forum_markasread() {
   $current_forum_id = arg(2);
 
   if ($current_forum_id) {
-    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
-    // present in the history table, marking all unread nodes as read
-    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
-           .' SELECT %d, n.nid, %d FROM {node} AS n'
-           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid'
-           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
-           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
-           .' AND tn.tid = %d'
-           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)';
-
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id, $user->uid);
-
+    // Delete the current history entries so already visited nodes get updated.
+    $sql = "DELETE h 
+            FROM {history} AS h 
+              INNER JOIN {term_node} AS tn ON (h.nid = tn.nid) 
+            WHERE h.uid = %d AND tn.tid = %d";
+	  db_query($sql, $user->uid, $current_forum_id);
+	
+    // Update the history table with all forum nodes newer than the cutoff.
+    $sql = "INSERT INTO {history} (uid, nid, timestamp)
+            SELECT %d, n.nid, %d 
+            FROM {node} AS n
+              INNER JOIN {term_node} AS tn ON n.nid = tn.nid
+              INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
+            WHERE (n.created > %d OR ncs.last_comment_timestamp > %d) AND tn.tid = %d";
+	
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id);
     db_query($sql, $args);
 
     drupal_set_message(t('All content in this forum has been marked as read'));
@@ -985,19 +989,25 @@ function advanced_forum_markasread() {
     // We are on the forum overview, requesting all forums be marked read
     $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
  
-    // Combine INSERT with SELECT+SUBSELECT that will return rows that are not
-    // present in the history table, marking all unread nodes as read.
-    // This version adds another subselect to get all forums
-    $sql = 'INSERT INTO {history} (uid,nid,timestamp)'
-           .' SELECT %d, n.nid, %d FROM {node} AS n'
-           .' INNER JOIN {term_node} AS tn ON n.nid=tn.nid' 
-           .' INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid=n.nid'
-           .' WHERE (n.created > %d OR ncs.last_comment_timestamp > %d)'
-           .' and n.nid not in ( SELECT nid FROM {history} AS h WHERE h.nid = n.nid AND h.uid = %d)'
-           .' AND tn.tid in (SELECT tid FROM {term_data} WHERE vid = %d)';
+    // Delete the current history entries so already visited nodes get updated.
+    $sql = "DELETE h 
+            FROM {history} AS h 
+              INNER JOIN {term_node} AS tn ON (h.nid = tn.nid) 
+              INNER JOIN {term_data} AS td ON (td.tid = tn.tid) 
+            WHERE h.uid = %d AND td.vid = %d";
+	  db_query($sql, $user->uid, $forum_vocabulary_id);
 
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $user->uid, $forum_vocabulary_id);
+    // Update the history table with all forum nodes newer than the cutoff.
+    $sql = "INSERT INTO {history} (uid, nid, timestamp)
+            SELECT DISTINCT %d, n.nid, %d 
+            FROM {node} AS n
+              INNER JOIN {term_node} AS tn ON n.nid=tn.nid 
+              INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
+              INNER JOIN {term_data} AS td ON tn.tid = td.tid 
+            WHERE (n.created > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
 
+    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
+	
     db_query($sql, $args);
 
     drupal_set_message(t('All forum content been marked as read'));
@@ -1005,10 +1015,10 @@ function advanced_forum_markasread() {
   }
 }
 
+/**
+ * Helper function to tell whether a user should be able to mark forums read.
+ */
 function advanced_forum_markasread_access() {
-  // This separate function is needed because the new menu system doesn't run
-  // hook_menu() every time and the logged in status of the user can get cached
-  // and re-used for other users.
   global $user;
   return user_access('access content') && $user->uid;
 }

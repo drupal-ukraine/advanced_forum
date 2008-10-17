@@ -2,9 +2,15 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+October 17, 2008
+---------------
+#321041 by derhasi, swill, Michelle: Fixed errors in Mark as Read functionality.
+
 October 8, 2008
 ---------------
 #316543 by neclimdul: Fixed obscure bug where search_preprocess was getting called and inadvertantly calling the porter stemmer module.
+NOISSUE by Michelle: Noticed when I installed the alpha on my live site that anonymous users showed up wierd. This fixes them up. (STYLE CHANGES: advf-author-pane.tpl.php in all styles.)
+#318371 by Michelle: Changed class forum-topics in advf-forum-list.tpl.php to forum-num-topics to avoid conflict with table name on topic listing page. (STYLE CHANGES: advf-forum-list.tpl.php in all styles)
 
 October 7, 2008
 ---------------
