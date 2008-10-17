@@ -471,7 +471,7 @@ function advanced_forum_preprocess_comment(&$variables) {
              
     // Because the $links array isn't available here, we recreate it
     if (arg(1) != 'reply') {
-      $links = module_invoke_all('link', 'comment', $variables['comment'], 1);
+      $links = module_invoke_all('link', 'comment', $variables['comment']);
       foreach (module_implements('link_alter') as $module) {
         $function = $module .'_link_alter';
         $function($node, $links);

@@ -5,6 +5,7 @@ $Id$
 October 17, 2008
 ---------------
 #321041 by derhasi, swill, Michelle: Fixed errors in Mark as Read functionality.
+#322125 by swill: Fixed bug with comment link array recreation.
 
 October 8, 2008
 ---------------
