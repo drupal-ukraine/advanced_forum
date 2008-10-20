@@ -98,12 +98,7 @@ padding, and floats
   padding-left: 35px;
   text-align: left;
 }
-
-#forum tr.even,
-#forum tr.odd {
-  border: 0;
-}
-
+ 
 /* Forum listing */
 #forum td.container {
   padding-top: 5px;
