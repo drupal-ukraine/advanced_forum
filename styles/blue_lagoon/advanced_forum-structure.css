@@ -172,7 +172,6 @@ padding, and floats
 
 .forum-post-wrapper {
   clear: both;
-  height: 1%;
 }
 
 /* Header at the top of each post */
@@ -244,11 +243,13 @@ padding, and floats
 
 /* Post text area */
 .forum-comment-right {
+  background-color: #fff;
+  border-left: 1px solid #91CDF5;
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
 }
 
 .forum-comment-right .content {
-  margin: 10px;
+  padding-top: 2px;
 }
 
 .forum-comment-right .post-title,
@@ -269,9 +270,14 @@ padding, and floats
 
 /* Links */
 .forum-comment .links {
+  background-color: #fff;
+  border-left: 1px solid #91CDF5;
   height: 20px;
   line-height: 160%;
-  margin: 2px;
+  margin-left: 150px;
   text-align: right;
-  clear: both;  
+}
+
+.forum-comment ul.links {
+  border: 0;
 }

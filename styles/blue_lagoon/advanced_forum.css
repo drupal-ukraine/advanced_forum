@@ -11,11 +11,10 @@ Colors used:
 #BDE0F5 Container background, sticky topic
 #5F67A5 Container description
 #898989 Forum description
+#EDF5FA Author pane background
 
 Images used:
 images/pager-bg.png Pager background gradient.
-images/author-pane-bg.png Colored background behind author info pane on posts.
-                          149x1 of #EDF5FA and 1x1 of #91CDF5 for right border.
 */
 
 /*** FORUM LINK LISTS ********************************************************/
@@ -141,7 +140,7 @@ images/author-pane-bg.png Colored background behind author info pane on posts.
 
 /* Author information pane */
 .forum-post-wrapper {
-  background: url(images/author-pane-bg.png) repeat-y;
+  background-color: #edf5fa;
   border: 1px solid #91CDF5;
 }
 
