@@ -26,7 +26,7 @@
 <?php if ($top_post): ?>
   <?php $postclass = "top-post"; ?>
 
-  <div class="forum-post-header clearfix">
+  <div class="forum-post-header clear-block">
     <?php print $reply_link; ?>
     
     <div class="reply-count">
@@ -41,9 +41,9 @@
 
 <?php endif; ?>
 
-<div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clearfix">
+<div class="<?php print (isset($postclass)) ? $postclass . ' ' : ''; ?>forum-comment<?php print (isset($row_class)) ? ' forum-comment-' . $row_class : ''; print (!empty($comment->new)) ? ' comment-new forum-comment-new' : ''; ?> clear-block">
 
-  <div class="post-info clearfix">
+  <div class="post-info clear-block">
     <div class="posted-on"><?php print $date ?>
 
     <?php if (!$top_post): ?>
@@ -68,7 +68,7 @@
      </div>
     </div>
 
-    <div class="forum-comment-right clearfix">
+    <div class="forum-comment-right clear-block">
       <?php if ($title && !$top_post): ?>
         <div class="post-title">
           <?php print $title ?>

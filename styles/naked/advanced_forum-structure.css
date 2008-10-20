@@ -1,32 +1,9 @@
 /* $Id$ */
 
 /*
-This document contains structural markup such as widths, margins,
-padding, and floats
+This document contains structural markup such as widths, margins, padding, and 
+floats. For colors and borders, see advanced_forum.css.
 */
-
-
-/*** FORUM GENERAL ***********************************************************/
-
-.clearfix:after {
-  content: ".";
-  display: block;
-  font-size: 0;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-* html>body .clearfix {
-  display: inline;
-  width: 100%;
-}
-
-* html .clearfix {
-  /* Hides from IE-mac \*/
-  height: 1%;
-  /* End hide from IE-mac */
-}
 
 /*** PAGER *******************************************************************/
 
