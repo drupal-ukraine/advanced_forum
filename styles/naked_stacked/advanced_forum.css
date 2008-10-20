@@ -52,7 +52,7 @@ see advanced_forum-structure.css.
 
 /* Header at the top of each post */
 .post-info {
-  border-bottom: 2px solid #F7F5EE;
+  border-bottom: 1px solid #F7F5EE;
 }
 
 .posted-on {
@@ -62,14 +62,13 @@ see advanced_forum-structure.css.
 
 .post-title {
   font-weight: bold;
-  border-bottom: 2px solid #F7F5EE;
+  border-bottom: 1px solid #F7F5EE;
 }
 
 /* Author information pane */
 /* Note: Changes from Naked in this section */
 
 .forum-comment-left {
-  border-bottom: 2px solid #F7F5EE;
 }
 
 .author-pane .author-name {
@@ -87,6 +86,14 @@ see advanced_forum-structure.css.
 
 .author-pane img {
   vertical-align: top;
+}
+
+/* Post text area */
+/* Note: Changes from Naked in this section */
+
+.forum-post-wrapper .forum-comment-right {
+  border-top: 1px solid #F7F5EE;
+  border-bottom: 1px solid #F7F5EE;
 }
 
 /* Signature */

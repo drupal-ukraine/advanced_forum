@@ -63,7 +63,6 @@ see advanced_forum-structure.css.
 
 /* Author information pane */
 .forum-comment-left {
-  border-right: 2px solid #F7F5EE;
 }
 
 .author-pane .author-name {
@@ -77,6 +76,17 @@ see advanced_forum-structure.css.
 
 .author-pane .author-pane-label {
   font-weight: bold;
+}
+
+/* Post text area */
+.forum-comment-right {
+  border-left: 1px solid #F7F5EE;
+}
+
+/* Links */
+.forum-comment .links {
+  background-color: #fff;
+  border-left: 1px solid #F7F5EE;
 }
 
 /* Signature */

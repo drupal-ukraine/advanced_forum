@@ -129,7 +129,6 @@ floats. For colors and borders, see advanced_forum.css.
 
 .forum-post-wrapper {
   clear: both;
-  height: 1%;
 }
 
 /* Header at the top of each post */
@@ -206,7 +205,7 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 .forum-comment-right .content {
-  margin: 10px;
+  padding-top: 2px;
 }
 
 .forum-comment-right .post-title,
@@ -227,9 +226,7 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Links */
 .forum-comment .links {
-  height: 20px;
   line-height: 160%;
-  margin: 2px;
+  margin-left: 150px;
   text-align: right;
-  clear: both;  
 }

@@ -215,8 +215,6 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Post text area */
 .forum-comment-right {
-  background-color: #fff;
-  border-left: 1px solid #91CDF5;
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
 }
 
@@ -242,8 +240,6 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Links */
 .forum-comment .links {
-  background-color: #fff;
-  border-left: 1px solid #91CDF5;
   height: 20px;
   line-height: 160%;
   margin-left: 150px;

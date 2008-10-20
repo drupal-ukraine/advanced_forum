@@ -217,16 +217,7 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 .forum-comment-right .content {
-  margin: 10px;
-}
-
-.forum-comment-right .content {
-  margin-left: 0;
-  padding-left: 10px;
-}
-
-.forum-comment-right p {
-  margin-right: 10px;
+  padding: 2px;
 }
 
 /* Signature */
@@ -237,7 +228,6 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Links */
 .forum-comment .links {
-  height: 20px;
   line-height: 160%;
   margin: 2px;
   text-align: right;
