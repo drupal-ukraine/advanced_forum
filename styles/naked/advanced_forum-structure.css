@@ -157,7 +157,7 @@ floats. For colors and borders, see advanced_forum.css.
 .forum-comment-left {
   float: left;
   line-height: 110%;
-  overflow: hidden;
+  min-height: 250px;
   width: 150px;
 }
 

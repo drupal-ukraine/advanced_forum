@@ -171,7 +171,7 @@ floats. For colors and borders, see advanced_forum.css.
 .forum-comment-left {
   float: left;
   line-height: 110%;
-  overflow: hidden;
+  min-height: 250px;
   width: 150px;
 }
 
@@ -240,7 +240,7 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Links */
 .forum-comment .links {
-  height: 20px;
+  padding-top: 3px;
   line-height: 160%;
   margin-left: 150px;
   text-align: right;

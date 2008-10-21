@@ -164,6 +164,12 @@ images/pager-bg.png Pager background gradient.
   border-left: 1px solid #91CDF5;
 }
 
+/* Links */
+.forum-comment .links {
+  background-color: #fff;
+  border-left: 1px solid #91CDF5;
+}
+
 /* Signature */
 .author-signature {
   font-size: .8em;

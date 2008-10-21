@@ -70,6 +70,7 @@ floats. For colors and borders, see advanced_forum.css.
   padding-left: 15px;
   padding-top: 5px;
 }
+
 #forum .container .description {
   font-size: .8em;
   font-weight: normal;
@@ -163,7 +164,7 @@ floats. For colors and borders, see advanced_forum.css.
 
 .forum-comment-left {
   line-height: 110%;
-  overflow: hidden;
+  min-height: 100px;
 }
 
 .author-pane {
