@@ -2,6 +2,17 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+October 20, 2008
+---------------
+#323631 by Morbus: Style fixes for blue_lagoon. Removed need for background image.
+#323632 by Michelle: Removed member ID from naked & blue_lagoon templates as requested by Morbus.
+#323656 by Michelle: Removed override that set table row borders to 0.
+#319942 by Michelle: Thanks to Morbus for pointing out that Drupal code comes with a clearer. Changed over to using it.
+NOISSUE by Michelle: Small fixes to all styles based partially on Morbus' patch from #323631
+#323653 by Michelle: Set a minimum height for the author pane. Also some other minor fixes.
+#321590 by Morbus: Gets rid of div when forum description is empty.
+#317061 by Michelle: Fixed missing templates when used with Zen subthemes.
+
 October 17, 2008
 ---------------
 #321041 by derhasi, swill, Michelle: Fixed errors in Mark as Read functionality.

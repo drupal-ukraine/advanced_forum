@@ -271,7 +271,7 @@ function phptemplate_forum_submitted($topic) {
 
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
-  return _phptemplate_callback("advf-forum-submitted", $variables, array("$forum_style/advf-forum-submitted"));
+  return _phptemplate_callback("advf_forum_submitted", $variables, array("$forum_style/advf-forum-submitted"));
 }
 
 /**
@@ -289,7 +289,7 @@ function phptemplate_forum_topic_list($tid, $topics, $sortby, $forum_per_page) {
       
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
-  return _phptemplate_callback("advf-forum-topic-list", $variables, array("$forum_style/advf-forum-topic-list"));
+  return _phptemplate_callback("advf_forum_topic_list", $variables, array("$forum_style/advf-forum-topic-list"));
 }
 
 /**
@@ -317,7 +317,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
 
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
-  return _phptemplate_callback("advf-forum-icon", $variables, array("$forum_style/advf-forum-icon"));
+  return _phptemplate_callback("advf_forum_icon", $variables, array("$forum_style/advf-forum-icon"));
 }
 
 // TEMPLATE PREPROCESS *******************************************************/
