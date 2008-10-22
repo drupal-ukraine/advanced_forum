@@ -734,6 +734,20 @@ function advanced_forum_preprocess_forum_list(&$variables) {
       $variables['container_description'] = $variables['parents']['0']->description;
     }
   }
+
+  $variables['topics'] = advanced_forum_statistics_topics();
+  $variables['posts'] = advanced_forum_statistics_comments() + $variables['topics'];
+  $variables['users'] = advanced_forum_statistics_users();
+
+  $authenticated_users = advanced_forum_statistics_online_users();
+  $variables['online_users'] = implode(', ', $authenticated_users);
+  $variables['current_users'] = count($authenticated_users);
+  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
+  $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
+
+  $latest_user = advanced_forum_statistics_latest_user();
+  $variables['latest_user_name'] = $latest_user['name'];
+  $variables['latest_user_id'] = $latest_user['uid'];
 }
 
 /**
@@ -1341,3 +1355,47 @@ function advanced_forum_drupal_adds() {
   drupal_add_css("$style_directory/advanced_forum-structure.css" );
   drupal_add_css("$style_directory/advanced_forum.css" );
 }
+
+// STATISTICS ****************************************************************/
+
+/**
+ * Count total amount of forum threads.
+ */
+function advanced_forum_statistics_topics() {
+  return db_result(db_query('SELECT COUNT(DISTINCT(nid)) FROM {forum}'));
+}
+
+/**
+ * Count total amount of comments on forum threads.
+ */
+function advanced_forum_statistics_comments() {
+  return db_result(db_query('SELECT COUNT(cid) FROM {comments} c INNER JOIN {forum} f ON (f.nid = c.nid)'));
+}
+
+/**
+ * Count total amount of active users.
+ */
+function advanced_forum_statistics_users() {
+  return db_result(db_query('SELECT COUNT(uid) FROM {users} WHERE status = 1'));
+}
+
+/**
+ * Return the latest active user.
+ */
+function advanced_forum_statistics_latest_user() {
+  return db_fetch_array(db_query('SELECT uid, name FROM {users} WHERE status = 1 ORDER BY created DESC'));
+}
+
+/**
+ * Return an array of online usernames, linked to their profiles.
+ */
+function advanced_forum_statistics_online_users() {
+  $list = array();
+  $interval = time() - variable_get('user_block_seconds_online', 900);
+  $authenticated_users = db_query('SELECT DISTINCT u.uid, u.name, s.timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= %d AND s.uid > 0 ORDER BY s.timestamp DESC', $interval);
+  while ($account = db_fetch_object($authenticated_users)) {
+    $list[] = l($account->name, 'user/' . $account->uid);
+  }
+  return $list;
+}
+

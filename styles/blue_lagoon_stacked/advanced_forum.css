@@ -5,16 +5,16 @@ This file contains colors, graphics, and text effects. For structural markup,
 see advanced_forum-structure.css.
 
 Colors used:
-#ffffff Text on headers
-#0062A0 Pager number
-#91CDF5 Borders & headers
-#BDE0F5 Container background, sticky topic
-#5F67A5 Container description
-#898989 Forum description
-#EDF5FA Author pane background
+  #ffffff Text on headers
+  #0062A0 Pager number
+  #91CDF5 Borders & headers
+  #BDE0F5 Container background, sticky topic
+  #5F67A5 Container description
+  #898989 Forum description
+  #EDF5FA Author pane background
 
 Images used:
-images/pager-bg.png Pager background gradient.
+  images/pager-bg.png Pager background gradient.
 */
 
 /*** FORUM LINK LISTS ********************************************************/
@@ -103,6 +103,23 @@ images/pager-bg.png Pager background gradient.
 
 #forum tr.sticky-topic {
   background-color: #BDE0F5;
+}
+
+/*** FORUM STATISTICS *********************************************************/
+
+#forum-statistics {
+  border: 1px solid #91CDF5;
+}
+
+#forum-statistics-header {
+  background-color: #91CDF5;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.forum-statistics-sub-header {
+  background-color: #BDE0F5;
+  font-weight: bold;
 }
 
 /*** FORUM THREADS ***********************************************************/

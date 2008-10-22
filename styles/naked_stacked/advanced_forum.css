@@ -3,6 +3,11 @@
 /*
 This file contains colors, graphics, and text effects. For structural markup,
 see advanced_forum-structure.css.
+
+Colors used:
+  #DEDEDE Sticky posts, statistics subheader
+  #F7F5EE Faint borders
+  #CCCCCC Post seperator, avatar frame
 */
 
 /*** FORUM LINK LISTS ********************************************************/
@@ -44,10 +49,21 @@ see advanced_forum-structure.css.
   background: #DEDEDE;
 }
 
+/*** FORUM STATISTICS *********************************************************/
+
+#forum-statistics-header {
+  font-weight: bold;
+}
+
+.forum-statistics-sub-header {
+  background-color: #DEDEDE;
+  font-weight: bold;
+}
+
 /*** FORUM THREADS ***********************************************************/
 
 .forum-comment {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #CCCCCC;
 }
 
 /* Header at the top of each post */
@@ -77,7 +93,7 @@ see advanced_forum-structure.css.
 }
 
 .author-pane .picture img {
-  border: 1px solid #000;
+  border: 1px solid #CCCCCC;
 }
 
 .author-pane .author-pane-label {
