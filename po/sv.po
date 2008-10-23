@@ -1,0 +1,358 @@
+# $Id$
+#
+# Swedish translation of Drupal (advanced_forum)
+# Copyright 2008 Magnus Gunnarsson <seals@passagen.se>
+# Generated from files:
+#  advanced_forum.module,v 1.21.2.78 2008/10/21 03:17:47 michellec
+#  advanced_forum.info,v 1.4.2.5 2008/06/10 03:21:48 michellec
+#  modules/contact.forum.inc: n/a
+#  modules/privatemsg.forum.inc: n/a
+#  advf-author-pane.tpl.php,v 1.1.2.4 2008/10/20 21:34:23 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.4 2008/10/20 21:34:24 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.11 2008/10/09 04:00:14 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.17 2008/10/09 04:00:15 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.6 2008/10/09 04:00:15 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.3 2008/10/01 03:34:23 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.5 2008/10/01 03:34:23 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.4 2008/10/01 22:41:17 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.6 2008/10/01 22:41:17 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.4 2008/10/01 22:41:18 michellec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Forum 6.x\n"
+"POT-Creation-Date: 2008-10-23 02:49+0200\n"
+"PO-Revision-Date: 2008-10-23 03:03+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: advanced_forum.module:155
+msgid "Advanced forum style"
+msgstr "Stilmall för Advanced Forum"
+
+#: advanced_forum.module:157
+msgid "Choose which style to use for your forums. This will apply independent of site theme."
+msgstr "Välj vilken stilmall som skall användas för dina forum. Detta kommer att gälla oberoende av webbplatsen tema."
+
+#: advanced_forum.module:164
+msgid "Use graphical buttons for links"
+msgstr "Använd grafiska knappar för länkar"
+
+#: advanced_forum.module:166
+msgid "Included buttons are in English. Uncheck this to use translatable links instead."
+msgstr "Inkluderade knappar är på engelska. Avbocka detta för att använda översättningsbara länkar istället."
+
+#: advanced_forum.module:172
+msgid "Image directory"
+msgstr "Bildkatalog"
+
+#: advanced_forum.module:174
+msgid "Images are assumed to be in the \"images\" subdirectory of your style. If you need images to be somewhere else, put the full path here."
+msgstr "Bilder förväntas vara i underkatalogen \"images\" för din stilmall. Ange den fullständiga sökvägen här om du behöver ha bilderna någon annanstans."
+
+#: advanced_forum.module:181
+msgid "Treat all site comments like forum comments"
+msgstr "Behandla samtliga kommentarer på webbplatsen som kommentarer i forum"
+
+#: advanced_forum.module:183
+msgid "Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required."
+msgstr "Genom att välja ja kommer Advanced Forum att behandla samtliga kommentarer som kommentarer i ett forum och försöka använda temats utseende på dem. Några ändringar i ditt tema kan behövas."
+
+#: advanced_forum.module:199
+msgid "Hide the created column on the topic list."
+msgstr "Göm kolumnen \"Skapad\" på trådämneslistan."
+
+#: advanced_forum.module:201
+msgid "This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title."
+msgstr "Detta låter dig gömma kolumnen \"skapad\" på trådämneslistan. Användbart om du vill flytta informationen \"skapad av\" till nedanför trådrubriken."
+
+#: advanced_forum.module:207
+msgid "Maximum number of pages to show on per title pager"
+msgstr "Maximalt antal sidor att visa för varje titels sökare"
+
+#: advanced_forum.module:209
+msgid "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10"
+msgstr "Används på sökaren under trådämne i trådämneslistan. Anges till exempel 5 kommer du att få 1,2,3,4 ... 10"
+
+#: advanced_forum.module:216
+msgid "Get the number of new comments per forum on the forum list"
+msgstr "Erhålla antalet nya kommentarer för varje forum på forumlistan"
+
+#: advanced_forum.module:218
+msgid "Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under \"posts\" on the forum overview. Slow query not recommended on large forums."
+msgstr "Kärnforumet visar antalet nya trådar. Advanced Forum kommer även att erhålla antalet nya kommentarer och visa detta under \"inlägg\" på översikten för forum om detta är ikryssat. Slöar ned databasfrågor och rekommenderas inte på stora forum."
+
+#: advanced_forum.module:224
+msgid "Use topic navigation"
+msgstr "Använd trådnavigering"
+
+#: advanced_forum.module:226
+msgid "Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor."
+msgstr "Kärnforumet erhåller nästa och föregående tråd och visar dem som länkar under översta inlägget. Detta är som standard avslaget eftersom databasförfrågan har prestandaproblem och placeringen av länkarna är dåliga."
+
+#: advanced_forum.module:316
+msgid "No replies"
+msgstr "Inga svar"
+
+#: advanced_forum.module:342
+msgid "Reply"
+msgstr "Besvara"
+
+#: advanced_forum.module:352;521
+msgid "Post Reply"
+msgstr "Skicka svar"
+
+#: advanced_forum.module:491
+msgid "(permalink)"
+msgstr "(permalink)"
+
+#: advanced_forum.module:561;561
+msgid "User is online"
+msgstr "Användaren är uppkopplad"
+
+#: advanced_forum.module:562
+msgid "Online"
+msgstr "Uppkopplad"
+
+#: advanced_forum.module:567;568
+msgid "User offline. Last seen @time ago."
+msgstr "Användaren nedkopplad. Senast sedd för @time sedan."
+
+#: advanced_forum.module:571
+msgid "Offline"
+msgstr "Nedkopplad"
+
+#: advanced_forum.module:618
+msgid "Mark all topics read"
+msgstr "Märk alla ämnen som lästa"
+
+#: advanced_forum.module:622
+msgid "Mark all forums read"
+msgstr "Märk alla forum som lästa"
+
+#: advanced_forum.module:788
+msgid "Topic"
+msgstr "Ämne"
+
+#: advanced_forum.module:789
+msgid "Replies"
+msgstr "Svar"
+
+#: advanced_forum.module:793
+msgid "Views"
+msgstr "Visningar"
+
+#: advanced_forum.module:798
+msgid "Created"
+msgstr "Skapad"
+
+#: advanced_forum.module:801
+msgid "Last reply"
+msgstr "Senaste svar"
+
+#: advanced_forum.module:832
+msgid "This topic has been moved to "
+msgstr "Den här ämnet har flyttats till"
+
+#: advanced_forum.module:1015
+msgid "All content in this forum has been marked as read"
+msgstr "Allt innehåll i detta forum har blivit markerats som läst"
+
+#: advanced_forum.module:1043
+msgid "All forum content been marked as read"
+msgstr "Allt innehåll i forum har markerats som läst"
+
+#: advanced_forum.module:1294
+msgid "new"
+msgstr "ny"
+
+#: advanced_forum.module:1351
+msgid "Last Page"
+msgstr "Senaste inlägg"
+
+#: advanced_forum.module:1356
+msgid "Page"
+msgstr "Sida"
+
+#: advanced_forum.module:313
+msgid "1 reply"
+msgid_plural "@count replies"
+msgstr[0] "1 svar"
+msgstr[1] "@count nya svar"
+
+#: advanced_forum.module:698
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "1 nytt"
+msgstr[1] "@count nya"
+
+#: advanced_forum.module:36
+msgid "administer advanced forum"
+msgstr "administrera Advanced Forum"
+
+#: advanced_forum.module:50
+msgid "Configure Advanced Forum with these settings."
+msgstr "Konfigurera Advanced Forum med dessa inställningar."
+
+#: advanced_forum.module:53
+#: advanced_forum.info:0
+msgid "Advanced Forum"
+msgstr "Advanced Forum"
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr "advanced_forum"
+
+#: advanced_forum.info:0
+msgid "Enables the look and feel of other popular forum software."
+msgstr "Möjliggör utseendet och känslan från andra populära forum."
+
+#: modules/contact.forum.inc:18;18
+msgid "Contact user"
+msgstr "Kontakta användaren"
+
+#: modules/privatemsg.forum.inc:18;18
+msgid "Send private message"
+msgstr "Skicka privat meddelande"
+
+#: modules/privatemsg.forum.inc:22
+msgid "Send PM"
+msgstr "Skicka PM"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:76
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:78
+#: styles/naked/advf-author-pane.tpl.php:76
+#: styles/naked_stacked/advf-author-pane.tpl.php:78
+msgid "Joined"
+msgstr "Medlem"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:82
+#: styles/blue_lagoon/advf-forum-list.tpl.php:42
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:84
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:42
+#: styles/naked/advf-author-pane.tpl.php:82
+#: styles/naked/advf-forum-list.tpl.php:42
+#: styles/naked_stacked/advf-author-pane.tpl.php:84
+#: styles/naked_stacked/advf-forum-list.tpl.php:42
+msgid "Posts"
+msgstr "Inlägg"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:88
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:90
+#: styles/naked/advf-author-pane.tpl.php:88
+#: styles/naked_stacked/advf-author-pane.tpl.php:90
+msgid "!Points: "
+msgstr "!Points:"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:94
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:96
+#: styles/naked/advf-author-pane.tpl.php:94
+#: styles/naked_stacked/advf-author-pane.tpl.php:96
+msgid "IP"
+msgstr "IP"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:40
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:40
+#: styles/naked/advf-forum-list.tpl.php:40
+#: styles/naked_stacked/advf-forum-list.tpl.php:40
+msgid "Forum"
+msgstr "Forum"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:41
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:41
+#: styles/naked/advf-forum-list.tpl.php:41
+#: styles/naked_stacked/advf-forum-list.tpl.php:41
+msgid "Topics"
+msgstr "Ämnen"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:43
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:43
+#: styles/naked/advf-forum-list.tpl.php:43
+#: styles/naked_stacked/advf-forum-list.tpl.php:43
+msgid "Last post"
+msgstr "Senaste inlägg"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:107
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:107
+#: styles/naked/advf-forum-list.tpl.php:107
+#: styles/naked_stacked/advf-forum-list.tpl.php:107
+msgid "What's Going On?"
+msgstr "Vad händer?"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:110
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:110
+#: styles/naked/advf-forum-list.tpl.php:110
+#: styles/naked_stacked/advf-forum-list.tpl.php:110
+msgid "Currently active users: !current_total (!current_users users and !current_guests guests)"
+msgstr "Aktiva användare just nu: !current_total (!current_users användare och !current_guests gäster)"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:118
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:118
+#: styles/naked/advf-forum-list.tpl.php:118
+#: styles/naked_stacked/advf-forum-list.tpl.php:118
+msgid "Statistics"
+msgstr "Statistik"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:122
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:122
+#: styles/naked/advf-forum-list.tpl.php:122
+#: styles/naked_stacked/advf-forum-list.tpl.php:122
+msgid "Topics: !topics, Posts: !posts, Users: !users"
+msgstr "Trådar: !topics, Inlägg: !posts, Användare: !users"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:123
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:123
+#: styles/naked/advf-forum-list.tpl.php:123
+#: styles/naked_stacked/advf-forum-list.tpl.php:123
+msgid "Welcome to our latest member, !user"
+msgstr "Ett välkomnande till vår senaste medlem: !user"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:26
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:26
+#: styles/naked/advf-forum-submitted.tpl.php:26
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:26
+msgid "!title<br />by !author<br />@date_posted"
+msgstr "!title<br />av !author<br />@date_posted"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:33
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:33
+#: styles/naked/advf-forum-submitted.tpl.php:33
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:33
+msgid "!title<br />by !author<br />@time ago"
+msgstr "!title<br />av !author<br />@time sedan"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:42
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:42
+#: styles/naked/advf-forum-submitted.tpl.php:42
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:42
+msgid "by !author<br />@date_posted"
+msgstr "av !author<br />@date_posted"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:48
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:48
+#: styles/naked/advf-forum-submitted.tpl.php:48
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:48
+msgid "by !author<br />@time ago"
+msgstr "av !author<br />@time sedan"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:56
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:56
+#: styles/naked/advf-forum-submitted.tpl.php:56
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:56
+msgid "n/a"
+msgstr "inte tillgänglig"
+
+#: styles/blue_lagoon/advf-forum-topic-list.tpl.php:51
+#: styles/blue_lagoon_stacked/advf-forum-topic-list.tpl.php:51
+#: styles/naked/advf-forum-topic-list.tpl.php:51
+#: styles/naked_stacked/advf-forum-topic-list.tpl.php:51
+msgid "Sticky"
+msgstr "Klistrad"
+
