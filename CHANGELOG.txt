@@ -4,6 +4,10 @@ $Id$
 
 October 22, 2008
 ---------------
+#326460 by Michelle Changed included contrib modules to new format.
+
+October 22, 2008
+---------------
 #266682 by Morbus, Michelle: Added forum statistics. Also a few minor fixes and extra docs that slipped in at the same time.
 
 October 20, 2008

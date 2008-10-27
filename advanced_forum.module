@@ -158,7 +158,7 @@ function _advanced_forum_load_preprocessors() {
   }
   
   // forum.inc is the extension on the includes such as contact.forum.inc
-  advanced_forum_include('forum.inc');
+  advanced_forum_include('author-pane.inc');
 }
 
 /**
@@ -208,6 +208,7 @@ function advanced_forum_include($file) {
 function theme_author_pane($account) {
   $variables = array();
   $variables['account'] = $account;
+  $variables['image_path'] = advanced_forum_path_to_images();
 
   // Call our preprocess function to create all the variables
   advanced_forum_call_preprocess('author_pane', $variables);

@@ -1,7 +1,8 @@
 <?php
 /**
  * @file
- *   This file provides advanced forum preprocess functions for the contact module.
+ *   This file provides a preprocess function for the author pane used by  
+ *   Advanced Forum and Advanced Profile Kit.
  */
 
 /**
@@ -11,13 +12,12 @@ function contact_preprocess_author_pane(&$variables) {
   global $user;
   $account = $variables['account'];
   $account_id = $account->uid;
+  $image_path = $variables['image_path'];
   
   if (($account->contact) && ($account_id != $user->uid) && ($user->uid != 0)) {
     $variables['contact'] =   
-      l(theme('image', advanced_forum_path_to_images() . '/contact.png', 
-              t('Contact user'), t('Contact user'), NULL, TRUE), 
-        "user/$account_id/contact",
-        array(), NULL, NULL, FALSE, TRUE); 
+      l(theme('image', "$image_path/contact.png", t('Contact user'), t('Contact user'), NULL, TRUE), 
+        "user/$account_id/contact", array(), NULL, NULL, FALSE, TRUE); 
     
     $variables['contact_link'] = l("Contact user", "user/$account_id/contact");
   }
