@@ -1320,13 +1320,13 @@ function advanced_forum_unread_comments_in_forum($tid, $uid) {
   if (is_null($result_cache)) {
     $result_cache = array();
     $vid = variable_get('forum_nav_vocabulary', '');
-    $sql = "SELECT tn.tid, COUNT(c.cid) AS count
+    $sql = "SELECT COUNT(c.cid) AS count, tn.tid
             FROM {comments} c
-              INNER JOIN {term_node} tn ON c.nid = tn.nid
-              INNER JOIN {term_data} td ON td.tid = tn.tid AND td.vid = %d
-              LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
-              WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
-              GROUP BY tn.tid";
+            INNER JOIN {term_node} tn ON c.nid = tn.nid
+            INNER JOIN {term_data} td ON td.tid = tn.tid AND td.vid = %d
+            LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
+            WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
+            GROUP BY tn.tid";
     $sql = db_rewrite_sql($sql, 'c', 'cid');
     $result = db_query($sql, $vid, $uid, NODE_NEW_LIMIT);
     while ($row = db_fetch_array($result)) {
