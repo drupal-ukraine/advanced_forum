@@ -6,6 +6,7 @@ November 1, 2008
 ----------------
 #326706 by Michelle: Changed query that calculates number of new comments to try and fix problem with old comments. Minimally tested.
 #327057 by Michelle: Refactored treat_as_forum_post() to add a hook and generally condense and clean up the code.
+#328617 by Michelle: If there are no new comments on a thread, don't put the # at the end of the URL on the link from the forum list page.
 
 October 22, 2008
 ---------------

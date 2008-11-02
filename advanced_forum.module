@@ -770,7 +770,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
 
     // Format the node title with a link
     $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
-    $fragment = ($new_replies) ? 'new' : '';
+    $fragment = ($new_replies) ? 'new' : NULL;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
   }
 
