@@ -43,7 +43,6 @@ function template_preprocess_forums(&$variables) {
   }
   drupal_set_breadcrumb($breadcrumb);
   drupal_set_title(check_plain($title));
-
   if ($variables['forums_defined'] = count($variables['forums']) || count($variables['parents'])) {
     // Format the "post new content" links listing.
     $forum_types = array();
@@ -408,18 +407,13 @@ function _advanced_forum_build_preprocess($hook) {
 
   $return = array();
   // Default preprocessor prefix.
-  $prefixes[] = 'template';
+  $prefixes['template'] = 'template';
   // Add all modules so they can intervene with their own preprocessors. This allows them
   // to provide preprocess functions even if they are not the owner of the current hook.
   $prefixes += module_list();
 
   // Some modules in d5 already have functions that look like preprocess hooks.
-  // We black list those from being added.
-  $blacklist = array('search');
-
-  foreach ($blacklist as $module) {
-    unset($prefixes[array_search($module, $prefixes)]);
-  }
+  unset($prefixes['search']);
 
   foreach ($prefixes as $prefix) {
     if (function_exists($prefix .'_preprocess')) {

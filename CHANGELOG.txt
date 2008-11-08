@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+November 7, 2008
+----------------
+#325639 by Morbus: Fixed preprocess problem that causes main forum page to not display in some cases.
+
 November 1, 2008
 ----------------
 #326706 by Michelle: Changed query that calculates number of new comments to try and fix problem with old comments. Minimally tested.
