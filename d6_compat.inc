@@ -64,7 +64,7 @@ function template_preprocess_forums(&$variables) {
       }
       // The user is not logged-in; and denied access to create any new forum content type.
       else {
-        $title = t('<a href="@login">Login to post a new forum topic</a>',array('@login' => url('user/login', drupal_get_destination())));
+        $title = t('<a href="@login">Login to post a new forum topic</a>', array('@login' => url('user/login', drupal_get_destination())));
         $forum_types['login'] = array('title' => $title, 'html' => TRUE);
    
       }

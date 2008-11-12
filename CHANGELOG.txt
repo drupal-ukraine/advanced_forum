@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+November 11, 2008
+----------------
+NOISSUE by Michelle: Code clean up.
+
 November 7, 2008
 ----------------
 #325639 by Morbus: Fixed preprocess problem that causes main forum page to not display in some cases.
