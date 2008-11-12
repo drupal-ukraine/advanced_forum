@@ -86,7 +86,7 @@ Images used:
 }
 
 #forum .forum-details .description {
-  font-size: 85%;
+  font-size: 75%;
   color: #898989;
 }
 
@@ -124,14 +124,20 @@ Images used:
 
 /*** FORUM THREADS ***********************************************************/
 
-.forum-comment {
-  border-top: 1px solid #91CDF5;
+.forum-post {
+  background: #ffffff;
+  border: 2px solid #91CDF5;
+}
+
+.forum-post-panel-sub {
+  background: #EDF5FA;
 }
 
 /* Header at the top of each post */
 .post-info {
   background: #91CDF5 ;
   color: #ffffff;
+  border-bottom: 1px solid #91CDF5;
 }
 
 .posted-on {
@@ -156,27 +162,25 @@ Images used:
 }
 
 /* Author information pane */
-.forum-post-wrapper {
-  border: 1px solid #91CDF5;
-}
-
-.forum-comment-left {
-  background: #EDF5FA;
-  border-bottom: 1px solid #91CDF5;  
-}
-
 .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.author-pane  .picture img {
+.author-pane .picture img {
 	border: 1px solid #91CDF5;
 	background: #ffffff;
 }
 
 .author-pane  .author-pane-label {
   font-weight: bold;
+}
+
+/* Post text area */
+/* Note: Changes from Naked in this section */
+.forum-post-panel-main {
+  border-top: 1px solid #91CDF5;
+  border-bottom: 1px solid #91CDF5;
 }
 
 /* Signature */

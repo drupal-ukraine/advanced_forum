@@ -41,6 +41,11 @@ floats. For colors and borders, see advanced_forum.css.
   float: right;
 }
 
+ul.forum-links {
+  margin: 0;
+  padding: 0;
+}
+
 .forum-links li {
   margin: 0;
   padding: 0pt 15px 0pt 0pt;
@@ -140,21 +145,24 @@ floats. For colors and borders, see advanced_forum.css.
 
 /*** FORUM THREADS ***********************************************************/
 
+.forum-post-header {
+  margin: 10px 0 2px 0;
+}
+
 .forum-post-header .forum-links {
   float: left;
 }
+
 .forum-post-header .reply-count {
   float: right;
 }
 
-.forum-comment {
+.forum-post {
   margin: 0 0 5px 0;
-  padding: 0;
 }
 
 .forum-post-wrapper {
   clear: both;
-  height: 1%;
 }
 
 /* Header at the top of each post */
@@ -169,7 +177,7 @@ floats. For colors and borders, see advanced_forum.css.
   float: left;
 }
 
-.forum-comment .new {
+.forum-post .new {
   float: none;
 }
 
@@ -184,11 +192,9 @@ floats. For colors and borders, see advanced_forum.css.
 
 /* Author information pane */
 /* Note: Changes from Naked in this section */
-
-.forum-comment-left {
+.forum-post-panel-sub {
   line-height: 110%;
   min-height: 130px;
-  padding-top: 3px;
 }
 
 .author-pane {
@@ -216,7 +222,8 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 .author-pane-inner .picture {
-  float: left
+  float: left;
+  margin: 5px 2px 3px 5px;
 }
 
 .author-pane .picture img {
@@ -237,12 +244,12 @@ floats. For colors and borders, see advanced_forum.css.
 /* Post text area */
 /* Note: Changes from Naked in this section */
 
-.forum-post-wrapper .forum-comment-right {
+.forum-post-wrapper .forum-post-panel-main {
   clear: both;
 }
 
-.forum-comment-right .content {
-  padding: 3px 8px 3px 8px;
+.forum-post-panel-main .content {
+  padding: 5px;
 }
 
 /* Signature */
@@ -251,10 +258,23 @@ floats. For colors and borders, see advanced_forum.css.
   padding: 0 1px 0 5px;
 }
 
-/* Links */
-.forum-comment .links {
-  line-height: 160%;
-  margin: 2px;
+/* Post footer */
+.forum-post-footer {
+  margin-top: 0;
+  clear: both;
+}
+
+.forum-jump-links {
+  float: left;
+  line-height: 2em;
+  padding: 0px 5px;  
+  width: 140px;
+}
+
+.forum-post-links {
+  float: right;
+  line-height: 2em;
   text-align: right;
-  clear: both;  
+  padding: 0px 5px;  
+  margin-left: 150px;
 }

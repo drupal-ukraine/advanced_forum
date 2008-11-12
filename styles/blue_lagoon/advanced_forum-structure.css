@@ -41,6 +41,11 @@ floats. For colors and borders, see advanced_forum.css.
   float: right;
 }
 
+ul.forum-links {
+  margin: 0;
+  padding: 0;
+}
+
 .forum-links li {
   margin: 0;
   padding: 0pt 15px 0pt 0pt;
@@ -138,6 +143,10 @@ floats. For colors and borders, see advanced_forum.css.
 
 /*** FORUM THREADS ***********************************************************/
 
+.forum-post-header {
+  margin: 10px 0 2px 0;
+}
+
 .forum-post-header .forum-links {
   float: left;
 }
@@ -145,7 +154,7 @@ floats. For colors and borders, see advanced_forum.css.
   float: right;
 }
 
-.forum-comment {
+.forum-post {
   margin: 0 0 5px 0;
   padding: 0;
 }
@@ -155,18 +164,18 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 /* Header at the top of each post */
+.post-info {
+  height:100%;
+  clear: both;
+}
+
 .posted-on {
   padding: 0 5px;
   float: left;
 }
 
-.forum-comment .new {
+.forum-post .new {
   float: none;
-}
-
-.post-info {
-  height:100%;
-  clear: both;
 }
 
 .post-num {
@@ -175,11 +184,9 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 /* Author information pane */
-
-.forum-comment-left {
+.forum-post-panel-sub {
   float: left;
-  line-height: 110%;
-  min-height: 250px;
+  line-height: 100%;
   width: 150px;
 }
 
@@ -222,21 +229,22 @@ floats. For colors and borders, see advanced_forum.css.
 }
 
 /* Post text area */
-.forum-comment-right {
+.forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
+  min-height: 245px;
 }
 
-.forum-comment-right .content {
+.forum-post-panel-main .content {
   padding-top: 2px;
 }
 
-.forum-comment-right .post-title,
-.forum-comment-right .content {
+.forum-post-panel-main .post-title,
+.forum-post-panel-main .content {
   margin-left: 0;
   padding-left: 10px;
 }
 
-.forum-comment-right p {
+.forum-post-panel-main p {
   margin-right: 10px;
 }
 
@@ -246,14 +254,23 @@ floats. For colors and borders, see advanced_forum.css.
   padding: 0 1px 0 5px;
 }
 
-/* Links */
-.forum-comment .links {
-  padding-top: 3px;
-  line-height: 160%;
-  margin-left: 150px;
-  text-align: right;
+/* Post footer */
+.forum-post-footer {
+  margin-top: 0;
+  clear: both;
 }
 
-.forum-comment ul.links {
-  border: 0;
+.forum-jump-links {
+  float: left;
+  line-height: 2em;
+  padding: 0px 5px;  
+  width: 140px;
+}
+
+.forum-post-links {
+  float: right;
+  line-height: 2em;
+  text-align: right;
+  padding: 0px 5px;  
+  margin-left: 150px;
 }

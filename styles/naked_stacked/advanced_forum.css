@@ -6,8 +6,7 @@ see advanced_forum-structure.css.
 
 Colors used:
   #DEDEDE Sticky posts, statistics subheader
-  #F7F5EE Faint borders
-  #CCCCCC Post seperator, avatar frame
+  #CCCCCC Borders, post seperator, avatar frame
 */
 
 /*** FORUM LINK LISTS ********************************************************/
@@ -22,10 +21,9 @@ Colors used:
   font-weight: bold;
 }
 
-/*** FORUM TABLES ************************************************************/
+/*** FORUM & TOPIC LIST ******************************************************/
 
-/* General */
-
+/* Headers */
 #forum th a,
 #forum th a:link,
 #forum th a:hover,
@@ -34,7 +32,6 @@ Colors used:
 }
 
 /* Containers & Forums */
-
 #forum td.container a {
   font-weight: bold;
 }
@@ -44,7 +41,6 @@ Colors used:
 }
 
 /* Topic listings */
-
 #forum tr.sticky-topic {
   background: #DEDEDE;
 }
@@ -62,13 +58,13 @@ Colors used:
 
 /*** FORUM THREADS ***********************************************************/
 
-.forum-comment {
-  border-top: 1px solid #CCCCCC;
+.forum-post {
+  border: 2px solid #CCCCCC;
 }
 
 /* Header at the top of each post */
 .post-info {
-  border-bottom: 1px solid #F7F5EE;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 .posted-on {
@@ -78,15 +74,11 @@ Colors used:
 
 .post-title {
   font-weight: bold;
-  border-bottom: 1px solid #F7F5EE;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 /* Author information pane */
 /* Note: Changes from Naked in this section */
-
-.forum-comment-left {
-}
-
 .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
@@ -100,16 +92,11 @@ Colors used:
   font-weight: bold;
 }
 
-.author-pane img {
-  vertical-align: top;
-}
-
 /* Post text area */
 /* Note: Changes from Naked in this section */
-
-.forum-post-wrapper .forum-comment-right {
-  border-top: 1px solid #F7F5EE;
-  border-bottom: 1px solid #F7F5EE;
+.forum-post-panel-main {
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 /* Signature */

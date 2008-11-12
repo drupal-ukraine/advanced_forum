@@ -124,14 +124,15 @@ Images used:
 
 /*** FORUM THREADS ***********************************************************/
 
-.forum-comment {
-  border-top: 1px solid #91CDF5;
+.forum-post {
+  border: 2px solid #91CDF5;
 }
 
 /* Header at the top of each post */
 .post-info {
   background: #91CDF5 ;
   color: #ffffff;
+  border-bottom: 1px solid #91CDF5;
 }
 
 .posted-on {
@@ -139,7 +140,7 @@ Images used:
   font-weight: bold;
 }
 
-.forum-comment .new {
+.forum-post .new {
   color: #ffffff;
 }
 
@@ -155,12 +156,12 @@ Images used:
   color: #ffffff;
 }
 
-/* Author information pane */
+/* Wrap around author pane and comment */
 .forum-post-wrapper {
   background-color: #edf5fa;
-  border: 1px solid #91CDF5;
 }
 
+/* Author information pane */
 .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
@@ -176,13 +177,7 @@ Images used:
 }
 
 /* Post text area */
-.forum-comment-right {
-  background-color: #fff;
-  border-left: 1px solid #91CDF5;
-}
-
-/* Links */
-.forum-comment .links {
+.forum-post-panel-main {
   background-color: #fff;
   border-left: 1px solid #91CDF5;
 }
@@ -191,3 +186,18 @@ Images used:
 .author-signature {
   font-size: .8em;
 }
+
+/* Post footer */
+.forum-post-footer {
+  background-color: #fff;
+  border-top: 1px solid #91CDF5;
+}
+
+.forum-jump-links {
+  border-right: 1px solid #91CDF5;
+}
+
+.forum-post-links {
+  background-color: #fff;
+}
+

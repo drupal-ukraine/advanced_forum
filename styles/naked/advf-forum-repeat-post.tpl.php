@@ -15,7 +15,7 @@
  */
 ?>
 
-<div class="forum-post-header clearfix">
+<div class="forum-post-header clear-block">
   <?php print $reply_link; ?>
   
   <div class="reply-count">
