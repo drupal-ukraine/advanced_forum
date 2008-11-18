@@ -25,14 +25,11 @@ INSTALLATION
    * "Treat all site comments like forum comments" If you would like advanced forum to take 
    over the theming of all comments, even those outside the forum, choose yes here.
 
-4. Copy the entire advanced_forum project directory (not just the contents) to your 
-   normal module directory (ie: sites/all/modules)
-
-5. In the module package is a directory called "styles". Choose the style to use and 
+4. In the module package is a directory called "styles". Choose the style to use and 
    directory (not just the contents) to your theme's directory. If you use more than one 
    theme with forums, copy it to each theme's directory. If you use subthemes, copy it there.
 
-6. If you are not using a theme with built in AF support (Zen, some Roople themes, 
+5. If you are not using a theme with built in AF support (Zen, some Roople themes, 
    possibly others) Add this code to the top of _phptemplate_variables in template.php 
    in your theme and make sure you are returning $vars, not array() at the end:
 
@@ -69,6 +66,7 @@ OTHER CONFIGURATION
    * Picture maximum dimensions: If you change this from the default 85x85, you will want 
      to size it in either CSS or with imagecache to avoid breaking the forum layout.
 6. Statistics settings ( ?q=admin/reports/settings ) 
+   * Make sure the statistics module is enabled.
    * Enable access log: Enabled
    * Count content views: Enabled - Needed for topic views count.   
     

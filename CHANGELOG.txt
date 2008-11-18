@@ -2,9 +2,14 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+November 17, 2008
+-----------------
+#334076 by Ningbo1: Removed duplicated step in readme.txt.
+
 November 11, 2008
-----------------
+-----------------
 NOISSUE by Michelle: Code clean up.
+NOISSUE by Michelle: Backport of style changes from D6.
 
 November 7, 2008
 ----------------
