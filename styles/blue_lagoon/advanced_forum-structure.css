@@ -231,7 +231,9 @@ ul.forum-links {
 /* Post text area */
 .forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
-  min-height: 245px;
+  min-height: 250px;
+  height: auto !important;
+  height: 250px;
 }
 
 .forum-post-panel-main .content {
