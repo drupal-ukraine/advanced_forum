@@ -194,10 +194,10 @@ Images used:
 }
 
 .forum-jump-links {
-  border-right: 1px solid #91CDF5;
 }
 
 .forum-post-links {
   background-color: #fff;
+  border-left: 1px solid #91CDF5;
 }
 
