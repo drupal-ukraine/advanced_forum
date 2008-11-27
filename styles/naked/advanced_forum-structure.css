@@ -11,6 +11,7 @@ floats. For colors and borders, see advanced_forum.css.
 #forum-comments .pager {
   float: right;
   margin-top: 5px;
+  clear: none;
 }
 
 #forum-comments .box {
@@ -21,7 +22,7 @@ floats. For colors and borders, see advanced_forum.css.
 
 .forum-top-links {
   margin: 10px 0 10px 0;
-  float: right;
+  float: left;
 }
 
 ul.forum-links {
@@ -76,8 +77,6 @@ ul.forum-links {
   padding-top: 5px;
 }
 #forum .container .description {
-  font-size: .8em;
-  font-weight: normal;
   margin: 0;
   padding: 3px 0 0 0;
 }
@@ -256,7 +255,6 @@ ul.forum-links {
 }
 
 .forum-post-links {
-  float: right;
   line-height: 2em;
   text-align: right;
   padding: 0px 5px;  
