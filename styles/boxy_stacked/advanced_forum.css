@@ -1,0 +1,113 @@
+/* $Id$ */
+
+/*
+This file contains colors, graphics, and text effects. For structural markup,
+see advanced_forum-structure.css.
+
+Colors used:
+  #DEDEDE Sticky posts, statistics subheader
+  #CCCCCC Borders, post seperator, avatar frame
+*/
+
+/*** FORUM LINK LISTS ********************************************************/
+
+.forum-links li {
+  list-style-image: none;
+  list-style-type: none;
+  background: none;
+}
+
+.forum-links li a {
+  font-weight: bold;
+}
+
+/*** FORUM & TOPIC LIST ******************************************************/
+
+#forum table {
+  border: 2px solid #CCCCCC;
+}
+
+/* Headers */
+#forum th a,
+#forum th a:link,
+#forum th a:hover,
+#forum th a:visited {
+  font-weight: bold;
+}
+
+/* Containers & Forums */
+#forum td.container a {
+  font-weight: bold;
+}
+
+#forum .description {
+  font-size: 75%;
+}
+
+/* Topic listings */
+#forum tr.sticky-topic {
+  background: #DEDEDE;
+}
+
+/*** FORUM STATISTICS *********************************************************/
+
+#forum-statistics {
+  border: 2px solid #CCCCCC;
+}
+
+#forum-statistics-header {
+  font-weight: bold;
+}
+
+.forum-statistics-sub-header {
+  background-color: #DEDEDE;
+  font-weight: bold;
+}
+
+/*** FORUM THREADS ***********************************************************/
+
+.forum-post {
+  border: 2px solid #CCCCCC;
+}
+
+/* Header at the top of each post */
+.post-info {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.posted-on {
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.post-title {
+  font-weight: bold;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+/* Author information pane */
+/* Note: Changes from Naked in this section */
+.author-pane .author-name {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.author-pane .picture img {
+  border: 1px solid #CCCCCC;
+}
+
+.author-pane .author-pane-label {
+  font-weight: bold;
+}
+
+/* Post text area */
+/* Note: Changes from Naked in this section */
+.forum-post-panel-main {
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+/* Signature */
+.author-signature {
+  font-size: .8em;
+}
