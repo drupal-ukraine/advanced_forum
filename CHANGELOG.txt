@@ -7,6 +7,7 @@ December 8, 2008
 #320635 by Michelle: Added logic to 'treat as forum post' to account for reply pages. CSS is now loaded whenever AF determines the content is to be treated as a forum post.
 #320635 by Michelle: Improvements on theming reply pages, including using a seperate template for previews.
 #340149 by mverdier, Michelle: Fixed 'open_basedir restriction' error that occurs when using Zen on D5 without using a subtheme.
+#338268 by marcingy: Added option to set length of abbreviated topic title on forum overview.
 
 December 7, 2008
 -----------------

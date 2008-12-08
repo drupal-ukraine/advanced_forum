@@ -112,6 +112,15 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_use_topic_navigation', 0),
     '#description' => t('Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor.'),
   );
+ 
+  // Title length max
+  $form['advanced_forum_topic_title_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of characters to display for the topic title.'),
+    '#size' => 5,
+    '#description' => t('Used on main forum page. Enter 0 to use the full title.'),
+    '#default_value' => variable_get('advanced_forum_topic_title_length', 15),
+  );
 
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
@@ -762,7 +771,14 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $query = comment_new_page_count($num_comments, $new_replies, $node);
 
     // Format the node title with a link
-    $short_topic_title = truncate_utf8($variables['topic']->node_title, 15, TRUE, TRUE);
+    $title_length = variable_get('advanced_forum_topic_title_length', 15);
+    if ($title_length == 0) {
+      $short_topic_title = $variables['topic']->node_title;
+    }
+    else {
+      $short_topic_title = truncate_utf8($variables['topic']->node_title, $title_length, TRUE, TRUE);
+    }    
+
     $fragment = ($new_replies) ? 'new' : NULL;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
   }
