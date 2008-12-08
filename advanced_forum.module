@@ -1054,12 +1054,13 @@ function advanced_forum_path_to_style() {
     // and potentially may exist in other themes with subthemes.
     init_theme();
     if (function_exists("path_to_subtheme")) {
-      $style_path = path_to_subtheme() . '/' . $style;
+      $path_to_subtheme = path_to_subtheme();
+      $style_path = $path_to_subtheme . '/' . $style;
     }
 
     // If we had no luck finding the style in a subtheme, find the style path
     // the normal way.
-    if (empty($style_path) || !file_exists($style_path)) {
+    if (empty($path_to_subtheme) || empty($style_path) || !file_exists($style_path)) {
       $style_path = path_to_theme() . '/' . $style;
     }
   }
