@@ -122,6 +122,15 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_topic_title_length', 15),
   );
 
+  // Time ago cutoff
+  $form['advanced_forum_time_ago_cutoff'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of hours before switching to "time ago" in displays..'),
+    '#size' => 5,
+    '#description' => t('Will show actual date posted until this cutoff and then switch to time ago.'),
+    '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
+  );
+
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
 }
@@ -783,10 +792,11 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $variables['topic_link'] = l($short_topic_title, "node/$nid", NULL, $query, $fragment);
   }
 
-  // For items posted more than 48 hours ago, offer an actual date.
+  // For items posted more than $cutoff hours ago, offer an actual date.
+  $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
   if (isset($variables['topic']->timestamp)) {
       $timestamp = $variables['topic']->timestamp;
-      if (time() - $timestamp > 172800) {
+      if (time() - $timestamp > $cutoff) {
         $variables['date_posted'] = format_date($timestamp, 'small');
       }
   }
