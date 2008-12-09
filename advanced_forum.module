@@ -1016,6 +1016,11 @@ function advanced_forum_markasread() {
     $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id);
     db_query($sql, $args);
 
+    // Readpath integration
+    if (module_exists('readpath')) {
+      readpath_clear_readpath();
+    }
+    
     drupal_set_message(t('All content in this forum has been marked as read'));
     drupal_goto('forum/'. $current_forum_id);
   }
@@ -1044,6 +1049,11 @@ function advanced_forum_markasread() {
 
     db_query($sql, $args);
 
+    // Readpath integration
+    if (module_exists('readpath')) {
+      readpath_clear_readpath();
+    }
+    
     drupal_set_message(t('All forum content been marked as read'));
     drupal_goto('forum');
   }
