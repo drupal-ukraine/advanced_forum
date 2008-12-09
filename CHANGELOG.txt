@@ -10,6 +10,7 @@ December 8, 2008
 #338268 by marcingy: Added option to set length of abbreviated topic title on forum overview.
 #338268 by Michelle: Added option to set 'time ago' cutoff.
 #303563 by Michelle: Clear readpath when marking read. (Outside module integration.)
+#339982 by Michelle: Fixed bug with comment wrapper template not loading.
 
 December 7, 2008
 -----------------
