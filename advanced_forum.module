@@ -904,6 +904,8 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
  */
 function advanced_forum_page($tid = 0) {
   drupal_add_css(drupal_get_path('module', 'forum') .'/forum.css');
+  _advanced_forum_add_files();
+  
   $forum_per_page = variable_get('forum_per_page', 25);
   $sortby = variable_get('forum_order', 1);
 
