@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file advf-forum-user.tpl.php
+ * @file advf-author-pane.tpl.php
  * Theme implementation to display information about the post author.
  *
   * Available variables (core modules):
@@ -22,32 +22,29 @@
  * - $contact_link: Linked translated text "Contact user".
  *
  * - $profile - Profile object from core profile.
- *     Usage: $profile['category']['field_name']['value']
- *     Example: <?php print $profile['Personal info']['profile_name']['value']; ?>
+ *     D5 Usage: $profile['category']['field_name']['value']
+ *     D5 Example: <?php print $profile['Personal info']['profile_name']['value']; ?>
+ *     D6 Usage: $profile['category']['field_name']['#value']
+ *     D6 Example: <?php print $profile['Personal info']['profile_name']['#value']; ?>
  *
  * Available variables (contributed modules):
+ * - $buddylist: Linked icon.
+ * - $buddylist_link: Linked translated text "Add to buddylist" or "Remove from buddylist".
+
  * - $facebook_status: Status from the facebook status module.
  *
  * - $privatemsg: Linked icon.
  * - $privatemsg_link: Linked translated text "Send PM".
  *
- * - $user_stats_posts: Number of posts from user stats module.
- * - $user_stats_ip: IP address from user stats module.
+ * - $user_badges: Badges from user badges module.
  *
  * - $userpoints_points: Number of points from default category of the userpoints module.
  * - $userpoints_categories: Array holding each category and the points for that category.
  *
- * 5.x only at this time:
- *
- * - $buddylist: Linked icon.
- * - $buddylist_link: Linked translated text "Add to buddylist" or "Remove from buddylist".
- *
- * - $subscribe: Formatted link to subscribe to the author's forum topics.
- * - $subscribe_link: As above but just the relative path.
+ * - $user_stats_posts: Number of posts from user stats module.
+ * - $user_stats_ip: IP address from user stats module.
  *
  * - $user_title: Title from user titles module.
- *
- * - $user_badges: Badges from user badges module.
 
 */
 ?>
@@ -94,9 +91,17 @@
         <span class="author-pane-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?>
       </div>
     <?php endif; ?>
+    
+    <?php if (!empty($fasttoggle_block_author)): ?>
+      <div class="author-pane-fasttoggle-block-author"><?php print $fasttoggle_block_author; ?></div>
+    <?php endif; ?>
   </div>
 
   <div class="author-pane-last">
+    <?php if (!empty($facebook_status)): ?>
+      <div class="author-pane-facebook-status"><?php print $facebook_status; ?></div>
+    <?php endif; ?>
+
     <div class="author-pane-icon"><?php print $online_icon; ?></div>
 
     <?php if (!empty($contact)): ?>
