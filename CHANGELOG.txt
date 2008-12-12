@@ -2,6 +2,15 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+December 12, 2008
+-----------------
+#330000 and #328800 by Michelle: Redid image handling to ensure all images have alt text. Also made it possible for link images to be picked up automatically if they have a file name that matches the link key.
+
+December 11, 2008
+-----------------
+NOISSUE by Michelle: Fixed up author pane template comments and added facebook_status variable.
+#343848 by Michelle: Added variable for fasttoggle to author pane.
+
 December 8, 2008
 -----------------
 #320635 by Michelle: Added logic to 'treat as forum post' to account for reply pages. CSS is now loaded whenever AF determines the content is to be treated as a forum post.
