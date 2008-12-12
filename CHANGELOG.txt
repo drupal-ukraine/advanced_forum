@@ -5,6 +5,7 @@ $Id$
 December 12, 2008
 -----------------
 #330000 and #328800 by Michelle: Redid image handling to ensure all images have alt text. Also made it possible for link images to be picked up automatically if they have a file name that matches the link key.
+#344697 by Michelle: Added permission to view statistics and also broke out statistics into its own template.
 
 December 11, 2008
 -----------------

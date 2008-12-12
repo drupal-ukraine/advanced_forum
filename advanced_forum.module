@@ -12,7 +12,8 @@
  * Implementation of hook_perm().
  */
 function advanced_forum_perm() {
-  return array('administer advanced forum');
+  return array('administer advanced forum',
+    'view forum statistics');
 }
 
 /**
@@ -250,6 +251,19 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
   return _phptemplate_callback('advf_forums', $variables, array("$forum_style/advf-forums"));
+}
+
+/**
+ * Implementation of theme_advf_forum_statistics().
+ */
+function phptemplate_advf_forum_statistics() {
+
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('advf_forum_statistics', $variables);
+
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advf_forum_statistics", $variables, array("$forum_style/advf-forum-statistics"));
 }
 
 /**
@@ -627,6 +641,27 @@ function advanced_forum_preprocess_forums(&$variables) {
 }
 
 /**
+ * Preprocesses template variables for the forum statistics template.
+ */
+function advanced_forum_preprocess_advf_forum_statistics(&$variables) {
+  $variables['template_files'][] = 'advf-forum-statistics';
+
+  $variables['topics'] = advanced_forum_statistics_topics();
+  $variables['posts'] = advanced_forum_statistics_comments() + $variables['topics'];
+  $variables['users'] = advanced_forum_statistics_users();
+
+  $authenticated_users = advanced_forum_statistics_online_users();
+  $variables['online_users'] = implode(', ', $authenticated_users);
+  $variables['current_users'] = count($authenticated_users);
+  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
+  $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
+
+  $latest_user = advanced_forum_statistics_latest_user();
+  $variables['latest_user_name'] = $latest_user['name'];
+  $variables['latest_user_id'] = $latest_user['uid'];
+}
+
+/**
  * Preprocesses template variables for the forum list template.
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
@@ -709,19 +744,9 @@ function advanced_forum_preprocess_forum_list(&$variables) {
     }
   }
 
-  $variables['topics'] = advanced_forum_statistics_topics();
-  $variables['posts'] = advanced_forum_statistics_comments() + $variables['topics'];
-  $variables['users'] = advanced_forum_statistics_users();
-
-  $authenticated_users = advanced_forum_statistics_online_users();
-  $variables['online_users'] = implode(', ', $authenticated_users);
-  $variables['current_users'] = count($authenticated_users);
-  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
-  $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
-
-  $latest_user = advanced_forum_statistics_latest_user();
-  $variables['latest_user_name'] = $latest_user['name'];
-  $variables['latest_user_id'] = $latest_user['uid'];
+  if (user_access('view forum statistics')) {
+    $variables['forum_statistics'] = theme('advf_forum_statistics');
+  } 
 }
 
 /**
@@ -1128,7 +1153,7 @@ function _advanced_forum_buttonify_links(&$links) {
         default:
           // For all other links, attempt to buttonify by key name.
           $image = advanced_forum_theme_image($link_key . '.png', $link['title']);
-          
+   
           if ($image) {
             // If we found an image, use it. Otherwise leave the title alone.
             $links[$link_key]['title'] = $image;
