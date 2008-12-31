@@ -142,92 +142,16 @@ function advanced_forum_settings_page() {
  * Provides D5 compatability wrapper for node/comment preprocess functions.
  */
 function advanced_forum_addvars($hook, $variables) {
-  _advanced_forum_load_preprocessors();
   switch ($hook) {
     case 'node':
+      advanced_forum_preprocess_node(&$variables);
+      break;
     case 'comment':
-      advanced_forum_call_preprocess($hook, $variables);
+      advanced_forum_preprocess_comment(&$variables);
       break;
   }
 
   return $variables;
-}
-
-/**
- * Load advanced forum preprocessors includes on behalf of modules.
- */
-function _advanced_forum_load_preprocessors() {
-  static $finished = FALSE;
-  if ($finished) {
-    return;
-  }
-
-  // author-pane.inc is the extension on the includes such as contact.author-pane.inc
-  advanced_forum_include('author-pane.inc');
-
-  // Added for modules that add things outside of the author pane.
-  advanced_forum_include('adv_process.inc');
-}
-
-/**
- * Load advanced forum files on behalf of modules.
- *
- * Blatent rip of views include system.
- */
-function advanced_forum_include($file) {
-  static $cache;
-
-  $includes = array();
-
-  if (!isset($cache->data) || !$cache->data) {
-    $cache = cache_get('advforum_includes', 'cache');
-  }
-
-  if (isset($cache->data) && $cache->data) {
-    $includes = unserialize($cache->data);
-  }
-  else {
-    $advanced_forum_path = drupal_get_path('module', 'advanced_forum') . '/modules';
-    foreach (module_list() as $module) {
-      $module_path = drupal_get_path('module', $module);
-      if (file_exists("$module_path/$module.$file")) {
-        $includes[] = "./$module_path/$module.$file";
-      }
-      else if (file_exists("$module_path/includes/$module.$file")) {
-        $includes[] = "./$module_path/includes/$module.$file";
-      }
-      else if (file_exists("$advanced_forum_path/$module.$file")) {
-        $includes[] = "./$advanced_forum_path/$module.$file";
-      }
-    }
-    cache_set('advforum_includes', 'cache', serialize($includes));
-  }
-
-  if (!empty($includes)) {
-    foreach ($includes as $include) {
-      require_once $include;
-    }
-  }
-}
-
-/**
- * Provides D5 compatability wrapper for forum user preprocess function.
- */
-function theme_author_pane($account) {
-  $variables = array();
-  $variables['account'] = $account;
-  $variables['image_path'] = advanced_forum_path_to_images();
-
-  // Make sure the preprocess .inc files get loaded. This is mostly for Zen
-  // which naughtily bypasses the API and misses this.
-  _advanced_forum_load_preprocessors();
-  
-  // Call our preprocess function to create all the variables
-  advanced_forum_call_preprocess('author_pane', $variables);
-
-  // Send the variables to the advf-author-pane.tpl.php
-  $forum_style = advanced_forum_get_current_style();
-  return _phptemplate_callback("advf_author_pane", $variables, array("$forum_style/advf-author-pane"));
 }
 
 // Add in the D6 backports from the forum, taxonomy, and comment modules
@@ -392,7 +316,7 @@ function advanced_forum_preprocess_node(&$variables) {
 
   // User information
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));
-  $variables['author_pane'] = theme('author_pane', $variables['account']);
+  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), "$forum_style/advf-author-pane");
 
 }
 
@@ -475,8 +399,8 @@ function advanced_forum_preprocess_comment(&$variables) {
       $variables['account'] = user_load(array('uid' => $variables['comment']->uid));
     }
 
-    // Create the user info pane
-    $variables['author_pane'] = theme('author_pane', $variables['account']);
+    // Create the author pane
+  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), "$forum_style/advf-author-pane");
 
     // Because the $links array isn't available here, we recreate it
     if (arg(1) != 'reply') {
@@ -538,49 +462,6 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
     }
 
     $variables['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
-  }
-}
-
-
-/**
- * Preprocesses template variables for the author pane template.
- */
-function template_preprocess_author_pane(&$variables) {
-  // The passed in $variables['account'] refers to the user who's info is in the pane.
-  $account = $variables['account'];
-  $account_id = $account->uid;
-
-  // Get a reference to the currently logged in user.
-  global $user;
-
-  // Username
-  $variables['account_name'] =  theme('username', $account);
-  $variables['account_id'] = $account_id;
-
-  // Avatar
-  $variables['picture'] = theme('user_picture', $account);
-
-  // Nothing else applies to anon users, so just stop here
-  if ($account_id == 0) {
-    return;
-  }
-
-  // Join date / since
-  $just_date = str_replace(array('H:i', 'g:ia', ' - '), '', variable_get('date_format_short', 'm/d/Y - H:i'));
-  $variables['joined'] = format_date($account->created, 'custom', $just_date);
-
-  $variables['joined_ago'] = format_interval(time() - $account->created);
-
-  // Online status
-  $variables['last_active'] = format_interval(time() - $account->access);
-  if (round((time()-$account->access)/60) < 15) {
-    $variables['online_icon'] = advanced_forum_theme_image('user-online.png', t('User is online'));
-    $variables['online_status'] = t('Online');
- }
-  else {
-    $variables['online_icon'] = advanced_forum_theme_image('user-offline.png',
-      t('User offline. Last seen @time ago.', array('@time' => $variables['last_active'])));
-    $variables['online_status'] = t('Offline');
   }
 }
 

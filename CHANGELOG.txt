@@ -2,7 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-December 12, 2008
+December 30, 2008
+-----------------
+#343853 by Michelle: Ripped out author pane code and made AF dependent on the author pane module.
+
+December 12, 2008 -- ALPHA 16
 -----------------
 #330000 and #328800 by Michelle: Redid image handling to ensure all images have alt text. Also made it possible for link images to be picked up automatically if they have a file name that matches the link key.
 #344697 by Michelle: Added permission to view statistics and also broke out statistics into its own template.
@@ -27,11 +31,21 @@ December 7, 2008
 #334850 by Michelle: Zen bypasses some needed code for loading the author pane files. This ensures the files get loaded.
 #339890 by Michelle: Fixed short script opener in advf-forum-repeat-post.tpl.php (500 errors on paged threads)
 
+November 26, 2008 -- ALPHA 15
+-----------------
+NOISSUE by Michelle: Stripped naked down to bare layout.
+NOISSUE by Michelle: Added boxy and boxy_stacked styles.
+#335770: Upgrade Problem by Michelle: Removed update that tried to clear up long unused variables as it was giving false fails.
+
+November 22, 2008
+-----------------
+#325675: Make forum threads work properly in IE without min-height or background image by Morbus: Implemented min-height IE fix suggested by Morbus.
+
 November 17, 2008
 -----------------
 #334076 by Ningbo1: Removed duplicated step in readme.txt.
 
-November 11, 2008
+November 11, 2008 -- ALPHA 14
 -----------------
 NOISSUE by Michelle: Code clean up.
 NOISSUE by Michelle: Backport of style changes from D6.
@@ -54,7 +68,7 @@ October 22, 2008
 ---------------
 #266682 by Morbus, Michelle: Added forum statistics. Also a few minor fixes and extra docs that slipped in at the same time.
 
-October 20, 2008
+October 20, 2008 -- ALPHA 13
 ---------------
 #323631 by Morbus: Style fixes for blue_lagoon. Removed need for background image.
 #323632 by Michelle: Removed member ID from naked & blue_lagoon templates as requested by Morbus.
