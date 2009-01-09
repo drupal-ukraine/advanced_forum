@@ -57,9 +57,6 @@
 
       <td class="title">
       <?php print $topic->title; ?>
-      <?php if (variable_get('advanced_forum_hide_created', 0)): ?>
-        <div class="created"><?php print $topic->created; ?></div>
-      <?php endif; ?>
       <?php if (!empty($topic->pager)): ?>
          <div class="forum-topic-pager"> <?php print $topic->pager ?> </div>
       <?php endif; ?>

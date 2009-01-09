@@ -144,11 +144,8 @@ function advanced_forum_settings_page() {
 function advanced_forum_addvars($hook, $variables) {
   switch ($hook) {
     case 'node':
-      advanced_forum_preprocess_node(&$variables);
-      break;
     case 'comment':
-      advanced_forum_preprocess_comment(&$variables);
-      break;
+      advanced_forum_call_preprocess($hook, $variables);
   }
 
   return $variables;

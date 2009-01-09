@@ -335,3 +335,27 @@ function comment_new_page_count($num_comments, $new_replies, $node) {
   }
   return $pagenum;
 }
+
+/**
+ * Backports the template preprocess system.
+ */
+function advanced_forum_call_preprocess($hook, &$variables) {
+  // First, hit the template_preprocesses.
+  if (function_exists("template_preprocess_" . $hook)) {
+    $function = "template_preprocess_" . $hook;
+    $function($variables);
+  }
+  
+  // Then let the modules at it.
+  foreach (module_implements("preprocess_$hook") as $module) {
+    $function = $module . '_preprocess_' . $hook;
+    $function($variables);
+  }
+  
+  // Finally let the theme have its say.
+  $theme_name = variable_get('theme_default','');
+  if (function_exists($theme_name . '_preprocess_' . $hook)) {
+    $function = $theme_name . '_preprocess_' . $hook;
+    $function($variables);
+  } 
+}

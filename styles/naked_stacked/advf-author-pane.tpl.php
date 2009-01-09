@@ -2,10 +2,10 @@
 // $Id$
 
 /**
- * @file advf-author-pane.tpl.php
- * Theme implementation to display information about the post author.
+ * @file author-pane.tpl.php
+ * Theme implementation to display information about a particular user (author).
  *
-  * Available variables (core modules):
+ * Available variables (core modules):
  * - $account: The entire user object for the author.
  * - $picture: Themed user picture for the author.
  * - $account_name: Themed user name for the author.
@@ -31,7 +31,12 @@
  * - $buddylist: Linked icon.
  * - $buddylist_link: Linked translated text "Add to buddylist" or "Remove from buddylist".
 
+ * - $user_relationship_api: Linked icon.
+ * - $user_relationship_api_link: Linked text "Add to <relationship>" or "Remove from <relationship>".
+
  * - $facebook_status: Status from the facebook status module.
+ *
+ * - $fasttoggle_block_author: Block / unblock author.
  *
  * - $privatemsg: Linked icon.
  * - $privatemsg_link: Linked translated text "Send PM".
@@ -45,21 +50,19 @@
  * - $user_stats_ip: IP address from user stats module.
  *
  * - $user_title: Title from user titles module.
+ * 
+ * - $og_groups: Comma delmited list of the author's groups.
 
 */
 ?>
 
-
-<div class="author-pane-inner">
-
+<div class="author-pane">
   <div class="author-pane-first">
-
-  <?php if (!empty($picture)): ?>
-      <?php print $picture; ?>
-    <?php endif; ?>
-
     <div class="author-pane-name-section">
       <div class="author-pane-line author-name"> <?php print $account_name; ?> </div>
+      <?php if (!empty($picture)): ?>
+        <?php print $picture; ?>
+      <?php endif; ?>
 
       <?php if (!empty($user_title)): ?>
         <div class="author-pane-line author-title"> <?php print $user_title; ?> </div>
@@ -68,15 +71,8 @@
       <?php if (!empty($user_badges)): ?>
         <div class="author-pane-line author-badges"> <?php print $user_badges;  ?> </div>
       <?php endif; ?>
-    
-      <?php if (!empty($facebook_status)): ?>
-        <div class="author-pane-facebook-status"><?php print $facebook_status; ?></div>
-      <?php endif; ?>
 
     </div>
-  </div>
-
-  <div class="author-pane-last">
 
     <?php if (!empty($joined)): ?> 
       <div class="author-pane-line author-joined">
@@ -96,16 +92,28 @@
       </div>
     <?php endif; ?>
 
+    <?php if (isset($og_groups)): ?>
+      <div class="author-pane-line author-groups">
+        <span class="author-pane-label"><?php print t('Groups'); ?>:</span> <?php print $og_groups; ?>
+      </div>
+    <?php endif; ?>
+
     <?php if (!empty($user_stats_ip)): ?>
       <div class="author-pane-line author-ip">
         <span class="author-pane-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?>
       </div>
     <?php endif; ?>
-
+    
     <?php if (!empty($fasttoggle_block_author)): ?>
       <div class="author-pane-fasttoggle-block-author"><?php print $fasttoggle_block_author; ?></div>
     <?php endif; ?>
-    
+  </div>
+
+  <div class="author-pane-last">
+    <?php if (!empty($facebook_status)): ?>
+      <div class="author-pane-facebook-status"><?php print $facebook_status; ?></div>
+    <?php endif; ?>
+
     <div class="author-pane-icon"><?php print $online_icon; ?></div>
 
     <?php if (!empty($contact)): ?>
@@ -120,6 +128,8 @@
       <div class="author-pane-icon"><?php print $buddylist; ?></div>
     <?php endif; ?>
 
+    <?php if (!empty($user_relationships_api)): ?>
+      <div class="author-pane-icon"><?php print $user_relationships_api; ?></div>
+    <?php endif; ?>
   </div>
-
 </div>

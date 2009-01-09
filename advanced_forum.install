@@ -42,6 +42,11 @@ function advanced_forum_update_5003() {
 }
 
 function advanced_forum_update_5004() {
-/* Removed variable clean up because it caused false fails. */
+  // Clean up old unused variables.
+  $ret = array();
+  $ret[] =  variable_del('advanced_forum_themedir');
+  $ret[] =  variable_del('advforum_topic_pager_max');
+  $ret[] =  variable_del('advanced_forum_collapse_defaults');
+  return $ret;
 }
 

@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 8, 2009
+---------------
+#356239 by Michelle: Fixed broken preprocess system left over from AP conversion.
+NOISSUE by Michelle: Mass copy to make sure cvs is in sync with my dev copy.
+
 December 30, 2008
 -----------------
 #343853 by Michelle: Ripped out author pane code and made AF dependent on the author pane module.

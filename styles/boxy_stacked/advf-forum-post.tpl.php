@@ -32,7 +32,11 @@
       <?php if (!empty($new_posts)): ?>
         (<?php print $new_posts; ?>)
       <?php endif; ?>
-    </div>   
+
+      <?php if (!empty($last_post)): ?>
+        <?php print $last_post; ?>
+      <?php endif; ?>
+     </div>   
   </div>
 
   <?php $classes .= $node_classes; ?>
