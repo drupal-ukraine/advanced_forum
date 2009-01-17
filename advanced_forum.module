@@ -407,7 +407,6 @@ function advanced_forum_preprocess_comment(&$variables) {
         $function($node, $links);
       }
       unset($links['comment_parent']);
-    }
 
       // Iconify common links (optional to avoid translation issues)
       _advanced_forum_buttonify_links($links);
@@ -415,6 +414,7 @@ function advanced_forum_preprocess_comment(&$variables) {
       // Remake the links with our changes
       $variables['links'] = theme('links', $links, array('class' => 'links forum-links'));
       $variables['links_array'] = $links;
+    }
 
     // Comment number with link
     if (!isset($post_number)) {

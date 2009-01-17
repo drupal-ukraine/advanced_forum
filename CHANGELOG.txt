@@ -6,6 +6,8 @@ January 16, 2009
 ----------------
 #351395 by elfur: Added missing t() around link to top.
 #338722 by catch: Fixed bug in mark topics as read.
+NOISSUE by Michelle: Removed unneeded js file.
+#347818 by xsphere: Fixed typo that caused error when replying to commment.
 
 January 8, 2009
 ---------------
