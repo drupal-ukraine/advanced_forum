@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 16, 2009
+----------------
+#351395 by elfur: Added missing t() around link to top.
+#338722 by catch: Fixed bug in mark topics as read.
+
 January 8, 2009
 ---------------
 #356239 by Michelle: Fixed broken preprocess system left over from AP conversion.

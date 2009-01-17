@@ -874,7 +874,7 @@ function advanced_forum_markasread() {
 
     // Update the history table with all forum nodes newer than the cutoff.
     $sql = "INSERT INTO {history} (uid, nid, timestamp)
-            SELECT %d, n.nid, %d
+            SELECT DISTINCT %d, n.nid, %d
             FROM {node} AS n
               INNER JOIN {term_node} AS tn ON n.nid = tn.nid
               INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
