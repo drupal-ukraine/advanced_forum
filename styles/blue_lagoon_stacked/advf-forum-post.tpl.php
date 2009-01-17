@@ -65,9 +65,7 @@
   <div class="forum-post-wrapper">
 
     <div class="forum-post-panel-sub">
-      <div class="author-pane">
-        <?php print $author_pane; ?>
-     </div>
+      <?php print $author_pane; ?>
     </div>
 
     <div class="forum-post-panel-main clear-block">
@@ -91,7 +89,7 @@
 
   <div class="forum-post-footer clear-block">
     <div class="forum-jump-links">
-      <a href="#top">Top</a>
+      <a href="#top"><?php print t("Top"); ?></a>
     </div>
     
     <?php if (!empty($links)): ?>
