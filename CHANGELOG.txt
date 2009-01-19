@@ -2,12 +2,17 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 18, 2009
+----------------
+#303564 by Psicomante, Michelle: Added legend for forum icons.
+
 January 16, 2009
 ----------------
 #351395 by elfur: Added missing t() around link to top.
 #338722 by catch: Fixed bug in mark topics as read.
 NOISSUE by Michelle: Removed unneeded js file.
 #347818 by xsphere: Fixed typo that caused error when replying to commment.
+NOISSUE by Michelle: Added the author pane dependency to the .info file.
 
 January 8, 2009
 ---------------

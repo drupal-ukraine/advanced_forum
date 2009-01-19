@@ -88,5 +88,7 @@
   <?php endforeach; ?>
   </tbody>
 </table>
-
+<?php if (!empty($topic_legend)): ?>
+  <?php print $topic_legend; ?>
+<?php endif; ?>
 <?php print $pager; ?>

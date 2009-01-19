@@ -175,9 +175,10 @@ function phptemplate_forum_display($forums, $topics, $parents, $tid, $sortby, $f
 }
 
 /**
- * Implementation of theme_advf_forum_statistics().
+ * Theme function for advf_forum_statistics().
  */
-function phptemplate_advf_forum_statistics() {
+function theme_advf_forum_statistics() {
+  $variables = array();
 
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('advf_forum_statistics', $variables);
@@ -185,6 +186,34 @@ function phptemplate_advf_forum_statistics() {
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
   return _phptemplate_callback("advf_forum_statistics", $variables, array("$forum_style/advf-forum-statistics"));
+}
+
+/**
+ * Theme function for advanced_forum_forum_legend().
+ */
+function theme_advanced_forum_forum_legend() {
+  $variables = array();
+  
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('advanced_forum_forum_legend', $variables);
+
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advanced_forum_forum_legend", $variables, array("$forum_style/advanced_forum-forum-legend"));
+}
+
+/**
+ * Theme function for advanced_forum_forum_legend().
+ */
+function theme_advanced_forum_topic_legend() {
+  $variables = array();
+  
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('advanced_forum_topic_legend', $variables);
+
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advanced_forum_topic_legend", $variables, array("$forum_style/advanced_forum-topic-legend"));
 }
 
 /**
@@ -625,6 +654,9 @@ function advanced_forum_preprocess_forum_list(&$variables) {
   if (user_access('view forum statistics')) {
     $variables['forum_statistics'] = theme('advf_forum_statistics');
   } 
+  
+  // Set a variable for displaying the forum legend.
+  $variables['forum_legend'] = theme('advanced_forum_forum_legend');
 }
 
 /**
@@ -747,6 +779,10 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
       $topic->sticky_class = $sticky_class;
 
     }
+  
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+
   }
 }
 
