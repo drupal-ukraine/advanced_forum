@@ -30,6 +30,7 @@
  * - $topic->last_reply: An outputtable string representing when the topic was
  *   last replied to.
  * - $topic->timestamp: The raw timestamp this topic was posted.
+ * - $topic->new: True if this is a new topic for the current user.
  *
  * @see template_preprocess_forum_topic_list()
  * @see advanced_forum_preprocess_forum_topic_list()
@@ -52,11 +53,18 @@
     }
     ?>
 
+    <?php
+    $topic_new = "";
+    if ($topic->new) {
+      $topic_new = ' <span class="marker">' . t('updated') . '</span>';
+    }
+    ?>
+    
     <tr class="<?php print $topic->zebra;?> <?php print $topic->sticky_class;?>">
       <td class="icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
 
       <td class="title">
-      <?php print $topic->title; ?>
+      <?php print $topic->title . $topic_new; ?>
       <?php if (!empty($topic->pager)): ?>
          <div class="forum-topic-pager"> <?php print $topic->pager ?> </div>
       <?php endif; ?>
