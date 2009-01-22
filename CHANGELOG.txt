@@ -6,6 +6,7 @@ January 22, 2009
 ----------------
 #360897 by RedKing: Added french translation.
 #352945 by Michelle, Heine: Added check that user is confirmed for last user in statistics.
+#351390 by Matafleur: Allow treat as forum post override to set item to _not_ be treated as a forum post.
 
 January 18, 2009
 ----------------

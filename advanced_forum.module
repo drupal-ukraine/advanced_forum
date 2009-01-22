@@ -1151,9 +1151,15 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
     // that if there was more than one the nids are the same and just grabbing
     // the first one.
     $forum_node_id = $override_nids[0];
-    $decision = TRUE;
+    if ($forum_node_id == -1) {
+      unset($forum_node_id);
+      $decision = FALSE;
+    }
+    else {
+      $decision = TRUE;
+    }
   }
-
+  
   if ($decision) {
     _advanced_forum_add_files();
   }
