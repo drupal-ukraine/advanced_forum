@@ -30,7 +30,7 @@
  * - $topic->last_reply: An outputtable string representing when the topic was
  *   last replied to.
  * - $topic->timestamp: The raw timestamp this topic was posted.
- * - $topic->new: True if this is a new topic for the current user.
+ * - $topic->new: 1 if this is a new/updated topic for the current user.
  *
  * @see template_preprocess_forum_topic_list()
  * @see advanced_forum_preprocess_forum_topic_list()
@@ -54,9 +54,15 @@
     ?>
 
     <?php
+    // Add "new" or "updated" to title where appropriate.
     $topic_new = "";
     if ($topic->new) {
-      $topic_new = ' <span class="marker">' . t('updated') . '</span>';
+      if ($topic->new_replies > 0) {
+        $topic_new = ' <span class="marker">' . t('updated') . '</span>';
+      }
+      else {
+        $topic_new = ' <span class="marker">' . t('new') . '</span>';
+      }     
     }
     ?>
     
