@@ -132,6 +132,23 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
   );
 
+  // Imagecache preset
+  if (module_exists('imagecache')) {
+    $options = array('' => '');
+    $presets = imagecache_presets();
+    foreach ($presets AS $preset) {
+      $options[$preset['presetname']] = $preset['presetname'];
+    }
+
+    $form['advanced_forum_user_picture_preset'] = array(
+      '#type' => 'select',
+      '#title' => t('User picture preset'),
+      '#options' => $options,
+      '#description' => t('Imagecache preset to use for forum avatars. Leave blank to not use this feature.'),
+      '#default_value' => variable_get('advanced_forum_user_picture_preset', ''),  
+    );
+  }
+
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
 }
@@ -297,6 +314,21 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
 }
 
 // TEMPLATE PREPROCESS *******************************************************/
+
+/**
+ * Preprocesses template variables for the author pane.
+ */
+function advanced_forum_preprocess_author_pane(&$variables) {
+  // Author pane is used in various places. The only way to be sure to only
+  // hit it when we are using it is to check the template suggestion.
+  if (strpos($variables['template_suggestion'],'advf-author-pane')) {
+    // Attempt to override the user picture fetched by Author Pane from core.
+    $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
+    if (!empty($sized_picture)) {
+      $variables['picture'] = $sized_picture;
+    }
+  }
+}
 
 /**
  * Preprocesses template variables for the node template.
@@ -1034,6 +1066,22 @@ function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
   }
   else {
     return false;
+  }
+}
+
+/**
+ * Theme function to return user picture.
+ */
+function theme_advanced_forum_user_picture($account) {
+  $preset = variable_get('advanced_forum_user_picture_preset', '');
+  if (variable_get('user_pictures', 0) && !empty($preset) && module_exists('imagecache')) {
+    if ($account->picture && file_exists($account->picture)) {
+      $picture = theme('imagecache', $preset, $account->picture);
+    }
+    return '<div class="picture">' . $picture . '</div>';
+  }  
+  else {
+    return theme('user_picture', $account);
   }
 }
 

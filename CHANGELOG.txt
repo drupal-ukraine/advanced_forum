@@ -2,11 +2,17 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 23, 2009
+----------------
+#303548 by Michelle: Added imagecache support for forum avatars.
+
 January 22, 2009
 ----------------
 #360897 by RedKing: Added french translation.
 #352945 by Michelle, Heine: Added check that user is confirmed for last user in statistics.
 #351390 by Matafleur: Allow treat as forum post override to set item to _not_ be treated as a forum post.
+#328029 by Michelle: Added updated label in topic list.
+#328029 by Michelle: Added new label as well.
 
 January 18, 2009
 ----------------
