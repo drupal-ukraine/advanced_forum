@@ -365,6 +365,7 @@ function advanced_forum_preprocess_node(&$variables) {
   // Total & new replies
   if (!empty($variables['comment_count'])) {
     $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
+    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
   }
   else {
     $variables['total_posts'] = t('No replies');
@@ -1251,6 +1252,43 @@ function _advanced_forum_topic_nid($nodeid = 0) {
   }
 
   return $nid;
+}
+
+/**
+ * Returns the cid of the last post in a topic.
+ *
+ * @param $node
+ *   Node object
+ * @return
+ *   cid of last post.
+ */
+function advanced_forum_last_post_in_topic($nid) {
+  // Retrieve the newest comment.
+  $query = 'SELECT c.cid
+            FROM {comments} c
+            WHERE c.nid = %d AND c.status = %d 
+            ORDER BY c.cid DESC';
+  $result = db_result(db_query_range($query, $nid, COMMENT_PUBLISHED, 0, 1));
+
+  return $result;
+}
+
+function advanced_forum_last_post_link($node) {
+  $last_comment_id = advanced_forum_last_post_in_topic($node->nid);
+  $last_page = advanced_forum_get_last_page($node);
+  $query = ($last_page > 0) ? "page=$last_page" : NULL;
+
+  return l(t('Last post'), "node/$node->nid", NULL, $query, "comment-$last_comment_id");
+}
+
+/**
+ * Returns the page number of the last page starting at 0 like the pager does.
+ */
+function advanced_forum_get_last_page($node) {
+  $comments_per_page = _comment_get_display_setting('comments_per_page', $node);
+  $comment_count = $node->comment_count;
+  $last_page = ceil($comment_count / $comments_per_page) - 1;
+  return $last_page;
 }
 
 /**

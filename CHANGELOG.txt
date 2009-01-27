@@ -2,10 +2,15 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 27, 2009
+----------------
+#315972 by Michelle: Added link to jump to last post.
+
 January 26, 2009
 ----------------
 #102743 by yoroy: Updated topic icons.
 #363061 by Michelle, paulcouture: Eliminated duplicate users from statistics.
+Style clean up. Fixed #364385 and #360888 along the way.
 
 January 23, 2009
 ----------------
