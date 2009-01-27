@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+January 26, 2009
+----------------
+#102743 by yoroy: Updated topic icons.
+#363061 by Michelle, paulcouture: Eliminated duplicate users from statistics.
+
 January 23, 2009
 ----------------
 #303548 by Michelle: Added imagecache support for forum avatars.
