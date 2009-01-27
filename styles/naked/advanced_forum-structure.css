@@ -116,12 +116,55 @@ ul.forum-links {
   padding-top: 10px;
 }
 
-/*** FORUM STATISTICS *********************************************************/
+/*** FORUM STATISTICS ********************************************************/
 
 #forum-statistics-header,
 .forum-statistics-sub-header,
 .forum-statistics-sub-body {
   padding: 0.3em 0.5em;
+}
+
+/*** ICONS LEGEND ************************************************************/
+.forum-topic-legend dd {
+  margin-right: 15px;
+  padding-bottom: 4px;
+}
+
+.forum-topic-legend, 
+.forum-topic-legend dd {
+  margin: 5px;
+  padding: 0;
+}
+
+.forum-smalltext {
+  font-size: 11px;
+}
+
+.forum-topic-legend img {
+  margin-right: 4px;
+  vertical-align: bottom;
+}
+
+.forum-float-left {
+  float: left;
+}
+
+.forum-folder-legend, 
+.forum-folder-legend dl, 
+.forum-folder-legend dd {
+  margin: 5px 0 0 0;
+  padding: 0;
+}
+
+.forum-folder-legend dl, 
+.forum-folder-legend dd {
+  float: left;
+  margin-right: 10px;
+}
+
+.forum-folder-legend img {
+  padding-bottom: 4px;
+  vertical-align: middle;
 }
 
 /*** FORUM THREADS ***********************************************************/
@@ -169,56 +212,23 @@ ul.forum-links {
 }
 
 /* Author information pane */
+/* Note: more CSS in the author pane css file */
 .forum-post-panel-sub {
   float: left;
   line-height: 100%;
   width: 150px;
 }
 
-.author-pane {
-  margin: 10px;
-}
-
-.author-pane-first {
-  margin-bottom: 10px;
-}
-
-.author-pane-last {
-  margin-top: 25px;
-}
-
-.author-pane .author-name {
-  margin: 10px 0pt 10px 0pt;
-  padding: 0;
-}
-
-.author-pane .picture {
-  float: none;
-  margin: 10px 0;
-  padding-left: 0px;
-}
-
-.author-pane .picture img {
-  height: auto; 
-  padding: 8px;
-  max-width: 120px;
-}
-
-.author-pane-line {
-  padding-bottom: 5px;
-}
-
-.author-pane-icon {
-  display: inline;
-  padding: 10px 2px 2px 0;
+.forum-post-panel-sub .author-pane {
+  margin: 5px 0 5px 10px;
 }
 
 /* Post text area */
 .forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
-  min-height: 250px;
+  min-height: 50px;
   height: auto !important;
-  height: 250px;
+  height: 350px;
 }
 
 .forum-post-panel-main .content {
@@ -237,8 +247,7 @@ ul.forum-links {
 
 /* Signature */
 .author-signature {
-  margin: 15px 0 1px 155px;
-  padding: 0 1px 0 5px;
+  margin: 10px 0 5px 10px;
 }
 
 /* Post footer */
@@ -259,47 +268,4 @@ ul.forum-links {
   text-align: right;
   padding: 0px 5px;  
   margin-left: 150px;
-}
-
-/*** ICONS LEGEND ************************************************************/
-.forum-topic-legend dd {
-  margin-right: 15px;
-  padding-bottom: 4px;
-}
-
-.forum-topic-legend, 
-.forum-topic-legend dd {
-  margin: 5px;
-  padding: 0;
-}
-
-.forum-smalltext {
-  font-size: 11px;
-}
-
-.forum-topic-legend img {
-  margin-right: 4px;
-  vertical-align: bottom;
-}
-
-.forum-float-left {
-  float: left;
-}
-
-.forum-folder-legend, 
-.forum-folder-legend dl, 
-.forum-folder-legend dd {
-  margin: 5px 0 0 0;
-  padding: 0;
-}
-
-.forum-folder-legend dl, 
-.forum-folder-legend dd {
-  float: left;
-  margin-right: 10px;
-}
-
-.forum-folder-legend img {
-  padding-bottom: 4px;
-  vertical-align: middle;
 }

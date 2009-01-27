@@ -105,7 +105,7 @@ Images used:
   background-color: #BDE0F5;
 }
 
-/*** FORUM STATISTICS *********************************************************/
+/*** FORUM STATISTICS ********************************************************/
 
 #forum-statistics {
   border: 1px solid #91CDF5;
@@ -162,18 +162,14 @@ Images used:
 }
 
 /* Author information pane */
-.author-pane .author-name {
+.forum-post-panel-sub  .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.author-pane  .picture img {
+.forum-post-panel-sub  .author-pane  .picture img {
 	border: 1px solid #91CDF5;
 	background: #ffffff;
-}
-
-.author-pane  .author-pane-label {
-  font-weight: bold;
 }
 
 /* Post text area */
@@ -191,9 +187,6 @@ Images used:
 .forum-post-footer {
   background-color: #fff;
   border-top: 1px solid #91CDF5;
-}
-
-.forum-jump-links {
 }
 
 .forum-post-links {

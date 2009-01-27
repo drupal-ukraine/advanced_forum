@@ -56,6 +56,10 @@ Colors used:
 
 /*** FORUM STATISTICS *********************************************************/
 
+#forum-statistics {
+  border: 2px solid #CCCCCC;
+}
+
 #forum-statistics-header {
   font-weight: bold;
 }
@@ -94,10 +98,6 @@ Colors used:
 
 .author-pane .picture img {
   border: 1px solid #CCCCCC;
-}
-
-.author-pane .author-pane-label {
-  font-weight: bold;
 }
 
 /* Post text area */
