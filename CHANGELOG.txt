@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 4, 2009
+----------------
+#367481 by Michelle: Fixed up statistics including changing to use theme_username.
+
 February 3, 2009
 ----------------
 #366301 by Michelle, ipwa: Fixed author pane layout on stacked styles.

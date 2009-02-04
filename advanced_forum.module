@@ -597,8 +597,7 @@ function advanced_forum_preprocess_advf_forum_statistics(&$variables) {
   $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
 
   $latest_user = advanced_forum_statistics_latest_user();
-  $variables['latest_user_name'] = $latest_user['name'];
-  $variables['latest_user_id'] = $latest_user['uid'];
+  $variables['latest_user'] = theme('username', $latest_user);
 }
 
 /**
@@ -1531,7 +1530,7 @@ function advanced_forum_statistics_online_users() {
           ORDER BY s.timestamp DESC';
   $authenticated_users = db_query($sql, $interval);
   while ($account = db_fetch_object($authenticated_users)) {
-    $list[] = l($account->name, 'user/' . $account->uid);
+    $list[] = theme('username', $account);
   }
   return $list;
 }
