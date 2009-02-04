@@ -144,44 +144,38 @@ ul.forum-links {
 }
 
 /*** ICONS LEGEND ************************************************************/
-.forum-topic-legend dd {
-  margin-right: 15px;
-  padding-bottom: 4px;
-}
 
-.forum-topic-legend, 
-.forum-topic-legend dd {
-  margin: 5px;
-  padding: 0;
-}
-
-.forum-smalltext {
-  font-size: 11px;
-}
-
-.forum-topic-legend img {
-  margin-right: 4px;
-  vertical-align: bottom;
-}
-
-.forum-float-left {
-  float: left;
-}
-
-.forum-folder-legend, 
-.forum-folder-legend dl, 
+/* Forum folders */
+.forum-folder-legend dt, 
 .forum-folder-legend dd {
-  margin: 5px 0 0 0;
-  padding: 0;
+  display: inline;
 }
 
-.forum-folder-legend dl, 
 .forum-folder-legend dd {
-  float: left;
-  margin-right: 10px;
+  margin: 0pt 5px 0pt 0pt;
 }
 
 .forum-folder-legend img {
+  padding-bottom: 4px;
+  vertical-align: middle;
+}
+
+/* Forum topics */
+.legend-group {
+  float: left;
+  display: block;
+}
+
+.forum-topic-legend dt, 
+.forum-topic-legend dd {
+  display: inline;
+}
+
+.forum-topic-legend dd {
+  margin: 0pt 5px 0pt 0pt;
+}
+
+.forum-topic-legend img {
   padding-bottom: 4px;
   vertical-align: middle;
 }
@@ -270,9 +264,6 @@ ul.forum-links {
 .author-pane-picture .picture {
   float: none;
   padding-left: 0pt;
-
-
-
 }
 
 /* Post text area */

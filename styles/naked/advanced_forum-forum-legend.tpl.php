@@ -8,11 +8,13 @@
  */
 ?>
 <div class="forum-folder-legend forum-smalltext">
-  <dl><?php print advanced_forum_theme_image('forum-folder-new-posts.png', t('Forum Contains New Posts')); ?></dl>
-  <dd><?php print t('Forum Contains New Posts'); ?></dd>
-  <dl><?php print advanced_forum_theme_image('/forum-folder.png', t('Forum Contains No New Posts')); ?></dl>
-  <dd><?php print t('Forum Contains No New Posts'); ?></dd>
-  <dl><?php print advanced_forum_theme_image('forum-folder-locked.png', t('Forum is Locked')); ?></dl>
-  <dd><?php print t('Forum is Locked'); ?></dd>
+  <dl>
+    <dt><?php print $folder_new_posts; ?></dt>
+    <dd><?php print t('Forum Contains New Posts'); ?></dd>
+    <dt><?php print $folder_default; ?></dt>
+    <dd><?php print t('Forum Contains No New Posts'); ?></dd>
+    <dt><?php print $folder_locked ?></dt>
+    <dd><?php print t('Forum is Locked'); ?></dd>
+  </dl>
 </div>
 <br style="clear: both;">
