@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file adfv-comment-wrapper.tpl.php
+ * @file
  * Default theme implementation to wrap comments.
  *
  * Available variables:

@@ -1,3 +1,12 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Theme implementation to show forum legend.
+ *
+ */
+?>
 <div class="forum-float-left">
   <div class="forum-float-left">
     <dl class="forum-topic-legend forum-smalltext">

@@ -58,12 +58,13 @@
 
 <div class="author-pane">
  <div class="author-pane-inner">
+ <div class="author-pane-top">
     <div class="author-pane-picture author-pane-section">
       <?php if (!empty($picture)): ?>
         <?php print $picture; ?>
       <?php endif; ?>
     </div>
-    
+
     <div class="author-pane-name-status author-pane-section">
 
       <div class="author-pane-line author-name"> <?php print $account_name; ?> </div>
@@ -101,7 +102,7 @@
 
     </div>
 
-    <div class="author-pane-stats author-pane-contact author-pane-section">
+    <div class="author-pane-stats author-pane-contact author-pane-section clear-block">
 
       <?php if (!empty($joined)): ?>
         <div class="author-pane-line author-joined">
@@ -118,12 +119,6 @@
       <?php if (isset($userpoints_points)): ?>
         <div class="author-pane-line author-points">
           <span class="author-pane-label"><?php print t('!Points', userpoints_translation()); ?></span>: <?php print $userpoints_points; ?>
-        </div>
-      <?php endif; ?>
-
-      <?php if (isset($og_groups)): ?>
-        <div class="author-pane-line author-groups">
-          <span class="author-pane-label"><?php print t('Groups'); ?>:</span> <?php print $og_groups; ?>
         </div>
       <?php endif; ?>
 
@@ -145,6 +140,14 @@
         <div class="author-pane-icon"><?php print $user_relationships_api; ?></div>
       <?php endif; ?>
     </div>
-
+</div>
+    <div class="author-pane-groups author-pane-section">
+        <?php if (isset($og_groups)): ?>
+          <div class="author-pane-line author-groups">
+            <span class="author-pane-label"><?php print t('Groups'); ?>:</span> <?php print $og_groups; ?>
+          </div>
+        <?php endif; ?>      
+    </div>
   </div>
 </div>
+

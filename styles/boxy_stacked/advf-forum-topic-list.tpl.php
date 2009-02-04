@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file advf-forum-topic-list.tpl.php
+ * @file
  * Theme implementation to display a list of forum topics.
  *
  * Available variables:
@@ -62,10 +62,10 @@
       }
       else {
         $topic_new = ' <span class="marker">' . t('new') . '</span>';
-      }     
+      }
     }
     ?>
-    
+
     <tr class="<?php print $topic->zebra;?> <?php print $topic->sticky_class;?>">
       <td class="icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
 

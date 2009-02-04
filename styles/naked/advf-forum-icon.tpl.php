@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file advf-forum-icon.tpl.php
+ * @file
  * Display an appropriate icon for a forum post.
  *
  * Available variables:

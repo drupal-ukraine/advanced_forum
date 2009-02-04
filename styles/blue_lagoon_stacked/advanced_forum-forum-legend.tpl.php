@@ -1,3 +1,12 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Theme implementation to show forum legend.
+ *
+ */
+?>
 <div class="forum-folder-legend forum-smalltext">
   <dl><?php print advanced_forum_theme_image('forum-folder-new-posts.png', t('Forum Contains New Posts')); ?></dl>
   <dd><?php print t('Forum Contains New Posts'); ?></dd>

@@ -1,3 +1,24 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ *
+ * Theme implementation: Template for each forum forum statistics section.
+ *
+ * Available variables:
+ * - $current_total: Total number of users currently online.
+ * - $current_users: Number of logged in users.
+ * - $current_guests: Number of anonymous users.
+ * - $online_users: List of logged in users.
+ * - $topics: Total number of nodes (threads / topics).
+ * - $posts: Total number of nodes + comments.
+ * - $users: Total number of registered active users.
+ * - $latest_user_name: Name of latest active user.
+ * - $latest_user_id: ID of  of latest active user.
+ */
+?>
+
 <div id="forum-statistics">
   <div id="forum-statistics-header"><?php print t('What\'s Going On?'); ?></div>
 

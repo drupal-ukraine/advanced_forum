@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * @file advf-forum-repeat-post.tpl.php
+ * @file
  * Used for the repeated node on the top of each page of a paginated forum
  * thread. By default, it contains only the "header" information for the thread
  * and the rest is empty.
@@ -17,12 +17,16 @@
 
 <div class="forum-post-header clear-block">
   <?php print $reply_link; ?>
-  
+
   <div class="reply-count">
     <?php print $total_posts; ?>
-    
+
     <?php if (!empty($new_posts)): ?>
-      (<?php print $new_posts; ?>)
+      [<?php print $new_posts; ?>]
+    <?php endif; ?>
+
+    <?php if (!empty($last_post)): ?>
+       [<?php print $last_post; ?>]
     <?php endif; ?>
   </div>
 </div>

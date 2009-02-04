@@ -63,7 +63,7 @@
         <?php print $picture; ?>
       <?php endif; ?>
     </div>
-    
+
     <div class="author-pane-name-status author-pane-section">
 
       <div class="author-pane-line author-name"> <?php print $account_name; ?> </div>

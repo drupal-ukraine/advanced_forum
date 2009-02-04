@@ -220,27 +220,39 @@ ul.forum-links {
 /* Note: more CSS in the author pane css file */
 .forum-post-panel-sub {
   line-height: 110%;
-  min-height: 130px;
 }
 
 .forum-post-panel-sub .author-pane {
   padding: 10px 0 5px 10px;
 }
 
-.forum-post-panel-sub .author-pane-picture,
-.forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin {
-  float: left;
+.author-pane-top {
+  overflow: auto;
+  height: 100px;
 }
 
+.forum-post-panel-sub .author-pane-picture,
 .forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin {
-  margin-left: 10px;
+.forum-post-panel-sub .author-pane-admin,
+.forum-post-panel-sub .author-pane-stats {
+  float: left;
+  display: block;
+  width: 145px;
+  margin-right: 5px;
 }
 
 .forum-post-panel-sub .author-pane-stats {
   float: right;
-  margin-right: 10px;
+}
+
+.forum-post-panel-sub .author-pane-name-groups {
+
+  margin: 5px;
+}
+
+.author-pane-picture .picture {
+  float: none;
+  padding-left: 0pt;
 }
 
 /* Post text area */

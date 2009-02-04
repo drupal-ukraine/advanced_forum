@@ -228,20 +228,26 @@ ul.forum-links {
   padding: 10px 0 5px 10px;
 }
 
-.forum-post-panel-sub .author-pane-picture,
-.forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin {
-  float: left;
+.author-pane-top {
+  overflow: auto;
 }
 
+.forum-post-panel-sub .author-pane-picture,
 .forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin {
-  margin-left: 10px;
+.forum-post-panel-sub .author-pane-admin,
+.forum-post-panel-sub .author-pane-stats {
+  float: left;
+  display: block;
+  width: 145px;
+  margin-right: 5px;
 }
 
 .forum-post-panel-sub .author-pane-stats {
   float: right;
-  margin-right: 10px;
+}
+
+.forum-post-panel-sub .author-pane-name-groups {
+  margin: 5px;
 }
 
 /* Post text area */
