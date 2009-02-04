@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 3, 2009
+----------------
+#366301 by Michelle, ipwa: Fixed author pane layout on stacked styles.
+#365491 by Michelle, bouton: Cleaned up legend markup / css.
+
 January 27, 2009
 ----------------
 #315972 by Michelle: Added link to jump to last post.

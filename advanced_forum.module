@@ -602,6 +602,24 @@ function advanced_forum_preprocess_advf_forum_statistics(&$variables) {
 }
 
 /**
+ * Preprocesses template variables for the forum statistics template.
+ */
+function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
+  $variables['folder_new_posts'] = advanced_forum_theme_image('forum-folder-new-posts.png', t('Forum Contains New Posts'));
+  $variables['folder_default'] = advanced_forum_theme_image('/forum-folder.png', t('Forum Contains No New Posts'));
+  $variables['folder_locked'] = advanced_forum_theme_image('forum-folder-locked.png', t('Forum is Locked'));
+}
+
+function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
+  $variables['topic_new'] = advanced_forum_theme_image('topic-new.png', t('New Posts'));
+  $variables['topic_hot_new'] = advanced_forum_theme_image('topic-hot-new.png', t('Hot Thread (New)'));
+  $variables['topic_hot'] = advanced_forum_theme_image('topic-hot.png', t('Hot Thread (No New)'));
+  $variables['topic_default'] = advanced_forum_theme_image('topic-default.png', t('No New Posts'));
+  $variables['topic_sticky'] = advanced_forum_theme_image('topic-sticky.png', t('Sticky Thread'));
+  $variables['topic_closed'] = advanced_forum_theme_image('topic-closed.png', t('Locked Thread'));
+}
+
+/**
  * Preprocesses template variables for the forum list template.
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
