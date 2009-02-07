@@ -220,7 +220,7 @@ function theme_advanced_forum_forum_legend() {
 }
 
 /**
- * Theme function for advanced_forum_forum_legend().
+ * Theme function for advanced_forum_topic_legend().
  */
 function theme_advanced_forum_topic_legend() {
   $variables = array();
@@ -231,6 +231,35 @@ function theme_advanced_forum_topic_legend() {
   // Set the template file
   $forum_style = advanced_forum_get_current_style();
   return _phptemplate_callback("advanced_forum_topic_legend", $variables, array("$forum_style/advanced_forum-topic-legend"));
+}
+
+/**
+ * Theme function for advanced_forum_forum_legend().
+ */
+function theme_advanced_forum_topic_header() {
+  $variables = array();
+  
+  // Pass the parameters into our preprocess function
+  advanced_forum_call_preprocess('advanced_forum_topic_header', $variables);
+
+  // Set the template file
+  $forum_style = advanced_forum_get_current_style();
+  return _phptemplate_callback("advanced_forum_topic_header", $variables, array("$forum_style/advanced_forum-topic-header"));
+}
+
+/**
+ * Theme function for advanced_forum_reply_link().
+ */
+function theme_advanced_forum_reply_link($reply_link) {
+  if (variable_get('advanced_forum_button_links', 1)) {
+    $reply_link['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
+    $reply_link['html'] = TRUE;
+  }
+  else {
+    $reply_link['title'] = t("Post Reply");
+  }
+
+  return theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
 }
 
 /**
@@ -331,6 +360,27 @@ function advanced_forum_preprocess_author_pane(&$variables) {
 }
 
 /**
+ * Preprocesses template variables for the topic header template.
+ */
+function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-topic-header';
+  
+  // Build the reply link / button
+  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']->links['comment_add']);
+  
+  // Total & new replies
+  if (!empty($variables['comment_count'])) {
+    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
+    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
+  }
+  else {
+    $variables['total_posts'] = t('No replies');
+  }
+
+  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
+}
+
+/**
  * Preprocesses template variables for the node template.
  */
 function advanced_forum_preprocess_node(&$variables) {
@@ -359,45 +409,13 @@ function advanced_forum_preprocess_node(&$variables) {
   // The node is the first post, aka topic
   $variables['top_post'] = TRUE;
 
-  // Process the links section and make our adjustments.
-  _advanced_forum_adjust_node_links($variables);
+  // Build the topic header
+  $variables['topic_header'] = theme('advanced_forum_topic_header', $variables);
 
-  // Total & new replies
-  if (!empty($variables['comment_count'])) {
-    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
-    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
-  }
-  else {
-    $variables['total_posts'] = t('No replies');
-  }
-
-  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
-
-  // User information
-  $variables['account'] = user_load(array('uid' => $variables['node']->uid));
-  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), "$forum_style/advf-author-pane");
-
-}
-
-/**
- * Part of the node preprocess, pulled out to simplify code.
- */
-function _advanced_forum_adjust_node_links(&$variables) {
+  /* Node links changes */
+  // Change first post from "add comment" to "Reply"
   if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
-    // Change first post from "add comment" to "Reply"
     $variables['node']->links['comment_add']['title'] = t('Reply');
-
-    // Make a separate variable for the reply link so it can be put on top of the thread
-    $reply_link = $variables['node']->links['comment_add'];
-
-    if (variable_get('advanced_forum_button_links', 1)) {
-      $reply_link['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
-      $reply_link['html'] = TRUE;
-    }
-    else {
-      $reply_link['title'] = t("Post Reply");
-    }
-    $variables['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
   }
 
   // Change links over to buttons when possible and wanted.
@@ -408,6 +426,10 @@ function _advanced_forum_adjust_node_links(&$variables) {
 
   // Make an array version of $links
   $variables['links_array'] = $variables['node']->links;
+
+  // User information / author pane
+  $variables['account'] = user_load(array('uid' => $variables['node']->uid));
+  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), "$forum_style/advf-author-pane");
 }
 
 /**
@@ -508,19 +530,9 @@ function advanced_forum_preprocess_comment(&$variables) {
  * Preprocesses template variables for the comment wrapper template.
  */
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
-  // Make a variable for the reply link so it can be put on the bottom of the thread
-  $reply_link = $variables['node']->links['comment_add'];
-
-  if (!empty($reply_link)) {
-    if (variable_get('advanced_forum_button_links', 1)) {
-      $reply_link['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
-      $reply_link['html'] = TRUE;
-    }
-    else {
-      $reply_link['title'] = t("Post Reply");
-    }
-
-    $variables['reply_link'] = theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
+  if (advanced_forum_treat_as_forum_post('comment-wrapper', $variables)) {
+    // Build the reply link / button
+    $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']->links['comment_add']);
   }
 }
 

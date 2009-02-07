@@ -129,7 +129,7 @@ ul.forum-links {
 /* Forum folders */
 .forum-folder-legend dt, 
 .forum-folder-legend dd {
-  display:inline;
+  display: inline;
 }
 
 .forum-folder-legend dd {
@@ -149,7 +149,7 @@ ul.forum-links {
 
 .forum-topic-legend dt, 
 .forum-topic-legend dd {
-  display:inline;
+  display: inline;
 }
 
 .forum-topic-legend dd {
@@ -161,22 +161,22 @@ ul.forum-links {
   vertical-align: middle;
 }
 
-
-
 /*** FORUM THREADS ***********************************************************/
 
-.forum-post-header {
+/* Header at the top of each topic/thread */
+.forum-topic-header {
   margin: 10px 0 2px 0;
 }
 
-.forum-post-header .forum-links {
+.forum-topic-header .forum-links {
   float: left;
 }
 
-.forum-post-header .reply-count {
+.forum-topic-header .reply-count {
   float: right;
 }
 
+/* Individual forum post */
 .forum-post {
   margin: 0 0 5px 0;
   padding: 0;

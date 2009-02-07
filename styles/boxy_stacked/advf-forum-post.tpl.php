@@ -23,25 +23,11 @@
 ?>
 
 <?php if ($top_post): ?>
-  <div class="forum-post-header clear-block">
-    <?php print $reply_link; ?>
 
-    <div class="reply-count">
-      <?php print $total_posts; ?>
-
-      <?php if (!empty($new_posts)): ?>
-        [<?php print $new_posts; ?>]
-      <?php endif; ?>
-
-      <?php if (!empty($last_post)): ?>
-         [<?php print $last_post; ?>]
-      <?php endif; ?>
-     </div>
-  </div>
-
+  <?php print $topic_header ?>
+  
   <?php $classes .= $node_classes; ?>
   <div id="node-<?php print $node->nid; ?>" class="top-post forum-post <?php print $classes; ?> clear-block">
-  <a id="top"></a>
 
 <?php else: ?>
   <?php $classes .= $comment_classes; ?>
@@ -89,7 +75,7 @@
 
   <div class="forum-post-footer clear-block">
     <div class="forum-jump-links">
-      <a href="#top"><?php print t("Top"); ?></a>
+      <a href="#top" title="Jump to top of page"><?php print t("Top"); ?></a>
     </div>
 
     <?php if (!empty($links)): ?>

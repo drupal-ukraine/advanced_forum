@@ -23,10 +23,10 @@
 ?>
 
 <?php if ($top_post): ?>
+  <a id="top"></a>
 
   <?php $classes .= $node_classes; ?>
   <div id="node-<?php print $node->nid; ?>" class="top-post forum-post <?php print $classes; ?> clear-block">
-  <a id="top"></a>
 
 <?php else: ?>
   <?php $classes .= $comment_classes; ?>
