@@ -5,6 +5,7 @@ $Id$
 February 7, 2009
 ----------------
 #315972 by Michelle: Finished the reply link theming started yesterday.
+#369078 by lamigo: Fixed postgres errors.
 
 February 6, 2009
 ----------------

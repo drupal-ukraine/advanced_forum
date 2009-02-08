@@ -1579,12 +1579,12 @@ function advanced_forum_statistics_latest_user() {
 function advanced_forum_statistics_online_users() {
   $list = array();
   $interval = time() - variable_get('user_block_seconds_online', 900);
-  $sql = 'SELECT DISTINCT u.uid, u.name, MAX(s.timestamp)
-          FROM {users} u 
-            INNER JOIN {sessions} s ON u.uid = s.uid 
-          WHERE s.timestamp >= %d AND s.uid > 0 
-          GROUP BY u.uid, u.name
-          ORDER BY s.timestamp DESC';
+   $sql = 'SELECT DISTINCT u.uid, u.name, MAX(s.timestamp) as maxtime
+            FROM {users} u
+              INNER JOIN {sessions} s ON u.uid = s.uid
+            WHERE s.timestamp >= %d AND s.uid > 0
+            GROUP BY u.uid, u.name
+           ORDER BY maxtime DESC';
   $authenticated_users = db_query($sql, $interval);
   while ($account = db_fetch_object($authenticated_users)) {
     $list[] = theme('username', $account);
