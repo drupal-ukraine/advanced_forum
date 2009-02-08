@@ -6,6 +6,7 @@ February 7, 2009
 ----------------
 #315972 by Michelle: Finished the reply link theming started yesterday.
 #369078 by lamigo: Fixed postgres errors.
+#367496 by Michelle: Added check for link text when buttonifying.
 
 February 6, 2009
 ----------------

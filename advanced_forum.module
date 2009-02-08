@@ -1190,7 +1190,13 @@ function _advanced_forum_buttonify_links(&$links) {
         default:
           // For all other links, attempt to buttonify by key name.
           $image = advanced_forum_theme_image($link_key . '.png', $link['title']);
-   
+           
+          if (!$image) {
+            // If no luck there, try the adjusted title.
+            $title = strtolower(str_replace(' ', '-', $link['title']));
+            $image = advanced_forum_theme_image($title . '.png', $link['title']);
+          }
+  
           if ($image) {
             // If we found an image, use it. Otherwise leave the title alone.
             $links[$link_key]['title'] = $image;
