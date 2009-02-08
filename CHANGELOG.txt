@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 7, 2009
+----------------
+#315972 by Michelle: Finished the reply link theming started yesterday.
+
 February 6, 2009
 ----------------
 #315972 by Michelle: Separated out topic header into its own theme file and made the reply link a themeable function.

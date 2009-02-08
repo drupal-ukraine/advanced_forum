@@ -236,8 +236,10 @@ function theme_advanced_forum_topic_legend() {
 /**
  * Theme function for advanced_forum_forum_legend().
  */
-function theme_advanced_forum_topic_header() {
+function theme_advanced_forum_topic_header($node, $comment_count) {
   $variables = array();
+  $variables['node'] = $node;
+  $variables['comment_count'] = $comment_count;
   
   // Pass the parameters into our preprocess function
   advanced_forum_call_preprocess('advanced_forum_topic_header', $variables);
@@ -248,18 +250,59 @@ function theme_advanced_forum_topic_header() {
 }
 
 /**
- * Theme function for advanced_forum_reply_link().
+ * Theme function to format the reply link at the top/bottom of topic.
  */
-function theme_advanced_forum_reply_link($reply_link) {
-  if (variable_get('advanced_forum_button_links', 1)) {
-    $reply_link['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
-    $reply_link['html'] = TRUE;
+function theme_advanced_forum_reply_link($node) {
+  if (user_access('post comments')) {
+    if ($node->comment == COMMENT_NODE_READ_WRITE) {
+      if (variable_get('comment_form_location', COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
+        // Comment form on seperate page
+        $links['topic_reply'] = array(
+          'title' => t('Post Reply'),
+          'href' => "comment/reply/$node->nid",
+          'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
+          'fragment' => 'comment-form'
+          );
+
+      }
+      else {
+        // Comment form is already on the page
+        $links['topic_reply'] = array(
+          'title' => t('Post Reply'),
+          'href' => $_GET['q'],
+          'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
+          'fragment' => 'comment-form',
+          'query' => ($_GET['page']) ? "page=" . $_GET['page'] : NULL,
+          );       
+      }
+      
+      // Change to using a button if so set
+      if (variable_get('advanced_forum_button_links', 1)) {
+        $links['topic_reply']['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
+        $links['topic_reply']['html'] = TRUE;
+      }
+    }
+    else {
+      // Post is locked
+      $links['topic_locked'] = array(
+        'title' => t('Topic Locked'),
+        'attributes' => array('title' => t('This topic is locked')),
+      );
+      
+      // Change to using a button if so set
+      if (variable_get('advanced_forum_button_links', 1)) {
+        $links['topic_locked']['title'] = advanced_forum_theme_image('locked-topic.png', t('Locked'));
+        $links['topic_locked']['html'] = TRUE;
+      }   
+    }
   }
   else {
-    $reply_link['title'] = t("Post Reply");
+    // User does not have rights to post
+    $links['comment_forbidden']['title'] = theme('comment_post_forbidden', $node->nid);
+    $links['comment_forbidden']['html'] = TRUE;
   }
-
-  return theme('links', array('topic_reply' => $reply_link), array('class' => 'forum-links'));
+  
+  return theme('links', $links, array('class' => 'forum-links'));
 }
 
 /**
@@ -363,10 +406,8 @@ function advanced_forum_preprocess_author_pane(&$variables) {
  * Preprocesses template variables for the topic header template.
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-topic-header';
-  
   // Build the reply link / button
-  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']->links['comment_add']);
+  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node'], $variables['comment_count']);
   
   // Total & new replies
   if (!empty($variables['comment_count'])) {
@@ -410,7 +451,7 @@ function advanced_forum_preprocess_node(&$variables) {
   $variables['top_post'] = TRUE;
 
   // Build the topic header
-  $variables['topic_header'] = theme('advanced_forum_topic_header', $variables);
+  $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
 
   /* Node links changes */
   // Change first post from "add comment" to "Reply"
@@ -531,8 +572,12 @@ function advanced_forum_preprocess_comment(&$variables) {
  */
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
   if (advanced_forum_treat_as_forum_post('comment-wrapper', $variables)) {
-    // Build the reply link / button
-    $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']->links['comment_add']);
+    $variables['reply_link'] = '';
+    if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location', COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
+      // If the post is locked or the comment form is on a seperate page, build 
+      // the reply/locked link / button
+      $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
+    }      
   }
 }
 
