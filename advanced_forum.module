@@ -1163,7 +1163,7 @@ function theme_advanced_forum_user_picture($account) {
 function _advanced_forum_buttonify_links(&$links) {
   $buttonify = variable_get('advanced_forum_button_links', 1);
   
-  if ($buttonify) {
+  if ($buttonify && !empty($links)) {
     foreach ($links as $link_key => $link) {
       switch ($link_key) {
         // First, take care of the special cases

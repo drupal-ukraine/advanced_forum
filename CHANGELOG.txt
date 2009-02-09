@@ -2,7 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-February 7, 2009
+February 8, 2009
+----------------
+NOISSUE by Michelle: Check to make sure $links isn't empty before iterating thru it. Thanks to ghankstef for testing.
+
+February 7, 2009 -- BETA 1
 ----------------
 #315972 by Michelle: Finished the reply link theming started yesterday.
 #369078 by lamigo: Fixed postgres errors.
@@ -48,7 +52,7 @@ January 18, 2009
 ----------------
 #303564 by Psicomante, Michelle: Added legend for forum icons.
 
-January 16, 2009
+January 16, 2009 -- ALPHA 17
 ----------------
 #351395 by elfur: Added missing t() around link to top.
 #338722 by catch: Fixed bug in mark topics as read.
