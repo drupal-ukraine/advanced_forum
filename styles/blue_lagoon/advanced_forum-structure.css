@@ -180,17 +180,20 @@ ul.forum-links {
 
 /*** FORUM THREADS ***********************************************************/
 
-.forum-post-header {
+/* Header at the top of each topic/thread */
+.forum-topic-header {
   margin: 10px 0 2px 0;
 }
 
-.forum-post-header .forum-links {
+.forum-topic-header .forum-links {
   float: left;
 }
-.forum-post-header .reply-count {
+
+.forum-topic-header .reply-count {
   float: right;
 }
 
+/* Individual forum post */
 .forum-post {
   margin: 0 0 5px 0;
   padding: 0;
@@ -198,6 +201,7 @@ ul.forum-links {
 
 .forum-post-wrapper {
   clear: both;
+  height: 100%;
 }
 
 /* Header at the top of each post */
