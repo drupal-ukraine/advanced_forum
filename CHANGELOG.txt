@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 9, 2009
+----------------
+#371859 by lamigo: Fixed postgress error.
+
 February 8, 2009
 ----------------
 NOISSUE by Michelle: Check to make sure $links isn't empty before iterating thru it. Thanks to ghankstef for testing.
