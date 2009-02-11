@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * Code needed to backport functionality from D6.
+ */
+
 /*****************************************************************************/
 /********************************* TEMPLATE PREPROCESS ***********************/
 /*****************************************************************************/
@@ -353,7 +358,7 @@ function advanced_forum_call_preprocess($hook, &$variables) {
   }
   
   // Finally let the theme have its say.
-  $theme_name = variable_get('theme_default','');
+  $theme_name = variable_get('theme_default', '');
   if (function_exists($theme_name . '_preprocess_' . $hook)) {
     $function = $theme_name . '_preprocess_' . $hook;
     $function($variables);

@@ -427,7 +427,7 @@ function phptemplate_forum_icon($new_posts, $num_posts = 0, $comment_mode = 0, $
 function advanced_forum_preprocess_author_pane(&$variables) {
   // Author pane is used in various places. The only way to be sure to only
   // hit it when we are using it is to check the template suggestion.
-  if (strpos($variables['template_suggestion'],'advf-author-pane')) {
+  if (strpos($variables['template_suggestion'], 'advf-author-pane')) {
     // Attempt to override the user picture fetched by Author Pane from core.
     $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
     if (!empty($sized_picture)) {
