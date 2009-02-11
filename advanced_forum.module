@@ -1145,18 +1145,39 @@ function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
 }
 
 /**
- * Theme function to return user picture.
+ * Theme function to return imagecached version of the user picture.
  */
 function theme_advanced_forum_user_picture($account) {
+  // Get the imagecache preset to use, if any.
   $preset = variable_get('advanced_forum_user_picture_preset', '');
+  
+  // Only proceed if user pictures are enabled, and there is a preset set, and 
+  // imagecache is enabled. For performace reasons, we return nothing if these
+  // critera aren't met because we only call this function when the non
+  // imagecached version is already created. If you use this function elsewhere
+  // you will need to provide a picture when imagecache is not used.
   if (variable_get('user_pictures', 0) && !empty($preset) && module_exists('imagecache')) {
     if ($account->picture && file_exists($account->picture)) {
-      $picture = theme('imagecache', $preset, $account->picture);
+      // User has picture, so use that
+      $alt = t("@user's picture", array('@user' => $account->name ? $account->name : 'Visitor'));
+      $picture = theme('imagecache', $preset, $account->picture);   
+    } 
+    else {
+      // User doesn't have a picture so use the default, if any
+      $default_picture = variable_get('user_picture_default', ''); 
+      if ($default_picture) {
+        $picture = theme('imagecache', $preset, $default_picture);
+      }     
     }
+    
+    if (!empty($picture)) {
+      // If the user has access to view profiles, link the picture
+      if (!empty($account->uid) && user_access('access user profiles')) {
+        $picture = l($picture, "user/$account->uid", array('title' => t('View user profile.')), NULL, NULL, FALSE, TRUE);
+      }
+    }
+    
     return '<div class="picture">' . $picture . '</div>';
-  }  
-  else {
-    return theme('user_picture', $account);
   }
 }
 

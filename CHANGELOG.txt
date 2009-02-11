@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 11, 2009
+----------------
+#303548 by Michelle: Added default avatar support to custom user picture function and also linked to profile.
+
 February 9, 2009
 ----------------
 #371859 by lamigo: Fixed postgress error.
