@@ -5,6 +5,7 @@ $Id$
 February 11, 2009
 ----------------
 #303548 by Michelle: Added default avatar support to custom user picture function and also linked to profile.
+#310547 by Michelle: Organized and cleaned up settings page.
 
 February 9, 2009
 ----------------
