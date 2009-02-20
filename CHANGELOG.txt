@@ -5,6 +5,7 @@ $Id$
 February 20, 2009
 -----------------
 #376540 by Michelle: Passed all image file names through t() to make them translatable as suggested by klavs.
+#375806 by Michelle: Check to make sure it's imagecache 2 installed not imagecache 1 to avoid errors.
 
 February 11, 2009
 -----------------

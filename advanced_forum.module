@@ -167,7 +167,7 @@ function advanced_forum_settings_page() {
   );
 
 
-  if (module_exists('imagecache')) {
+  if (module_exists('imagecache') && function_exists('imagecache_presets')) {
     $options = array('' => '');
     $presets = imagecache_presets();
     foreach ($presets AS $preset) {
@@ -1191,7 +1191,7 @@ function theme_advanced_forum_user_picture($account) {
   // critera aren't met because we only call this function when the non
   // imagecached version is already created. If you use this function elsewhere
   // you will need to provide a picture when imagecache is not used.
-  if (variable_get('user_pictures', 0) && !empty($preset) && module_exists('imagecache')) {
+  if (variable_get('user_pictures', 0) && !empty($preset) && module_exists('imagecache') && function_exists('imagecache_presets')) {
     if ($account->picture && file_exists($account->picture)) {
       // User has picture, so use that
       $alt = t("@user's picture", array('@user' => $account->name ? $account->name : 'Visitor'));
