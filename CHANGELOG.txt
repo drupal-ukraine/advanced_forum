@@ -2,8 +2,12 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 20, 2009
+-----------------
+#376540 by Michelle: Passed all image file names through t() to make them translatable as suggested by klavs.
+
 February 11, 2009
-----------------
+-----------------
 #303548 by Michelle: Added default avatar support to custom user picture function and also linked to profile.
 #310547 by Michelle: Organized and cleaned up settings page.
 NOISSUE by Michelle: Small coder cleanup fixes.

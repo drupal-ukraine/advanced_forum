@@ -312,7 +312,7 @@ function theme_advanced_forum_reply_link($node) {
       
       // Change to using a button if so set
       if (variable_get('advanced_forum_button_links', 1)) {
-        $links['topic_reply']['title'] = advanced_forum_theme_image('post-reply.png', t('Post reply'));
+        $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
         $links['topic_reply']['html'] = TRUE;
       }
     }
@@ -325,7 +325,7 @@ function theme_advanced_forum_reply_link($node) {
       
       // Change to using a button if so set
       if (variable_get('advanced_forum_button_links', 1)) {
-        $links['topic_locked']['title'] = advanced_forum_theme_image('locked-topic.png', t('Locked'));
+        $links['topic_locked']['title'] = advanced_forum_theme_image(t('locked-topic.png'), t('Locked'));
         $links['topic_locked']['html'] = TRUE;
       }   
     }
@@ -633,13 +633,13 @@ function advanced_forum_preprocess_forums(&$variables) {
     // To avoid translation issues, make the button version optional
     if (variable_get('advanced_forum_button_links', 1)) {
       if (isset($variables['links']['forum'])) {
-        $title_image = advanced_forum_theme_image('new-topic.png', t('New topic'));
+        $title_image = advanced_forum_theme_image(t('new-topic.png'), t('New topic'));
         $variables['links']['forum']['title'] = $title_image;
         $variables['links']['forum']['html'] = TRUE;
       }
 
       if (isset($variables['links']['poll'])) {
-        $title_image = advanced_forum_theme_image('new-poll.png', t('New poll'));
+        $title_image = advanced_forum_theme_image(t('new-poll.png'), t('New poll'));
         $variables['links']['poll']['title'] = $title_image;
         $variables['links']['poll']['html'] = TRUE;
       }
@@ -660,7 +660,7 @@ function advanced_forum_preprocess_forums(&$variables) {
 
     // To avoid translation issues, make the button version optional
     if (variable_get('advanced_forum_button_links', 1)) {
-      $title_image = advanced_forum_theme_image('mark-read.png', t('Mark read'));
+      $title_image = advanced_forum_theme_image(t('mark-read.png'), t('Mark read'));
       $variables['links']['markasread'] = array('title' => $title_image, 'href' => $link, 'html' => TRUE);
       $variables['links_orig']['markasread'] = array('title' => $title_image, 'href' => $link, 'html' => TRUE);
     }
@@ -695,18 +695,18 @@ function advanced_forum_preprocess_advf_forum_statistics(&$variables) {
  * Preprocesses template variables for the forum statistics template.
  */
 function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
-  $variables['folder_new_posts'] = advanced_forum_theme_image('forum-folder-new-posts.png', t('Forum Contains New Posts'));
-  $variables['folder_default'] = advanced_forum_theme_image('/forum-folder.png', t('Forum Contains No New Posts'));
-  $variables['folder_locked'] = advanced_forum_theme_image('forum-folder-locked.png', t('Forum is Locked'));
+  $variables['folder_new_posts'] = advanced_forum_theme_image(t('forum-folder-new-posts.png'), t('Forum Contains New Posts'));
+  $variables['folder_default'] = advanced_forum_theme_image(t('forum-folder.png'), t('Forum Contains No New Posts'));
+  $variables['folder_locked'] = advanced_forum_theme_image(t('forum-folder-locked.png'), t('Forum is Locked'));
 }
 
 function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
-  $variables['topic_new'] = advanced_forum_theme_image('topic-new.png', t('New Posts'));
-  $variables['topic_hot_new'] = advanced_forum_theme_image('topic-hot-new.png', t('Hot Thread (New)'));
-  $variables['topic_hot'] = advanced_forum_theme_image('topic-hot.png', t('Hot Thread (No New)'));
-  $variables['topic_default'] = advanced_forum_theme_image('topic-default.png', t('No New Posts'));
-  $variables['topic_sticky'] = advanced_forum_theme_image('topic-sticky.png', t('Sticky Thread'));
-  $variables['topic_closed'] = advanced_forum_theme_image('topic-closed.png', t('Locked Thread'));
+  $variables['topic_new'] = advanced_forum_theme_image(t('topic-new.png'), t('New Posts'));
+  $variables['topic_hot_new'] = advanced_forum_theme_image(t('topic-hot-new.png'), t('Hot Thread (New)'));
+  $variables['topic_hot'] = advanced_forum_theme_image(t('topic-hot.png'), t('Hot Thread (No New)'));
+  $variables['topic_default'] = advanced_forum_theme_image(t('topic-default.png'), t('No New Posts'));
+  $variables['topic_sticky'] = advanced_forum_theme_image(t('topic-sticky.png'), t('Sticky Thread'));
+  $variables['topic_closed'] = advanced_forum_theme_image(t('topic-closed.png'), t('Locked Thread'));
 }
 
 /**
@@ -780,10 +780,10 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
     // If there are new topics/posts, change the icon
     if ($forum->new_topics || $forum->new_posts) {
-       $variables['forums'][$id]->icon = advanced_forum_theme_image('forum-folder-new-posts.png', t('New posts folder'));
+       $variables['forums'][$id]->icon = advanced_forum_theme_image(t('forum-folder-new-posts.png'), t('New posts folder'));
     }
     else {
-       $variables['forums'][$id]->icon = advanced_forum_theme_image('forum-folder.png', t('Folder'));
+       $variables['forums'][$id]->icon = advanced_forum_theme_image(t('forum-folder.png'), t('Folder'));
     }
 
     // Make container description more accessable
@@ -1170,6 +1170,7 @@ function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
   if ($title = NULL) {
     $title = $alt;
   }
+  
   if (file_exists($image)) {
     return theme('image', $image, $alt, $title);
   }
@@ -1223,22 +1224,22 @@ function _advanced_forum_buttonify_links(&$links) {
       switch ($link_key) {
         // First, take care of the special cases
         case 'comment_add':
-          $links[$link_key]['title'] = advanced_forum_theme_image('reply.png', t('reply'));
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
           $links[$link_key]['html'] = TRUE;
           break;
           
         case 'comment_reply':
-          $links[$link_key]['title'] = advanced_forum_theme_image('reply.png', t('reply'));
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
           $links[$link_key]['html'] = TRUE;
           break;
 
         case 'comment_edit':
-          $links[$link_key]['title'] = advanced_forum_theme_image('edit.png', t('edit'));
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('edit.png'), t('edit'));
           $links[$link_key]['html'] = TRUE;
           break;
           
         case 'comment_delete':
-          $links[$link_key]['title'] = advanced_forum_theme_image('delete.png', t('delete'));
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('delete.png'), t('delete'));
           $links[$link_key]['html'] = TRUE;
           break;        
         
