@@ -5,54 +5,7 @@
  * @file
  * Theme implementation to display information about the post author.
  *
- * Available variables (core modules):
- * - $account: The entire user object for the author.
- * - $picture: Themed user picture for the author.
- * - $account_name: Themed user name for the author.
- * - $account_id: User ID number for the author.
- *
- * - $joined: Date the post author joined the site.
- * - $joined_ago: Time since the author registered in the format "TIME ago"
- *
- * - $online_icon: Icon that changes depending on whether the author is online.
- * - $online_status: Translated text "Online" or "Offline"
- * - $last_active: Time since author was last active. eg: "5 days 3 hours"
- *
- * - $contact: Linked icon.
- * - $contact_link: Linked translated text "Contact user".
- *
- * - $profile - Profile object from core profile.
- *     D5 Usage: $profile['category']['field_name']['value']
- *     D5 Example: <?php print $profile['Personal info']['profile_name']['value']; ?>
- *     D6 Usage: $profile['category']['field_name']['#value']
- *     D6 Example: <?php print $profile['Personal info']['profile_name']['#value']; ?>
- *
- * Available variables (contributed modules):
- * - $buddylist: Linked icon.
- * - $buddylist_link: Linked translated text "Add to buddylist" or "Remove from buddylist".
-
- * - $user_relationship_api: Linked icon.
- * - $user_relationship_api_link: Linked text "Add to <relationship>" or "Remove from <relationship>".
-
- * - $facebook_status: Status, including username, from the facebook status module.
- * - $facebook_status: Status from the facebook status module.
- *
- * - $privatemsg: Linked icon.
- * - $privatemsg_link: Linked translated text "Send PM".
- *
- * - $user_badges: Badges from user badges module.
- *
- * - $userpoints_points: Number of points from default category of the userpoints module.
- * - $userpoints_categories: Array holding each category and the points for that category.
- *
- * - $user_stats_posts: Number of posts from user stats module.
- * - $user_stats_ip: IP address from user stats module.
- *
- * - $user_title: Title from user titles module.
-
- * - $og_groups: Linked list of OG groups author is a member of.
-
- * - $location: User location as reported by the location module.
+ * Available variables are listed in author-pane.tpl.php in Author Pane module.
  */
 ?>
 
@@ -70,9 +23,13 @@
         <?php print $picture; ?>
       <?php endif; ?>
 
-      <?php if (!empty($user_title)): ?>
+      <?php if (!empty($user_title) || !empty($user_title_image)): ?>
         <div class="author-pane-line author-title">
-          <span class="author-pane-label"><?php print t('Title'); ?>:</span> <?php print $user_title; ?>
+          <?php if (!empty($user_title_image)): ?>
+            <?php print $user_title_image; ?>
+          <?php else: ?>
+            <span class="author-pane-label"><?php print t('Title'); ?>:</span> <?php print $user_title; ?>
+          <?php endif; ?>
         </div>
       <?php endif; ?>
 
@@ -144,7 +101,12 @@
 
       <?php if (!empty($user_relationships_api)): ?>
         <div class="author-pane-icon"><?php print $user_relationships_api; ?></div>
+      <?php endif; ?> 
+      
+      <?php if (!empty($flag_friend)): ?>
+        <div class="author-pane-icon"><?php print $flag_friend; ?></div>
       <?php endif; ?>
+
     </div>
   </div>
 </div>
