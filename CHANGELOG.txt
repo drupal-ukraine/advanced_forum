@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+February 26, 2009
+-----------------
+NOISSUE by Michelle: Fleshed out the readme.txt file more.
+
 February 20, 2009
 -----------------
 #376540 by Michelle: Passed all image file names through t() to make them translatable as suggested by klavs.
