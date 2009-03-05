@@ -25,6 +25,8 @@
           <div class="author-pane-line author-facebook-status"><?php print $facebook_status_status;  ?></div>
         <?php endif; ?>
 
+        <div class="author-pane-line author-pane-online-icon"><?php print $online_icon; ?></div>
+
         <?php if (!empty($user_title) || !empty($user_title_image)): ?>
           <div class="author-pane-line author-title">
             <?php if (!empty($user_title_image)): ?>
@@ -52,8 +54,12 @@
         <?php endif; ?>
 
         <?php if (!empty($fasttoggle_block_author)): ?>
-          <div class="author-fasttoggle-block"><?php print $fasttoggle_block_author; ?></div>
+          <div class="author-pane-line  author-fasttoggle-block"><?php print $fasttoggle_block_author; ?></div>
         <?php endif; ?>
+
+        <?php if (!empty($troll_ban_author)): ?>
+          <div class="author-pane-line author-troll-ban"><?php print $troll_ban_author; ?></div>
+        <?php endif; ?>        
       </div>
 
       <div class="author-pane-stats author-pane-contact author-pane-section clear-block">

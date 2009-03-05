@@ -12,7 +12,6 @@
 <div class="author-pane">
  <div class="author-pane-inner">
     <div class="author-pane-name-status author-pane-section">
-
       <div class="author-pane-line author-name"> <?php print $account_name; ?> </div>
 
       <?php if (!empty($facebook_status_status)): ?>
@@ -22,6 +21,8 @@
       <?php if (!empty($picture)): ?>
         <?php print $picture; ?>
       <?php endif; ?>
+
+      <div class="author-pane-line author-pane-online-icon"><?php print $online_icon; ?></div>
 
       <?php if (!empty($user_title) || !empty($user_title_image)): ?>
         <div class="author-pane-line author-title">
@@ -43,7 +44,6 @@
     </div>
 
     <div class="author-pane-stats author-pane-section">
-
       <?php if (!empty($joined)): ?>
         <div class="author-pane-line author-joined">
           <span class="author-pane-label"><?php print t('Joined'); ?>:</span> <?php print $joined; ?>
@@ -70,7 +70,6 @@
     </div>
 
     <div class="author-pane-admin author-pane-section">
-
       <?php if (!empty($user_stats_ip)): ?>
         <div class="author-pane-line author-ip">
           <span class="author-pane-label"><?php print t('IP'); ?>:</span> <?php print $user_stats_ip; ?>
@@ -81,12 +80,12 @@
         <div class="author-fasttoggle-block"><?php print $fasttoggle_block_author; ?></div>
       <?php endif; ?>
 
+      <?php if (!empty($troll_ban_author)): ?>
+        <div class="author-pane-line author-troll-ban"><?php print $troll_ban_author; ?></div>
+      <?php endif; ?>        
     </div>
 
     <div class="author-pane-contact author-pane-section">
-
-      <div class="author-pane-icon"><?php print $online_icon; ?></div>
-
       <?php if (!empty($contact)): ?>
         <div class="author-pane-icon"><?php print $contact; ?></div>
       <?php endif; ?>
@@ -101,12 +100,11 @@
 
       <?php if (!empty($user_relationships_api)): ?>
         <div class="author-pane-icon"><?php print $user_relationships_api; ?></div>
-      <?php endif; ?> 
+      <?php endif; ?>
       
       <?php if (!empty($flag_friend)): ?>
         <div class="author-pane-icon"><?php print $flag_friend; ?></div>
       <?php endif; ?>
-
     </div>
   </div>
 </div>

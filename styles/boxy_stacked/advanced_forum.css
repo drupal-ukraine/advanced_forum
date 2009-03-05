@@ -94,6 +94,11 @@ Colors used:
 
 .author-pane .picture img {
   border: 1px solid #CCCCCC;
+	background: #ffffff;
+}
+
+.author-pane .author-pane-label {
+  font-weight: bold;
 }
 
 /* Post text area */

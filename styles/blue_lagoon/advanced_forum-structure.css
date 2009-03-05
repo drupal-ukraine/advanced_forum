@@ -233,7 +233,15 @@ ul.forum-links {
 }
 
 .forum-post-panel-sub .author-pane {
-  margin: 5px 0 5px 10px;
+  margin: 10px;
+}
+
+.author-pane-name-status .picture {
+  margin: 0 0 10px 0;
+}
+
+.author-pane .picture img {
+  padding: 10px;
 }
 
 /* Post text area */

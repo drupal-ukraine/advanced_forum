@@ -207,6 +207,7 @@ ul.forum-links {
 }
 
 /* Author information pane */
+/* Note: more CSS in the author pane css file */
 .forum-post-panel-sub {
   float: left;
   line-height: 100%;
@@ -215,6 +216,14 @@ ul.forum-links {
 
 .forum-post-panel-sub .author-pane {
   margin: 10px;
+}
+
+.author-pane-name-status .picture {
+  margin: 0 0 10px 0;
+}
+
+.author-pane .picture img {
+  padding: 10px;
 }
 
 /* Post text area */

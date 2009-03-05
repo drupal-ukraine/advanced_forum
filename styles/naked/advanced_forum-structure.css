@@ -219,6 +219,10 @@ ul.forum-links {
   margin: 5px 0 5px 10px;
 }
 
+.author-pane-name-status .picture {
+  margin: 0 0 10px 0;
+}
+
 /* Post text area */
 .forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/

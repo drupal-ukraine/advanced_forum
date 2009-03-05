@@ -162,6 +162,7 @@ Images used:
 }
 
 /* Author information pane */
+/* Note: more CSS in the author pane css file */
 .forum-post-panel-sub  .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
@@ -170,6 +171,10 @@ Images used:
 .forum-post-panel-sub  .author-pane  .picture img {
 	border: 1px solid #91CDF5;
 	background: #ffffff;
+}
+
+.author-pane .author-pane-label {
+  font-weight: bold;
 }
 
 /* Post text area */

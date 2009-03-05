@@ -2,16 +2,21 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-February 26, 2009
+March 4, 2009
+-------------
+#373371 by Michelle: Synched up Author Pane template and updated CSS for Author Pane.
+
+February 26, 2009 -- RC 2
 -----------------
 NOISSUE by Michelle: Fleshed out the readme.txt file more.
+#373371 by Michelle: Syncing up Author Pane.
 
-February 20, 2009
+February 20, 2009 
 -----------------
 #376540 by Michelle: Passed all image file names through t() to make them translatable as suggested by klavs.
 #375806 by Michelle: Check to make sure it's imagecache 2 installed not imagecache 1 to avoid errors.
 
-February 11, 2009
+February 11, 2009 -- RC 1
 -----------------
 #303548 by Michelle: Added default avatar support to custom user picture function and also linked to profile.
 #310547 by Michelle: Organized and cleaned up settings page.

@@ -91,6 +91,7 @@ Colors used:
 }
 
 /* Author information pane */
+/* Note: more CSS in the author pane css file */
 .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
@@ -98,6 +99,11 @@ Colors used:
 
 .author-pane .picture img {
   border: 1px solid #CCCCCC;
+	background: #ffffff;
+}
+
+.author-pane .author-pane-label {
+  font-weight: bold;
 }
 
 /* Post text area */
