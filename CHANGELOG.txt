@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+March 21, 2009
+--------------
+#402352 by Michelle: Removed logic to print user title image. Variable is still there.
+#408006, #397860 by Michelle: Changed online/offline default to be small icon plus words.
+
 March 4, 2009
 -------------
 #373371 by Michelle: Synched up Author Pane template and updated CSS for Author Pane.

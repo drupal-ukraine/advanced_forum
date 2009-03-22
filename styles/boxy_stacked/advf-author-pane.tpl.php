@@ -25,16 +25,13 @@
           <div class="author-pane-line author-facebook-status"><?php print $facebook_status_status;  ?></div>
         <?php endif; ?>
 
-        <div class="author-pane-line author-pane-online-icon"><?php print $online_icon; ?></div>
+        <div class="author-pane-line author-pane-online">
+          <span class="author=pane-online-icon"><?php print $online_icon; ?></span>
+          <span class="author=pane-online-status"><?php print $online_status; ?></span>
+        </div>
 
-        <?php if (!empty($user_title) || !empty($user_title_image)): ?>
-          <div class="author-pane-line author-title">
-            <?php if (!empty($user_title_image)): ?>
-              <?php print $user_title_image; ?>
-            <?php else: ?>
-              <span class="author-pane-label"><?php print t('Title'); ?>:</span> <?php print $user_title; ?>
-            <?php endif; ?>
-          </div>
+        <?php if (!empty($user_title)): ?>
+          <div class="author-pane-line author-title"> <?php print $user_title; ?> </div>
         <?php endif; ?>
 
         <?php if (!empty($user_badges)): ?>
@@ -80,8 +77,6 @@
             <span class="author-pane-label"><?php print t('!Points', userpoints_translation()); ?></span>: <?php print $userpoints_points; ?>
           </div>
         <?php endif; ?>
-
-        <div class="author-pane-icon"><?php print $online_icon; ?></div>
 
         <?php if (!empty($contact)): ?>
           <div class="author-pane-icon"><?php print $contact; ?></div>
