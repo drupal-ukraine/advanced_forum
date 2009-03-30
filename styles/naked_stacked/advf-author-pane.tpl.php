@@ -3,9 +3,9 @@
 
 /**
  * @file
- * Theme implementation to display information about the post author.
+ * Theme implementation to display information about the post/profile author.
  *
- * Available variables are listed in author-pane.tpl.php in Author Pane module.
+ * See author-pane.tpl.php in Author Pane module for a full list of variables.
  */
 ?>
 
@@ -26,8 +26,8 @@
         <?php endif; ?>
 
         <div class="author-pane-line author-pane-online">
-          <span class="author=pane-online-icon"><?php print $online_icon; ?></span>
-          <span class="author=pane-online-status"><?php print $online_status; ?></span>
+          <span class="author-pane-online-icon"><?php print $online_icon; ?></span>
+          <span class="author-pane-online-status"><?php print $online_status; ?></span>
         </div>
 
         <?php if (!empty($user_title)): ?>
