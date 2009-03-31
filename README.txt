@@ -42,7 +42,7 @@ INSTALLATION
      * "Number of characters to display for the topic title" On the main forums page, the
        title of the last topic is shown. Because this is a narrow column, it is 
        truncated. This option sets how many characters are shown.
-     * "Number of hours before switching to "time ago" in displays" In the forum / topic
+     * "Number of hours before switching to date posted in displays" In the forum / topic
        listing, recent posts are shown like "1 day, 3 hours ago" and older posts will
        have the actual date. You control the cutoff here.
    # Topics

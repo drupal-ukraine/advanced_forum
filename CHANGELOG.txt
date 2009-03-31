@@ -2,6 +2,14 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
+March 31, 2009
+--------------
+#419782 by Michelle: Fixed wording on time ago/actual date option as it was backwards.
+
+March 30, 2009
+--------------
+#412906 by Michelle: Fixed typo in the author pane template and cleaned up comments.
+
 March 21, 2009
 --------------
 #402352 by Michelle: Removed logic to print user title image. Variable is still there.
