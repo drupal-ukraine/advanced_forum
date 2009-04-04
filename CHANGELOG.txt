@@ -2,7 +2,11 @@ $Id$
 
 ****************************** DRUPAL 5 BRANCH ********************************
 
-March 31, 2009
+April 4, 2009
+-------------
+#422652 by NeoID: Closed tag on break in advanced_forum-forum-legend.tpl.php
+
+March 31, 2009 -- 5.x-1.0
 --------------
 #419782 by Michelle: Fixed wording on time ago/actual date option as it was backwards.
 
