@@ -1,0 +1,510 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  advanced_forum.module,v 1.21.2.128 2009/02/20 17:47:21 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.21 2009/01/27 23:31:11 michellec
+#  advanced_forum-forum-legend.tpl.php,v 1.1.2.3 2009/02/04 04:59:37 michellec
+#  advanced_forum-topic-legend.tpl.php,v 1.1.2.3 2009/02/04 04:59:37 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.10 2009/01/27 23:31:11 michellec
+#  advanced_forum.info,v 1.4.2.6 2008/12/21 22:41:41 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.7 2009/02/04 04:06:09 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.6 2009/02/04 04:06:09 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.7 2009/01/27 04:54:53 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.9 2009/02/04 04:06:09 michellec
+#  advf-forum-post.tpl.php,v 1.1.2.21 2009/02/07 04:40:48 michellec
+#  advf-forum-statistics.tpl.php,v 1.1.2.3 2009/02/04 17:22:18 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.6 2009/01/27 23:31:11 michellec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: advanced_forum (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-02-21 14:20-0500\n"
+"PO-Revision-Date: 2009-03-03 14:24+0200\n"
+"Last-Translator: Akis Panas <pasas9@gmail.com>\n"
+"Language-Team: GREEK <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: advanced_forum.module:171
+msgid "General"
+msgstr "Γενικά"
+
+#: advanced_forum.module:185
+msgid "Advanced forum style"
+msgstr "Θεματική παραλλαγή Advanced forum"
+
+#: advanced_forum.module:187
+msgid "Choose which style to use for your forums. This will apply independent of site theme."
+msgstr "Επιλέξτε την θεματική παραλλαγή για το φόρουμ. Εφαρμόζεται ανεξάρτητα από την παραλλαγή του ιστοτόπου."
+
+#: advanced_forum.module:194
+msgid "Image directory"
+msgstr "Κατάλογος εικόνων"
+
+#: advanced_forum.module:196
+msgid "Images are assumed to be in the \"images\" subdirectory of your style. If you need images to be somewhere else, put the full path here."
+msgstr "Οι εικόνες βρίσκονται στον υποκατάλογο \"images\" της θεματικής παραλλαγής σας. Αν βάλετε τις εικόνες κάπου αλλού, εισάγετε εδώ την πλήρη διαδρομή."
+
+#: advanced_forum.module:203
+msgid "Use graphical buttons for links"
+msgstr "Χρησιμοποιήστε εικόνες για τους συνδέσμους του φόρουμ"
+
+#: advanced_forum.module:205
+msgid "Included buttons are in English. Uncheck this to use translatable links instead."
+msgstr "Τα κουμπιά είναι στα αγγλικά. Αποεπιλέξτε το για να χρησιμοποιήσετε τους μεταφρασμένους συνδέσμους."
+
+#: advanced_forum.module:211
+msgid "Treat all site comments like forum posts"
+msgstr "Αντιμετώπιση όλων των σχόλιον του ιστοτόπου σαν δημοσιεύσεις του φόρουμ"
+
+#: advanced_forum.module:213
+msgid "Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required."
+msgstr "Η επιλογή ναι αναγκάζει το advanced forum να θεωρεί κάθε σχόλιο σαν αυτά του φόρουμ και θα προσπαθήσει να τα εμφανίσει με την δικιά του θεματική παραλλαγή. Μπορεί να χρειαστούν ορισμένες αλλαγές στην θεμ. παραλλαγή του ιστότοπου."
+
+#: advanced_forum.module:219
+msgid "Forum and topic lists"
+msgstr "Λίστες φόρουμ και θεμάτων"
+
+#: advanced_forum.module:227
+msgid "Hide the created column on the topic list"
+msgstr "Απόκρυψη της στήλης 'δημιουργήθηκε' στη λίστα θέματος"
+
+#: advanced_forum.module:229
+msgid "This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title."
+msgstr "Αυτό σας επιτρέπει να κρύψετε τη στήλη 'δημιουργήθηκε' στην λίστα των θεμάτων. Χρήσιμο εάν θέλετε να μεταφέρετε τις πληροφορίες 'δημιουργήθηκε από' κάτω από τον τίτλο του θέματος."
+
+#: advanced_forum.module:235
+msgid "Maximum number of pages to show on per title pager"
+msgstr "Μέγιστος αριθμός σελίδων προς εμφάνιση στην πλοήγηση τίτλου"
+
+#: advanced_forum.module:237
+msgid "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10"
+msgstr "Χρησιμοποιείται στην πλοήγηση κάτω από τους τίτλους  στις λίστες θεμάτων. Π.χ. εισάγοντας 5 θα λάβετε 1,2,3,4 ... 10"
+
+#: advanced_forum.module:244
+msgid "Get the number of new comments per forum on the forum list"
+msgstr "Εμφάνιση του αριθμού των νέων σχόλιον ανά κατηγόρια στην λίστα του φόρουμ"
+
+#: advanced_forum.module:246
+msgid "Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under \"posts\" on the forum overview. Slow query not recommended on large forums."
+msgstr "Το βασικό φόρουμ δείχνει τον αριθμό των νέων θεμάτων. Αν επιλεχθεί, το Advanced Forum θα πάρει επίσης τον αριθμό των νέων σχόλιον, και θα το εμφανίζει κάτω από τα \"δημοσιεύματα\" στην επισκόπηση του φόρουμ. Αργό ερώτημα δεν συνιστάται για σε μεγάλα"
+
+#: advanced_forum.module:252
+msgid "Number of characters to display for the topic title"
+msgstr "Αριθμός χαρακτήρων προς εμφάνιση στον τίτλο του θέματος"
+
+#: advanced_forum.module:254
+msgid "Used on main forum page. Enter 0 to use the full title."
+msgstr "Χρησιμοποιείται στην αρχική σελίδα του φόρουμ. Εισάγετε 0 για να χρησιμοποιήσετε ολόκληρο τον τίτλο."
+
+#: advanced_forum.module:261
+msgid "Number of hours before switching to \"time ago\" in displays"
+msgstr "Αριθμός ωρών πριν αλλαχθεί η προβολή σε \"ώρες πριν\""
+
+#: advanced_forum.module:263
+msgid "Will show actual date posted until this cutoff and then switch to time ago."
+msgstr "Θα εμφανίζει την ώρα δημοσίευσης μέχρι σε αυτό το σημείο και μετά θα αλλάζει σε χρόνος πριν."
+
+#: advanced_forum.module:270
+#: styles/naked/advf-forum-list.tpl.php:41
+msgid "Topics"
+msgstr "Θέματα"
+
+#: advanced_forum.module:278
+msgid "Use topic navigation"
+msgstr "Χρησιμοποιήστε την πλοήγηση θέματος"
+
+#: advanced_forum.module:280
+msgid "Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor."
+msgstr "Το βασικό φόρουμ εμφανίζει συνδέσμους σε προηγούμενο και επόμενο θέμα κάτω από το δημοσίευμα στην κορυφή. Αυτό είναι απενεργοποιημένο από προεπιλογή καθώς το ερώτημα έχει ζητήματα απόδοσης και γιατί η τοποθέτηση των συνδέσμων δεν είναι σε σωστό σημείο."
+
+#: advanced_forum.module:293
+msgid "User picture preset"
+msgstr "Προρυθμισμένη εικόνα χρήστη"
+
+#: advanced_forum.module:295
+msgid "Imagecache preset to use for forum avatars. Leave blank to not use this feature."
+msgstr "Προρυθμιση με Imagecache για να χρησιμοποιήσετε για άβαταρ στο φόρουμ. Αφήστε κενό για να μη χρησιμοποιήσετε αυτό το χαρακτηριστικό."
+
+#: advanced_forum.module:336
+msgid "No replies"
+msgstr "Χωρίς απαντήσεις"
+
+#: advanced_forum.module:351;361
+msgid "Post Reply"
+msgstr "Προσθέστε απάντηση"
+
+#: advanced_forum.module:353;363
+msgid "Share your thoughts and opinions related to this posting."
+msgstr "Μοιραστείτε τις σκέψεις και τη γνώμη σας σχετικά με αυτή την δημοσίευση."
+
+#: advanced_forum.module:371
+msgid "post-reply.png"
+msgstr "el/ppost-reply.png"
+
+#: advanced_forum.module:371
+msgid "Post reply"
+msgstr "Προσθήκη απάντησης"
+
+#: advanced_forum.module:378
+msgid "Topic Locked"
+msgstr "Κλειδωμένο θέμα"
+
+#: advanced_forum.module:379
+msgid "This topic is locked"
+msgstr "Το θέμα είναι κλειδωμένο"
+
+#: advanced_forum.module:384
+msgid "locked-topic.png"
+msgstr "el/locked-topic.png"
+
+#: advanced_forum.module:384
+msgid "Locked"
+msgstr "Κλειδωμένο"
+
+#: advanced_forum.module:431
+msgid "Reply"
+msgstr "Απάντηση"
+
+#: advanced_forum.module:546
+msgid "(permalink)"
+msgstr "(σύνδεσμος)"
+
+#: advanced_forum.module:598
+msgid "new-topic.png"
+msgstr "el/new-topic.png"
+
+#: advanced_forum.module:598
+msgid "New topic"
+msgstr "Νέο θέμα"
+
+#: advanced_forum.module:604
+msgid "new-poll.png"
+msgstr "el/new-poll.png"
+
+#: advanced_forum.module:604
+msgid "New poll"
+msgstr "Νέα ψηφοφορία"
+
+#: advanced_forum.module:615
+msgid "Mark all topics read"
+msgstr "Σημειώστε όλα τα θέματα ως διαβασμένα"
+
+#: advanced_forum.module:619
+msgid "Mark all forums read"
+msgstr "Σημειώστε το φόρουμ ως διαβασμένο"
+
+#: advanced_forum.module:625
+msgid "mark-read.png"
+msgstr "el/mark-read.png"
+
+#: advanced_forum.module:625
+msgid "Mark read"
+msgstr "Σημειώστε ως διαβασμένο"
+
+#: advanced_forum.module:662;748
+msgid "forum-folder-new-posts.png"
+msgstr "el/forum-folder-new-posts.png"
+
+#: advanced_forum.module:662
+#: styles/naked/advanced_forum-forum-legend.tpl.php:13
+msgid "Forum Contains New Posts"
+msgstr "Το φόρουμ έχει νέα μηνύματα"
+
+#: advanced_forum.module:663
+msgid "/forum-folder.png"
+msgstr "el/forum-folder.png"
+
+#: advanced_forum.module:663
+#: styles/naked/advanced_forum-forum-legend.tpl.php:15
+msgid "Forum Contains No New Posts"
+msgstr "Το φόρουμ δεν έχει νέα μηνύματα"
+
+#: advanced_forum.module:664
+msgid "forum-folder-locked.png"
+msgstr "el/forum-folder-locked.png"
+
+#: advanced_forum.module:664
+#: styles/naked/advanced_forum-forum-legend.tpl.php:17
+msgid "Forum is Locked"
+msgstr "Το φόρουμ είναι κλειδωμένο"
+
+#: advanced_forum.module:670
+msgid "topic-new.png"
+msgstr "el/topic-new.png"
+
+#: advanced_forum.module:670
+#: styles/naked/advanced_forum-topic-legend.tpl.php:18
+msgid "New Posts"
+msgstr "Νέα μηνύματα"
+
+#: advanced_forum.module:671
+msgid "topic-hot-new.png"
+msgstr "el/topic-hot-new.png"
+
+#: advanced_forum.module:671
+#: styles/naked/advanced_forum-topic-legend.tpl.php:28
+msgid "Hot Thread (New)"
+msgstr "Καυτό θέμα (με νέα)"
+
+#: advanced_forum.module:672
+msgid "topic-hot.png"
+msgstr "el/topic-hot.png"
+
+#: advanced_forum.module:672
+#: styles/naked/advanced_forum-topic-legend.tpl.php:24
+msgid "Hot Thread (No New)"
+msgstr "Καυτό θέμα (χωρίς νέα)"
+
+#: advanced_forum.module:673
+msgid "topic-default.png"
+msgstr "el/topic-default.png"
+
+#: advanced_forum.module:673
+#: styles/naked/advanced_forum-topic-legend.tpl.php:14
+msgid "No New Posts"
+msgstr "Χωρίς νέα μηνύματα"
+
+#: advanced_forum.module:674
+msgid "topic-sticky.png"
+msgstr "el/topic-sticky.png"
+
+#: advanced_forum.module:674
+#: styles/naked/advanced_forum-topic-legend.tpl.php:34
+msgid "Sticky Thread"
+msgstr "Επισημασμένο θέμα"
+
+#: advanced_forum.module:675
+msgid "topic-closed.png"
+msgstr "el/topic-closed.png"
+
+#: advanced_forum.module:675
+#: styles/naked/advanced_forum-topic-legend.tpl.php:38
+msgid "Locked Thread"
+msgstr "Κλειδωμένο θέμα"
+
+#: advanced_forum.module:748
+msgid "new post folder"
+msgstr "νέος φάκελος δημοσίευσης"
+
+#: advanced_forum.module:751
+msgid "forum-folder.png"
+msgstr "el/forum-folder.png"
+
+#: advanced_forum.module:751
+msgid "folder"
+msgstr "φάκελος"
+
+#: advanced_forum.module:841
+msgid "Views"
+msgstr "Εμφανίσεις"
+
+#: advanced_forum.module:884
+msgid "This topic has been moved to !forum"
+msgstr "Το θέμα μεταφέρθηκε σε !forum"
+
+#: advanced_forum.module:1077
+msgid "All content in this forum has been marked as read"
+msgstr "Όλα τα περιεχόμενα σε αυτό το φόρουμ σημειώθηκαν ως διαβασμένα"
+
+#: advanced_forum.module:1110
+msgid "All forum content been marked as read"
+msgstr "Όλα τα περιεχόμενα του φόρουμ σημειώθηκαν ως διαβασμένα"
+
+#: advanced_forum.module:1259
+msgid "@user's picture"
+msgstr "Εικόνα: @user"
+
+#: advanced_forum.module:1273
+msgid "View user profile."
+msgstr "Δείτε το προφίλ του χρήστη."
+
+#: advanced_forum.module:1289;1294
+msgid "reply.png"
+msgstr "el/reply.png"
+
+#: advanced_forum.module:1289;1294
+msgid "reply"
+msgstr "απάντηση"
+
+#: advanced_forum.module:1299
+msgid "edit.png"
+msgstr "el/edit.png"
+
+#: advanced_forum.module:1299
+msgid "edit"
+msgstr "επεξεργασία"
+
+#: advanced_forum.module:1304
+msgid "delete.png"
+msgstr "el/delete.png"
+
+#: advanced_forum.module:1304
+msgid "delete"
+msgstr "διαγραφή"
+
+#: advanced_forum.module:1504
+#: styles/naked/advf-forum-list.tpl.php:43
+msgid "Last post"
+msgstr "Τελευταία δημοσίευση"
+
+#: advanced_forum.module:1575
+#: styles/naked/advf-forum-topic-list.tpl.php:64
+msgid "new"
+msgstr "νέο"
+
+#: advanced_forum.module:1599
+msgid "1"
+msgstr "1"
+
+#: advanced_forum.module:1632
+msgid "Last Page"
+msgstr "Τελευταία σελίδα"
+
+#: advanced_forum.module:1637
+msgid "Page"
+msgstr "Σελίδα"
+
+#: advanced_forum.module:332
+msgid "1 reply"
+msgid_plural "@count replies"
+msgstr[0] "1 απάντηση"
+msgstr[1] "@count απαντήσεις"
+
+#: advanced_forum.module:738
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "1 νέο"
+msgstr[1] "@count νέα"
+
+#: advanced_forum.module:15
+msgid "administer advanced forum"
+msgstr "διαχείριση advanced forum"
+
+#: advanced_forum.module:16
+msgid "view forum statistics"
+msgstr "προβολή στατιστικών του φόρουμ"
+
+#: advanced_forum.module:30
+msgid "Configure Advanced Forum with these settings."
+msgstr "Ρυθμίστε το Advanced Forum με αυτές τις επιλογές."
+
+#: advanced_forum.module:33
+#: advanced_forum.info:0
+msgid "Advanced Forum"
+msgstr "Advanced Forum"
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr "advanced_forum"
+
+#: advanced_forum.info:0
+msgid "Enables the look and feel of other popular forum software."
+msgstr "Ενεργοποιεί την εμφάνιση και αίσθηση  άλλων δημοφιλών λογισμικών φόρουμ."
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:78
+#: styles/boxy_stacked/advf-author-pane.tpl.php:77
+#: styles/naked/advf-author-pane.tpl.php:75
+#: styles/naked_stacked/advf-author-pane.tpl.php:78
+msgid "Title"
+msgstr "Τίτλος"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:95
+#: styles/boxy_stacked/advf-author-pane.tpl.php:94
+#: styles/naked/advf-author-pane.tpl.php:119
+#: styles/naked_stacked/advf-author-pane.tpl.php:95
+msgid "IP"
+msgstr ""
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:109
+#: styles/boxy_stacked/advf-author-pane.tpl.php:108
+#: styles/naked/advf-author-pane.tpl.php:92
+#: styles/naked_stacked/advf-author-pane.tpl.php:109
+msgid "Joined"
+msgstr "Εγγράφηκε"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:115
+#: styles/boxy_stacked/advf-author-pane.tpl.php:114
+#: styles/naked/advf-author-pane.tpl.php:98
+#: styles/naked/advf-forum-list.tpl.php:42
+#: styles/naked_stacked/advf-author-pane.tpl.php:115
+msgid "Posts"
+msgstr "Δημοσιεύματα"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:121
+#: styles/boxy_stacked/advf-author-pane.tpl.php:120
+#: styles/naked/advf-author-pane.tpl.php:104
+#: styles/naked_stacked/advf-author-pane.tpl.php:121
+msgid "!Points"
+msgstr ""
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:147
+#: styles/boxy_stacked/advf-author-pane.tpl.php:126
+#: styles/naked/advf-author-pane.tpl.php:110
+#: styles/naked_stacked/advf-author-pane.tpl.php:147
+msgid "Groups"
+msgstr "Ομάδες"
+
+#: styles/naked/advf-forum-list.tpl.php:40
+msgid "Forum"
+msgstr "Φόρουμ"
+
+#: styles/naked/advf-forum-post.tpl.php:78
+msgid "Top"
+msgstr "Στην κορυφή"
+
+#: styles/naked/advf-forum-statistics.tpl.php:22
+msgid "What's Going On?"
+msgstr "Συνδεδεμένοι χρήστες"
+
+#: styles/naked/advf-forum-statistics.tpl.php:25
+msgid "Currently active users: !current_total (!current_users users and !current_guests guests)"
+msgstr "!current_total (!current_users μέλη και !current_guests επισκέπτες)"
+
+#: styles/naked/advf-forum-statistics.tpl.php:33
+msgid "Statistics"
+msgstr "Στατιστικά"
+
+#: styles/naked/advf-forum-statistics.tpl.php:37
+msgid "Topics: !topics, Posts: !posts, Users: !users"
+msgstr "Θέματα: !topics, Δημοσιεύσεις: !posts, Μέλη: !users"
+
+#: styles/naked/advf-forum-statistics.tpl.php:38
+msgid "Welcome to our latest member, !user"
+msgstr "Καλωσορίζουμε το νεότερο μέλος μας: !user"
+
+#: styles/naked/advf-forum-submitted.tpl.php:26
+msgid "!title<br />by !author<br />@date_posted"
+msgstr "!title<br />από !author<br />@date_posted"
+
+#: styles/naked/advf-forum-submitted.tpl.php:33
+msgid "!title<br />by !author<br />@time ago"
+msgstr "!title<br />από !author<br />@time πριν"
+
+#: styles/naked/advf-forum-submitted.tpl.php:42
+msgid "by !author<br />@date_posted"
+msgstr "από !author<br />@date_posted"
+
+#: styles/naked/advf-forum-submitted.tpl.php:48
+msgid "by !author<br />@time ago"
+msgstr "από !author<br />@time πριν"
+
+#: styles/naked/advf-forum-submitted.tpl.php:56
+msgid "n/a"
+msgstr "μ/δ"
+
+#: styles/naked/advf-forum-topic-list.tpl.php:52
+msgid "Sticky"
+msgstr "Επισημασμένο"
+
+#: styles/naked/advf-forum-topic-list.tpl.php:61
+msgid "updated"
+msgstr "ενημερώθηκε"
+

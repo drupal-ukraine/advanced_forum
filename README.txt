@@ -19,12 +19,12 @@ INSTALLATION
    
 2. Copy the entire advanced_forum project directory (not just the contents) to your 
    normal module directory (ie: sites/all/modules)
-
+   
 3. Enable the advanced forum module at ?q=admin/build/modules
 
 4. Visit the Advanced Forum settings page at ?q=admin/settings/advanced-forum 
    # General:
-     * "Advanced forum style directory" Enter the name of the style you are using. 
+     * "Advanced forum style directory" Select the style you are using. 
        See http://drupal.org/node/234042 for more information on this.
      * "Use graphical buttons for links" Check this if you want links to use graphical 
         buttons (where available).
@@ -55,22 +55,6 @@ INSTALLATION
         different sizes for avatars. If you don't want to use a preset, just leave it
         blank.
 
-5. In the module package is a directory called "styles". Choose the style to use and copy
-   the entire directory (not just the contents) to your theme's directory. If you use 
-   more than one theme with forums, copy it to each theme's directory. If you use 
-   subthemes, copy it there. (Make sure this is the same style you choose in step 4.)
-
-6. If you are not using a theme with built in AF support (Zen, some Roople themes, 
-   possibly others) Add this code to the top of _phptemplate_variables in template.php 
-   in your theme and make sure you are returning $vars, not array() at the end:
-
-  if (module_exists('advanced_forum')) {
-    $vars = advanced_forum_addvars($hook, $vars);
-  }
-
-  This assumes a basic knowledge of PHP to be able to do any merging necessary. If you 
-  don't know how to do this, see http://drupal.org/node/207841.
-   
 OTHER CONFIGURATION
 -------------------
    
@@ -79,28 +63,32 @@ OTHER CONFIGURATION
     * Topics per page: Up to you.
     * Default order: "Date - newest first" so the most recent posts are at the top of the 
       topic list.
-2. Comment settings ( ?q=admin/content/comment/settings ) 
-    * Set Default display mode: Flat list - expanded. (Advforum is intended to be used 
-      flat. Using it threaded should mostly work but is unsupported and may have some 
-      issues. I also recommend using flatcomments to force it flat under the hood.) 
-    * Default display order: Date - oldest first 
-    * Default comments per page: Up to you. (If you chose to have a threaded forum, 
-      setting this number to the maximum will reduce issues with pagination and 
-      threading.) 
-    * Comment controls: "Do not display" is recommended.
-    * Anonymous commenting: Up to you.
-    * Comment subject field: Up to you. If disabled, advforum will not display the Drupal 
-      default subject, which is the first few words of the comment.
-    * Preview comment: Up to you.
-    * Location of comment submission form: Up to you. Displaying below provides a 
-      non-ajax quick reply.
+2. Select content types to use in forums ( ?q=admin/content/taxonomy ) 
+3. Edit the forum vocabulary
+   * Check all content types you want to use in forums.
+4. Comment settings ( ?q=admin/content/node-type/forum ) [Note: do this for each content 
+   type used in forums] 
+   * Expand "Comment settings" fieldset.
+   * Default comment setting: "Read/write"
+   * Set Default display mode: Flat list - expanded. (Advforum is intended to be used 
+     flat. Using it threaded should mostly work but is unsupported and may have some 
+     issues.) 
+   * Default display order: Date - oldest first 
+   * Default comments per page: Up to you. (If you chose to have a threaded forum, 
+     setting this number to the maximum will reduce issues with pagination and threading.) 
+   * Comment controls: "Do not display" is recommended.
+   * Anonymous commenting: Up to you.
+   * Comment subject field: Up to you. If disabled, advforum will not display the Drupal 
+     default subject, which is the first few words of the comment.
+   * Preview comment: Up to you.
+   * Location of comment submission form: Up to you. Displaying below provides a non-ajax 
+     quick reply.
 5. User settings ( ?q=admin/user/settings ) 
    * Signature support: Enabled
    * Picture support: Enable this for avatars in the forum.
    * Picture maximum dimensions: If you change this from the default 85x85, you will want 
      to size it in either CSS or with imagecache to avoid breaking the forum layout.
 6. Statistics settings ( ?q=admin/reports/settings ) 
-   * Make sure the statistics module is enabled.
    * Enable access log: Enabled
    * Count content views: Enabled - Needed for topic views count.   
     

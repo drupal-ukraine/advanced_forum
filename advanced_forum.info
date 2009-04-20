@@ -1,4 +1,6 @@
 ; $Id$
 name = Advanced Forum
 description = Enables the look and feel of other popular forum software.
-dependencies = forum author_pane
+dependencies[] = forum
+dependencies[] = author_pane
+core = 6.x

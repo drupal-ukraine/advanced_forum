@@ -1,0 +1,363 @@
+# $Id$
+#
+# German translation of Drupal (general)
+# Copyright 2009 BlackHawk <BlackHawk_AF@hotmail.com>
+# Generated from files:
+#  advanced_forum.module,v 1.21.2.80 2008/10/22 23:01:17 michellec
+#  advanced_forum.info,v 1.4.2.5 2008/06/10 03:21:48 michellec
+#  modules/contact.forum.inc: n/a
+#  modules/privatemsg.forum.inc: n/a
+#  advf-author-pane.tpl.php,v 1.1.2.4 2008/10/20 21:34:23 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.2 2008/10/21 21:12:07 michellec
+#  advf-author-pane.tpl.php,v 1.1.2.4 2008/10/20 21:34:24 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.12 2008/10/22 23:01:17 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.3 2008/10/22 23:01:17 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.18 2008/10/22 23:01:18 michellec
+#  advf-forum-list.tpl.php,v 1.1.2.7 2008/10/22 23:01:18 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.3 2008/10/01 03:34:23 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.2 2008/10/21 21:12:07 michellec
+#  advf-forum-submitted.tpl.php,v 1.1.2.5 2008/10/01 03:34:23 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.4 2008/10/01 22:41:17 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.2 2008/10/21 21:12:07 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.6 2008/10/01 22:41:17 michellec
+#  advf-forum-topic-list.tpl.php,v 1.1.2.4 2008/10/01 22:41:18 michellec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal Advanced Forum V6\n"
+"POT-Creation-Date: 2008-10-28 18:29+0100\n"
+"PO-Revision-Date: 2008-10-28 18:30+0100\n"
+"Last-Translator: Carlos Yáñez <BlackHawk_AF@hotmail.com>\n"
+"Language-Team: Carlos Yáñez <BlackHawk_AF@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: CHILE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: advanced_forum.module:155
+msgid "Advanced forum style"
+msgstr "Estilo del Foro Avanzado"
+
+#: advanced_forum.module:157
+msgid "Choose which style to use for your forums. This will apply independent of site theme."
+msgstr "Elegir el estilo a usar para sus foros. Esto se aplicará independientemente the tema del sitio."
+
+#: advanced_forum.module:164
+msgid "Use graphical buttons for links"
+msgstr "Usar botones gráficos para los enlaces"
+
+#: advanced_forum.module:166
+msgid "Included buttons are in English. Uncheck this to use translatable links instead."
+msgstr "Los botones incluidos están en Inglés. Deseleccionar esto para usar los enlaces traducibles."
+
+#: advanced_forum.module:172
+msgid "Image directory"
+msgstr "Directorio de Imágenes"
+
+#: advanced_forum.module:174
+msgid "Images are assumed to be in the \"images\" subdirectory of your style. If you need images to be somewhere else, put the full path here."
+msgstr "Se asume que las imágenes están en el subdirectorio \"images\" de su estilo. Si necesita que las imágenes estén en otro lugar, introducir la dirección aquí "
+
+#: advanced_forum.module:181
+msgid "Treat all site comments like forum comments"
+msgstr "Tratar todos los comentarios del sitio como comentarios de foro."
+
+#: advanced_forum.module:183
+msgid "Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required."
+msgstr "Escoger que Sí causa que Advanced Forum considere cada comentario como comentario de foro e intente darle formato de tema. Puede que se requiera algunos cambios a su tema."
+
+#: advanced_forum.module:199
+msgid "Hide the created column on the topic list."
+msgstr "Ocultar la columna creada en la lista de tópicos."
+
+#: advanced_forum.module:201
+msgid "This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title."
+msgstr "Esto le permite ocultar la columna creada en la lista de tópicos. Útil si quiere mover la información "creada por" abajo del título del tópico."
+
+#: advanced_forum.module:207
+msgid "Maximum number of pages to show on per title pager"
+msgstr "Máximo número de páginas a mostrar por título de paginador"
+
+#: advanced_forum.module:209
+msgid "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10"
+msgstr "Usado en el paginador bajo los títulos de tópicos en la lista de tópicos. Ej.: Introduciendo 5 va a obtener 1, 2, 3, 4 ... 10."
+
+#: advanced_forum.module:216
+msgid "Get the number of new comments per forum on the forum list"
+msgstr "Obtener el número de nuevos comentario por foro en la lista de foro."
+
+#: advanced_forum.module:218
+msgid "Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under \"posts\" on the forum overview. Slow query not recommended on large forums."
+msgstr "El núcleo del foro muestra el número de nuevos tópicos. Si es seleccionado, Advanced Forum obtendrá el número de nuevos comentarios como también y los mostrará bajo \"posts\ en el visor general del foro. Consultas lentas, no recomendable en foros grandes."
+
+#: advanced_forum.module:224
+msgid "Use topic navigation"
+msgstr "Usar navegación de tópicos"
+
+#: advanced_forum.module:226
+msgid "Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor."
+msgstr "El núcleo del foro obtiene el tópico siguiente y anterior y muestra enlaces hacia ellos abajo del post superior. Esto está desactivado por defecto ya que la consulta tiene problemas de rendimiento y el colocamiento del enlace es pobre."
+
+#: advanced_forum.module:316
+msgid "No replies"
+msgstr "Sin respuestas"
+
+#: advanced_forum.module:342
+msgid "Reply"
+msgstr "Respuesta"
+
+#: advanced_forum.module:352;521
+msgid "Post Reply"
+msgstr "Postear Respuesta"
+
+#: advanced_forum.module:491
+msgid "(permalink)"
+msgstr ""
+
+#: advanced_forum.module:561;561
+msgid "User is online"
+msgstr "Usuario está conectado"
+
+#: advanced_forum.module:562
+msgid "Online"
+msgstr "Conectado"
+
+#: advanced_forum.module:567;568
+msgid "User offline. Last seen @time ago."
+msgstr "Usuario Desconectado. Visto por última vez @time."
+
+#: advanced_forum.module:571
+msgid "Offline"
+msgstr "Desconectado"
+
+#: advanced_forum.module:618
+msgid "Mark all topics read"
+msgstr "Marcar todos los tópicos como leídos"
+
+#: advanced_forum.module:622
+msgid "Mark all forums read"
+msgstr "Marcar todos los foros como leídos"
+
+#: advanced_forum.module:788
+msgid "Topic"
+msgstr "Tópico"
+
+#: advanced_forum.module:789
+msgid "Replies"
+msgstr "Respuestas"
+
+#: advanced_forum.module:793
+msgid "Views"
+msgstr "Lecturas"
+
+#: advanced_forum.module:798
+msgid "Created"
+msgstr "Creado"
+
+#: advanced_forum.module:801
+msgid "Last reply"
+msgstr "Última respuesta"
+
+#: advanced_forum.module:832
+msgid "This topic has been moved to "
+msgstr "Este tópico fue movido a "
+
+#: advanced_forum.module:1015
+msgid "All content in this forum has been marked as read"
+msgstr "Todo el contenido de este foro ha sido marcado como leído"
+
+#: advanced_forum.module:1043
+msgid "All forum content been marked as read"
+msgstr "Todo el contenido del foro ha sido marcado como leído"
+
+#: advanced_forum.module:1294
+msgid "new"
+msgstr "nuevo"
+
+#: advanced_forum.module:1351
+msgid "Last Page"
+msgstr "Última Página"
+
+#: advanced_forum.module:1356
+msgid "Page"
+msgstr "Página"
+
+#: advanced_forum.module:313
+msgid "1 reply"
+msgid_plural "@count replies"
+msgstr[0] "1 respuesta"
+msgstr[1] "@count respuestas"
+
+#: advanced_forum.module:698
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "1 nuevo"
+msgstr[1] "@count nuevo"
+
+#: advanced_forum.module:36
+msgid "administer advanced forum"
+msgstr "Administrador Advanced Forum"
+
+#: advanced_forum.module:50
+msgid "Configure Advanced Forum with these settings."
+msgstr "Configurar Advanced Forum con estos ajustes"
+
+#: advanced_forum.module:53
+#: advanced_forum.info:0
+msgid "Advanced Forum"
+msgstr "Advanced Forum"
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr "advanced_forum"
+
+#: advanced_forum.info:0
+msgid "Enables the look and feel of other popular forum software."
+msgstr "Activa la vista y semejanza de otros softwares populares de foro."
+
+#: modules/contact.author-pane.inc:19;19
+#: modules/contact.forum.inc:18;18
+msgid "Contact user"
+msgstr "Contactar usuario"
+
+#: modules/privatemsg.forum.inc:18;18
+msgid "Send private message"
+msgstr "Enviar mensaje privado"
+
+#: modules/privatemsg.forum.inc:22
+msgid "Send PM"
+msgstr "Enviar MP"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:76
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:78
+#: styles/naked/advf-author-pane.tpl.php:76
+#: styles/naked_stacked/advf-author-pane.tpl.php:78
+msgid "Joined"
+msgstr "Integró"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:82
+#: styles/blue_lagoon/advf-forum-list.tpl.php:42
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:84
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:42
+#: styles/naked/advf-author-pane.tpl.php:82
+#: styles/naked/advf-forum-list.tpl.php:42
+#: styles/naked_stacked/advf-author-pane.tpl.php:84
+#: styles/naked_stacked/advf-forum-list.tpl.php:42
+msgid "Posts"
+msgstr "Posts"
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:88
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:90
+#: styles/naked/advf-author-pane.tpl.php:88
+#: styles/naked_stacked/advf-author-pane.tpl.php:90
+msgid "!Points: "
+msgstr "!Puntos: "
+
+#: styles/blue_lagoon/advf-author-pane.tpl.php:94
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:96
+#: styles/naked/advf-author-pane.tpl.php:94
+#: styles/naked_stacked/advf-author-pane.tpl.php:96
+msgid "IP"
+msgstr "IP"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:40
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:40
+#: styles/naked/advf-forum-list.tpl.php:40
+#: styles/naked_stacked/advf-forum-list.tpl.php:40
+msgid "Forum"
+msgstr "Forum"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:41
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:41
+#: styles/naked/advf-forum-list.tpl.php:41
+#: styles/naked_stacked/advf-forum-list.tpl.php:41
+msgid "Topics"
+msgstr "Tópicos"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:43
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:43
+#: styles/naked/advf-forum-list.tpl.php:43
+#: styles/naked_stacked/advf-forum-list.tpl.php:43
+msgid "Last post"
+msgstr "Último post"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:107
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:107
+#: styles/naked/advf-forum-list.tpl.php:107
+#: styles/naked_stacked/advf-forum-list.tpl.php:107
+msgid "What's Going On?"
+msgstr "¿Qué está pasando?"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:110
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:110
+#: styles/naked/advf-forum-list.tpl.php:110
+#: styles/naked_stacked/advf-forum-list.tpl.php:110
+msgid "Currently active users: !current_total (!current_users users and !current_guests guests)"
+msgstr "Usuario activos actualmente: !current_total (!current_users usuarios y !current_guests invitados)"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:118
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:118
+#: styles/naked/advf-forum-list.tpl.php:118
+#: styles/naked_stacked/advf-forum-list.tpl.php:118
+msgid "Statistics"
+msgstr "Estadísticas"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:122
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:122
+#: styles/naked/advf-forum-list.tpl.php:122
+#: styles/naked_stacked/advf-forum-list.tpl.php:122
+msgid "Topics: !topics, Posts: !posts, Users: !users"
+msgstr "Tópicos: !topics, Posts: !posts, Usuarios: !users"
+
+#: styles/blue_lagoon/advf-forum-list.tpl.php:123
+#: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:123
+#: styles/naked/advf-forum-list.tpl.php:123
+#: styles/naked_stacked/advf-forum-list.tpl.php:123
+msgid "Welcome to our latest member, !user"
+msgstr "Den la bienvenida a nuestro último usuario, !user"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:26
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:26
+#: styles/naked/advf-forum-submitted.tpl.php:26
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:26
+msgid "!title<br />by !author<br />@date_posted"
+msgstr "!title<br />por !author<br />@date_posted"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:33
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:33
+#: styles/naked/advf-forum-submitted.tpl.php:33
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:33
+msgid "!title<br />by !author<br />@time ago"
+msgstr "!title<br />por !author<br />@time atrás"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:42
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:42
+#: styles/naked/advf-forum-submitted.tpl.php:42
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:42
+msgid "by !author<br />@date_posted"
+msgstr "por !author<br />@date_posted"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:48
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:48
+#: styles/naked/advf-forum-submitted.tpl.php:48
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:48
+msgid "by !author<br />@time ago"
+msgstr "von !author<br />vor @time"
+
+#: styles/blue_lagoon/advf-forum-submitted.tpl.php:56
+#: styles/blue_lagoon_stacked/advf-forum-submitted.tpl.php:56
+#: styles/naked/advf-forum-submitted.tpl.php:56
+#: styles/naked_stacked/advf-forum-submitted.tpl.php:56
+msgid "n/a"
+msgstr "no disponible"
+
+#: styles/blue_lagoon/advf-forum-topic-list.tpl.php:51
+#: styles/blue_lagoon_stacked/advf-forum-topic-list.tpl.php:51
+#: styles/naked/advf-forum-topic-list.tpl.php:51
+#: styles/naked_stacked/advf-forum-topic-list.tpl.php:51
+msgid "Sticky"
+msgstr "Sticky"
+

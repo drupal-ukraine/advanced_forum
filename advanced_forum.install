@@ -1,11 +1,11 @@
 <?php
 
+// $Id$
+
 /**
  * @file
  * Installation code for Advanced Forum.
  */
-
-// $Id$
 
 function advanced_forum_install() {
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
@@ -27,7 +27,7 @@ function advanced_forum_update_5000() {
   return $ret;
 }
 
-/* Removed these as they were a bad idea 
+/* Removed these as they were a bad idea
 function advanced_forum_update_5001() {
 }
 
@@ -37,16 +37,11 @@ function advanced_forum_update_5002() {
 
 function advanced_forum_update_5003() {
   $ret = array();
-  $ret[] = update_sql('DROP TABLE IF EXISTS {advforum_last_post}');
+  $ret[] = update_sql('DROP TABLE IF EXISTS  {advforum_last_post}');
   return $ret;
 }
 
 function advanced_forum_update_5004() {
-  // Clean up old unused variables.
-  $ret = array();
-  $ret[] =  variable_del('advanced_forum_themedir');
-  $ret[] =  variable_del('advforum_topic_pager_max');
-  $ret[] =  variable_del('advanced_forum_collapse_defaults');
-  return $ret;
+/* Removed variable clean up because it caused false fails. */
 }
 

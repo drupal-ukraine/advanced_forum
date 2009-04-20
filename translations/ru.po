@@ -1,0 +1,493 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Forum 6.x-1.0-rc1\n"
+"POT-Creation-Date: 2009-02-21 14:20-0500\n"
+"PO-Revision-Date: 2009-02-21 14:20-0500\n"
+"Last-Translator: overall <overall@mail.ru>\n"
+"Language-Team: overall <overall@mail.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: advanced_forum.module:171
+msgid "General"
+msgstr "Основное"
+
+#: advanced_forum.module:185
+msgid "Advanced forum style"
+msgstr "Стиль Advanced forum"
+
+#: advanced_forum.module:187
+msgid "Choose which style to use for your forums. This will apply independent of site theme."
+msgstr "Выберите стиль для использования на ваших форумах. Они работают независимо от темы оформления сайта."
+
+#: advanced_forum.module:194
+msgid "Image directory"
+msgstr "Папка с картинками"
+
+#: advanced_forum.module:196
+msgid "Images are assumed to be in the \"images\" subdirectory of your style. If you need images to be somewhere else, put the full path here."
+msgstr "По умолчанию картинки находяться в подпапке \"images\" вашего стиля. Если вам необходимо, что бы они брались из другого места, задайте полный путь здесь."
+
+#: advanced_forum.module:203
+msgid "Use graphical buttons for links"
+msgstr "Использовать картинки для кнопок"
+
+#: advanced_forum.module:205
+msgid "Included buttons are in English. Uncheck this to use translatable links instead."
+msgstr "Включенные в поставку кнопки - на английском. Снимите галку что бы вместо картинок использовать переводимые текстовые ссылки."
+
+#: advanced_forum.module:211
+msgid "Treat all site comments like forum posts"
+msgstr "Воспринимать все комментарии на сайте как сообщения форума."
+
+#: advanced_forum.module:213
+msgid "Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required."
+msgstr "Если отмечено, заставляет advanced forum рассматривать любой комментарий на сайте как сообщение форума и применять к нему такое же оформление. Возможно понадобятся некоторые изменения в вашей теме сайта."
+
+#: advanced_forum.module:219
+msgid "Forum and topic lists"
+msgstr "Списки форумов и тем"
+
+#: advanced_forum.module:227
+msgid "Hide the created column on the topic list"
+msgstr "Скрывать колонку \"Создано\" в списке тем"
+
+#: advanced_forum.module:229
+msgid "This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title."
+msgstr "Это позволит вам скрыть колонку \"Создано\" в списке тем. Необходимо если вы хотите поместить информацию о создании темы на страницу самой темы."
+
+#: advanced_forum.module:235
+msgid "Maximum number of pages to show on per title pager"
+msgstr "Максимальное число страниц отображаемое в листальщике страниц."
+
+#: advanced_forum.module:237
+msgid "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10"
+msgstr "Используется в листальщике под заголовками тем для списков тем. Например: задав 5, получим 1,2,3,4 ... 10"
+
+#: advanced_forum.module:244
+msgid "Get the number of new comments per forum on the forum list"
+msgstr "Отображать количество новых комментариев форума в списке форумов"
+
+#: advanced_forum.module:246
+msgid "Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under \"posts\" on the forum overview. Slow query not recommended on large forums."
+msgstr "Встроенный форум отображает кол-во новых тем. Если выбрано, Advanced Forum будет так же отображать кол-во новых комментариев форума в столбце \"Сообщения\" в списке форумов. Медленный запрос, не рекомендуется использовать для больших форумов."
+
+#: advanced_forum.module:252
+msgid "Number of characters to display for the topic title"
+msgstr "Кол-во символов для отображения заголовка темы"
+
+#: advanced_forum.module:254
+msgid "Used on main forum page. Enter 0 to use the full title."
+msgstr "Используется на главной странице форума. Введите 0 для отображения заголовка целиком."
+
+#: advanced_forum.module:261
+msgid "Number of hours before switching to \"time ago\" in displays"
+msgstr "Кол-во часов до переключения из режима отображения \"столько-то времени назад\""
+
+#: advanced_forum.module:263
+msgid "Will show actual date posted until this cutoff and then switch to time ago."
+msgstr "Будет отображать время в режиме \"столько-то времени назад\", а после прошествия заданного кол-ва часов переключится на отображение абсолютного времени."
+
+#: advanced_forum.module:270
+#: styles/naked/advf-forum-list.tpl.php:41
+msgid "Topics"
+msgstr "Темы"
+
+#: advanced_forum.module:278
+msgid "Use topic navigation"
+msgstr "Использовать навигацию по темам"
+
+#: advanced_forum.module:280
+msgid "Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor."
+msgstr "Встроенный форум отображает ссылки на предыдущую и следующую темы под первым постом. Выключенно по умолчанию, т.к. уменьшает производительность и отображение ссылок не самое лучшее."
+
+#: advanced_forum.module:293
+msgid "User picture preset"
+msgstr "Аватар - Imagecache preset"
+
+#: advanced_forum.module:295
+msgid "Imagecache preset to use for forum avatars. Leave blank to not use this feature."
+msgstr "Imagecache preset для применения к аватарам пользователей. Оставьте поле пустым что бы не использовать данный функционал."
+
+#: advanced_forum.module:336
+msgid "No replies"
+msgstr "Нет ответов"
+
+#: advanced_forum.module:351;361
+msgid "Post Reply"
+msgstr "Ответить"
+
+#: advanced_forum.module:353;363
+msgid "Share your thoughts and opinions related to this posting."
+msgstr "Поделитесь мыслями и мнениями об этом материале."
+
+#: advanced_forum.module:371
+msgid "post-reply.png"
+msgstr ""
+
+#: advanced_forum.module:371
+msgid "Post reply"
+msgstr "Ответить"
+
+#: advanced_forum.module:378
+msgid "Topic Locked"
+msgstr "Тема закрыта"
+
+#: advanced_forum.module:379
+msgid "This topic is locked"
+msgstr "Эта тема закрыта"
+
+#: advanced_forum.module:384
+msgid "locked-topic.png"
+msgstr ""
+
+#: advanced_forum.module:384
+msgid "Locked"
+msgstr "Закрыто"
+
+#: advanced_forum.module:431
+msgid "Reply"
+msgstr "Ответить"
+
+#: advanced_forum.module:546
+msgid "(permalink)"
+msgstr ""
+
+#: advanced_forum.module:598
+msgid "new-topic.png"
+msgstr ""
+
+#: advanced_forum.module:598
+msgid "New topic"
+msgstr "Новая тема"
+
+#: advanced_forum.module:604
+msgid "new-poll.png"
+msgstr ""
+
+#: advanced_forum.module:604
+msgid "New poll"
+msgstr "Новое голосование"
+
+#: advanced_forum.module:615
+msgid "Mark all topics read"
+msgstr "Отметить все темы как прочитанные"
+
+#: advanced_forum.module:619
+msgid "Mark all forums read"
+msgstr "Отметить все форумы как прочитанные"
+
+#: advanced_forum.module:625
+msgid "mark-read.png"
+msgstr ""
+
+#: advanced_forum.module:625
+msgid "Mark read"
+msgstr "Отметить как прочитанный"
+
+#: advanced_forum.module:662;748
+msgid "forum-folder-new-posts.png"
+msgstr ""
+
+#: advanced_forum.module:662
+#: styles/naked/advanced_forum-forum-legend.tpl.php:13
+msgid "Forum Contains New Posts"
+msgstr "Форум (есть новые)"
+
+#: advanced_forum.module:663
+msgid "/forum-folder.png"
+msgstr ""
+
+#: advanced_forum.module:663
+#: styles/naked/advanced_forum-forum-legend.tpl.php:15
+msgid "Forum Contains No New Posts"
+msgstr "Форум (нет новых)"
+
+#: advanced_forum.module:664
+msgid "forum-folder-locked.png"
+msgstr ""
+
+#: advanced_forum.module:664
+#: styles/naked/advanced_forum-forum-legend.tpl.php:17
+msgid "Forum is Locked"
+msgstr "Форум закрыт"
+
+#: advanced_forum.module:670
+msgid "topic-new.png"
+msgstr ""
+
+#: advanced_forum.module:670
+#: styles/naked/advanced_forum-topic-legend.tpl.php:18
+msgid "New Posts"
+msgstr "Новые сообщения"
+
+#: advanced_forum.module:671
+msgid "topic-hot-new.png"
+msgstr ""
+
+#: advanced_forum.module:671
+#: styles/naked/advanced_forum-topic-legend.tpl.php:28
+msgid "Hot Thread (New)"
+msgstr "Горячая тема (есть новые)"
+
+#: advanced_forum.module:672
+msgid "topic-hot.png"
+msgstr ""
+
+#: advanced_forum.module:672
+#: styles/naked/advanced_forum-topic-legend.tpl.php:24
+msgid "Hot Thread (No New)"
+msgstr "Горячая тема (нет новых)"
+
+#: advanced_forum.module:673
+msgid "topic-default.png"
+msgstr ""
+
+#: advanced_forum.module:673
+#: styles/naked/advanced_forum-topic-legend.tpl.php:14
+msgid "No New Posts"
+msgstr "Нет новых сообщений"
+
+#: advanced_forum.module:674
+msgid "topic-sticky.png"
+msgstr ""
+
+#: advanced_forum.module:674
+#: styles/naked/advanced_forum-topic-legend.tpl.php:34
+msgid "Sticky Thread"
+msgstr "Прикрепленная тема"
+
+#: advanced_forum.module:675
+msgid "topic-closed.png"
+msgstr ""
+
+#: advanced_forum.module:675
+#: styles/naked/advanced_forum-topic-legend.tpl.php:38
+msgid "Locked Thread"
+msgstr "Закрытая тема"
+
+#: advanced_forum.module:748
+msgid "new post folder"
+msgstr ""
+
+#: advanced_forum.module:751
+msgid "forum-folder.png"
+msgstr ""
+
+#: advanced_forum.module:751
+msgid "folder"
+msgstr "папка"
+
+#: advanced_forum.module:841
+msgid "Views"
+msgstr "Просмотры"
+
+#: advanced_forum.module:884
+msgid "This topic has been moved to !forum"
+msgstr "Эта тема была перемещена в форум !forum"
+
+#: advanced_forum.module:1077
+msgid "All content in this forum has been marked as read"
+msgstr "Всё содержимое этого форума было отмечено как прочитанное"
+
+#: advanced_forum.module:1110
+msgid "All forum content been marked as read"
+msgstr "Всё содержимое форумов было отмечено как прочитанное"
+
+#: advanced_forum.module:1259
+msgid "@user's picture"
+msgstr "Аватар пользователя @user"
+
+#: advanced_forum.module:1273
+msgid "View user profile."
+msgstr "Открыть профиль пользователя"
+
+#: advanced_forum.module:1289;1294
+msgid "reply.png"
+msgstr ""
+
+#: advanced_forum.module:1289;1294
+msgid "reply"
+msgstr "ответить"
+
+#: advanced_forum.module:1299
+msgid "edit.png"
+msgstr ""
+
+#: advanced_forum.module:1299
+msgid "edit"
+msgstr "изменить"
+
+#: advanced_forum.module:1304
+msgid "delete.png"
+msgstr ""
+
+#: advanced_forum.module:1304
+msgid "delete"
+msgstr "удалить"
+
+#: advanced_forum.module:1504
+#: styles/naked/advf-forum-list.tpl.php:43
+msgid "Last post"
+msgstr "Последнее сообщение"
+
+#: advanced_forum.module:1575
+#: styles/naked/advf-forum-topic-list.tpl.php:64
+msgid "new"
+msgstr "новый"
+
+#: advanced_forum.module:1599
+msgid "1"
+msgstr ""
+
+#: advanced_forum.module:1632
+msgid "Last Page"
+msgstr "Последняя страница"
+
+#: advanced_forum.module:1637
+msgid "Page"
+msgstr "Страница"
+
+#: advanced_forum.module:332
+msgid "1 reply"
+msgid_plural "@count replies"
+msgstr[0] "@count ответ"
+msgstr[1] "@count ответа"
+msgstr[2] "@count ответов"
+
+#: advanced_forum.module:738
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "@count новый"
+msgstr[1] "@count новых"
+msgstr[2] "@count новых"
+
+#: advanced_forum.module:15
+msgid "administer advanced forum"
+msgstr ""
+
+#: advanced_forum.module:16
+msgid "view forum statistics"
+msgstr ""
+
+#: advanced_forum.module:30
+msgid "Configure Advanced Forum with these settings."
+msgstr ""
+
+#: advanced_forum.module:33
+#: advanced_forum.info:0
+msgid "Advanced Forum"
+msgstr "Advanced Forum"
+
+#: advanced_forum.module:0
+msgid "advanced_forum"
+msgstr "advanced_forum"
+
+#: advanced_forum.info:0
+msgid "Enables the look and feel of other popular forum software."
+msgstr ""
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:78
+#: styles/boxy_stacked/advf-author-pane.tpl.php:77
+#: styles/naked/advf-author-pane.tpl.php:75
+#: styles/naked_stacked/advf-author-pane.tpl.php:78
+msgid "Title"
+msgstr "Заголовок"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:95
+#: styles/boxy_stacked/advf-author-pane.tpl.php:94
+#: styles/naked/advf-author-pane.tpl.php:119
+#: styles/naked_stacked/advf-author-pane.tpl.php:95
+msgid "IP"
+msgstr "IP"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:109
+#: styles/boxy_stacked/advf-author-pane.tpl.php:108
+#: styles/naked/advf-author-pane.tpl.php:92
+#: styles/naked_stacked/advf-author-pane.tpl.php:109
+msgid "Joined"
+msgstr "Зарегистрирован"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:115
+#: styles/boxy_stacked/advf-author-pane.tpl.php:114
+#: styles/naked/advf-author-pane.tpl.php:98
+#: styles/naked/advf-forum-list.tpl.php:42
+#: styles/naked_stacked/advf-author-pane.tpl.php:115
+msgid "Posts"
+msgstr "Сообщения"
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:121
+#: styles/boxy_stacked/advf-author-pane.tpl.php:120
+#: styles/naked/advf-author-pane.tpl.php:104
+#: styles/naked_stacked/advf-author-pane.tpl.php:121
+msgid "!Points"
+msgstr ""
+
+#: styles/blue_lagoon_stacked/advf-author-pane.tpl.php:147
+#: styles/boxy_stacked/advf-author-pane.tpl.php:126
+#: styles/naked/advf-author-pane.tpl.php:110
+#: styles/naked_stacked/advf-author-pane.tpl.php:147
+msgid "Groups"
+msgstr "Группы"
+
+#: styles/naked/advf-forum-list.tpl.php:40
+msgid "Forum"
+msgstr "Форум"
+
+#: styles/naked/advf-forum-post.tpl.php:78
+msgid "Top"
+msgstr "Верх"
+
+#: styles/naked/advf-forum-statistics.tpl.php:22
+msgid "What's Going On?"
+msgstr "<b>Сейчас</b>"
+
+#: styles/naked/advf-forum-statistics.tpl.php:25
+msgid "Currently active users: !current_total (!current_users users and !current_guests guests)"
+msgstr "Активные пользователи: всего - !current_total (зарегистрированные - !current_users, гости - !current_guests)"
+
+#: styles/naked/advf-forum-statistics.tpl.php:33
+msgid "Statistics"
+msgstr "<b>Статистика</b>"
+
+#: styles/naked/advf-forum-statistics.tpl.php:37
+msgid "Topics: !topics, Posts: !posts, Users: !users"
+msgstr "Темы: !topics; Сообщения: !posts; Пользователи: !users;"
+
+#: styles/naked/advf-forum-statistics.tpl.php:38
+msgid "Welcome to our latest member, !user"
+msgstr "Новый пользователь: !user"
+
+#: styles/naked/advf-forum-submitted.tpl.php:26
+msgid "!title<br />by !author<br />@date_posted"
+msgstr "!title<br />!author<br />@date_posted"
+
+#: styles/naked/advf-forum-submitted.tpl.php:33
+msgid "!title<br />by !author<br />@time ago"
+msgstr "!title<br />!author<br />@time назад"
+
+#: styles/naked/advf-forum-submitted.tpl.php:42
+msgid "by !author<br />@date_posted"
+msgstr "!author<br />@date_posted"
+
+#: styles/naked/advf-forum-submitted.tpl.php:48
+msgid "by !author<br />@time ago"
+msgstr "!author<br />@time назад"
+
+#: styles/naked/advf-forum-submitted.tpl.php:56
+msgid "n/a"
+msgstr "нет"
+
+#: styles/naked/advf-forum-topic-list.tpl.php:52
+msgid "Sticky"
+msgstr ""
+
+#: styles/naked/advf-forum-topic-list.tpl.php:61
+msgid "updated"
+msgstr "обновлено"
+
