@@ -2,10 +2,6 @@ $Id$
 
 ****************************** DRUPAL 6 BRANCH ********************************
 
-April 19, 2009
---------------
-BRANCHED TO 6.x-2.x
-
 April 4, 2009
 -------------
 #422652 by NeoID: Closed tag on break in advanced_forum-forum-legend.tpl.php
