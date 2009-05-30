@@ -48,8 +48,8 @@ function advanced_forum_menu_alter(&$callbacks) {
  * Implementation of hook_theme().
  */
 function advanced_forum_theme() {
-  $items['advf_forum_statistics'] = array(
-      'template' => 'advf-forum-statistics',
+  $items['advanced_forum_statistics'] = array(
+      'template' => 'advanced_forum-statistics',
   );
 
   $items['advanced_forum_topic_legend'] = array(
@@ -112,7 +112,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'forum_icon',
                      'forum_submitted',
                      'author_pane',
-                     'advf_forum_statistics',
+                     'advanced_forum_statistics',
                      'advanced_forum_topic_legend',
                      'advanced_forum_forum_legend',
                      'advanced_forum_topic_header',
@@ -309,7 +309,7 @@ function advanced_forum_settings_page() {
 function advanced_forum_preprocess_author_pane(&$variables) {
   // Author pane is used in various places. The only way to be sure to only
   // hit it when we are using it is to check the template suggestion.
-  if ($variables['template_suggestion'] == 'advf-author-pane') {
+  if ($variables['template_suggestion'] == 'advanced_forum-author-pane') {
     // Attempt to override the user picture fetched by Author Pane from core.
     $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
     if (!empty($sized_picture)) {
@@ -408,15 +408,15 @@ function advanced_forum_preprocess_node(&$variables) {
   if (isset($_GET['page']) && $_GET['page'] > 0) {
     // This is the repeated node on the top of subsequent pages.
     // We send this to a special .tpl so people can adjust it to their needs.
-    $variables['template_files'][] = "advf-forum-repeat-post";
+    $variables['template_files'][] = "advanced_forum-post-repeated";
   }
   elseif (arg(1) == 'reply') {
     // Use the preview version
-    $variables['template_files'][] = "advf-forum-preview-post";
+    $variables['template_files'][] = "advanced_forum-post-preview";
   }
   else {
     // Use our combined node/comment template file
-    $variables['template_files'][] = "advf-forum-post";
+    $variables['template_files'][] = "advanced_forum-post";
   }
 
   // The node is the first post, aka topic head
@@ -442,7 +442,7 @@ function advanced_forum_preprocess_node(&$variables) {
 
   // User information / author pane
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));
-  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advf-author-pane');
+  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advanced_forum-author-pane');
 
   // Load the signature.
   if (module_exists('signature_forum')) {
@@ -462,11 +462,11 @@ function advanced_forum_preprocess_comment(&$variables) {
   if (advanced_forum_treat_as_forum_post('comment', $variables)) {
     if (arg(1) == 'reply') {
       // Use the preview version
-      $variables['template_files'][] = "advf-forum-preview-post";
+      $variables['template_files'][] = "advanced_forum-post-preview";
     }
     else {
       // Use our combined node/comment template file
-      $variables['template_files'][] = 'advf-forum-post';
+      $variables['template_files'][] = 'advanced_forum-post';
     }
 
     // This is a comment, not the node.
@@ -491,7 +491,7 @@ function advanced_forum_preprocess_comment(&$variables) {
     }
 
     // Create the author pane
-    $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advf-author-pane');
+    $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advanced_forum-author-pane');
 
     if (arg(1) != 'reply') {
       // Because the $links array isn't available here, we recreate it
@@ -562,7 +562,7 @@ function advanced_forum_preprocess_comment(&$variables) {
 
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
   if (advanced_forum_treat_as_forum_post('comment-wrapper', $variables)) {
-    $variables['template_files'][] = 'advf-comment-wrapper';
+    $variables['template_files'][] = 'advanced_forum-comment-wrapper';
 
     $variables['reply_link'] = '';
     if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
@@ -579,7 +579,7 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
  * This function adds additional functionality to the core forum preprocess.
  */
 function advanced_forum_preprocess_forums($variables) {
-  $variables['template_files'][] = 'advf-forums';
+  $variables['template_files'][] = 'advanced_forum-forums';
 
   if (empty($variables['topics'])) {
     // We don't want the links on the top of the forum overview
@@ -636,8 +636,8 @@ function advanced_forum_preprocess_forums($variables) {
 /**
  * Preprocesses template variables for the forum statistics template.
  */
-function advanced_forum_preprocess_advf_forum_statistics(&$variables) {
-  $variables['template_files'][] = 'advf-forum-statistics';
+function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-statistics';
 
   $variables['topics'] = advanced_forum_statistics_topics();
   $variables['posts'] = advanced_forum_statistics_comments() + $variables['topics'];
@@ -682,7 +682,7 @@ function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
  * This function adds additional functionality to the core forum preprocess.
  */
 function advanced_forum_preprocess_forum_list(&$variables) {
-  $variables['template_files'][] = 'advf-forum-list';
+  $variables['template_files'][] = 'advanced_forum-forum-list';
 
   global $user;
 
@@ -758,7 +758,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
   }
 
   if (user_access('view forum statistics')) {
-    $variables['forum_statistics'] = theme('advf_forum_statistics');
+    $variables['forum_statistics'] = theme('advanced_forum_statistics');
   }
 
   $variables['forum_legend'] = theme('advanced_forum_forum_legend');
@@ -770,7 +770,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
  * This function adds additional functionality to the core forum preprocess.
  */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  $variables['template_files'][] = 'advf-forum-submitted';
+  $variables['template_files'][] = 'advanced_forum-submitted';
 
   // Avoid E_ALL warning
   $variables['topic_link'] = '';
@@ -818,7 +818,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
  */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
   // Take control of the template file.
-  $variables['template_files'][] = 'advf-forum-topic-list';
+  $variables['template_files'][] = 'advanced_forum-topic-list';
 
   // Redo the table header so we can make our adjustments. This relies on this
   // header being unaltered from the forum module or it will be messed up. I
@@ -922,7 +922,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
  * This function adds additional functionality to the core forum preprocess.
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
-  $variables['template_files'][] = 'advf-forum-icon';
+  $variables['template_files'][] = 'advanced_forum-topic-icon';
   $variables['iconpath'] = advanced_forum_path_to_images();
 }
 
@@ -1128,9 +1128,9 @@ function advanced_forum_markasread_access() {
 // STYLE UTILITY FUNCTIONS ***************************************************/
 
 // Include the file that handles the plugin system adapted from panels.
-include_once drupal_get_path('module', 'advanced_forum') . '/advf-plugins.inc';
+include_once drupal_get_path('module', 'advanced_forum') . '/advanced_forum-plugins.inc';
 
-function advanced_forum_advforum_styles() {
+function advanced_forum_advanced_forum_styles() {
   $items = array();
   $items['naked'] = array(
     'directory' => 'styles/naked',
