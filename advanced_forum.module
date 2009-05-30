@@ -1245,7 +1245,7 @@ function advanced_forum_path_to_images() {
 function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
   $image = advanced_forum_path_to_images() . "/$image_file";
 
-  if ($title = NULL) {
+  if ($title == NULL) {
     $title = $alt;
   }
   
