@@ -420,7 +420,9 @@ function advanced_forum_preprocess_node(&$variables) {
   }
 
   // The node is the first post, aka topic head
-  $variables['top_post'] = TRUE;
+  if (empty($variables['node']->comment_target_nid)) {
+    $variables['top_post'] = TRUE;
+  }
   
   // Build the topic header
   $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
@@ -1415,27 +1417,34 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
   // Start out assuming it's not one of ours.
   $decision = FALSE;
 
-  if ($hook == 'node') {
-    $vid = variable_get('forum_nav_vocabulary', '');
-    $vocabulary = taxonomy_vocabulary_load($vid);
-    if (empty($vocabulary) || !in_array($variables['node']->type, $vocabulary->nodes)) {
-      // No forum vocabulary or the node type cannot be used in the forums
-      unset($forum_node_id);
-      $decision = FALSE;
-    }
-    else {
-      // Get a list of the terms attached to this node
-      $terms = taxonomy_node_get_terms_by_vocabulary($variables['node'], $vid);
-      if (count($terms) > 0 && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $variables['node']->nid || arg(0) == 'comment')) {
-        // The node has at least one forum term attached to it and is not being
-        // shown on some other page (like a view or promoted to front page)
-        $forum_node_id = $variables['node']->nid;
+  if ($hook == 'node') {      
+    if (!empty($variables['node']->comment_target_nid)) {
+      // Special case for "comment" nodes
+      if ($variables['node']->comment_target_nid == $forum_node_id) {
         $decision = TRUE;
       }
-      else {
-        // We've hit a non forum node
+    } else { 
+      $vid = variable_get('forum_nav_vocabulary', '');
+      $vocabulary = taxonomy_vocabulary_load($vid);
+      if (empty($vocabulary) || !in_array($variables['node']->type, $vocabulary->nodes)) {
+        // No forum vocabulary or the node type cannot be used in the forums
         unset($forum_node_id);
         $decision = FALSE;
+      }
+      else {
+        // Get a list of the terms attached to this node
+        $terms = taxonomy_node_get_terms_by_vocabulary($variables['node'], $vid);
+        if (count($terms) > 0 && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $variables['node']->nid || arg(0) == 'comment')) {
+          // The node has at least one forum term attached to it and is not being
+          // shown on some other page (like a view or promoted to front page)
+          $forum_node_id = $variables['node']->nid;
+          $decision = TRUE;
+        }
+        else {
+          // We've hit a non forum node
+          unset($forum_node_id);
+          $decision = FALSE;
+        }
       }
     }
   }

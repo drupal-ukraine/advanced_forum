@@ -1,6 +1,16 @@
 $Id$
 
-****************************** DRUPAL 6 BRANCH ********************************
+****************************** DRUPAL 6 - 2.x BRANCH ********************************
+
+June 1, 2009
+------------
+#473336 by Michelle, merlinofchaos: Made new replies counting compatable with nodecomment.
+#472736 by Michelle: Recognize nodecomment reply posts as "comments".
+
+May 29, 2009 -- START OF 2.x BRANCH
+------------
+NOISSUE by Michelle: Synched up with changes made to 1.x since branching.
+NOISSUE by Michelle: Renamed templates and other instances of advf- and advforum to use the proper name.
 
 April 4, 2009
 -------------
