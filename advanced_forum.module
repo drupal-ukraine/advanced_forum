@@ -343,37 +343,57 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
  * Theme function to format the reply link at the top/bottom of topic.
  */
 function theme_advanced_forum_reply_link($node) {
-  if (user_access('post comments')) {
-    if ($node->comment == COMMENT_NODE_READ_WRITE) {
-      if (variable_get('comment_form_location_'. $node->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
-        // Comment form on seperate page
-        $links['topic_reply'] = array(
-          'title' => t('Post Reply'),
-          'href' => "comment/reply/$node->nid",
-          'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
-          'fragment' => 'comment-form'
-          );
+  // Give nodecomment (if installed) first shot at the comment setting
+  $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
+  
+  if ($comment_setting == COMMENT_NODE_READ_WRITE) {
+    // Get the existing data from the node link, if any.
+    $href = $node->links['comment_add']['href'];
+    $fragment = $node->links['comment_add']['fragment'];
+    $attributes = $node->links['comment_add']['attributes'];
+    
+    if (!empty($href)) {
+      // We already have the information we need, so use it.
+      $links['topic_reply'] = array(
+        'title' => t('Post Reply'),
+        'href' => $href,
+        'attributes' => $attributes,
+        'fragment' => $fragment,
+      );
+     
+     // Change to using a button if so set
+     if (variable_get('advanced_forum_button_links', 1)) {
+        $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
+        $links['topic_reply']['html'] = TRUE;
+      }
 
-      }
-      else {
-        // Comment form is already on the page
-        $links['topic_reply'] = array(
-          'title' => t('Post Reply'),
-          'href' => $_GET['q'],
-          'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
-          'fragment' => 'comment-form',
-          'query' => ($_GET['page']) ? "page=" . $_GET['page'] : NULL,
-          );       
-      }
-      
-      // Change to using a button if so set
-      if (variable_get('advanced_forum_button_links', 1)) {
+    } 
+    elseif (!module_exists('nodecomment') && user_access('post comments')) {
+      // There isn't a link already. Nodecomment always puts a link if the 
+      // user has access so we can skip this for NC users. Comment will not show
+      // the link when the form is on the page so we need to fake it.
+      $links['topic_reply'] = array(
+        'title' => t('Post Reply'),
+        'href' => $_GET['q'],
+        'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
+        'fragment' => $fragment,
+        'query' => ($_GET['page']) ? "page=" . $_GET['page'] : NULL,
+      );       
+
+     // Change to using a button if so set
+     if (variable_get('advanced_forum_button_links', 1)) {
         $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
         $links['topic_reply']['html'] = TRUE;
       }
     }
     else {
-      // Post is locked
+      // User does not have access to post replies on this node.
+      $links['comment_forbidden']['title'] = theme('comment_post_forbidden', $node);
+      $links['comment_forbidden']['html'] = TRUE;
+    }
+  }
+  else {
+    // Topic is locked
       $links['topic_locked'] = array(
         'title' => t('Topic Locked'),
         'attributes' => array('title' => t('This topic is locked')),
@@ -383,16 +403,10 @@ function theme_advanced_forum_reply_link($node) {
       if (variable_get('advanced_forum_button_links', 1)) {
         $links['topic_locked']['title'] = advanced_forum_theme_image(t('locked-topic.png'), t('Locked'));
         $links['topic_locked']['html'] = TRUE;
-      }   
-    }
+      }       
   }
-  else {
-    // User does not have rights to post
-    $links['comment_forbidden']['title'] = theme('comment_post_forbidden', $node);
-    $links['comment_forbidden']['html'] = TRUE;
-  }
-  
   return theme('links', $links, array('class' => 'forum-links'));
+    
 }
 
 /**
@@ -405,7 +419,7 @@ function advanced_forum_preprocess_node(&$variables) {
   }
 
   // Determine the template file to use for the node.
-  if (isset($_GET['page']) && $_GET['page'] > 0) {
+  if (empty($variables['node']->comment_target_nid) && isset($_GET['page']) && $_GET['page'] > 0) {
     // This is the repeated node on the top of subsequent pages.
     // We send this to a special .tpl so people can adjust it to their needs.
     $variables['template_files'][] = "advanced_forum-post-repeated";
@@ -419,13 +433,15 @@ function advanced_forum_preprocess_node(&$variables) {
     $variables['template_files'][] = "advanced_forum-post";
   }
 
-  // The node is the first post, aka topic head
+  // Check if this node is the first post, aka topic head. When using the 
+  // comment module, this will always be true because replies are not nodes
+  // but nodecomment will use this same preprocess for all posts.
   if (empty($variables['node']->comment_target_nid)) {
     $variables['top_post'] = TRUE;
+ 
+    // Build the topic header
+    $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
   }
-  
-  // Build the topic header
-  $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
     
   /* Node links changes */
   // Change first post from "add comment" to "Reply"
