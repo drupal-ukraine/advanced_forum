@@ -2,6 +2,14 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 4, 2009
+------------
+#473336 by Michelle: Made post count in statistics work with nodecomment and also added caching.
+
+June 3, 2009
+------------
+#473336 by Michelle: Made post topic button on top/bottom work properly.
+
 June 1, 2009
 ------------
 #473336 by Michelle, merlinofchaos: Made new replies counting compatable with nodecomment.

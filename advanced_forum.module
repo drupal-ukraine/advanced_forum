@@ -159,6 +159,25 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   }
 }
 
+/**
+ * Implementation of hook_nodeapi().
+ */
+function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($op == 'update' || $op == 'insert' || $op == 'delete') {
+    advanced_forum_statistics_replies(TRUE);
+  }    
+}
+
+/**
+ * Implementation of hook_comment().
+ */
+function advanced_forum_comment(&$a1, $op) {
+  if ($op == 'update' || $op == 'insert' || $op == 'delete') {
+    advanced_forum_statistics_replies(TRUE);
+  }    
+}
+
+
 // SETTINGS PAGE *************************************************************/
 
 /**
@@ -658,7 +677,7 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
   $variables['template_files'][] = 'advanced_forum-statistics';
 
   $variables['topics'] = advanced_forum_statistics_topics();
-  $variables['posts'] = advanced_forum_statistics_comments() + $variables['topics'];
+  $variables['posts'] = advanced_forum_statistics_replies() + $variables['topics'];
   $variables['users'] = advanced_forum_statistics_users();
 
   $authenticated_users = advanced_forum_statistics_online_users();
@@ -1822,10 +1841,28 @@ function advanced_forum_statistics_topics() {
 }
 
 /**
- * Count total amount of comments on forum threads.
+ * Counts total amount of replies. Initial posts are added to this total
+ * in the calling function.
+ *
+ * @param $refresh
+ *   TRUE if the stored count should be updated.
+ * @return
+ *   Total number of posts in the forum.
  */
-function advanced_forum_statistics_comments() {
-  return db_result(db_query('SELECT COUNT(cid) FROM {comments} c INNER JOIN {forum} f ON (f.nid = c.nid)'));
+function advanced_forum_statistics_replies($refresh = FALSE) {
+  $total_replies = variable_get('advanced_forum_stats_replies', 0);
+  if ($refresh || $total_replies == 0) {
+    if (module_exists('nodecomment')) {
+      $total_replies = db_result(db_query('SELECT COUNT(cid) FROM {node_comments} c INNER JOIN {forum} f ON (f.nid = c.nid)'));
+    }
+    else {
+      $total_replies = db_result(db_query('SELECT COUNT(cid) FROM {comments} c INNER JOIN {forum} f ON (f.nid = c.nid)'));
+    }
+    
+    variable_set('advanced_forum_stats_posts', $total_replies);
+  }
+  
+  return $total_replies;
 }
 
 /**
