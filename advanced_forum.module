@@ -5,7 +5,7 @@
  * @file
  * Enables the look and feel of other popular forum software.
  */
- 
+
 // DRUPAL HOOKS **************************************************************/
 
 /**
@@ -79,7 +79,33 @@ function advanced_forum_theme() {
         'node' => NULL,
         )
   );
-  
+
+  // These only exist if nodecomment is on.
+  if (module_exists('nodecomment')) {
+    $items['advanced_forum_search_forum'] = array(
+      'arguments' => array('tid' => NULL),
+      'template' => 'advanced_forum-search-forum',
+    );
+
+    $items['advanced_forum_search_topic'] = array(
+      'arguments' => array('node' => NULL),
+      'template' => 'advanced_forum-search-topic',
+    );
+
+    $items['views_view_fields__advanced_forum_search'] = array (
+      'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'advanced_forum_search_result',
+      'original hook' => 'views_view_fields',
+    );
+
+    $items['views_view_fields__advanced_forum_search_topic'] = array (
+      'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'advanced_forum_search_result',
+      'original hook' => 'views_view_fields',
+    );
+
+  }
+
   return $items;
 }
 
@@ -113,6 +139,10 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'forum_submitted',
                      'author_pane',
                      'advanced_forum_statistics',
+                     'advanced_forum_search_forum',
+                     'advanced_forum_search_topic',
+                     'views_view_fields__advanced_forum_search',
+                     'views_view_fields__advanced_forum_search_topic',
                      'advanced_forum_topic_legend',
                      'advanced_forum_forum_legend',
                      'advanced_forum_topic_header',
@@ -191,7 +221,7 @@ function advanced_forum_settings_page() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
+
   // Choose style
   $options = array();
   $available_styles = advanced_forum_get_styles();
@@ -215,7 +245,7 @@ function advanced_forum_settings_page() {
     '#description' => t('Images are assumed to be in the "images" subdirectory of your style. If you need images to be somewhere else, put the full path here.'),
     '#default_value' => variable_get('advanced_forum_image_directory', ''),
   );
-  
+
   // Use buttons for links
   $form['advanced_forum_general']['advanced_forum_button_links'] = array(
     '#type' => 'checkbox',
@@ -239,7 +269,7 @@ function advanced_forum_settings_page() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
+
   // Hide 'created' column
   $form['advanced_forum_lists']['advanced_forum_hide_created'] = array(
     '#type' => 'checkbox',
@@ -290,7 +320,7 @@ function advanced_forum_settings_page() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
+
   // Use topic navigation
   $form['advanced_forum_topics']['advanced_forum_use_topic_navigation'] = array(
     '#type' => 'checkbox',
@@ -342,10 +372,10 @@ function advanced_forum_preprocess_author_pane(&$variables) {
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-header';
-  
+
   // Build the reply link / button
   $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
-  
+
   // Total & new replies
   if (!empty($variables['comment_count'])) {
     $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
@@ -356,6 +386,7 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   }
 
   $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
+  $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
 }
 
 /**
@@ -364,13 +395,13 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 function theme_advanced_forum_reply_link($node) {
   // Give nodecomment (if installed) first shot at the comment setting
   $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
-  
+
   if ($comment_setting == COMMENT_NODE_READ_WRITE) {
     // Get the existing data from the node link, if any.
     $href = $node->links['comment_add']['href'];
     $fragment = $node->links['comment_add']['fragment'];
     $attributes = $node->links['comment_add']['attributes'];
-    
+
     if (!empty($href)) {
       // We already have the information we need, so use it.
       $links['topic_reply'] = array(
@@ -379,16 +410,16 @@ function theme_advanced_forum_reply_link($node) {
         'attributes' => $attributes,
         'fragment' => $fragment,
       );
-     
+
      // Change to using a button if so set
      if (variable_get('advanced_forum_button_links', 1)) {
         $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
         $links['topic_reply']['html'] = TRUE;
       }
 
-    } 
+    }
     elseif (!module_exists('nodecomment') && user_access('post comments')) {
-      // There isn't a link already. Nodecomment always puts a link if the 
+      // There isn't a link already. Nodecomment always puts a link if the
       // user has access so we can skip this for NC users. Comment will not show
       // the link when the form is on the page so we need to fake it.
       $links['topic_reply'] = array(
@@ -397,7 +428,7 @@ function theme_advanced_forum_reply_link($node) {
         'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
         'fragment' => $fragment,
         'query' => ($_GET['page']) ? "page=" . $_GET['page'] : NULL,
-      );       
+      );
 
      // Change to using a button if so set
      if (variable_get('advanced_forum_button_links', 1)) {
@@ -413,19 +444,19 @@ function theme_advanced_forum_reply_link($node) {
   }
   else {
     // Topic is locked
-      $links['topic_locked'] = array(
-        'title' => t('Topic Locked'),
-        'attributes' => array('title' => t('This topic is locked')),
-      );
-      
-      // Change to using a button if so set
-      if (variable_get('advanced_forum_button_links', 1)) {
-        $links['topic_locked']['title'] = advanced_forum_theme_image(t('locked-topic.png'), t('Locked'));
-        $links['topic_locked']['html'] = TRUE;
-      }       
+    $links['topic_locked'] = array(
+      'title' => t('Topic Locked'),
+      'attributes' => array('title' => t('This topic is locked')),
+    );
+
+    // Change to using a button if so set
+    if (variable_get('advanced_forum_button_links', 1)) {
+      $links['topic_locked']['title'] = advanced_forum_theme_image(t('locked-topic.png'), t('Locked'));
+      $links['topic_locked']['html'] = TRUE;
+    }
   }
   return theme('links', $links, array('class' => 'forum-links'));
-    
+
 }
 
 /**
@@ -452,16 +483,15 @@ function advanced_forum_preprocess_node(&$variables) {
     $variables['template_files'][] = "advanced_forum-post";
   }
 
-  // Check if this node is the first post, aka topic head. When using the 
+  // Check if this node is the first post, aka topic head. When using the
   // comment module, this will always be true because replies are not nodes
   // but nodecomment will use this same preprocess for all posts.
   if (empty($variables['node']->comment_target_nid)) {
     $variables['top_post'] = TRUE;
- 
+
     // Build the topic header
     $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
   }
-    
   /* Node links changes */
   // Change first post from "add comment" to "Reply"
   if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
@@ -603,10 +633,10 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
 
     $variables['reply_link'] = '';
     if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
-      // If the post is locked or the comment form is on a seperate page, build 
+      // If the post is locked or the comment form is on a seperate page, build
       // the reply/locked link / button
       $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
-    }      
+    }
   }
 }
 
@@ -668,6 +698,8 @@ function advanced_forum_preprocess_forums($variables) {
       $variables['links_orig']['markasread'] = array('title' => $title, 'href' => $link);
     }
   }
+
+  $variables['search'] = theme('advanced_forum_search_forum', $variables['tid']);
 }
 
 /**
@@ -695,7 +727,7 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
  */
 function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
   $variables['template_files'][] = 'advanced_forum-forum-legend';
-  
+
   $variables['folder_new_posts'] = advanced_forum_theme_image(t('forum-folder-new-posts.png'), t('Forum Contains New Posts'));
   $variables['folder_default'] = advanced_forum_theme_image(t('/forum-folder.png'), t('Forum Contains No New Posts'));
   $variables['folder_locked'] = advanced_forum_theme_image(t('forum-folder-locked.png'), t('Forum is Locked'));
@@ -703,14 +735,14 @@ function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
 
 function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-legend';
-  
+
   $variables['topic_new'] = advanced_forum_theme_image(t('topic-new.png'), t('New Posts'));
   $variables['topic_hot_new'] = advanced_forum_theme_image(t('topic-hot-new.png'), t('Hot Thread (New)'));
   $variables['topic_hot'] = advanced_forum_theme_image(t('topic-hot.png'), t('Hot Thread (No New)'));
   $variables['topic_default'] = advanced_forum_theme_image(t('topic-default.png'), t('No New Posts'));
   $variables['topic_sticky'] = advanced_forum_theme_image(t('topic-sticky.png'), t('Sticky Thread'));
   $variables['topic_closed'] = advanced_forum_theme_image(t('topic-closed.png'), t('Locked Thread'));
-  
+
 }
 
 /**
@@ -1275,18 +1307,18 @@ function advanced_forum_get_current_style() {
  */
 function advanced_forum_path_to_theme() {
   global $theme;
- 
+
   if (!empty($theme)) {
     // Normally, the global theme variable is set, so we use that.
     return drupal_get_path('theme', $theme);
   }
-  
+
   // For some reason I've never figured out, some users are reporting
   // that the global theme variable is not set when this is called.
   // As a band-aid solution, this will pull the default theme out of the
   // database and use that.
   $default_theme = variable_get('theme_default', 'garland');
-  return drupal_get_path('theme', $default_theme); 
+  return drupal_get_path('theme', $default_theme);
 }
 
 /**
@@ -1335,7 +1367,7 @@ function advanced_forum_path_to_images() {
 	if (file_exists($image_path_language_prefix)) {
 		$image_path = $image_path_language_prefix;
 	}
-	
+
   return $image_path;
 }
 
@@ -1348,7 +1380,7 @@ function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
   if ($title == NULL) {
     $title = $alt;
   }
-  
+
   if (file_exists($image)) {
     return theme('image', $image, $alt, $title);
   }
@@ -1363,8 +1395,8 @@ function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
 function theme_advanced_forum_user_picture($account) {
   // Get the imagecache preset to use, if any.
   $preset = variable_get('advanced_forum_user_picture_preset', '');
-  
-  // Only proceed if user pictures are enabled, and there is a preset set, and 
+
+  // Only proceed if user pictures are enabled, and there is a preset set, and
   // imagecache is enabled. For performace reasons, we return nothing if these
   // critera aren't met because we only call this function when the non
   // imagecached version is already created. If you use this function elsewhere
@@ -1373,23 +1405,23 @@ function theme_advanced_forum_user_picture($account) {
     if ($account->picture && file_exists($account->picture)) {
       // User has picture, so use that
       $alt = t("@user's picture", array('@user' => $account->name ? $account->name : 'Visitor'));
-      $picture = theme('imagecache', $preset, $account->picture);   
-    } 
+      $picture = theme('imagecache', $preset, $account->picture);
+    }
     else {
       // User doesn't have a picture so use the default, if any
-      $default_picture = variable_get('user_picture_default', ''); 
+      $default_picture = variable_get('user_picture_default', '');
       if ($default_picture) {
         $picture = theme('imagecache', $preset, $default_picture);
-      }     
+      }
     }
-    
+
     if (!empty($picture)) {
       // If the user has access to view profiles, link the picture
       if (!empty($account->uid) && user_access('access user profiles')) {
         $picture = l($picture, "user/$account->uid", array('title' => t('View user profile.'), 'html' => TRUE));
       }
     }
-    
+
     return '<div class="picture">' . $picture . '</div>';
   }
 }
@@ -1424,13 +1456,13 @@ function _advanced_forum_buttonify_links(&$links) {
         default:
           // Attempt to buttonify by key name.
           $image = advanced_forum_theme_image($link_key . '.png', $link['title']);
-          
+
           if (!$image) {
             // If no luck there, try the adjusted title.
             $title = strtolower(str_replace(' ', '-', $link['title']));
             $image = advanced_forum_theme_image($title . '.png', $link['title']);
           }
-          
+
           if ($image) {
             // If we found an image, use it. Otherwise leave the title alone.
             $links[$link_key]['title'] = $image;
@@ -1452,13 +1484,13 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
   // Start out assuming it's not one of ours.
   $decision = FALSE;
 
-  if ($hook == 'node') {      
+  if ($hook == 'node') {
     if (!empty($variables['node']->comment_target_nid)) {
       // Special case for "comment" nodes
       if ($variables['node']->comment_target_nid == $forum_node_id) {
         $decision = TRUE;
       }
-    } else { 
+    } else {
       $vid = variable_get('forum_nav_vocabulary', '');
       $vocabulary = taxonomy_vocabulary_load($vid);
       if (empty($vocabulary) || !in_array($variables['node']->type, $vocabulary->nodes)) {
@@ -1898,3 +1930,41 @@ function advanced_forum_statistics_online_users() {
   return $list;
 }
 
+// Search widget themes ******************************************************/
+
+/**
+ * Preprocesses template variables for the forum statistics template.
+ */
+function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-search-forum';
+
+  $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
+  $variables['path'] = url('forum/search');
+}
+
+/**
+ * Preprocesses template variables for the forum statistics template.
+ */
+function advanced_forum_preprocess_advanced_forum_search_topic(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-search-topic';
+
+  $variables['path'] = url('node/'. $variables['node']->nid . '/search');
+}
+
+function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
+  _advanced_forum_add_files();
+  $variables['template_files'][] = 'advanced_forum-search-result';
+}
+
+function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topic(&$variables) {
+  _advanced_forum_add_files();
+  $variables['template_files'][] = 'advanced_forum-search-result';
+}
+
+function advanced_forum_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'advanced_forum') . '/includes/views',
+    'file' => 'views.inc',
+  );
+}

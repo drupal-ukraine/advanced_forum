@@ -117,6 +117,28 @@ ul.forum-links {
   padding-top: 10px;
 }
 
+#forum #advanced-forum-search-forum,
+.forum-topic-header #advanced-forum-search-topic {
+  float: right;
+  margin: 0;
+  padding: 14px 0 0 0;
+}
+
+#forum #advanced-forum-search-forum input,
+.forum-topic-header #advanced-forum-search-topic input {
+  margin: 0;
+  padding: 0;
+}
+
+.forum-topic-header #advanced-forum-search-topic {
+  margin-bottom: 10px;
+}
+
+.view-avf-search .views-row,
+.view-avf-search-topic .views-row {
+  margin-bottom: 2em;
+}
+
 /*** FORUM STATISTICS *********************************************************/
 
 #forum-statistics-header,

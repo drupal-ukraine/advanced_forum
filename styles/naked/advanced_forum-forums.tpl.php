@@ -30,6 +30,7 @@
   </div>
   <?php endif; ?>
 
+  <?php print $search; ?>
   <div class="forum-top-links"><?php print theme('links', $links, array('class' => 'links forum-links')); ?></div>
   <?php print $forums; ?>
   <?php print $topics; ?>

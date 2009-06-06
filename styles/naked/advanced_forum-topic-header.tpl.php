@@ -1,6 +1,8 @@
 <div class="forum-topic-header clear-block">
   <a id="top"></a>
 
+  <?php print $search; ?>
+
   <?php print $reply_link; ?>
 
   <div class="reply-count">
