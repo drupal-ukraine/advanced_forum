@@ -2,6 +2,14 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 7, 2009
+------------
+#460734 by MGParisi: Removed typo'd extra space.
+
+June 5, 2009
+------------
+#481278 by merlinofchaos: Added search views to forums and individual topics.
+
 June 4, 2009
 ------------
 #473336 by Michelle: Made post count in statistics work with nodecomment and also added caching.
@@ -482,7 +490,7 @@ March 22, 2008
 --------------
 Fixed remaining issues with advanced_forum_get_all_last_topics (I hope!)
 Updated README.txt and CHANGELOG.txt
-Fixed $Id$ at the tops of all the files.
+Fixed $Id at the tops of all the files.
 
 March 18, 2008
 --------------

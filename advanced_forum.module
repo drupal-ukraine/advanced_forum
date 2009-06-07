@@ -309,7 +309,7 @@ function advanced_forum_settings_page() {
     '#type' => 'textfield',
     '#title' => t('Number of hours before switching to date posted in displays'),
     '#size' => 5,
-    '#description' => t('Will show "time ago" until this cutoff and then switch to actual date posted .'),
+    '#description' => t('Will show "time ago" until this cutoff and then switch to actual date posted.'),
     '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
   );
 
