@@ -855,7 +855,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     // Find the page of the first unread comment, if any
     $num_comments = db_result(db_query('SELECT COUNT(cid) FROM {comments} WHERE nid = %d', $nid));
     $new_replies = advanced_forum_reply_num_new($nid);
-    $query = comment_new_page_count($num_comments, $new_replies, $node);
+    $query = advanced_forum_page_first_new($num_comments, $new_replies, $node);
 
     // Format the node title with a link
     $title_length = variable_get('advanced_forum_topic_title_length', 15);
@@ -1632,6 +1632,17 @@ function _advanced_forum_topic_nid($nodeid = 0) {
   return $nid;
 }
 
+function advanced_forum_page_first_new($num_comments, $new_replies, $node) {
+  if (module_exists("nodecomment")) {
+    //@TODO: Change this once nodecomment has the function needed.
+    //return nodecomment_new_page_count($num_comments, $new_replies, $node);
+    return comment_new_page_count($num_comments, $new_replies, $node);
+  }
+  else {
+    return comment_new_page_count($num_comments, $new_replies, $node);
+  }
+}
+
 /**
  * Gateway function to route the call to either comment or nodecomment.
  */
@@ -1736,7 +1747,7 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
   if ($number_new_comments > 0) {
     // Note that we are linking to the cid anchor rather than "new" because
     // the new links will be gone if we go to another page.
-    $page_of_first_new = comment_new_page_count($comment_count, $number_new_comments, $node);
+    $page_of_first_new = advanced_forum_page_first_new($comment_count, $number_new_comments, $node);
     $cid_of_first_new = advanced_forum_first_new_comment($nid);
 
     return l($number_new_comments . ' ' . t('new'), 'node/' . $nid, array('query' => $page_of_first_new, 'fragment' => "comment-$cid_of_first_new")) ;

@@ -5,6 +5,7 @@ $Id$
 June 7, 2009
 ------------
 #460734 by MGParisi: Removed typo'd extra space.
+#473336 by Michelle: Changed to custom version of comment_new_page_count to make it easier to use the NC version when it is ready.
 
 June 5, 2009
 ------------
