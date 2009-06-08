@@ -5,6 +5,7 @@ $Id$
 June 8, 2009
 ------------
 NOISSUE by Michelle: Some cleanup on the node/comment preprocesses.
+#472736 by Michelle, merlinofchaos: Made "new posts in forum" work with nodecomment and also made comment version more efficient.
 
 June 7, 2009
 ------------

@@ -817,7 +817,7 @@ function advanced_forum_preprocess_forum_list(&$variables) {
       // Show number of new posts as well as topics
       if (variable_get('advanced_forum_get_new_comments', 0)) {
         // This can cause performance issues, so allow it to be turned off
-        $variables['forums'][$id]->new_posts = advanced_forum_unread_comments_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics;
+        $variables['forums'][$id]->new_posts = advanced_forum_unread_replies_in_forum($forum->tid, $user->uid) + $variables['forums'][$id]->new_topics;
 
         if ($variables['forums'][$id]->new_posts) {
           $variables['forums'][$id]->new_text_posts = format_plural($variables['forums'][$id]->new_posts, '1 new', '@count new');
@@ -1854,22 +1854,38 @@ function _advanced_forum_get_topic_views_count($nid) {
 }
 
 /**
- * Returns the number of unread posts in a given forum for a given user
+ * Calculates the number of unread replies for each forum and returns the
+ * count for the requested forum.
  */
-function advanced_forum_unread_comments_in_forum($tid, $uid) {
+function advanced_forum_unread_replies_in_forum($tid, $uid) {
   static $result_cache = NULL;
 
   if (is_NULL($result_cache)) {
     $result_cache = array();
     $vid = variable_get('forum_nav_vocabulary', '');
-    $sql = "SELECT COUNT(c.cid) AS count, tn.tid
-            FROM {comments} c
-            INNER JOIN {term_node} tn ON c.nid = tn.nid
-            INNER JOIN {term_data} td ON td.tid = tn.tid AND td.vid = %d
-            LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
-            WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
-            GROUP BY tn.tid";
-    $sql = db_rewrite_sql($sql, 'c', 'cid');
+
+    if (module_exists("nodecomment")) {
+      $sql = "SELECT COUNT(nc.cid) AS count, f.tid
+              FROM {node_comments} nc
+              INNER JOIN {forum} f ON nc.nid = f.nid
+              INNER JOIN {node} n ON nc.cid = n.nid
+              LEFT JOIN {history} h ON nc.nid = h.nid AND h.uid = %d
+              WHERE n.status = 1 AND n.changed > %d AND (n.changed > h.timestamp OR h.timestamp IS NULL)
+              GROUP BY f.tid";
+
+      $sql = db_rewrite_sql($sql);    
+    }
+    else {
+      $sql = "SELECT COUNT(c.cid) AS count, f.tid
+              FROM {comments} c
+              INNER JOIN {forum} f ON c.nid = f.nid
+              LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
+              WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
+              GROUP BY f.tid";
+
+      $sql = db_rewrite_sql($sql, 'c', 'cid');
+    }
+
     $result = db_query($sql, $vid, $uid, NODE_NEW_LIMIT);
     while ($row = db_fetch_array($result)) {
         $result_cache[$row['tid']] = $row['count'];
