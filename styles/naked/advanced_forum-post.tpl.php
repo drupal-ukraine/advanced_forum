@@ -31,7 +31,7 @@
 
 <?php else: ?>
   <?php $classes .= $comment_classes; ?>
-  <div id="comment-<?php print $comment->cid; ?>" class="forum-post <?php print $classes; ?> clear-block">
+  <div id="reply-<?php print $reply_id; ?>" class="forum-post <?php print $classes; ?> clear-block">
 <?php endif; ?>
 
   <div class="post-info clear-block">
