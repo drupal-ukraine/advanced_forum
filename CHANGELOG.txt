@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 8, 2009
+------------
+NOISSUE by Michelle: Some cleanup on the node/comment preprocesses.
+
 June 7, 2009
 ------------
 #460734 by MGParisi: Removed typo'd extra space.
