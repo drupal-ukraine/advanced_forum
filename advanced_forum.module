@@ -103,8 +103,20 @@ function advanced_forum_theme() {
       'template' => 'advanced_forum_search_result',
       'original hook' => 'views_view_fields',
     );
-
   }
+  
+  // Topic list as a view
+  $items['advanced_forum_topic_list_view'] = array(
+    'arguments' => array('tid' => NULL),
+    'template' => 'advanced_forum-topic-list-view',
+  );
+
+  $items['views_view_table__advanced_forum_topic_list'] = array (
+    'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+    'template' => 'advanced_forum-topic-list-view',
+    'original hook' => 'views_view_table',
+  );
+
 
   return $items;
 }
@@ -141,8 +153,10 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'advanced_forum_statistics',
                      'advanced_forum_search_forum',
                      'advanced_forum_search_topic',
+                     'advanced_forum_topic_list_view',
                      'views_view_fields__advanced_forum_search',
                      'views_view_fields__advanced_forum_search_topic',
+                     'views_view_table__advanced_forum_topic_list',
                      'advanced_forum_topic_legend',
                      'advanced_forum_forum_legend',
                      'advanced_forum_topic_header',
@@ -671,6 +685,13 @@ function advanced_forum_preprocess_forums($variables) {
     $variables['forum_description'] = '';
   }
   else {
+    $view = views_get_view('advanced_forum_topic_list'); 
+    $view->set_display('default');
+    $view->set_arguments(array($variables['tid']));
+    $output = $view->preview();
+    
+    $variables['topics'] = $output;
+    
     // Grab the forum description and make it available to the template file
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
@@ -894,6 +915,15 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
         $variables['date_posted'] = format_date($timestamp, 'small');
       }
   }
+}
+
+function advanced_forum_preprocess_views_view_table__advanced_forum_topic_list(&$variables) {
+  _advanced_forum_add_files();
+  $variables['template_files'][] = 'advanced_forum-topic-list-view';
+
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+
 }
 
 /**
@@ -1974,10 +2004,6 @@ function advanced_forum_statistics_online_users() {
 }
 
 // Search widget themes ******************************************************/
-
-/**
- * Preprocesses template variables for the forum statistics template.
- */
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   $variables['template_files'][] = 'advanced_forum-search-forum';
 
@@ -1985,9 +2011,6 @@ function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   $variables['path'] = url('forum/search');
 }
 
-/**
- * Preprocesses template variables for the forum statistics template.
- */
 function advanced_forum_preprocess_advanced_forum_search_topic(&$variables) {
   $variables['template_files'][] = 'advanced_forum-search-topic';
 
