@@ -93,8 +93,8 @@ $handler->override_option('fields', array(
   'name' => array(
     'label' => 'Author',
     'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
+      'alter_text' => 1,
+      'text' => '<br /> by [name]',
       'make_link' => 0,
       'path' => '',
       'link_class' => '',
@@ -119,8 +119,8 @@ $handler->override_option('fields', array(
   'created' => array(
     'label' => 'Post date',
     'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
+      'alter_text' => 1,
+      'text' => 'on [created]',
       'make_link' => 0,
       'path' => '',
       'link_class' => '',
@@ -135,7 +135,7 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
-    'date_format' => 'small',
+    'date_format' => 'large',
     'custom_date_format' => '',
     'exclude' => 0,
     'id' => 'created',
@@ -265,7 +265,7 @@ $handler->override_option('fields', array(
     'relationship' => 'none',
   ),
   'last_updated' => array(
-    'label' => 'Last reply',
+    'label' => 'Last post',
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -283,7 +283,7 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
-    'date_format' => 'time ago',
+    'date_format' => 'large',
     'custom_date_format' => '',
     'exclude' => 0,
     'id' => 'last_updated',
@@ -366,6 +366,32 @@ $handler->override_option('fields', array(
     'id' => 'comment',
     'table' => 'node',
     'field' => 'comment',
+    'relationship' => 'none',
+  ),
+  'topic_pager' => array(
+    'label' => 'Topic Pager',
+    'alter' => array(
+      'alter_text' => 0,
+      'text' => '',
+      'make_link' => 0,
+      'path' => '',
+      'link_class' => '',
+      'alt' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'help' => '',
+      'trim' => 0,
+      'max_length' => '',
+      'word_boundary' => 1,
+      'ellipsis' => 1,
+      'strip_tags' => 0,
+      'html' => 0,
+    ),
+    'total_pages_shown' => '3',
+    'exclude' => 0,
+    'id' => 'topic_pager',
+    'table' => 'node',
+    'field' => 'topic_pager',
     'relationship' => 'none',
   ),
 ));
@@ -476,20 +502,25 @@ $handler->override_option('style_options', array(
   'sticky' => 1,
   'order' => 'desc',
   'columns' => array(
+    'topic_icon' => 'topic_icon',
     'title' => 'title',
     'timestamp' => 'title',
     'name' => 'title',
     'created' => 'title',
     'comment_count' => 'comment_count',
+    'new_comments' => 'comment_count',
     'totalcount' => 'totalcount',
     'last_comment_name' => 'last_updated',
     'last_updated' => 'last_updated',
     'sticky' => 'sticky',
     'teaser' => 'teaser',
     'comment' => 'comment',
-    'new_comments' => 'comment_count',
+    'topic_pager' => 'title',
   ),
   'info' => array(
+    'topic_icon' => array(
+      'separator' => '',
+    ),
     'title' => array(
       'sortable' => 1,
       'separator' => ' ',
@@ -507,6 +538,9 @@ $handler->override_option('style_options', array(
     ),
     'comment_count' => array(
       'sortable' => 1,
+      'separator' => '',
+    ),
+    'new_comments' => array(
       'separator' => '',
     ),
     'totalcount' => array(
@@ -532,7 +566,7 @@ $handler->override_option('style_options', array(
       'sortable' => 0,
       'separator' => '',
     ),
-    'new_comments' => array(
+    'topic_pager' => array(
       'separator' => '',
     ),
   ),

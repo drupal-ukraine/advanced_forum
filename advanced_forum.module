@@ -79,6 +79,14 @@ function advanced_forum_theme() {
         'node' => NULL,
         )
   );
+  
+  $items['advanced_forum_topic_pager'] = array(
+      'arguments' => array(
+         'pagecount' => NULL,
+         'topic' => NULL,
+        )
+  );
+  
 
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
@@ -991,7 +999,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
 
     foreach ($variables['topics'] as $id => $topic) {
       // Get a pager to add to the topic, if there is one
-      $variables['topics'][$id]->pager = _advanced_forum_create_topic_pager($max_pages_to_display, $topic);
+      $variables['topics'][$id]->pager = theme('advanced_forum_topic_pager', $max_pages_to_display, $topic);
 
       // Make shadow copy point to actual thread and tell you new the forum name
       if ($variables['topics'][$id]->moved == TRUE) {
@@ -1800,6 +1808,16 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
   }
 }
 
+function theme_advanced_forum_topic_pager($pagecount, $topic) {
+  
+  $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic); 
+
+  if (is_array($topic_pager->initial_pages)) {
+    return '(' . implode(", ", $topic_pager->initial_pages) . $topic_pager->last_page . ')';
+  }
+}
+
+
 /**
  * Creates a pager to place on each multi-page topic of the topic listing page.
  *
@@ -1810,17 +1828,17 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
  * @return
  *   Asembled pager.
  */
-function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
+function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
   // Find the number of comments per page for the node type of the topic.
   // It's the same for all types in D5, but varies in D6.
   $comments_per_page = _comment_get_display_setting('comments_per_page', $topic);
-
+  
   if ($max_pages_to_display > 0 && $topic->num_comments > $comments_per_page) {
     // Topic has more than one page and a pager is wanted. Start off the
     // first page because that doesn't have a query.
     $pager_array = array();
     $current_display_page = 1;
-    $pager_array[] = l(t('1'), "node/$topic->nid");
+    $pager_array[] = l('1', "node/$topic->nid");
 
     // Find the ending point. The pager URL is always 1 less than
     // the number being displayed because the first page is 0.
@@ -1856,9 +1874,12 @@ function _advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       $text = t('Last Page') . '(' . $last_display_page . ')';
       $pager_last = ' &hellip; ' . l($text, "node/$topic->nid", array('query' => 'page=' . $last_pager_page));
     }
+    
+    $topic_pager = new stdClass();
+    $topic_pager->initial_pages = $pager_array;
+    $topic_pager->last_page = $pager_last;
 
-    // Put it all together
-    return '[' . t('Page') . ' '. implode(", ", $pager_array) . $pager_last . ']';
+    return $topic_pager;
   }
 }
 

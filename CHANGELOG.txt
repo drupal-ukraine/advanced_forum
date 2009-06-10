@@ -5,6 +5,7 @@ $Id$
 June 9, 2009
 ------------
 #484052 by Michelle, merlinofchaos: Created view for topic lists.
+#484052 by Michelle: Added topic pager.
 
 June 8, 2009
 ------------
