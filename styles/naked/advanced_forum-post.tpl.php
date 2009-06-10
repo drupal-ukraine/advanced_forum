@@ -25,12 +25,13 @@
 <?php if ($top_post): ?>
 
   <?php print $topic_header ?>
-  
+
   <?php $classes .= $node_classes; ?>
   <div id="node-<?php print $node->nid; ?>" class="top-post forum-post <?php print $classes; ?> clear-block">
 
 <?php else: ?>
   <?php $classes .= $comment_classes; ?>
+  <a id="comment-<?php print $node->nid; ?>"></a>
   <div id="reply-<?php print $reply_id; ?>" class="forum-post <?php print $classes; ?> clear-block">
 <?php endif; ?>
 
@@ -38,8 +39,11 @@
     <div class="posted-on">
       <?php print $date ?>
 
-      <?php if (!$top_post && !empty($comment->new)): ?>
-        <a id="new"><span class="new">(<?php print $new ?>)</span></a>
+      <?php if (!$top_post && !empty($new)): ?>
+        <?php if (!empty($first_new)): ?>
+          <?php print $first_new; ?>
+        <?php endif; ?>
+        <span class="new">(<?php print $new ?>)</span>
       <?php endif; ?>
     </div>
 

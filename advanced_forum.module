@@ -112,7 +112,7 @@ function advanced_forum_theme() {
       'original hook' => 'views_view_fields',
     );
   }
-  
+
   // Topic list as a view
   $items['advanced_forum_topic_list_view'] = array(
     'arguments' => array('tid' => NULL),
@@ -217,7 +217,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
 function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($op == 'update' || $op == 'insert' || $op == 'delete') {
     advanced_forum_statistics_replies(TRUE);
-  }    
+  }
 }
 
 /**
@@ -226,7 +226,7 @@ function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 function advanced_forum_comment(&$a1, $op) {
   if ($op == 'update' || $op == 'insert' || $op == 'delete') {
     advanced_forum_statistics_replies(TRUE);
-  }    
+  }
 }
 
 
@@ -505,7 +505,7 @@ function advanced_forum_preprocess_node(&$variables) {
     // Use our combined node/comment template file
     $variables['template_files'][] = "advanced_forum-post";
   }
-  
+
   /* Reply ID - Nodecomment only */
   if (!empty($variables['node']->comment_target_nid)) {
     $variables['reply_id'] = $variables['node']->nid;
@@ -521,7 +521,7 @@ function advanced_forum_preprocess_node(&$variables) {
     // Build the topic header
     $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
   }
-  
+
   /* Link section */
   // Change first post from "add comment" to "Reply"
   if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
@@ -550,6 +550,21 @@ function advanced_forum_preprocess_node(&$variables) {
     // Otherwise load Drupal's built in one, if enabled.
     $variables['signature'] = check_markup($variables['account']->signature, $variables['node']->format);
   }
+
+  // Node-comment specific variables
+  if (!empty($variables['node']->comment_target_nid)) {
+    static $post_number = 0;
+    $parent_node = node_load($variables['node']->comment_target_nid);
+    $post_per_page = _comment_get_display_setting('comments_per_page', $parent_node);
+    $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
+    $post_number++;
+
+    $fragment = 'comment-' . $variables['node']->nid;
+    $query = ($page_number) ? 'page=' . $page_number : NULL;
+    $linktext = '#' . (($page_number * $post_per_page) + $post_number);
+    $linkpath = 'node/' . $parent_node->nid;
+    $variables['comment_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+  }
 }
 
 /**
@@ -560,7 +575,7 @@ function advanced_forum_preprocess_comment(&$variables) {
     // We only deal with forum posts.
     return;
   }
-  
+
   /* Make the topic starting node available */
   $node = node_load($variables['comment']->nid);
   $variables['first_post'] = $node;
@@ -577,7 +592,7 @@ function advanced_forum_preprocess_comment(&$variables) {
 
   // This is a comment, not the node.
   $variables['top_post'] = FALSE;
-  
+
   // Set the reply ID for theming / targetting
   $variables[$reply_id] = $variables['comment']->$cid;
 
@@ -651,7 +666,7 @@ function advanced_forum_preprocess_comment(&$variables) {
   if (!empty($variables['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $variables['comment']->cid)) {
     $variables['page_link'] = l(t('(permalink)'), $variables['comment']->page_url);
   }
-  
+
   /* Signatures */
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that
@@ -693,11 +708,11 @@ function advanced_forum_preprocess_forums($variables) {
     $variables['forum_description'] = '';
   }
   else {
-    $view = views_get_view('advanced_forum_topic_list'); 
+    $view = views_get_view('advanced_forum_topic_list');
     $view->set_display('default');
     $view->set_arguments(array($variables['tid']));
     $output = $view->preview();
-    
+
     $variables['topics'] = $output;
     
     // Grab the forum description and make it available to the template file
@@ -1924,7 +1939,7 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
               WHERE n.status = 1 AND n.changed > %d AND (n.changed > h.timestamp OR h.timestamp IS NULL)
               GROUP BY f.tid";
 
-      $sql = db_rewrite_sql($sql);    
+      $sql = db_rewrite_sql($sql);
     }
     else {
       $sql = "SELECT COUNT(c.cid) AS count, f.tid
@@ -1984,10 +1999,10 @@ function advanced_forum_statistics_replies($refresh = FALSE) {
     else {
       $total_replies = db_result(db_query('SELECT COUNT(cid) FROM {comments} c INNER JOIN {forum} f ON (f.nid = c.nid)'));
     }
-    
+
     variable_set('advanced_forum_stats_posts', $total_replies);
   }
-  
+
   return $total_replies;
 }
 
