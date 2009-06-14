@@ -37,6 +37,13 @@
  */
 ?>
 
+<?php
+  if (module_exists('views')) {
+   // When views is installed, we let it take over the topic list page.
+   return;
+  }
+?>
+
 <?php print $pager; ?>
 
 <table id="forum-topic-<?php print $topic_id; ?>" class="forum-topics">
