@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 16, 2009
+------------
+#484052 by Michelle: Prevent original topic list page from being created when views is enabled.
+
 June 9, 2009
 ------------
 #484052 by Michelle, merlinofchaos: Created view for topic lists.

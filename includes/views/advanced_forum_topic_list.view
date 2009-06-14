@@ -90,11 +90,11 @@ $handler->override_option('fields', array(
     'field' => 'timestamp',
     'relationship' => 'none',
   ),
-  'name' => array(
-    'label' => 'Author',
+  'name_1' => array(
+    'label' => 'Name',
     'alter' => array(
       'alter_text' => 1,
-      'text' => '<br /> by [name]',
+      'text' => '<br /> by [name_1]',
       'make_link' => 0,
       'path' => '',
       'link_class' => '',
@@ -110,9 +110,11 @@ $handler->override_option('fields', array(
       'html' => 0,
     ),
     'link_to_user' => 1,
+    'overwrite_anonymous' => 0,
+    'anonymous_text' => '',
     'exclude' => 0,
-    'id' => 'name',
-    'table' => 'node_comments',
+    'id' => 'name_1',
+    'table' => 'users',
     'field' => 'name',
     'relationship' => 'none',
   ),
@@ -516,6 +518,7 @@ $handler->override_option('style_options', array(
     'teaser' => 'teaser',
     'comment' => 'comment',
     'topic_pager' => 'title',
+    'name_1' => 'title',
   ),
   'info' => array(
     'topic_icon' => array(
@@ -567,6 +570,10 @@ $handler->override_option('style_options', array(
       'separator' => '',
     ),
     'topic_pager' => array(
+      'separator' => '',
+    ),
+    'name_1' => array(
+      'sortable' => 0,
       'separator' => '',
     ),
   ),
