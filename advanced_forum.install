@@ -8,7 +8,7 @@
  */
 
 function advanced_forum_install() {
-  db_query("UPDATE {system} SET weight = 10 WHERE name = 'advanced_forum'");
+  db_query("UPDATE {system} SET weight = 15 WHERE name = 'advanced_forum'");
 }
 
 function advanced_forum_uninstall() {
@@ -44,4 +44,11 @@ function advanced_forum_update_5003() {
 function advanced_forum_update_5004() {
 /* Removed variable clean up because it caused false fails. */
 }
+
+function advanced_forum_update_5005() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 15 WHERE name = 'advanced_forum'");
+  return $ret;
+}
+
 
