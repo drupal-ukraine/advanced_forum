@@ -2,9 +2,11 @@
 // $Id$
 
 /**
+ * @file
  * Field handler to display the topic icon.
  */
-class advanced_forum_handler_field_node_topic_icon extends views_handler_field{
+
+ class advanced_forum_handler_field_node_topic_icon extends views_handler_field{
   function construct() {
     parent::construct();
     $this->additional_fields = array('nid' => 'nid', 'type' => 'type');
@@ -35,7 +37,7 @@ class advanced_forum_handler_field_node_topic_icon extends views_handler_field{
   }
 
   function render($values) {
-    //@TODO: Replace the 0 with the number of new comments.
-    return theme('forum_icon', 0, $values->node_comment_statistics_comment_count, $values->node_comment, $values->node_sticky);
+    $new_posts = advanced_forum_reply_num_new($values->nid);
+    return theme('forum_icon', $new_posts, $values->node_comment_statistics_comment_count, $values->node_comment, $values->node_sticky);
   }
 }

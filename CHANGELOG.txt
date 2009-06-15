@@ -2,6 +2,12 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+#489044 by Michelle: Split code up into smaller files both to reduce memory requirements and to make it easier to navigate the code.
+#491692 by neclimdul: Removed typo'd backslash.
+#472736 by Michelle, merlinofchaos: Made jump to last post work with nodecomment.
+NOISSUE by Michelle: Code clean up, more comments added.
+#472736 by Michelle: Made topic icon recognize new posts in nodecomment.
+
 June 16, 2009
 ------------
 #484052 by Michelle: Prevent original topic list page from being created when views is enabled.
@@ -370,7 +376,7 @@ NOISSUE by Michelle: Fixed joined date to not use hardcoded format. Regex provid
 #274978 by Michelle: Fixed signatures so they work with and without signature for forums installed.
 NOISSUE by Michelle: Re-arranged functions and cleaned up some comments.
 #268684 by Michelle: Removed old themes directory.
-#268684 by Michelle: Added code to change forum icon when new posts. 
+#268684 by Michelle: Added code to change forum icon when new posts.
 #268684 by Michelle: Added new forum icons.
 #268684 by Michelle: Changed 'mark as read' to use new icon.
 #268684 by Michelle: Added advf-comment-wrapper.tpl.php and used it to add reply link at bottom of each page.
@@ -391,8 +397,8 @@ August 21, 2008
 #295562 by catch: Make 'views' column in topic list statistics.module dependent.
 #268684 by Michelle: Cleaned up advf-forum-topic-list.tpl.php and moved some logic into the preprocess.
 #268684 by Michelle: Added classes to table header for topic list and cleaned up empty fields.
-Made advanced setting for turning off created column. 
-#238668 by ixeft, Michelle: Added N new posts to forum overview. 
+Made advanced setting for turning off created column.
+#238668 by ixeft, Michelle: Added N new posts to forum overview.
 
 August 20, 2008
 ---------------
@@ -431,7 +437,7 @@ June 5, 2008
 June 3, 2008
 ------------
 #242527 by Michelle: Initialized view count to 0 so it doesn't show blank when no views of topic.
-#208440 by Michelle: Made reference post use forum theme when replying. Also removed links from comment in reply mode. 
+#208440 by Michelle: Made reference post use forum theme when replying. Also removed links from comment in reply mode.
 #241982 by Michelle: Updated variable list in comments of advf-forum-submitted.tpl.php to account for changes.
 
 June 2, 2008
@@ -568,8 +574,8 @@ Created this changelog to help early adopters keep up with my changes. Will only
 Notable recent changes:
  - Moved all theme related files into themes/advforum to enable alternate themes
  - Removed call to _is_forum() at the top of node-forum.tpl.php and rolled logic into the function
- - Renamed node-forum.tpl.php to forum-thread.tpl.php 
- 
+ - Renamed node-forum.tpl.php to forum-thread.tpl.php
+
 Nov 18, 2007
 ------------
 Created project for advanced forum and uploaded some early code

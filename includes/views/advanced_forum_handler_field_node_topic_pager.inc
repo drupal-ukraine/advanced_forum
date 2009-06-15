@@ -2,8 +2,10 @@
 // $Id$
 
 /**
- * Field handler to display the topic icon.
+ * @file
+ * Field handler to display the topic pager.
  */
+
 class advanced_forum_handler_field_node_topic_pager extends views_handler_field{
   function construct() {
     parent::construct();
