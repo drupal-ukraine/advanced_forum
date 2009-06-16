@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 16, 2009
+-------------
+#492922 by conchur: Fixed typo in comment preprocess.
+
 June 15, 2009
 -------------
 #489044 by Michelle: Split code up into smaller files both to reduce memory requirements and to make it easier to navigate the code.
