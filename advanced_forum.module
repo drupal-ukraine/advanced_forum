@@ -135,6 +135,13 @@ function advanced_forum_theme() {
  * Implementation of hook_theme_registry_alter().
  */
 function advanced_forum_theme_registry_alter(&$theme_registry) {
+  // Garland's phptemplate_comment_wrapper really sucks. Chances are, a theme
+  // does NOT want to control this on forum nodes anyway, so we're going to take
+  // it over:
+  if (isset($theme_registry['comment_wrapper']['function']) && $theme_registry['comment_wrapper']['function'] == 'phptemplate_comment_wrapper') {
+    $theme_registry['comment_wrapper']['function'] = 'advanced_forum_comment_wrapper';
+  }
+
   // Kill the next/previous forum topic navigation links.
   if (!variable_get('advanced_forum_use_topic_navigation', FALSE)) {
     foreach ($theme_registry['forum_topic_navigation']['preprocess functions'] as $key => $value) {
@@ -758,4 +765,26 @@ function advanced_forum_get_forum_list($tid = 0) {
   $forums = taxonomy_get_tree($vid, $tid);
 
   return $forums;
+}
+
+/**
+ * Allow themable wrapping of all comments.
+ */
+function advanced_forum_comment_wrapper($content, $node) {
+  // See if this is a forum post:
+  $vid = variable_get('forum_nav_vocabulary', '');
+  foreach ($node->taxonomy as $tid => $term) {
+    if ($term->vid == $vid) {
+      return _advanced_forum_comment_wrapper($content, $node);
+    }
+  }
+
+  return phptemplate_comment_wrapper($content, $node);
+}
+
+/**
+ * Wrap forum comments a little differently to make it easier.
+ */
+function _advanced_forum_comment_wrapper($content, $node) {
+  return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
 }
