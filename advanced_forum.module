@@ -204,7 +204,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   $naked_path = drupal_get_path('module', 'advanced_forum') . '/styles/naked';
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
-    if (is_array($theme_registry[$template])) {
+    if (!empty($theme_registry[$template])) {
 
       // If there was a path in there, store it.
       $existing_path = array_shift($theme_registry[$template]['theme paths']);
@@ -616,7 +616,7 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
  */
 function advanced_forum_first_new_post_link($node, $comment_count) {
   $nid = $node->nid;
-  $current_page = $_GET['page'];
+  $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
   $number_new_comments = advanced_forum_reply_num_new($nid);
 
   if ($number_new_comments > 0) {

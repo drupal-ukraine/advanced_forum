@@ -2,14 +2,19 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 15, 2009
+-------------
 #489044 by Michelle: Split code up into smaller files both to reduce memory requirements and to make it easier to navigate the code.
 #491692 by neclimdul: Removed typo'd backslash.
 #472736 by Michelle, merlinofchaos: Made jump to last post work with nodecomment.
 NOISSUE by Michelle: Code clean up, more comments added.
 #472736 by Michelle: Made topic icon recognize new posts in nodecomment.
+NOISSUE by Michelle: Added update to set AF's weight to 15. This is needed for the views to work and was missed on earlier commits.
+#492590 by merlinofchaos: Wrench comment wrapper back from the clutches of the evil Garland.
+#483408 by neclimdul: Notices cleanup.
 
-June 16, 2009
-------------
+June 14, 2009
+-------------
 #484052 by Michelle: Prevent original topic list page from being created when views is enabled.
 
 June 9, 2009

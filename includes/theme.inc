@@ -119,7 +119,7 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
 
   $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
 
-  if (is_array($topic_pager->initial_pages)) {
+  if (isset($topic_pager->initial_pages)) {
     return '(' . implode(", ", $topic_pager->initial_pages) . $topic_pager->last_page . ')';
   }
 }
@@ -134,7 +134,7 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
 function advanced_forum_preprocess_author_pane(&$variables) {
   // Author pane is used in various places. The only way to be sure to only
   // hit it when we are using it is to check the template suggestion.
-  if ($variables['template_suggestion'] == 'advanced_forum-author-pane') {
+  if (!empty($variables['template_suggestion']) && $variables['template_suggestion'] == 'advanced_forum-author-pane') {
     // Attempt to override the user picture fetched by Author Pane from core.
     $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
     if (!empty($sized_picture)) {
