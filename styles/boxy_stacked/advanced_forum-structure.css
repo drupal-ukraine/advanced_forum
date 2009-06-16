@@ -312,3 +312,7 @@ ul.forum-links {
 #comments.forum-comment-wrapper {
   margin-top: 0;
 }
+
+.forum-search-result {
+  margin-bottom: 10px;
+}

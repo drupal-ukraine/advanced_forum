@@ -75,8 +75,8 @@ $handler->override_option('fields', array(
     'field' => 'nodecomment_link',
     'relationship' => 'none',
   ),
-  'name' => array(
-    'label' => 'By',
+  'nodecomment_author' => array(
+    'label' => 'by',
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -95,10 +95,12 @@ $handler->override_option('fields', array(
       'html' => 0,
     ),
     'link_to_user' => 1,
+    'overwrite_anonymous' => 0,
+    'anonymous_text' => '',
     'exclude' => 0,
-    'id' => 'name',
-    'table' => 'node_comments',
-    'field' => 'name',
+    'id' => 'nodecomment_author',
+    'table' => 'node',
+    'field' => 'nodecomment_author',
     'relationship' => 'none',
   ),
   'created' => array(

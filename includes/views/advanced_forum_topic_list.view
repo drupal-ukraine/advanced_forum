@@ -579,18 +579,3 @@ $handler->override_option('style_options', array(
   ),
   'default' => 'last_updated',
 ));
-$handler = $view->new_display('page', 'Page', 'page_1');
-$handler->override_option('path', 'topiclist');
-$handler->override_option('menu', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-  'name' => 'navigation',
-));
-$handler->override_option('tab_options', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-));
