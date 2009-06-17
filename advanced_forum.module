@@ -39,11 +39,13 @@ function advanced_forum_menu() {
 
 /**
  * Implementation of hook_menu_alter().
- *
- * Take over the forum page creation so we can add more information.
  */
 function advanced_forum_menu_alter(&$callbacks) {
+  // Take over the forum page creation so we can add more information.
   $callbacks['forum']['page callback'] = 'advanced_forum_page';
+
+  // Turn 'forum' into a normal menu item so it appears in navigation.
+  $callbacks['forum']['type'] = MENU_NORMAL_ITEM;
 }
 
 /**
