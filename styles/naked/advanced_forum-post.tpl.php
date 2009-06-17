@@ -39,11 +39,11 @@
     <div class="posted-on">
       <?php print $date ?>
 
-      <?php if (!$top_post && !empty($new)): ?>
+      <?php if (!$top_post): ?>
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
-        <span class="new">(<?php print $new ?>)</span>
+        <?php print $new_output; ?>
       <?php endif; ?>
     </div>
 

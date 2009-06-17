@@ -57,8 +57,15 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));
-  $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advanced_forum-author-pane');
-
+  // Only do this if post rendering is supported:
+  if (method_exists('views_plugin_cache', 'post_render')) {
+    // Place a token that will later be replaced by the author pane, which
+    // will keep the pane fresh even when the view result is cached.
+    $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';
+  }
+  else {
+    $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advanced_forum-author-pane');
+  }
   /* Signatures */
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that

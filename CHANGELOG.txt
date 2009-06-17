@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 17, 2009
+-------------
+#494642 by merlinofchaos: Integrate better with new Views post rendering
+
 June 16, 2009
 -------------
 #492922 by conchur: Fixed typo in comment preprocess.
