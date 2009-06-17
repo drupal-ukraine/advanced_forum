@@ -325,7 +325,7 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
 
   if (!module_exists('views')) {
     include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_forum_topic_list.inc';
-    _advanced_forum_preprocess_forum_topic_list(&$variables);
+    _advanced_forum_preprocess_forum_topic_list($variables);
   }
 }
 

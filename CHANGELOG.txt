@@ -5,6 +5,7 @@ $Id$
 June 17, 2009
 -------------
 #494642 by merlinofchaos: Integrate better with new Views post rendering
+NOISSUE by merlinofchaos, Michelle: Fixed two typos with _advanced_forum_preprocess_forum_topic_list.
 
 June 16, 2009
 -------------

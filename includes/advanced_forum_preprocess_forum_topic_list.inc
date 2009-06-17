@@ -7,7 +7,7 @@
  * to easy memory requirements and having too much code in one file.
  */
 
-function _advanced_forum_preprocess_forum_topic_list {
+function _advanced_forum_preprocess_forum_topic_list(&$variables) {
     // Redo the table header so we can make our adjustments. This relies on this
     // header being unaltered from the forum module or it will be messed up. I
     // decided to do it this way rather than making it better able to adapt for
