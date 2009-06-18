@@ -33,11 +33,18 @@
     <tbody>
       <?php foreach ($rows as $count => $row): ?>
         <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
-          <?php foreach ($row as $field => $content): ?>
-            <td class="views-field views-field-<?php print $fields[$field]; ?>">
-              <?php print $content; ?>
+          <?php if (empty($shadow[$count])): ?>
+            <?php foreach ($row as $field => $content): ?>
+              <td class="views-field views-field-<?php print $fields[$field]; ?>">
+                <?php print $content; ?>
+              </td>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <?php /* For shadow posts, we print only the title. */ ?>
+            <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header); ?>">
+              <?php print $row['title']; ?>
             </td>
-          <?php endforeach; ?>
+          <?php endif; ?>
         </tr>
       <?php endforeach; ?>
     </tbody>

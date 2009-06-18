@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 18, 2009
+-------------
+#484052 by merlinofchaos: Made forum topic list view work with new forum topic list style and also added sticky and shadow post changes.
+
 June 17, 2009
 -------------
 #494642 by merlinofchaos: Integrate better with new Views post rendering

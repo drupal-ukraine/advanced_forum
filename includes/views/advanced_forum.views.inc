@@ -68,3 +68,51 @@ function advanced_forum_views_handlers() {
   );
 }
 
+/**
+ * Implementation of hook_views_plugins
+ */
+function advanced_forum_views_plugins() {
+  $path = drupal_get_path('module', 'advanced_forum') . '/includes/views';
+  return array(
+    'style' => array(
+      'forum_topic_list' => array(
+        'parent' => 'table',
+        'path' => $path,
+        'title' => t('Forum topic list'),
+        'help' => t('Displays the forum topic list as a view.'),
+        'handler' => 'advanced_forum_plugin_style_forum_topic_list',
+        'theme path' => drupal_get_path('module', 'advanced_forum') . '/includes',
+        'theme file' => 'theme.inc',
+        'theme' => 'advanced_forum_topic_list_view',
+        'uses row plugin' => FALSE,
+        'uses fields' => TRUE,
+        'uses options' => TRUE,
+        'type' => 'normal',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_views_data()
+ */
+function advanced_forum_views_data() {
+  $data = array();
+  // ----------------------------------------------------------------------
+  // forum table
+  
+  // Have not defined $data['forum']['table']['group'] since
+  // no fields are defined here yet.
+  $data['forum']['table']['join'] = array(
+    'node_revisions' => array(
+      'left_field' => 'vid',
+      'field' => 'vid',
+    ),
+    'node' => array(
+      'left_field' => 'vid',
+      'field' => 'vid',
+    ),
+  );
+  
+  return $data;
+}
