@@ -115,12 +115,32 @@ function theme_advanced_forum_user_picture($account) {
   }
 }
 
+/**
+ * Theme function to return assembled pager for use on each topic in list.
+ *
+ * @param $pagecount
+ *   Number of pages to include on the pager.
+ * @param $topic
+ *   Topic object to create a pager for.
+ * @return
+ *   Assembled pager.
+ */
 function theme_advanced_forum_topic_pager($pagecount, $topic) {
-
+  // Get the information to assemble the pager. This returns an object with
+  // the following properties:
+  //  initial_pages: Array of linked numbers for first set of pages
+  //  last_page_text: Linked text "Last page" (translatable)
+  //  last_page_number: Linked number pointing to the last page.
   $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
 
-  if (isset($topic_pager->initial_pages)) {
-    return '(' . implode(", ", $topic_pager->initial_pages) . $topic_pager->last_page . ')';
+  if (!empty($topic_pager->initial_pages)) {
+    if (!empty($topic_pager->last_page_text)) {
+      // If you prefer to end with the number, replace 
+      // $topic_pager->last_page_text with $topic_pager->last_page_number
+      $last_page = ' &hellip; ' . $topic_pager->last_page_text;
+    }
+    
+    return '<span class="topic-pager">(Page: ' . implode(", ", $topic_pager->initial_pages) . $last_page . ')</span>';
   }
 }
 

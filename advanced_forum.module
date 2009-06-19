@@ -684,13 +684,15 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
     if ($current_display_page < $last_display_page) {
       // We are one past the max to display and still aren't
       // on the last page, so put in ... Last Page(N)
-      $text = t('Last Page') . '(' . $last_display_page . ')';
-      $pager_last = ' &hellip; ' . l($text, "node/$topic->nid", array('query' => 'page=' . $last_pager_page));
+      $text = t('Last Page');
+      $pager_last_text = l($text, "node/$topic->nid", array('query' => 'page=' . $last_pager_page));
+      $pager_last_number = l($last_display_page, "node/$topic->nid", array('query' => 'page=' . $last_pager_page));
     }
 
     $topic_pager = new stdClass();
     $topic_pager->initial_pages = $pager_array;
-    $topic_pager->last_page = $pager_last;
+    $topic_pager->last_page_text = $pager_last_text;
+    $topic_pager->last_page_number = $pager_last_number;
 
     return $topic_pager;
   }

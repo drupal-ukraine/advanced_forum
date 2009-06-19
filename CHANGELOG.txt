@@ -5,6 +5,7 @@ $Id$
 June 18, 2009
 -------------
 #484052 by merlinofchaos: Made forum topic list view work with new forum topic list style and also added sticky and shadow post changes.
+#484052 by Michelle: Fixed up the topic list pager & the #new.
 
 June 17, 2009
 -------------
