@@ -101,8 +101,12 @@ Images used:
   font-size: 0.9em;
 }
 
-#forum tr.sticky-topic {
+#forum tr.sticky {
   background-color: #BDE0F5;
+}
+
+#forum tr.forum-last-sticky {
+  border-bottom: 10px solid #91CDF5;
 }
 
 /*** FORUM STATISTICS *********************************************************/

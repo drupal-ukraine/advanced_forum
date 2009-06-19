@@ -144,7 +144,23 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
   }
 }
 
-
+/**
+ * Theme function to create shadow topic reference.
+ *
+ * @param $title
+ *   Unlinked title of the topic.
+ * @param $nid
+ *   Node id of the topic.
+ * @param $new_forum
+ *   Name of the forum that now contains the topic.
+ * @return
+ *   String to print in place of the title/author info on topic lists.
+ */
+function theme_advanced_forum_shadow_topic($title, $nid, $new_forum) {
+  return $title . '<br />' . 
+    t('This topic has been moved to "!forum"', array('!forum' => $new_forum)) . 
+    ' (' . l(t('View topic'), "node/$nid") . ')';
+}
 
 // TEMPLATE PREPROCESS ******************************************************/
 

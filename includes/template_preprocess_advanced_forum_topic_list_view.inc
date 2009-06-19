@@ -1,19 +1,26 @@
 <?php
-function _template_preprocess_advanced_forum_topic_list_view(&$vars) {
-  $vars['template_files'][] = 'advanced_forum-topic-list-view';
+// $Id$
 
-  $view     = $vars['view'];
+/**
+ * @file
+ * Holds the contents of a preprocess function moved into its own file
+ * to ease memory requirements and having too much code in one file.
+ */
+function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-topic-list-view';
+  $view = $variables['view'];
+  
   // We assume that the forum this is for will *always* be the first argument.
   // This style will totally break if that's not true. We don't really care that much,
   // though the object could probably run a validate().
   $forum = $view->args[0];
 
-  // We need the raw data for this grouping, which is passed in as $vars['rows'].
+  // We need the raw data for this grouping, which is passed in as $variables['rows'].
   // However, the template also needs to use for the rendered fields.  We
-  // therefore swap the raw data out to a new variable and reset $vars['rows']
+  // therefore swap the raw data out to a new variable and reset $variables['rows']
   // so that it can get rebuilt.
-  $result   = $vars['rows'];
-  $vars['rows'] = array();
+  $result   = $variables['rows'];
+  $variables['rows'] = array();
 
   $options  = $view->style_plugin->options;
   $handler  = $view->style_plugin;
@@ -45,19 +52,26 @@ function _template_preprocess_advanced_forum_topic_list_view(&$vars) {
       $sticky[$count] = !empty($row->topic_is_sticky);
       if ($sticky[$count]) {
         $sticky_count++;
-        $vars['row_classes'][$count][] = 'sticky';
+        $variables['row_classes'][$count][] = 'sticky';
       }
       else {
         $stickies_done = TRUE;
         if ($sticky_count) {
           // This ends up appearing only if we have both sticky and non sticky posts.
           // Otherwise it will never show up.
-          $vars['row_classes'][$count - 1][] = 'forum-last-sticky';
+          $variables['row_classes'][$count - 1][] = 'forum-last-sticky';
         }
       }
     }
 
-    $vars['shadow'][$count] = $forum != $row->topic_actual_forum;
+    if ($forum != $row->topic_actual_forum) {
+      // Shadow (moved) topic.  
+      $term = taxonomy_get_term($row->topic_actual_forum);
+      $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', $row->node_title, $row->nid, $term->name);
+    }
+    else {
+      $variables['shadow'][$count] = FALSE;
+    }
   }
 
   foreach ($columns as $field => $column) {
@@ -65,7 +79,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$vars) {
     if ($field == $column && empty($fields[$field]->options['exclude'])) {
       $label = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
       if (empty($options['info'][$field]['sortable']) || !$fields[$field]->click_sortable()) {
-        $vars['header'][$field] = $label;
+        $variables['header'][$field] = $label;
       }
       else {
         // @todo -- make this a setting
@@ -84,15 +98,15 @@ function _template_preprocess_advanced_forum_topic_list_view(&$vars) {
           'attributes' => array('title' => $title),
           'query' => 'order=' . urlencode($field) . '&sort=' . $initial . $query,
         );
-        $vars['header'][$field] = l($label, $_GET['q'], $link_options);
+        $variables['header'][$field] = l($label, $_GET['q'], $link_options);
       }
     }
 
     // Create a second variable so we can easily find what fields we have and what the
     // CSS classes should be.
-    $vars['fields'][$field] = views_css_safe($field);
+    $variables['fields'][$field] = views_css_safe($field);
     if ($active == $field) {
-      $vars['fields'][$field] .= ' active';
+      $variables['fields'][$field] .= ' active';
     }
 
     // Render each field into its appropriate column.
@@ -101,32 +115,36 @@ function _template_preprocess_advanced_forum_topic_list_view(&$vars) {
         $field_output = $renders[$num][$field];
 
         // Don't bother with separators and stuff if the field does not show up.
-        if (empty($field_output) && !empty($vars['rows'][$num][$column])) {
+        if (empty($field_output) && !empty($variables['rows'][$num][$column])) {
           continue;
         }
 
         // Place the field into the column, along with an optional separator.
-        if (!empty($vars['rows'][$num][$column])) {
+        if (!empty($variables['rows'][$num][$column])) {
           if (!empty($options['info'][$column]['separator'])) {
-            $vars['rows'][$num][$column] .= filter_xss_admin($options['info'][$column]['separator']);
+            $variables['rows'][$num][$column] .= filter_xss_admin($options['info'][$column]['separator']);
           }
         }
         else {
-          $vars['rows'][$num][$column] = '';
+          $variables['rows'][$num][$column] = '';
         }
 
-        $vars['rows'][$num][$column] .= $field_output;
+        $variables['rows'][$num][$column] .= $field_output;
       }
     }
   }
 
-  foreach ($vars['rows'] as $num => $row) {
-    $vars['row_classes'][$num][] = ($num % 2 == 0) ? 'odd' : 'even';
+  foreach ($variables['rows'] as $num => $row) {
+    $variables['row_classes'][$num][] = ($num % 2 == 0) ? 'odd' : 'even';
   }
 
-  $vars['class'] = 'views-table';
+  $variables['class'] = 'views-table';
   if (!empty($options['sticky'])) {
     drupal_add_js('misc/tableheader.js');
-    $vars['class'] .= " sticky-enabled";
+    $variables['class'] .= " sticky-enabled";
   }
+  
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+
 }

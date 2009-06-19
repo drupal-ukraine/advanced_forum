@@ -15,6 +15,8 @@
  * @ingroup views_templates
  */
 ?>
+           <?php //dsm($rows); ?>
+
 <div id="forum">
   <?php if (!empty($title)) : ?>
     <caption><?php print $title; ?></caption>
@@ -39,10 +41,13 @@
                 <?php print $content; ?>
               </td>
             <?php endforeach; ?>
-          <?php else: ?>
-            <?php /* For shadow posts, we print only the title. */ ?>
-            <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header); ?>">
-              <?php print $row['title']; ?>
+          <?php else: ?> 
+            <?php /* For shadow posts, we print only the themed notice. */ ?>
+            <td class="views-field views-field-<?php print $fields['topic_icon']; ?>"
+              <?php print $row['topic_icon']; ?>
+            </td>
+            <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header)-1; ?>">
+               <?php print $shadow[$count]; ?>
             </td>
           <?php endif; ?>
         </tr>

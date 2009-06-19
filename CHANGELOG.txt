@@ -7,6 +7,7 @@ June 18, 2009
 #484052 by merlinofchaos: Made forum topic list view work with new forum topic list style and also added sticky and shadow post changes.
 #484052 by Michelle: Fixed up the topic list pager & the #new.
 #484052 by Michelle: Moved topic list view preprocess to its own .inc
+#484052 by Michelle: Improved shadow topics including adding a new theme function for them.
 
 June 17, 2009
 -------------

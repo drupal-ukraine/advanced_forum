@@ -91,6 +91,15 @@ function advanced_forum_theme() {
         )
   );
 
+  $items['advanced_forum_shadow_topic'] = array(
+      'arguments' => array(
+         'title' => NULL,
+         'nid' => NULL,
+         'new_forum' => NULL,
+        )
+  );
+  
+
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
     $items['advanced_forum_search_forum'] = array(

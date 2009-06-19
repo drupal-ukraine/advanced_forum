@@ -500,14 +500,15 @@ $handler->override_option('use_pager', '1');
 $handler->override_option('style_plugin', 'forum_topic_list');
 $handler->override_option('style_options', array(
   'grouping' => '',
-  'override' => 1,
+  'override' => 0,
   'sticky' => 1,
   'order' => 'desc',
   'columns' => array(
     'topic_icon' => 'topic_icon',
     'title' => 'title',
     'timestamp' => 'title',
-    'name' => 'title',
+    'topic_pager' => 'title',
+    'name_1' => 'title',
     'created' => 'title',
     'comment_count' => 'comment_count',
     'new_comments' => 'comment_count',
@@ -517,8 +518,6 @@ $handler->override_option('style_options', array(
     'sticky' => 'sticky',
     'teaser' => 'teaser',
     'comment' => 'comment',
-    'topic_pager' => 'title',
-    'name_1' => 'title',
   ),
   'info' => array(
     'topic_icon' => array(
@@ -531,7 +530,10 @@ $handler->override_option('style_options', array(
     'timestamp' => array(
       'separator' => '',
     ),
-    'name' => array(
+    'topic_pager' => array(
+      'separator' => '',
+    ),
+    'name_1' => array(
       'sortable' => 0,
       'separator' => '',
     ),
@@ -566,13 +568,6 @@ $handler->override_option('style_options', array(
       'separator' => '',
     ),
     'comment' => array(
-      'sortable' => 0,
-      'separator' => '',
-    ),
-    'topic_pager' => array(
-      'separator' => '',
-    ),
-    'name_1' => array(
       'sortable' => 0,
       'separator' => '',
     ),
