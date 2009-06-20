@@ -45,8 +45,16 @@ Colors used:
 }
 
 /* Topic listings */
-#forum tr.sticky-topic {
-  background: #DEDEDE;
+#forum tr.sticky {
+  background-color: #DEDEDE;
+}
+
+#forum tr.forum-last-sticky {
+  border-bottom: 10px solid #CCCCCC;
+}
+
+#forum .sticky-label {
+  font-weight: bold;
 }
 
 /*** FORUM STATISTICS *********************************************************/

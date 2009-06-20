@@ -64,8 +64,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       }
     }
 
+    // Shadow (moved) topics.  
     if ($forum != $row->topic_actual_forum) {
-      // Shadow (moved) topic.  
       $term = taxonomy_get_term($row->topic_actual_forum);
       $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', $row->node_title, $row->nid, $term->name);
     }
@@ -73,7 +73,9 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       $variables['shadow'][$count] = FALSE;
     }
   }
-
+  // Make the sticky variable available to the template.
+  $variables['sticky'] = $sticky;
+  
   foreach ($columns as $field => $column) {
     // render the header labels
     if ($field == $column && empty($fields[$field]->options['exclude'])) {

@@ -8,9 +8,10 @@ Colors used:
   #ffffff Text on headers
   #0062A0 Pager number
   #91CDF5 Borders & headers
-  #BDE0F5 Container background, sticky topic
+  #BDE0F5 Container background
   #5F67A5 Container description
   #898989 Forum description
+  #E6EDEC Sticky topic
   #EDF5FA Author pane background
 
 Images used:
@@ -96,13 +97,16 @@ Images used:
 }
 
 /* Topic listings */
-
-#forum td .links {
-  font-size: 0.9em;
+#forum tr.sticky {
+  background-color: #E6EDEC;
 }
 
-#forum tr.sticky-topic {
-  background-color: #BDE0F5;
+#forum tr.forum-last-sticky {
+  border-bottom: 10px solid #91CDF5;
+}
+
+#forum .sticky-label {
+  font-weight: bold;
 }
 
 /*** FORUM STATISTICS ********************************************************/

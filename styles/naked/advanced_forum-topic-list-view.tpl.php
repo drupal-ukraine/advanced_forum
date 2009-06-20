@@ -15,9 +15,7 @@
  * @ingroup views_templates
  */
 ?>
-           <?php //dsm($rows); ?>
-
-<div id="forum">
+ <div id="forum">
   <?php if (!empty($title)) : ?>
     <caption><?php print $title; ?></caption>
   <?php endif; ?>
@@ -38,11 +36,14 @@
           <?php if (empty($shadow[$count])): ?>
             <?php foreach ($row as $field => $content): ?>
               <td class="views-field views-field-<?php print $fields[$field]; ?>">
-                <?php print $content; ?>
+               <?php if ($field == 'title' && $sticky[$count]): ?>
+                 <span class="sticky-label"><?php print t('Sticky:'); ?></span>
+               <?php endif; ?>
+               <?php print $content; ?>
               </td>
             <?php endforeach; ?>
           <?php else: ?> 
-            <?php /* For shadow posts, we print only the themed notice. */ ?>
+            <?php /* For shadow posts, we print only the icon and themed notice. */ ?>
             <td class="views-field views-field-<?php print $fields['topic_icon']; ?>"
               <?php print $row['topic_icon']; ?>
             </td>
