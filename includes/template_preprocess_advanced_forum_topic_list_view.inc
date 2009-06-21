@@ -44,6 +44,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $sticky_count = 0;
 
   foreach ($result as $count => $row) {
+    $teasers[$count] = $row->node_revisions_teaser;
+
     foreach ($keys as $id) {
       $renders[$count][$id] = $view->field[$id]->theme($row);
     }
@@ -75,6 +77,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   }
   // Make the sticky variable available to the template.
   $variables['sticky'] = $sticky;
+  $variables['teasers'] = $teasers;
   
   foreach ($columns as $field => $column) {
     // render the header labels

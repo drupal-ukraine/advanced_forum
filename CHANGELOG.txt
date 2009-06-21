@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 20, 2009
+-------------
+#303544 by Michelle: Added popup preview of post in topic list.
+
 June 18, 2009
 -------------
 #484052 by merlinofchaos: Made forum topic list view work with new forum topic list style and also added sticky and shadow post changes.

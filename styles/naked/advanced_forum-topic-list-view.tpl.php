@@ -35,7 +35,7 @@
         <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
           <?php if (empty($shadow[$count])): ?>
             <?php foreach ($row as $field => $content): ?>
-              <td class="views-field views-field-<?php print $fields[$field]; ?>">
+              <td class="views-field views-field-<?php print $fields[$field]; ?>" title="<?php print $teasers[$count] ?>">
                <?php if ($field == 'title' && $sticky[$count]): ?>
                  <span class="sticky-label"><?php print t('Sticky:'); ?></span>
                <?php endif; ?>
