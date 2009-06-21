@@ -5,6 +5,9 @@ $Id$
 June 20, 2009
 -------------
 #303544 by Michelle: Added popup preview of post in topic list.
+#462502 by Michelle: Seperated each container on the forum list into its own table.
+#219549 by Michelle: Moved subforums into comma seperated list.
+#312958 by Michelle: Show container description on container pages.
 
 June 18, 2009
 -------------

@@ -162,6 +162,16 @@ function theme_advanced_forum_shadow_topic($title, $nid, $new_forum) {
     ' (' . l(t('View topic'), "node/$nid") . ')';
 }
 
+//@TODO: Make this a theme function.
+function advanced_forum_subforum_list($subforum_list) {
+  $subforums = array();
+  foreach($subforum_list AS $tid => $subforum) {
+    $subforums[] = l($subforum->name, "forum/$tid");
+  }
+  
+  return "Subforums: " . implode(', ', $subforums);
+}
+
 // TEMPLATE PREPROCESS ******************************************************/
 
 /**
