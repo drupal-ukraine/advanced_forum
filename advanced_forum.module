@@ -99,7 +99,12 @@ function advanced_forum_theme() {
         )
   );
   
-
+  $items['advanced_forum_subforum_list'] = array(
+      'arguments' => array(
+         'subforum_list' => NULL,
+       )
+  );
+  
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
     $items['advanced_forum_search_forum'] = array(

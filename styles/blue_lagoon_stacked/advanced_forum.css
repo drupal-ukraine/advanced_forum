@@ -65,6 +65,7 @@ Images used:
 
 /* Headers */
 #forum .forum-table th,
+#forum .forum-table th a,
 #forum .forum-topics th,
 #forum .forum-topics th a,
 #forum .forum-topics th a:link,
@@ -108,7 +109,6 @@ Images used:
 #forum .sticky-label {
   font-weight: bold;
 }
-
 /*** FORUM STATISTICS *********************************************************/
 
 #forum-statistics {
@@ -149,7 +149,7 @@ Images used:
   font-weight: bold;
 }
 
-.forum-comment .new {
+.forum-post .new {
   color: #ffffff;
 }
 

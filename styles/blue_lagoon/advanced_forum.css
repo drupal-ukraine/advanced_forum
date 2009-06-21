@@ -65,6 +65,7 @@ Images used:
 
 /* Headers */
 #forum .forum-table th,
+#forum .forum-table th a,
 #forum .forum-topics th,
 #forum .forum-topics th a,
 #forum .forum-topics th a:link,
@@ -87,7 +88,7 @@ Images used:
 }
 
 #forum .forum-details .description {
-  font-size: 85%;
+  font-size: 75%;
   color: #898989;
 }
 
@@ -109,7 +110,7 @@ Images used:
   font-weight: bold;
 }
 
-/*** FORUM STATISTICS ********************************************************/
+/*** FORUM STATISTICS *******************************************************/
 
 #forum-statistics {
   border: 1px solid #91CDF5;
@@ -126,7 +127,7 @@ Images used:
   font-weight: bold;
 }
 
-/*** FORUM THREADS ***********************************************************/
+/*** FORUM THREADS **********************************************************/
 
 .forum-post {
   border: 2px solid #91CDF5;

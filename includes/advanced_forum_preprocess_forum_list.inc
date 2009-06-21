@@ -95,7 +95,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   foreach ($variables['forums'] as $id => $forum) {
      if (!empty($forum->subforum_list)) {
-       $variables['forums'][$id]->subforums = advanced_forum_subforum_list($forum->subforum_list);
+       $variables['forums'][$id]->subforums = theme('advanced_forum_subforum_list', $forum->subforum_list);
        unset($variables['forums'][$id]->subforum_list);
      }
    }

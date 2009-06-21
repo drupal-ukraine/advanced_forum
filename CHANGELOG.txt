@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 21, 2009
+-------------
+#219549 by Michelle: Made subforum list generation into a theme function.
+NOISSUE by Michelle: Small style fixes.
+
 June 20, 2009
 -------------
 #303544 by Michelle: Added popup preview of post in topic list.

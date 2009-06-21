@@ -21,26 +21,27 @@ Colors used:
   font-weight: bold;
 }
 
-/*** FORUM TABLES ************************************************************/
+/*** FORUM & TOPIC LIST ******************************************************/
 
-#forum table {
+/* General */
+#forum .forum-table,
+#forum .forum-topics {
   border: 2px solid #CCCCCC;
 }
 
 /* Headers */
-#forum th a,
-#forum th a:link,
-#forum th a:hover,
-#forum th a:visited {
+#forum .forum-table th,
+#forum .forum-table th a,
+#forum .forum-topics th,
+#forum .forum-topics th a,
+#forum .forum-topics th a:link,
+#forum .forum-topics th a:hover,
+#forum .forum-topics th a:visited {
   font-weight: bold;
 }
 
 /* Containers & Forums */
-#forum td.container a {
-  font-weight: bold;
-}
-
-#forum .description {
+#forum .forum-details .description {
   font-size: 75%;
 }
 
