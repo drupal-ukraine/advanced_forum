@@ -148,8 +148,4 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     drupal_add_js('misc/tableheader.js');
     $variables['class'] .= " sticky-enabled";
   }
-  
-  // Set a variable for displaying the topic legend.
-  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
-
 }

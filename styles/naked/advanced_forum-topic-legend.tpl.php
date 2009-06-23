@@ -9,7 +9,6 @@
 ?>
 
 <div class="forum-topic-legend clear-block">
-  <span class="label"><?php print t('Legend'); ?>:</span>
   <div class="topic-icon-new-posts"><?php print t('New posts'); ?></div>
   <div class="topic-icon-no-new-posts"><?php print t('No new posts'); ?></div>
   <div class="topic-icon-hot-new-posts"><?php print t('Hot topic with new posts'); ?></div>

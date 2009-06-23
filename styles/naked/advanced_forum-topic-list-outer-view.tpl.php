@@ -20,6 +20,7 @@
  * @ingroup views_templates
  */
 ?>
+
 <div class="view view-<?php print $css_name; ?> view-id-<?php print $name; ?> view-display-id-<?php print $display_id; ?> view-dom-id-<?php print $dom_id; ?>">
   <?php if ($admin_links): ?>
     <div class="views-admin-links views-hide">
@@ -45,7 +46,11 @@
   <?php endif; ?>
 
   <?php if ($pager): ?>
-    <?php print $pager; ?>
+    <div id="forum-pager-top"><?php print $pager; ?></div>
+  <?php endif; ?>
+
+  <?php if ($search): ?>
+    <div id="search-single-forum" class="clear-block"><?php print $search; ?></div>
   <?php endif; ?>
 
   <?php if ($rows): ?>
@@ -59,8 +64,10 @@
   <?php endif; ?>
 
   <?php if ($pager): ?>
-    <?php print $pager; ?>
+    <div id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
+
+  <?php print $topic_legend; ?>
 
   <?php if ($attachment_after): ?>
     <div class="attachment attachment-after">

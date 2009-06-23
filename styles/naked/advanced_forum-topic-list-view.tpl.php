@@ -55,6 +55,4 @@
       <?php endforeach; ?>
     </tbody>
   </table>
-
-<?php print $topic_legend; ?>
 </div>

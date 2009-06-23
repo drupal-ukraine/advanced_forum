@@ -11,10 +11,16 @@ function _advanced_forum_preprocess_forums(&$variables) {
   $variables['template_files'][] = 'advanced_forum-forums';
 
   if (empty($variables['topics'])) {
-    // We don't want the links on the top of the forum overview
+    // We don't want the links on the top of the forum overview.
     $variables['links_orig'] = $variables['links'];
     $variables['links'] = array();
+    
+    // No forum description on the top level.
     $variables['forum_description'] = '';
+    
+    // We only handle the search on the top level forum. Per forum searches
+    // are handled in the topic list view preprocess.
+    $variables['search'] = theme('advanced_forum_search_forum');
   }
   else {
     if (module_exists('views')) {
@@ -31,45 +37,21 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
 
-    // To avoid translation issues, make the button version optional
-    if (variable_get('advanced_forum_button_links', 1)) {
-      if (isset($variables['links']['forum'])) {
-        $title_image = advanced_forum_theme_image(t('new-topic.png'), t('New topic'));
-        $variables['links']['forum']['title'] = $title_image;
-        $variables['links']['forum']['html'] = TRUE;
-      }
-
-      if (isset($variables['links']['poll'])) {
-        $title_image = advanced_forum_theme_image(t('new-poll.png'), t('New poll'));
-        $variables['links']['poll']['title'] = $title_image;
-        $variables['links']['poll']['html'] = TRUE;
-      }
-    }
   }
-
+  
   // Add in the mark as read link if user has access
   if (advanced_forum_markasread_access()) {
     $tid = $variables['tid'];
     if ($tid) {
-      $title = t('Mark all topics read');
-      $link = "forum/markasread/$tid";
+      $variables['links']['mark-read']['title'] = t('Mark all topics read');
+      $variables['links']['mark-read']['href'] = "forum/markasread/$tid";
     }
     else {
-      $title = t('Mark all forums read');
-      $link = "forum/markasread";
-    }
-
-    // To avoid translation issues, make the button version optional
-    if (variable_get('advanced_forum_button_links', 1)) {
-      $title_image = advanced_forum_theme_image(t('mark-read.png'), t('Mark read'));
-      $variables['links']['markasread'] = array('title' => $title_image, 'href' => $link, 'html' => TRUE);
-      $variables['links_orig']['markasread'] = array('title' => $title_image, 'href' => $link, 'html' => TRUE);
-    }
-    else {
-      $variables['links']['markasread'] = array('title' => $title, 'href' => $link);
-      $variables['links_orig']['markasread'] = array('title' => $title, 'href' => $link);
-    }
+      $variables['links']['mark-read']['title'] = t('Mark all forums read');
+      $variables['links']['mark-read']['href'] = "forum/markasread";
+   }
   }
 
-  $variables['search'] = theme('advanced_forum_search_forum', $variables['tid']);
+  // Render links.
+  $variables['links_rendered'] = theme('links', $variables['links'], array('class' => 'links forum-links')); 
 }

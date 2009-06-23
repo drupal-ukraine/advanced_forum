@@ -10,8 +10,16 @@ floats.
 #forum .pager,
 .forum-comment-wrapper .pager {
   text-align: right;
-  margin-top: 5px;
+  float: right;
   clear: none;
+}
+
+#forum #forum-pager-top .pager{
+  padding: 14px 0 0 0;
+}
+
+#forum #forum-pager-bottom .pager{
+  padding: 0 0 10px 0;
 }
 
 .forum-comment-wrapper .box {
@@ -41,8 +49,10 @@ floats.
 /*** FORUM LINK LISTS *******************************************************/
 
 .forum-top-links {
+/*
   margin: 10px 0 10px 0;
   float: left;
+  */
 }
 
 ul.forum-links {
@@ -132,9 +142,16 @@ ul.forum-links {
   padding-top: 10px;
 }
 
+#forum #search-all-forums {
+  float: right;
+}
+
+#forum #search-single-forum {
+  float: left;
+}
+
 #forum #advanced-forum-search-forum,
 .forum-topic-header #advanced-forum-search-topic {
-  float: right;
   margin: 0;
   padding: 14px 0 0 0;
 }

@@ -372,6 +372,14 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
   $variables['template_files'][] = 'advanced_forum-topic-list-outer-view';
+  
+  // Set a variable for displaying the search.
+  $view = $variables['view'];
+  $forum = $view->args[0];
+  $variables['search'] = theme('advanced_forum_search_forum', $forum);
+  
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }
 
 /**
