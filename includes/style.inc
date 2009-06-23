@@ -17,17 +17,12 @@ function advanced_forum_get_current_style() {
  
 function advanced_forum_get_style($style) {
   ctools_include('plugins');
-  return ctools_get_plugins('panels', 'content_types', $style);
+  return ctools_get_plugins('advanced_forum', 'styles', $style);
 }
 
-//@TODO: Unhardcode this once it's fixed.
 function advanced_forum_get_all_styles() {
   ctools_include('plugins') ;
-  $styles =  ctools_get_plugins('advanced_forum', 'styles');
-  //variable_set('advanced_forum_all_styles', $styles);
-  //$styles = variable_get('advanced_forum_all_styles', $styles);
-  //dsm($styles);
-  return $styles;
+  return ctools_get_plugins('advanced_forum', 'styles');
 }
 
 /**
@@ -65,7 +60,7 @@ function advanced_forum_style_lineage($style = NULL) {
   
   // Get an array with information from all styles.
   $all_styles = advanced_forum_get_all_styles();
-  
+
   // Add the current style to the lineage first
   $lineage[$style] = $all_styles[$style]['path'];
   

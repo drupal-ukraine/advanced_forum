@@ -24,7 +24,7 @@ function advanced_forum_settings_page() {
   foreach ($available_styles as $style_machine_name => $style) {
     $options[$style_machine_name] = $style['name'];
   }
-  sort($options);
+  asort($options);
 
   $form['advanced_forum_general']['advanced_forum_style'] = array(
     '#type' => 'select',
