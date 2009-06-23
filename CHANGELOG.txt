@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 23, 2009
+-------------
+#497450 by Michelle: Images on the forum list page converted to CSS.
+
 June 22, 2009
 -------------
 #497474 by Michelle: Rewrite of the style system that adds a dependency on CTools as well as substyles. Adjusted all included styles to take advantage of that.

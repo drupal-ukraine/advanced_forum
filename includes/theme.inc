@@ -176,7 +176,7 @@ function theme_advanced_forum_subforum_list($subforum_list) {
     $subforums[] = l($subforum->name, "forum/$tid");
   }
   
-  return t("Subforums:") . implode(', ', $subforums);
+  return implode(', ', $subforums);
 }
 
 // TEMPLATE PREPROCESS ******************************************************/

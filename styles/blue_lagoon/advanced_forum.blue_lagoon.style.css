@@ -60,7 +60,7 @@ Images used:
 /* General */
 #forum .forum-table,
 #forum .forum-topics {
-  border: 1px solid #91CDF5;
+  border: 3px solid #91CDF5;
 }
 
 /* Headers */
@@ -82,19 +82,14 @@ Images used:
 }
 
 /* Containers & Forums */
-#forum td.container {
-  background-color: #BDE0F5;
-  border-bottom: none;
+#forum tr.even, 
+#forum tr.odd {
+  background-color: #EDF5FA;
 }
 
-#forum .forum-details .description {
-  font-size: 75%;
-  color: #898989;
-}
-
-#forum .container .forum-details .description {
-  font-weight: normal;
-  color: #5F67A5;
+#forum td.topics,
+#forum td.last-reply {
+  background-color: #ffffff;
 }
 
 /* Topic listings */

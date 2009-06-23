@@ -33,7 +33,7 @@
 ?>
 
 <?php $container_number = 0 ?>
-<?php foreach ($forums as $child_id => $forum): ?>
+<?php foreach ($forums as $forum_id => $forum): ?>
 
   <?php if ($forum->is_container): ?>
     <?php $container_number++ ?>
@@ -63,9 +63,9 @@
  
   <?php else: ?>
     <?php if ($forum->depth == 1): ?>
-      <tr id="forum-<?php print $child_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">   
-        <td class="forum-icon"> 
-          <?php print $forum->icon ?> 
+      <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">   
+        <td class="<?php print $forum->icon_classes ?>"> 
+          <span><?php print $forum->icon_text ?></span>
         </td>
 
         <td class="forum-details">
@@ -77,7 +77,7 @@
           <?php endif; ?>
           
           <?php if (!empty($forum->subforums)): ?>
-            <div class="subforums"><?php print $forum->subforums; ?></div>
+            <div class="subforums"><?php print t("Subforums") ?>: <?php print $forum->subforums; ?></div>
           <?php endif; ?>
         </td>
 

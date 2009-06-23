@@ -73,10 +73,6 @@ ul.forum-links {
   margin-left: 30px;
 }
 
-.forum-description {
-  margin: 5px 0 5px 0;
-}
-
 /* Header */
 #forum th {
   border-bottom: 0;
@@ -84,36 +80,33 @@ ul.forum-links {
 }
 
 #forum th.forum-name {
-  padding-left: 35px;
   text-align: left;
 }
 
 /* Forum listing */
-#forum td.container {
-  padding-top: 5px;
-}
-
-#forum td.container {
-  border-top: 0;
-  margin-top: 0;
-  padding-left: 15px;
-  padding-top: 5px;
-}
-#forum .container .description {
-  margin: 0;
-  padding: 3px 0 0 0;
+#forum tr.container-description td {
+  font-size: .9em;
 }
 
 #forum td.forum-icon {
-  width: 1px;
-  padding: 0 5px;
+  text-indent: -9999px;
+  width: 50px;
 }
 
-#forum .description {
-  margin-left: 0;
-  padding-left: 0;
-  padding: 5px 0;
+#forum td.forum-details .name a {
+  font-size: 1.2em;
 }
+
+#forum td.forum-details .description {
+  margin: 0;
+}
+
+#forum td.forum-details .subforums,
+#forum td.forum-details .subforums a {
+  font-size: 1em;
+  padding-left: 10px;
+}
+
 
 /* Topic listing */
 #forum td.icon {
