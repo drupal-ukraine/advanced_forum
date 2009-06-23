@@ -369,6 +369,11 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }
 
+function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
+  _advanced_forum_add_files();
+  $variables['template_files'][] = 'advanced_forum-topic-list-outer-view';
+}
+
 /**
  * Preprocesses template variables for the topic list template.
  */
