@@ -180,9 +180,8 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
 
   // --- The following section manipulates the theme registry so the .tpl files
   // --- for the given templates can be found first in the (sub)theme directory
-  // --- then in ancestor themes, if any, then in the designated styles
-  // --- directory for advanced forum, and finally in the advanced forum naked
-  // --- style as a base style.
+  // --- then in ancestor themes, if any, then in the active style directory
+  // --- for advanced forum or any ancestor styles.
 
   // Affected templates
   $templates = array('node',
@@ -217,8 +216,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     $ancestor = $themes[$ancestor]->base_theme;
   }
 
-  $current_style = advanced_forum_path_to_style();
-  $naked_path = drupal_get_path('module', 'advanced_forum') . '/styles/naked';
+  $lineage = advanced_forum_style_lineage();
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
     if (!empty($theme_registry[$template])) {
@@ -226,16 +224,12 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
       // If there was a path in there, store it.
       $existing_path = array_shift($theme_registry[$template]['theme paths']);
 
-      // Slide the paths we are adding in before the existing one.
-      if ($naked_path == $current_style) {
-        // The style is already naked, so no need to add it twice.
-        array_unshift($theme_registry[$template]['theme paths'], $existing_path, $current_style);
+      // Add paths for our style and ancestors before the existing path, if any.
+      foreach ($lineage AS $style => $style_path) { 
+        array_unshift($theme_registry[$template]['theme paths'], $existing_path, $style_path);
+        $existing_path = array_shift($theme_registry[$template]['theme paths']);
       }
-      else {
-        // Style is not naked so slip naked in as a default style.
-        array_unshift($theme_registry[$template]['theme paths'], $existing_path, $naked_path, $current_style);
-      }
-
+ 
       // If there are any ancestor paths (ie: we are in a subtheme, add those)
       foreach ($ancestor_paths as $ancestor_path) {
         $theme_registry[$template]['theme paths'][] = $ancestor_path;
@@ -445,6 +439,25 @@ function advanced_forum_statistics_online_users() {
 // GENERAL UTILITY FUNCTIONS *************************************************/
 
 /**
+ * Returns the path to actual site theme in use because path_to_theme is flaky.
+ */
+function advanced_forum_path_to_theme() {
+  global $theme;
+
+  if (!empty($theme)) {
+    // Normally, the global theme variable is set, so we use that.
+    return drupal_get_path('theme', $theme);
+  }
+
+  // For some reason I've never figured out, some users are reporting
+  // that the global theme variable is not set when this is called.
+  // As a band-aid solution, this will pull the default theme out of the
+  // database and use that.
+  $default_theme = variable_get('theme_default', 'garland');
+  return drupal_get_path('theme', $default_theme);
+}
+
+/**
  * Adds extra files needed for styling.
  * This is currently just CSS files but was made generic to allow adding
  * javascript in the future.
@@ -455,24 +468,33 @@ function _advanced_forum_add_files() {
 
   if (!$added) {
     $added = TRUE;
-    $style_directory = advanced_forum_path_to_style();
-    $naked_directory = drupal_get_path('module', 'advanced_forum') . '/styles/naked';
-
-    foreach (array('advanced_forum-structure.css', 'advanced_forum.css') as $filename) {
-      // Try first in the theme directory.
-      $css_file = advanced_forum_path_to_theme() . '/' . $filename;
-
-      if (!file_exists($css_file)) {
-        // Then try in the style directory.
-        $css_file = $style_directory . '/' . $filename;
-
-        if (!file_exists($css_file)) {
-          // If that fails, default to naked.
-          $css_file = $naked_directory . '/' . $filename;
+    $lineage = advanced_forum_style_lineage();
+    $lineage = array_reverse($lineage, TRUE);
+    $theme_path = advanced_forum_path_to_theme();
+    
+    foreach (array('structure.css', 'style.css', 'images.css') as $css_type) {
+      $css_file = "$theme_path/advanced_forum.$css_type";   
+      if (file_exists($css_file)) {
+        // CSS files with no style name in the theme directory trump all
+        // to provide a theme specific style override.
+        drupal_add_css($css_file);
+      }
+      else {
+        // For each style from the current style on up through each parent 
+        // style, look for the style specific CSS file first in the active
+        // theme and then in the style directory.
+        foreach ($lineage AS $key => $path) {
+          $css_file = "/advanced_forum.$key.$css_type"; 
+          if (file_exists("$theme_path/$css_file")) {
+            // If the style specific file is in the theme, use that.
+            drupal_add_css("$theme_path/$css_file");
+          }
+          elseif (file_exists("$path/$css_file")) {
+            // Otherwise look in the style for it.
+            drupal_add_css("$path/$css_file");
+          }
         }
       }
-
-      drupal_add_css($css_file);
     }
   }
 }
@@ -839,3 +861,103 @@ function advanced_forum_comment_wrapper($content, $node) {
 function _advanced_forum_comment_wrapper($content, $node) {
   return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
 }
+
+// IMAGE HANDLING -- TO BE REPLACED ******************************************/
+
+/**
+ * Returns the path to the advanced forum image directory
+ */
+function advanced_forum_path_to_images() {
+  static $image_path;
+  global $language;
+
+  if (!$image_path) {
+    // If there is an override in settings, use it
+    $image_path = variable_get('advanced_forum_image_directory', '');
+
+    if (empty($image_path)) {
+      // Otherwise assume it's in the style's directory
+      $image_path = advanced_forum_path_to_style() . '/images';
+    }
+
+    if (!file_exists($image_path)) {
+      // If the style doesn't have an images directory, fall back to naked.
+      $image_path = drupal_get_path('module', 'advanced_forum') . '/styles/naked/images';
+    }
+  }
+
+  //Add language prefix to path if exist
+  $language_prefix = $language->language;
+  $image_path_language_prefix = $image_path . '/' . $language_prefix;
+  if (file_exists($image_path_language_prefix)) {
+    $image_path = $image_path_language_prefix;
+  }
+
+  return $image_path;
+}
+
+/**
+ * Wrapper around theme_image that automatically includes the path.
+ */
+function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
+  $image = advanced_forum_path_to_images() . "/$image_file";
+
+  if ($title == NULL) {
+    $title = $alt;
+  }
+
+  if (file_exists($image)) {
+    return theme('image', $image, $alt, $title);
+  }
+  else {
+    return FALSE;
+  }
+}
+
+function _advanced_forum_buttonify_links(&$links) {
+  $buttonify = variable_get('advanced_forum_button_links', 1);
+
+  if ($buttonify && !empty($links)) {
+    foreach ($links as $link_key => $link) {
+      switch ($link_key) {
+        // First, take care of the special cases
+        case 'comment_add':
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
+          $links[$link_key]['html'] = TRUE;
+          break;
+
+        case 'comment_reply':
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
+          $links[$link_key]['html'] = TRUE;
+          break;
+
+        case 'comment_edit':
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('edit.png'), t('edit'));
+          $links[$link_key]['html'] = TRUE;
+          break;
+
+        case 'comment_delete':
+          $links[$link_key]['title'] = advanced_forum_theme_image(t('delete.png'), t('delete'));
+          $links[$link_key]['html'] = TRUE;
+          break;
+
+        default:
+          // Attempt to buttonify by key name.
+          $image = advanced_forum_theme_image($link_key . '.png', $link['title']);
+
+          if (!$image) {
+            // If no luck there, try the adjusted title.
+            $title = strtolower(str_replace(' ', '-', $link['title']));
+            $image = advanced_forum_theme_image($title . '.png', $link['title']);
+          }
+
+          if ($image) {
+            // If we found an image, use it. Otherwise leave the title alone.
+            $links[$link_key]['title'] = $image;
+            $links[$link_key]['html'] = TRUE;
+          }
+      }
+    }
+  }
+}
+

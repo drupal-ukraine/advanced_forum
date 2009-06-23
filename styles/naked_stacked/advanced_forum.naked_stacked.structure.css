@@ -1,0 +1,78 @@
+/* $Id$ */
+
+/*
+This document contains structural markup such as widths, margins, padding, and
+floats.
+*/
+
+/*** FORUM THREADS ***********************************************************/
+
+/* Header at the top of each post */
+.post-info {
+  margin-bottom: none /* Reset */
+}
+
+.posted-on {
+  padding: 0 10px;
+}
+
+.post-title {
+  padding: 5px 0px 5px 10px;
+}
+
+/* Author information pane */
+.forum-post-panel-sub {
+  float: none; /* Reset */
+  line-height: 110%;
+  width: auto; /* Reset */
+}
+
+.forum-post-panel-sub .author-pane {
+  margin: 0; /* Reset */
+  padding: 10px 0 5px 10px;
+}
+
+.forum-post-panel-sub .author-pane-top {
+  overflow: auto;
+  height: 100px;
+}
+
+.forum-post-panel-sub .author-pane-picture,
+.forum-post-panel-sub .author-pane-name-status,
+.forum-post-panel-sub .author-pane-admin,
+.forum-post-panel-sub .author-pane-stats {
+  float: left;
+  display: block;
+  width: 145px;
+  margin-right: 5px;
+}
+
+.forum-post-panel-sub .author-pane-stats {
+  float: right;
+}
+
+.forum-post-panel-sub .author-pane-name-groups {
+  margin: 5px;
+}
+
+.forum-post-panel-sub .author-pane-picture .picture {
+  float: none;
+  margin: 0; /* Reset */
+}
+
+/* Post text area */
+.forum-post-wrapper .forum-post-panel-main {
+  clear: both;
+  margin-left: 0px;  /* Reset */
+  min-height: 0px;  /* Reset */
+  height: auto !important;  /* Reset */
+}
+
+.forum-post-panel-main .content {
+  padding-top: 0; /* Reset */
+  padding: 5px;
+}
+
+.forum-post-links {
+  float: right;
+}

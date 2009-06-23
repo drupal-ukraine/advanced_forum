@@ -34,8 +34,8 @@ Images used:
 
 #forum .pager a:link,
 #forum .pager a:visited,
-#forum-comments .pager a:link,
-#forum-comments .pager a:visited {
+.forum-comment-wrapper .pager a:link,
+.forum-comment-wrapper .pager a:visited {
   text-decoration: none;
   border: 1px solid #91CDF5;
   background: #ffffff url(images/pager-bg.png) repeat-x left top;
@@ -44,13 +44,13 @@ Images used:
 
 #forum .pager-current,
 #forum .pager a:hover,
-#forum-comments .pager-current,
-#forum-comments .pager a:hover {
+.forum-comment-wrapper .pager-current,
+.forum-comment-wrapper .pager a:hover {
   color: #0062A0; 
 }
 
 #forum .pager a.active,
-#forum-comments .pager a.active {
+.forum-comment-wrapper .pager a.active {
   background: #fff url(images/pager-bg.png) repeat-x left top;
   color: #0062A0; 
 }
@@ -138,6 +138,7 @@ Images used:
   background: #91CDF5 ;
   color: #ffffff;
   border-bottom: 1px solid #91CDF5;
+  margin-bottom: 0; /* Reset from Naked's structure*/
 }
 
 .posted-on {

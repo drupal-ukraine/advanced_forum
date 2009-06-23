@@ -1,0 +1,14 @@
+.forum-folder-new-posts {
+  background: transparent url(images/forum-folder-new-posts.png) no-repeat top left;
+  height: 60px;
+  line-height: 10em;
+  float: left;
+  margin-right: 20px;
+}
+
+.forum-folder {
+  background: transparent url(images/forum-folder.png) no-repeat top left;
+  height: 60px;
+  line-height: 10em;
+  float: left;
+}

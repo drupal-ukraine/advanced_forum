@@ -1,0 +1,7 @@
+; $Id$
+
+name = Boxy Stacked
+description = Same as Boxy except the Author Pane is on top.
+version = 2.x
+base style = boxy
+extra style = naked_stacked

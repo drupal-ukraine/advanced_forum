@@ -1,8 +1,7 @@
 /* $Id$ */
 
 /*
-This file contains colors, graphics, and text effects. For structural markup,
-see advanced_forum-structure.css.
+This file contains colors, graphics, and text effects. 
 
 Colors used:
   #DEDEDE Sticky posts, statistics subheader
@@ -33,16 +32,8 @@ Colors used:
 #forum .forum-table th,
 #forum .forum-table th a,
 #forum .forum-topics th,
-#forum .forum-topics th a,
-#forum .forum-topics th a:link,
-#forum .forum-topics th a:hover,
-#forum .forum-topics th a:visited {
+#forum .forum-topics th a {
   font-weight: bold;
-}
-
-/* Containers & Forums */
-#forum .forum-details .description {
-  font-size: 75%;
 }
 
 /* Topic listings */
@@ -96,18 +87,17 @@ Colors used:
 }
 
 /* Author information pane */
-/* Note: more CSS in the author pane css file */
-.author-pane .author-name {
+.forum-post-panel-sub .author-pane .author-name {
   font-size: 120%;
   font-weight: bold;
 }
 
-.author-pane .picture img {
+.forum-post-panel-sub .author-pane .picture img {
   border: 1px solid #CCCCCC;
-	background: #ffffff;
+  background: #ffffff;
 }
 
-.author-pane .author-pane-label {
+.forum-post-panel-sub .author-pane .author-pane-label {
   font-weight: bold;
 }
 

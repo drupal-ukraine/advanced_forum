@@ -20,9 +20,9 @@ function advanced_forum_settings_page() {
 
   // Choose style
   $options = array();
-  $available_styles = advanced_forum_get_styles();
-  foreach ($available_styles as $style_name => $style) {
-    $options[$style_name] = $style_name;
+  $available_styles = advanced_forum_get_all_styles();
+  foreach ($available_styles as $style_machine_name => $style) {
+    $options[$style_machine_name] = $style['name'];
   }
 
   $form['advanced_forum_general']['advanced_forum_style'] = array(

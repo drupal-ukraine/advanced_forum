@@ -1,27 +1,48 @@
 /* $Id$ */
 
 /*
-This document contains structural markup such as widths, margins, padding, and 
-floats. For colors and borders, see advanced_forum.css.
+This document contains structural markup such as widths, margins, padding, and
+floats.
 */
 
-/*** PAGER *******************************************************************/
+/*** PAGER ******************************************************************/
 
 #forum .pager,
-#forum-posts .pager {
-  float: right;
+.forum-comment-wrapper .pager {
+  text-align: right;
   margin-top: 5px;
+  clear: none;
 }
 
-#forum-posts .box {
+.forum-comment-wrapper .box {
   clear: both;
 }
 
-/*** FORUM LINK LISTS ********************************************************/
+/* The rest of the pager styles are invisible on naked but will show up
+   for substyles that set a background and/or border. */
+#forum .pager a,
+.forum-comment-wrapper .pager a {
+  padding: 1px 3px;
+  margin: 0pt;
+}
+
+#forum .pager li,
+.forum-comment-wrapper .pager li {
+  padding:0pt;
+  margin: 0pt;
+}
+
+#forum .pager li.pager-current,
+.forum-comment-wrapper .pager li.pager-current {
+  padding: 2px 3px 2px 3px;
+}
+
+
+/*** FORUM LINK LISTS *******************************************************/
 
 .forum-top-links {
   margin: 10px 0 10px 0;
-  float: right;
+  float: left;
 }
 
 ul.forum-links {
@@ -32,9 +53,12 @@ ul.forum-links {
 .forum-links li {
   margin: 0;
   padding: 0pt 15px 0pt 0pt;
+  list-style-image: none;
+  list-style-type: none;
+  background: none;
 }
 
-/*** FORUM & TOPIC LIST ******************************************************/
+/*** FORUM & TOPIC LIST *****************************************************/
 
 #forum {
   width: 100%;
@@ -75,10 +99,7 @@ ul.forum-links {
   padding-left: 15px;
   padding-top: 5px;
 }
-
 #forum .container .description {
-  font-size: .8em;
-  font-weight: normal;
   margin: 0;
   padding: 3px 0 0 0;
 }
@@ -95,7 +116,6 @@ ul.forum-links {
 }
 
 /* Topic listing */
-
 #forum td.icon {
   width: 1px;
 }
@@ -141,7 +161,7 @@ ul.forum-links {
   margin-bottom: 2em;
 }
 
-/*** FORUM STATISTICS *********************************************************/
+/*** FORUM STATISTICS *******************************************************/
 
 #forum-statistics-header,
 .forum-statistics-sub-header,
@@ -149,12 +169,13 @@ ul.forum-links {
   padding: 0.3em 0.5em;
 }
 
-/*** ICONS LEGEND ************************************************************/
+/*** ICONS LEGEND ***********************************************************/
 
 /* Forum folders */
-.forum-folder-legend dt, 
+.forum-folder-legend dt,
 .forum-folder-legend dd {
-  display: inline;
+  display: block;
+  float: left;
 }
 
 .forum-folder-legend dd {
@@ -172,7 +193,7 @@ ul.forum-links {
   display: block;
 }
 
-.forum-topic-legend dt, 
+.forum-topic-legend dt,
 .forum-topic-legend dd {
   display: inline;
 }
@@ -186,7 +207,7 @@ ul.forum-links {
   vertical-align: middle;
 }
 
-/*** FORUM THREADS ***********************************************************/
+/*** FORUM THREADS **********************************************************/
 
 /* Header at the top of each topic/thread */
 .forum-topic-header {
@@ -204,30 +225,28 @@ ul.forum-links {
 /* Individual forum post */
 .forum-post {
   margin: 0 0 5px 0;
+  padding: 0;
 }
 
 .forum-post-wrapper {
   clear: both;
+  height: 100%;
 }
 
 /* Header at the top of each post */
-/* Note: Changes from Naked in this section */
 .post-info {
   height:100%;
   clear: both;
+  margin-bottom: 3px;
 }
 
 .posted-on {
-  padding: 0 10px;
+  padding: 0 5px;
   float: left;
 }
 
 .forum-post .new {
   float: none;
-}
-
-.post-title {
-  padding: 5px 0px 5px 10px;
 }
 
 .post-num {
@@ -238,50 +257,44 @@ ul.forum-links {
 /* Author information pane */
 /* Note: more CSS in the author pane css file */
 .forum-post-panel-sub {
-  line-height: 110%;
+  float: left;
+  line-height: 100%;
+  width: 150px;
 }
 
 .forum-post-panel-sub .author-pane {
-  padding: 10px 0 5px 10px;
+  margin: 10px;
 }
 
-.author-pane-top {
-  overflow: auto;
-  height: 100px;
+.forum-post-panel-sub .author-pane-picture .picture {
+  margin: 2px 0 10px 0;
 }
 
-.forum-post-panel-sub .author-pane-picture,
-.forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin,
-.forum-post-panel-sub .author-pane-stats {
-  float: left;
-  display: block;
-  width: 145px;
-  margin-right: 5px;
-}
-
-.forum-post-panel-sub .author-pane-stats {
-  float: right;
-}
-
-.forum-post-panel-sub .author-pane-name-groups {
-  margin: 5px;
-}
-
-.author-pane-picture .picture {
-  float: none;
-  padding-left: 0pt;
+.forum-post-panel-sub .author-pane-picture .picture img {
+  /* This is invisible in Naked but gives space for substyles with borders */
+  margin: 10px;
 }
 
 /* Post text area */
-/* Note: Changes from Naked in this section */
-
-.forum-post-wrapper .forum-post-panel-main {
-  clear: both;
+.forum-post-panel-main {
+  margin-left: 150px; /*Set left margin to LeftColumnWidth*/
+  min-height: 350px;
+  height: auto !important;
+  height: 350px;
 }
 
 .forum-post-panel-main .content {
-  padding: 5px;
+  padding-top: 2px;
+}
+
+.forum-post-panel-main .post-title,
+.forum-post-panel-main .content {
+  margin-left: 0;
+  padding-left: 10px;
+}
+
+.forum-post-panel-main p {
+  margin-right: 10px;
 }
 
 /* Signature */
@@ -298,15 +311,14 @@ ul.forum-links {
 .forum-jump-links {
   float: left;
   line-height: 2em;
-  padding: 0px 5px;  
+  padding: 0px 5px;
   width: 140px;
 }
 
 .forum-post-links {
-  float: right;
   line-height: 2em;
   text-align: right;
-  padding: 0px 5px;  
+  padding: 0px 5px;
   margin-left: 150px;
 }
 

@@ -1,0 +1,6 @@
+; $Id$
+
+name = Boxy
+description = Very basic style, mostly adding borders to Naked.
+version = 2.x
+base style = naked
