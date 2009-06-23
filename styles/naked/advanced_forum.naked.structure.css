@@ -171,41 +171,22 @@ ul.forum-links {
 
 /*** ICONS LEGEND ***********************************************************/
 
-/* Forum folders */
-.forum-folder-legend dt,
-.forum-folder-legend dd {
-  display: block;
+.forum-folder-legend {
+  margin-bottom: 30px;
+}
+
+.forum-folder-legend div {
   float: left;
+  padding: 15px 0 15px 52px;
+  margin-right: 10px;
 }
 
-.forum-folder-legend dd {
-  margin: 0pt 5px 0pt 0pt;
-}
-
-.forum-folder-legend img {
-  padding-bottom: 4px;
-  vertical-align: middle;
-}
-
-/* Forum topics */
-.legend-group {
+.forum-topic-legend div {
   float: left;
-  display: block;
+  padding: 5px 0 5px 25px;
+  margin-right: 7px;
 }
 
-.forum-topic-legend dt,
-.forum-topic-legend dd {
-  display: inline;
-}
-
-.forum-topic-legend dd {
-  margin: 0pt 5px 0pt 0pt;
-}
-
-.forum-topic-legend img {
-  padding-bottom: 4px;
-  vertical-align: middle;
-}
 
 /*** FORUM THREADS **********************************************************/
 

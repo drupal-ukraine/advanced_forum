@@ -23,9 +23,10 @@ function advanced_forum_get_style($style) {
 //@TODO: Unhardcode this once it's fixed.
 function advanced_forum_get_all_styles() {
   ctools_include('plugins') ;
-  //$styles =  ctools_get_plugins('advanced_forum', 'styles');
+  $styles =  ctools_get_plugins('advanced_forum', 'styles');
   //variable_set('advanced_forum_all_styles', $styles);
-  $styles = variable_get('advanced_forum_all_styles', $styles);
+  //$styles = variable_get('advanced_forum_all_styles', $styles);
+  //dsm($styles);
   return $styles;
 }
 
@@ -206,12 +207,12 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
 function advanced_forum_ctools_plugin_styles() { 
   return array(
     'info file' => TRUE, 
-   // 'load themes' => TRUE,
+    'load themes' => TRUE,
   ); 
 }
 
 function advanced_forum_ctools_plugin_directory($module, $plugin) {
   if ($module == 'advanced_forum') {
-    return 'styles/';
+    return 'styles';
   }
 }
