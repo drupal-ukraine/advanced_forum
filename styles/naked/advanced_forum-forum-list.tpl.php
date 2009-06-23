@@ -105,10 +105,10 @@
   </tbody>
 </table>
 
-<?php if (!empty($forum_statistics)): ?>
-  <?php print $forum_statistics; ?>
-<?php endif; ?>
-
 <?php if (!empty($forum_legend)): ?>
   <?php print $forum_legend; ?>
+<?php endif; ?>
+
+<?php if (!empty($forum_statistics)): ?>
+  <?php print $forum_statistics; ?>
 <?php endif; ?>

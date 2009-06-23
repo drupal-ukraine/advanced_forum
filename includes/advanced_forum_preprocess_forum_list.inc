@@ -14,7 +14,11 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   // we are on the root forum page.
   $parent_id = arg(1);
 
-  if (!empty($parent_id)) {
+  if (empty($parent_id)) {
+    $main_forum_page = TRUE;
+  }
+  else {
+    $main_forum_page = FALSE;
     // We want to add in the container or use the parent forum as a container.
     $container = taxonomy_get_term($parent_id);
     $container->container = TRUE;
@@ -107,10 +111,12 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   $variables['forum_id'] = $variables['tid'];
   unset($variables['tid']);
 
+  // Fetch the forum statistics.
   $variables['forum_statistics'] = '';
-  if (empty($parent_id) && user_access('view forum statistics')) {
+  if ($main_forum_page && user_access('view forum statistics')) {
     $variables['forum_statistics'] = theme('advanced_forum_statistics');
   }
 
+  // Fetch the forum legend.
   $variables['forum_legend'] = theme('advanced_forum_forum_legend');
 }
