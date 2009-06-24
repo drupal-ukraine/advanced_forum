@@ -64,6 +64,14 @@
   background: transparent url(images/topic-closed.png) no-repeat top left;
 }
 
+/* TOPIC ICONS **************************************************************
+hot 
+hot-new 
+new
+default 
+closed 
+sticky
+*/
 /* TEXT REPLACEMENT IMAGES ***************************************************/
 .forum-links .forum a {
   background: transparent url(images/new-topic.png) no-repeat top left;

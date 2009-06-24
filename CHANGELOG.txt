@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 24, 2009
+-------------
+NOISSUE by merlinofchaos: Made blue lagoon pager smaller and italic.
+
 June 23, 2009
 -------------
 #497450 by Michelle: Images on the forum list page converted to CSS.

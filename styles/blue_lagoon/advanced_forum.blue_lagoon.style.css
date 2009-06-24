@@ -32,6 +32,14 @@ Images used:
 
 /*** PAGER *******************************************************************/
 
+#forum .pager-current,
+#forum .pager a:link,
+#forum .pager a:visited,
+#forum .pager a:hover{
+  font-size: 90%;
+  font-style: italic;
+}
+
 #forum .pager a:link,
 #forum .pager a:visited,
 .forum-comment-wrapper .pager a:link,
