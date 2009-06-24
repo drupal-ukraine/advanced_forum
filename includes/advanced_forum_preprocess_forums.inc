@@ -54,19 +54,26 @@ function _advanced_forum_preprocess_forums(&$variables) {
 
   // If using Views, add in our special top level views.
   if (module_exists('views')) {
+    global $user;
     if ($tid) {
-      $variables['links']['unread']['title'] = t('New posts');
-      $variables['links']['unread']['href'] = "forum/unread";
-      $variables['links']['unread']['query'] = array('forum' => $tid);
+      if ($user->uid) {
+        $variables['links']['unread']['title'] = t('New posts');
+        $variables['links']['unread']['href'] = "forum/unread";
+        $variables['links']['unread']['query'] = array('forum' => $tid);
+      }
       $variables['links']['unanswered']['title'] = t('Unanswered posts');
       $variables['links']['unanswered']['href'] = "forum/unanswered";
       $variables['links']['unanswered']['query'] = array('forum' => $tid);
     }
     else {
-      $variables['links']['unread']['title'] = t('New posts');
-      $variables['links']['unread']['href'] = "forum/unread";
+      if ($user->uid) {
+        $variables['links']['unread']['title'] = t('New posts');
+        $variables['links']['unread']['href'] = "forum/unread";
+      }
       $variables['links']['unanswered']['title'] = t('Unanswered posts');
       $variables['links']['unanswered']['href'] = "forum/unanswered";
+      $variables['links']['active']['title'] = t('Active posts');
+      $variables['links']['active']['href'] = "forum/active";
     }
   }
 

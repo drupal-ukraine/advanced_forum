@@ -69,6 +69,32 @@ $handler->override_option('fields', array(
     'field' => 'title',
     'relationship' => 'none',
   ),
+  'name' => array(
+    'label' => 'Forum',
+    'alter' => array(
+      'alter_text' => 0,
+      'text' => '',
+      'make_link' => 0,
+      'path' => '',
+      'link_class' => '',
+      'alt' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'help' => '',
+      'trim' => 0,
+      'max_length' => '',
+      'word_boundary' => 1,
+      'ellipsis' => 1,
+      'strip_tags' => 0,
+      'html' => 0,
+    ),
+    'link_to_taxonomy' => 1,
+    'exclude' => 0,
+    'id' => 'name',
+    'table' => 'term_data',
+    'field' => 'name',
+    'relationship' => 'none',
+  ),
   'timestamp' => array(
     'label' => 'Has new content',
     'alter' => array(
@@ -491,7 +517,10 @@ $handler->override_option('filters', array(
   ),
 ));
 $handler->override_option('access', array(
-  'type' => 'none',
+  'type' => 'role',
+  'role' => array(
+    '2' => 2,
+  ),
 ));
 $handler->override_option('cache', array(
   'type' => 'none',
@@ -531,6 +560,10 @@ $handler->override_option('style_options', array(
     'title' => array(
       'sortable' => 1,
       'separator' => ' ',
+    ),
+    'name' => array(
+      'sortable' => 1,
+      'separator' => '',
     ),
     'timestamp' => array(
       'separator' => '',

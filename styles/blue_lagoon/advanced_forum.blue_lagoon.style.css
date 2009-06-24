@@ -208,3 +208,7 @@ Images used:
   border-left: 1px solid #91CDF5;
 }
 
+.topic-pager {
+  font-size: 80%;
+  font-style: italic;
+}
