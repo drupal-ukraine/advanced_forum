@@ -10,11 +10,6 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
   $view = $variables['view'];
   
-  // We assume that the forum this is for will *always* be the first argument.
-  // This style will totally break if that's not true. We don't really care that much,
-  // though the object could probably run a validate().
-  $forum = $view->args[0];
-
   // We need the raw data for this grouping, which is passed in as $variables['rows'].
   // However, the template also needs to use for the rendered fields.  We
   // therefore swap the raw data out to a new variable and reset $variables['rows']
@@ -35,6 +30,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   if ($query) {
     $query = '&' . $query;
   }
+
+  $forum = $view->style_plugin->get_forum_ids();
 
   // Fields must be rendered in order as of Views 2.3, so we will pre-render
   // everything.
@@ -67,7 +64,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     }
 
     // Shadow (moved) topics.  
-    if ($forum != $row->topic_actual_forum) {
+    if ($forum && !in_array($row->topic_actual_forum, $forum)) {
       $term = taxonomy_get_term($row->topic_actual_forum);
       $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', $row->node_title, $row->nid, $term->name);
     }

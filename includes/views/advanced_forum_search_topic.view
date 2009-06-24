@@ -3,7 +3,7 @@
 $view = new view;
 $view->name = 'advanced_forum_search_topic';
 $view->description = 'Search a single topic';
-$view->tag = 'advanced forum';
+$view->tag = 'Advanced Forum';
 $view->view_php = '';
 $view->base_table = 'node';
 $view->is_cacheable = FALSE;

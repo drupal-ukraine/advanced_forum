@@ -39,9 +39,9 @@ function _advanced_forum_preprocess_forums(&$variables) {
 
   }
   
+  $tid = intval($variables['tid']);
   // Add in the mark as read link if user has access
   if (advanced_forum_markasread_access()) {
-    $tid = $variables['tid'];
     if ($tid) {
       $variables['links']['mark-read']['title'] = t('Mark all topics read');
       $variables['links']['mark-read']['href'] = "forum/markasread/$tid";
@@ -49,7 +49,25 @@ function _advanced_forum_preprocess_forums(&$variables) {
     else {
       $variables['links']['mark-read']['title'] = t('Mark all forums read');
       $variables['links']['mark-read']['href'] = "forum/markasread";
-   }
+    }
+  }
+
+  // If using Views, add in our special top level views.
+  if (module_exists('views')) {
+    if ($tid) {
+      $variables['links']['unread']['title'] = t('New posts');
+      $variables['links']['unread']['href'] = "forum/unread";
+      $variables['links']['unread']['query'] = array('forum' => $tid);
+      $variables['links']['unanswered']['title'] = t('Unanswered posts');
+      $variables['links']['unanswered']['href'] = "forum/unanswered";
+      $variables['links']['unanswered']['query'] = array('forum' => $tid);
+    }
+    else {
+      $variables['links']['unread']['title'] = t('New posts');
+      $variables['links']['unread']['href'] = "forum/unread";
+      $variables['links']['unanswered']['title'] = t('Unanswered posts');
+      $variables['links']['unanswered']['href'] = "forum/unanswered";
+    }
   }
 
   // Render links.

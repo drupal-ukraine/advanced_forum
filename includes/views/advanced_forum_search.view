@@ -1,9 +1,15 @@
 <?php
 // $Id$
+/**
+ * DO NOT RE-EXPORT THIS VIEW WITHOUT CHECKING THE FORUM VID.
+ *
+ * When you export, please note the calls to variable_get('forum_nav_vocabulary', '')
+ * to ensure that the forum vocabulary gets the right vid.
+ */
 $view = new view;
 $view->name = 'advanced_forum_search';
 $view->description = 'Search the forums';
-$view->tag = 'advanced forum';
+$view->tag = 'Advanced Forum';
 $view->view_php = '';
 $view->base_table = 'node';
 $view->is_cacheable = FALSE;
@@ -245,7 +251,7 @@ $handler->override_option('filters', array(
     ),
     'type' => 'select',
     'limit' => TRUE,
-    'vid' => '1',
+    'vid' => variable_get('forum_nav_vocabulary', ''),
     'depth' => '2',
     'id' => 'term_node_tid_depth',
     'table' => 'node',
@@ -278,7 +284,7 @@ $handler->override_option('filters', array(
   'vid' => array(
     'operator' => 'in',
     'value' => array(
-      '1' => '1',
+      variable_get('forum_nav_vocabulary', '') => variable_get('forum_nav_vocabulary', ''),
     ),
     'group' => '0',
     'exposed' => FALSE,
