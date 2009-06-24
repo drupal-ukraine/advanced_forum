@@ -48,12 +48,29 @@ floats.
 
 /*** FORUM LINK LISTS *******************************************************/
 
-.forum-top-links {
-/*
-  margin: 10px 0 10px 0;
-  float: left;
-  */
+.forum-links-top {
+  margin: 20px 0 20px 0;
 }
+
+.forum-links-bottom {
+  margin: 20px 0 20px 0;
+}
+
+.forum-links-no-topics {
+  float: left;
+  margin: 20px 0 0 0;
+}
+
+.forum-links li {
+  padding: 0 1em 0 0;
+  float: left;
+}
+
+.forum-links li a {
+  width: 95px;
+  height: 28px;
+  display: block;
+ }
 
 ul.forum-links {
   margin: 0;

@@ -9,7 +9,6 @@
  * - $new_posts: Indicates whether or not the topic contains new posts.
  * - $icon: The icon to display. May be one of 'hot', 'hot-new', 'new',
  *   'default', 'closed', or 'sticky'.
- * - $iconpath: Path from Drupal root to the directory with the forum icons.
  *
  * @see template_preprocess_forum_icon()
  * @see advanced_forum_preprocess_forum_icon()
@@ -20,7 +19,7 @@
   <a name="new">
 <?php endif; ?>
 
-<?php print theme('image', "$iconpath/topic-$icon.png"); ?>
+<span class="<?php print "topic-$icon.png"; ?>"><?php print "topic-$icon.png"; ?></span>
 
 <?php if ($new_posts): ?>
   </a>

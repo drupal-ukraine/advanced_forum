@@ -5,6 +5,7 @@ $Id$
 June 23, 2009
 -------------
 #497450 by Michelle: Images on the forum list page converted to CSS.
+#497450 by Michelle: Topic list page images converted.
 
 June 22, 2009
 -------------

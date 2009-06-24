@@ -64,7 +64,21 @@
   background: transparent url(images/topic-closed.png) no-repeat top left;
 }
 
+/* TEXT REPLACEMENT IMAGES ***************************************************/
+.forum-links .forum a {
+  background: transparent url(images/new-topic.png) no-repeat top left;
+  text-indent: -9999px;
+}
 
+.forum-links .poll a {
+  background: transparent url(images/new-poll.png) no-repeat top left;
+  text-indent: -9999px;
+}
+
+.forum-links .mark-read a {
+  background: transparent url(images/mark-read.png) no-repeat top left;
+  text-indent: -9999px;
+}
 
 
 

@@ -23,7 +23,7 @@
 <?php if ($forums_defined): ?>
 <div id="forum">
   <?php if (empty($topics)): ?>
-    <div class="forum-top-links"><?php print $links_rendered ?></div>
+    <div class="forum-links-no-topics"><?php print $links_rendered ?></div>
   <?php endif; ?>
   
    <?php if ($search): ?>
@@ -33,8 +33,13 @@
   <?php print $forums; ?>
   
   <?php if (!empty($topics)): ?>
-    <div class="forum-top-links"><?php print $links_rendered ?></div>
+    <div class="forum-links-top clear-block"><?php print $links_rendered ?></div>
   <?php endif; ?>
+  
   <?php print $topics; ?>
+  
+  <?php if (!empty($topics)): ?>
+    <div class="forum-links-bottom clear-block"><?php print $links_rendered ?></div>
+  <?php endif; ?>
 </div>
 <?php endif; ?>

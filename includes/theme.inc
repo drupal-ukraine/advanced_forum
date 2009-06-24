@@ -285,10 +285,6 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
  */
 function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
   $variables['template_files'][] = 'advanced_forum-forum-legend';
-
-  $variables['folder_new_posts'] = advanced_forum_theme_image(t('forum-folder-new-posts.png'), t('Forum Contains New Posts'));
-  $variables['folder_default'] = advanced_forum_theme_image(t('forum-folder.png'), t('Forum Contains No New Posts'));
-  $variables['folder_locked'] = advanced_forum_theme_image(t('forum-folder-locked.png'), t('Forum is Locked'));
 }
 
 /**
@@ -296,14 +292,6 @@ function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
  */
 function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-legend';
-
-  $variables['topic_new'] = advanced_forum_theme_image(t('topic-new.png'), t('New Posts'));
-  $variables['topic_hot_new'] = advanced_forum_theme_image(t('topic-hot-new.png'), t('Hot Thread (New)'));
-  $variables['topic_hot'] = advanced_forum_theme_image(t('topic-hot.png'), t('Hot Thread (No New)'));
-  $variables['topic_default'] = advanced_forum_theme_image(t('topic-default.png'), t('No New Posts'));
-  $variables['topic_sticky'] = advanced_forum_theme_image(t('topic-sticky.png'), t('Sticky Thread'));
-  $variables['topic_closed'] = advanced_forum_theme_image(t('topic-closed.png'), t('Locked Thread'));
-
 }
 
 /**
@@ -400,7 +388,6 @@ function advanced_forum_preprocess_forum_topic_list(&$variables) {
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-icon';
-  $variables['iconpath'] = advanced_forum_path_to_images();
 }
 
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
