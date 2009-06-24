@@ -19,7 +19,7 @@
   <a name="new">
 <?php endif; ?>
 
-<span class="<?php print "topic-$icon.png"; ?>"><?php print "topic-$icon.png"; ?></span>
+<span class="<?php print "topic-icon topic-icon-$icon"; ?>"><?php print "$icon"; ?></span>
 
 <?php if ($new_posts): ?>
   </a>

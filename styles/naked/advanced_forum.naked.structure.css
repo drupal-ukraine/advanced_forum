@@ -136,8 +136,11 @@ ul.forum-links {
 
 
 /* Topic listing */
-#forum td.icon {
-  width: 1px;
+#forum span.topic-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  text-indent: -9999px;
 }
 
 #forum td.views {
