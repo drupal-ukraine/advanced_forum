@@ -12,9 +12,12 @@
  * Theme function to format the reply link at the top/bottom of topic.
  */
 function theme_advanced_forum_reply_link($node) {
+  // Get an object that tells us the CSS class as well as the link/text.
+  // Class will be one of: reply-allowed, reply-forbidden, reply-locked.
+  // Link will be link to post reply or message.
   $reply_link = advanced_forum_get_reply_link($node);
   
-  return '<div class="reply-link ' . $reply_link->reply_class . ' ">' . $reply_link->link . '</div>';
+  return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '</div>';
 }
 
 /**

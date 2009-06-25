@@ -95,18 +95,34 @@
 .forum-links .forum a {
   background: transparent url(images/new-topic.png) no-repeat top left;
   text-indent: -9999px;
+  display: block;
+  width: 95px;
+  height: 28px;
 }
 
 .forum-links .poll a {
   background: transparent url(images/new-poll.png) no-repeat top left;
   text-indent: -9999px;
+  display: block;
+  width: 95px;
+  height: 28px;
 }
 
+.reply-allowed a {
+  background: transparent url(images/post-reply.png) no-repeat top left;
+  text-indent: -9999px;
+  display: block;
+  width: 95px;
+  height: 28px;
+}
 
-
-
-
-
+.reply-locked {
+  background: transparent url(images/locked-topic.png) no-repeat top left;
+  text-indent: -9999px;
+  display: block;
+  width: 95px;
+  height: 28px;
+}
 
 
 
