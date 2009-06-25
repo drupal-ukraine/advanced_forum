@@ -64,7 +64,43 @@
   background: transparent url(images/topic-closed.png) no-repeat top left;
 }
 
+/* TOPIC ICONS **************************************************************/
+.topic-icon-hot {
+  background: transparent url(images/topic-hot.png) no-repeat top left;
+}
 
+.topic-icon-hot-new {
+  background: transparent url(images/topic-hot-new.png) no-repeat top left;
+}
+
+.topic-icon-new {
+  background: transparent url(images/topic-new.png) no-repeat top left;
+}
+
+.topic-icon-default {
+  background: transparent url(images/topic-default.png) no-repeat top left;
+}
+
+.topic-icon-closed {
+  background: transparent url(images/topic-closed.png) no-repeat top left;
+}
+
+.topic-icon-sticky {
+  background: transparent url(images/topic-sticky.png) no-repeat top left;
+}
+
+
+
+/* TEXT REPLACEMENT IMAGES ***************************************************/
+.forum-links .forum a {
+  background: transparent url(images/new-topic.png) no-repeat top left;
+  text-indent: -9999px;
+}
+
+.forum-links .poll a {
+  background: transparent url(images/new-poll.png) no-repeat top left;
+  text-indent: -9999px;
+}
 
 
 

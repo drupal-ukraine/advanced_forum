@@ -11,10 +11,6 @@ function _advanced_forum_preprocess_forums(&$variables) {
   $variables['template_files'][] = 'advanced_forum-forums';
 
   if (empty($variables['topics'])) {
-    // We don't want the links on the top of the forum overview.
-    $variables['links_orig'] = $variables['links'];
-    $variables['links'] = array();
-    
     // No forum description on the top level.
     $variables['forum_description'] = '';
     
@@ -36,19 +32,21 @@ function _advanced_forum_preprocess_forums(&$variables) {
     // Grab the forum description and make it available to the template file
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
-
   }
   
+  // Theme the links core provides us. (New topic, etc)
+  $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'links forum-links')); 
+
   $tid = intval($variables['tid']);
   // Add in the mark as read link if user has access
   if (advanced_forum_markasread_access()) {
     if ($tid) {
-      $variables['links']['mark-read']['title'] = t('Mark all topics read');
-      $variables['links']['mark-read']['href'] = "forum/markasread/$tid";
+      $variables['forum_secondary_links_array']['mark-read']['title'] = t('Mark all topics read');
+      $variables['forum_secondary_links_array']['mark-read']['href'] = "forum/markasread/$tid";
     }
     else {
-      $variables['links']['mark-read']['title'] = t('Mark all forums read');
-      $variables['links']['mark-read']['href'] = "forum/markasread";
+      $variables['forum_secondary_links_array']['mark-read']['title'] = t('Mark all forums read');
+      $variables['forum_secondary_links_array']['mark-read']['href'] = "forum/markasread";
     }
   }
 
@@ -57,26 +55,26 @@ function _advanced_forum_preprocess_forums(&$variables) {
     global $user;
     if ($tid) {
       if ($user->uid) {
-        $variables['links']['unread']['title'] = t('New posts');
-        $variables['links']['unread']['href'] = "forum/unread";
-        $variables['links']['unread']['query'] = array('forum' => $tid);
+        $variables['forum_secondary_links_array']['unread']['title'] = t('My unread');
+        $variables['forum_secondary_links_array']['unread']['href'] = "forum/unread";
+        $variables['forum_secondary_links_array']['unread']['query'] = array('forum' => $tid);
       }
-      $variables['links']['unanswered']['title'] = t('Unanswered posts');
-      $variables['links']['unanswered']['href'] = "forum/unanswered";
-      $variables['links']['unanswered']['query'] = array('forum' => $tid);
+      $variables['forum_secondary_links_array']['unanswered']['title'] = t('Unanswered topics');
+      $variables['forum_secondary_links_array']['unanswered']['href'] = "forum/unanswered";
+      $variables['forum_secondary_links_array']['unanswered']['query'] = array('forum' => $tid);
     }
     else {
       if ($user->uid) {
-        $variables['links']['unread']['title'] = t('New posts');
-        $variables['links']['unread']['href'] = "forum/unread";
+        $variables['forum_secondary_links_array']['unread']['title'] = t('My unread');
+        $variables['forum_secondary_links_array']['unread']['href'] = "forum/unread";
       }
-      $variables['links']['unanswered']['title'] = t('Unanswered posts');
-      $variables['links']['unanswered']['href'] = "forum/unanswered";
-      $variables['links']['active']['title'] = t('Active posts');
-      $variables['links']['active']['href'] = "forum/active";
+      $variables['forum_secondary_links_array']['unanswered']['title'] = t('Unanswered topics');
+      $variables['forum_secondary_links_array']['unanswered']['href'] = "forum/unanswered";
+      $variables['forum_secondary_links_array']['active']['title'] = t('Active topics');
+      $variables['forum_secondary_links_array']['active']['href'] = "forum/active";
     }
   }
 
-  // Render links.
-  $variables['links_rendered'] = theme('links', $variables['links'], array('class' => 'links forum-links')); 
+  // Render our added links.
+  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'links forum-secondary-links')); 
 }

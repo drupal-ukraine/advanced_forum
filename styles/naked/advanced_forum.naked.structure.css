@@ -48,6 +48,7 @@ floats.
 
 /*** FORUM LINK LISTS *******************************************************/
 
+
 .forum-links-top {
   margin: 20px 0 20px 0;
 }
@@ -61,12 +62,13 @@ floats.
   margin: 20px 0 0 0;
 }
 
+/* This sets up the ability to turn them into buttons in CSS. */
 .forum-links li {
   padding: 0 1em 0 0;
   float: left;
 }
 
-.forum-links li a {
+.forum-links li.comment_delete a {
   width: 95px;
   height: 28px;
   display: block;

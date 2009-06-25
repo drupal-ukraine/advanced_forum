@@ -6,6 +6,8 @@ June 24, 2009
 -------------
 NOISSUE by merlinofchaos: Made blue lagoon pager smaller and italic.
 #500978 by Michelle: Got topic list icons working. The reports of their functionality have been greatly exaggerated.
+NOISSUE by Michelle: Put the functions in theme.inc into a more logical order so I can find things.
+#497450 by Michelle: Changed how forum links are handled. Split core links and added links into two and removed theme_links from reply button.
 
 June 23, 2009
 -------------

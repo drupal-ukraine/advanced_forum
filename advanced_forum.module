@@ -500,6 +500,53 @@ function _advanced_forum_add_files() {
   }
 }
 
+function advanced_forum_get_reply_link($node) {
+  $reply_link = new stdClass;
+  
+  // Give nodecomment (if installed) first shot at the comment setting
+  $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
+
+  if ($comment_setting == COMMENT_NODE_READ_WRITE) {
+    if (!empty($node->links['comment_add']['href'])) {
+      // There is an existing link on the node we can pull from.
+      $href = $node->links['comment_add']['href'];
+      $fragment = $node->links['comment_add']['fragment'];
+      $attributes = $node->links['comment_add']['attributes'];
+     
+      $reply_link->class = 'reply-allowed';
+      $reply_link->link = l(t('Post Reply'), $href, array('fragment' => $fragment, 'attributes' => $attributes)); 
+    
+      return $reply_link;
+    }
+     
+    if (!module_exists('nodecomment') && user_access('post comments') || !empty($nc_user_access)) {
+      // Comment will not show the link when the form is on the page so we 
+      // need to fake it.
+      $href = $_GET['q'];
+      $attributes = array('title' => t('Share your thoughts and opinions related to this posting.'));
+      $query = ($_GET['page']) ? "page=" . $_GET['page'] : NULL;
+      
+      $reply_link->class = 'reply-allowed';
+      $reply_link->link = l(t('Post Reply'), $href, array('query' => $query, 'attributes' => $attributes)); 
+     
+      return $reply_link;
+    }
+    else {
+      // User does not have access to post replies on this node.
+      $reply_link->class = 'reply-forbidden';
+      $reply_link->link = theme('comment_post_forbidden', $node);
+      print "no access";
+      return $reply_link;
+    }
+  }
+  else {
+    // Topic is locked
+    $reply_link->class = 'reply-locked';
+    $reply_link->link = t('Locked');
+    return $reply_link;
+  }
+}
+
 /**
  * Holds the node ID of the thread we are on.
  *
@@ -831,7 +878,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
         $token = $matches[0][$match]; // This is the exact string that matched.
         if (!isset($tokens[$token])) {
           $account = user_load($uid);
-          $tokens[$token] = theme('author_pane', $account, advanced_forum_path_to_images(), 'advanced_forum-author-pane');
+          $tokens[$token] = theme('author_pane', $account, '', 'advanced_forum-author-pane');
         }
       }
     }
@@ -862,103 +909,3 @@ function advanced_forum_comment_wrapper($content, $node) {
 function _advanced_forum_comment_wrapper($content, $node) {
   return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
 }
-
-// IMAGE HANDLING -- TO BE REPLACED ******************************************/
-
-/**
- * Returns the path to the advanced forum image directory
- */
-function advanced_forum_path_to_images() {
-  static $image_path;
-  global $language;
-
-  if (!$image_path) {
-    // If there is an override in settings, use it
-    $image_path = variable_get('advanced_forum_image_directory', '');
-
-    if (empty($image_path)) {
-      // Otherwise assume it's in the style's directory
-      $image_path = advanced_forum_path_to_style() . '/images';
-    }
-
-    if (!file_exists($image_path)) {
-      // If the style doesn't have an images directory, fall back to naked.
-      $image_path = drupal_get_path('module', 'advanced_forum') . '/styles/naked/images';
-    }
-  }
-
-  //Add language prefix to path if exist
-  $language_prefix = $language->language;
-  $image_path_language_prefix = $image_path . '/' . $language_prefix;
-  if (file_exists($image_path_language_prefix)) {
-    $image_path = $image_path_language_prefix;
-  }
-
-  return $image_path;
-}
-
-/**
- * Wrapper around theme_image that automatically includes the path.
- */
-function advanced_forum_theme_image($image_file, $alt = NULL, $title = NULL) {
-  $image = advanced_forum_path_to_images() . "/$image_file";
-
-  if ($title == NULL) {
-    $title = $alt;
-  }
-
-  if (file_exists($image)) {
-    return theme('image', $image, $alt, $title);
-  }
-  else {
-    return FALSE;
-  }
-}
-
-function _advanced_forum_buttonify_links(&$links) {
-  $buttonify = variable_get('advanced_forum_button_links', 1);
-
-  if ($buttonify && !empty($links)) {
-    foreach ($links as $link_key => $link) {
-      switch ($link_key) {
-        // First, take care of the special cases
-        case 'comment_add':
-          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
-          $links[$link_key]['html'] = TRUE;
-          break;
-
-        case 'comment_reply':
-          $links[$link_key]['title'] = advanced_forum_theme_image(t('reply.png'), t('reply'));
-          $links[$link_key]['html'] = TRUE;
-          break;
-
-        case 'comment_edit':
-          $links[$link_key]['title'] = advanced_forum_theme_image(t('edit.png'), t('edit'));
-          $links[$link_key]['html'] = TRUE;
-          break;
-
-        case 'comment_delete':
-          $links[$link_key]['title'] = advanced_forum_theme_image(t('delete.png'), t('delete'));
-          $links[$link_key]['html'] = TRUE;
-          break;
-
-        default:
-          // Attempt to buttonify by key name.
-          $image = advanced_forum_theme_image($link_key . '.png', $link['title']);
-
-          if (!$image) {
-            // If no luck there, try the adjusted title.
-            $title = strtolower(str_replace(' ', '-', $link['title']));
-            $image = advanced_forum_theme_image($title . '.png', $link['title']);
-          }
-
-          if ($image) {
-            // If we found an image, use it. Otherwise leave the title alone.
-            $links[$link_key]['title'] = $image;
-            $links[$link_key]['html'] = TRUE;
-          }
-      }
-    }
-  }
-}
-

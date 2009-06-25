@@ -12,70 +12,9 @@
  * Theme function to format the reply link at the top/bottom of topic.
  */
 function theme_advanced_forum_reply_link($node) {
-  // Give nodecomment (if installed) first shot at the comment setting
-  $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
-
-  if ($comment_setting == COMMENT_NODE_READ_WRITE) {
-    // Get the existing data from the node link, if any.
-    $href = $node->links['comment_add']['href'];
-    $fragment = $node->links['comment_add']['fragment'];
-    $attributes = $node->links['comment_add']['attributes'];
-
-    if (!empty($href)) {
-      // We already have the information we need, so use it.
-      $links['topic_reply'] = array(
-        'title' => t('Post Reply'),
-        'href' => $href,
-        'attributes' => $attributes,
-        'fragment' => $fragment,
-      );
-
-     // Change to using a button if so set
-     if (variable_get('advanced_forum_button_links', 1)) {
-        $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
-        $links['topic_reply']['html'] = TRUE;
-      }
-
-    }
-    elseif (!module_exists('nodecomment') && user_access('post comments')) {
-      // There isn't a link already. Nodecomment always puts a link if the
-      // user has access so we can skip this for NC users. Comment will not show
-      // the link when the form is on the page so we need to fake it.
-      $links['topic_reply'] = array(
-        'title' => t('Post Reply'),
-        'href' => $_GET['q'],
-        'attributes' => array('title' => t('Share your thoughts and opinions related to this posting.')),
-        'fragment' => $fragment,
-        'query' => ($_GET['page']) ? "page=" . $_GET['page'] : NULL,
-      );
-
-     // Change to using a button if so set
-     if (variable_get('advanced_forum_button_links', 1)) {
-        $links['topic_reply']['title'] = advanced_forum_theme_image(t('post-reply.png'), t('Post reply'));
-        $links['topic_reply']['html'] = TRUE;
-      }
-    }
-    else {
-      // User does not have access to post replies on this node.
-      $links['comment_forbidden']['title'] = theme('comment_post_forbidden', $node);
-      $links['comment_forbidden']['html'] = TRUE;
-    }
-  }
-  else {
-    // Topic is locked
-    $links['topic_locked'] = array(
-      'title' => t('Topic Locked'),
-      'attributes' => array('title' => t('This topic is locked')),
-    );
-
-    // Change to using a button if so set
-    if (variable_get('advanced_forum_button_links', 1)) {
-      $links['topic_locked']['title'] = advanced_forum_theme_image(t('locked-topic.png'), t('Locked'));
-      $links['topic_locked']['html'] = TRUE;
-    }
-  }
-
-  return theme('links', $links, array('class' => 'forum-links'));
+  $reply_link = advanced_forum_get_reply_link($node);
+  
+  return '<div class="reply-link ' . $reply_link->reply_class . ' ">' . $reply_link->link . '</div>';
 }
 
 /**
@@ -181,76 +120,7 @@ function theme_advanced_forum_subforum_list($subforum_list) {
 
 // TEMPLATE PREPROCESS ******************************************************/
 
-/**
- * Preprocesses template variables for the author pane.
- */
-function advanced_forum_preprocess_author_pane(&$variables) {
-  // Author pane is used in various places. The only way to be sure to only
-  // hit it when we are using it is to check the template suggestion.
-  if (!empty($variables['template_suggestion']) && $variables['template_suggestion'] == 'advanced_forum-author-pane') {
-    // Attempt to override the user picture fetched by Author Pane from core.
-    $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
-    if (!empty($sized_picture)) {
-      $variables['picture'] = $sized_picture;
-    }
-  }
-}
-
-/**
- * Preprocesses template variables for the topic header template.
- */
-function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-topic-header';
-
-  // Build the reply link / button
-  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
-
-  // Total & new replies
-  if (!empty($variables['comment_count'])) {
-    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
-    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
-  }
-  else {
-    $variables['total_posts'] = t('No replies');
-  }
-
-  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
-  $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
-}
-
-
-/**
- * Preprocesses template variables for the node template.
- */
-function advanced_forum_preprocess_node(&$variables) {
- if (advanced_forum_treat_as_forum_post('node', $variables)) {
-   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_node.inc';
-   _advanced_forum_preprocess_node($variables);
- }
-}
-
-/**
- * Preprocesses template variables for the comment template.
- */
-function advanced_forum_preprocess_comment(&$variables) {
- if (advanced_forum_treat_as_forum_post('node', $variables)) {
-   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_comment.inc';
-   _advanced_forum_preprocess_comment($variables);
- }
-}
-
-function advanced_forum_preprocess_comment_wrapper(&$variables) {
-  if (advanced_forum_treat_as_forum_post('comment-wrapper', $variables)) {
-    $variables['template_files'][] = 'advanced_forum-comment-wrapper';
-
-    $variables['reply_link'] = '';
-    if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
-      // If the post is locked or the comment form is on a seperate page, build
-      // the reply/locked link / button
-      $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
-    }
-  }
-}
+/*** FORUM OVERVIEW & TOPIC LIST PAGES **************************************/
 
 /**
  * Preprocesses template variables for the forum template.
@@ -260,52 +130,20 @@ function advanced_forum_preprocess_forums(&$variables) {
    _advanced_forum_preprocess_forums($variables);
 }
 
-/**
- * Preprocesses template variables for the forum statistics template.
- */
-function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-statistics';
+function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-search-forum';
 
-  $variables['topics'] = advanced_forum_statistics_topics();
-  $variables['posts'] = advanced_forum_statistics_replies() + $variables['topics'];
-  $variables['users'] = advanced_forum_statistics_users();
-
-  $authenticated_users = advanced_forum_statistics_online_users();
-  $variables['online_users'] = implode(', ', $authenticated_users);
-  $variables['current_users'] = count($authenticated_users);
-  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
-  $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
-
-  $latest_user = advanced_forum_statistics_latest_user();
-  $variables['latest_user'] = theme('username', $latest_user);
+  $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
+  $variables['path'] = url('forum/search');
 }
 
-/**
- * Preprocesses template variables for the forum legend template.
- */
-function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-forum-legend';
-}
-
-/**
- * Preprocesses template variables for the topic legend template.
- */
-function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-topic-legend';
-}
-
-/**
- * Preprocesses template variables for the forum list template.
- */
-function advanced_forum_preprocess_forum_list(&$variables) {
-   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_forum_list.inc';
-   _advanced_forum_preprocess_forum_list($variables);
+function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
+  _advanced_forum_add_files();
+  $variables['template_files'][] = 'advanced_forum-search-result';
 }
 
 /**
  * Preprocesses template variables for the submitted by/in template.
- *
- * This function adds additional functionality to the core forum preprocess.
  */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
   $variables['template_files'][] = 'advanced_forum-submitted';
@@ -349,6 +187,46 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
   }
 }
 
+/*** JUST FORUM OVERVIEW PAGE ***********************************************/
+
+/**
+ * Preprocesses template variables for the forum legend template.
+ */
+function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-forum-legend';
+}
+
+/**
+ * Preprocesses template variables for the forum statistics template.
+ */
+function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-statistics';
+
+  $variables['topics'] = advanced_forum_statistics_topics();
+  $variables['posts'] = advanced_forum_statistics_replies() + $variables['topics'];
+  $variables['users'] = advanced_forum_statistics_users();
+
+  $authenticated_users = advanced_forum_statistics_online_users();
+  $variables['online_users'] = implode(', ', $authenticated_users);
+  $variables['current_users'] = count($authenticated_users);
+  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
+  $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
+
+  $latest_user = advanced_forum_statistics_latest_user();
+  $variables['latest_user'] = theme('username', $latest_user);
+}
+
+/**
+ * Preprocesses template variables for the forum list template.
+ */
+function advanced_forum_preprocess_forum_list(&$variables) {
+   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_forum_list.inc';
+   _advanced_forum_preprocess_forum_list($variables);
+}
+
+
+/*** JUST TOPIC LIST PAGES **************************************************/
+
 function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
@@ -371,6 +249,15 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
 }
 
 /**
+ * Display a view as a forum topic list style.
+ */
+function template_preprocess_advanced_forum_topic_list_view(&$variables) {
+  include_once drupal_get_path('module', 'advanced_forum') . '/includes/template_preprocess_advanced_forum_topic_list_view.inc';
+  _template_preprocess_advanced_forum_topic_list_view($variables);
+}
+
+
+/**
  * Preprocesses template variables for the topic list template.
  */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
@@ -390,22 +277,20 @@ function advanced_forum_preprocess_forum_icon(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-icon';
 }
 
-function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-search-forum';
-
-  $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
-  $variables['path'] = url('forum/search');
+/**
+ * Preprocesses template variables for the topic legend template.
+ */
+function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-topic-legend';
 }
+
+
+/*** TOPIC PAGES ************************************************************/
 
 function advanced_forum_preprocess_advanced_forum_search_topic(&$variables) {
   $variables['template_files'][] = 'advanced_forum-search-topic';
 
   $variables['path'] = url('node/'. $variables['node']->nid . '/search');
-}
-
-function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
-  _advanced_forum_add_files();
-  $variables['template_files'][] = 'advanced_forum-search-result';
 }
 
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topic(&$variables) {
@@ -414,10 +299,76 @@ function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topi
 }
 
 /**
- * Display a view as a forum topic list style.
+ * Preprocesses template variables for the topic header template.
  */
-function template_preprocess_advanced_forum_topic_list_view(&$variables) {
-  include_once drupal_get_path('module', 'advanced_forum') . '/includes/template_preprocess_advanced_forum_topic_list_view.inc';
-  _template_preprocess_advanced_forum_topic_list_view($variables);
+function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
+  $variables['template_files'][] = 'advanced_forum-topic-header';
+
+  // Build the reply link / button
+  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
+
+  if (!empty($variables['comment_count'])) {
+    // Add count of total posts and link to last reply
+    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
+    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
+  }
+  else {
+    $variables['total_posts'] = t('No replies');
+  }
+
+  // Add count of new posts (if any) linked to the first one.
+  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
+  
+  // Add search form to search within the topic. (only works with nodecomment)
+  $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
 }
+
+/**
+ * Preprocesses template variables for the author pane.
+ */
+function advanced_forum_preprocess_author_pane(&$variables) {
+  // Author pane is used in various places. The only way to be sure to only
+  // hit it when we are using it is to check the template suggestion.
+  if (!empty($variables['template_suggestion']) && $variables['template_suggestion'] == 'advanced_forum-author-pane') {
+    // Attempt to override the user picture fetched by Author Pane from core.
+    $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
+    if (!empty($sized_picture)) {
+      $variables['picture'] = $sized_picture;
+    }
+  }
+}
+
+/**
+ * Preprocesses template variables for the node template.
+ */
+function advanced_forum_preprocess_node(&$variables) {
+ if (advanced_forum_treat_as_forum_post('node', $variables)) {
+   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_node.inc';
+   _advanced_forum_preprocess_node($variables);
+ }
+}
+
+function advanced_forum_preprocess_comment_wrapper(&$variables) {
+  if (advanced_forum_treat_as_forum_post('comment-wrapper', $variables)) {
+    $variables['template_files'][] = 'advanced_forum-comment-wrapper';
+
+    $variables['reply_link'] = '';
+    if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
+      // If the post is locked or the comment form is on a seperate page, build
+      // the reply/locked link / button
+      $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
+    }
+  }
+}
+
+/**
+ * Preprocesses template variables for the comment template.
+ */
+function advanced_forum_preprocess_comment(&$variables) {
+ if (advanced_forum_treat_as_forum_post('node', $variables)) {
+   include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_comment.inc';
+   _advanced_forum_preprocess_comment($variables);
+ }
+}
+
   

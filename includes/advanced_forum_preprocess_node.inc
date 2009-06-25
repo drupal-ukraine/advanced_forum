@@ -46,9 +46,6 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['node']->links['comment_add']['title'] = t('Reply');
   }
 
-  // Change links over to buttons when possible and wanted.
-  _advanced_forum_buttonify_links($variables['node']->links);
-
   // Remake the links with our changes
   $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
 
@@ -64,7 +61,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';
   }
   else {
-    $variables['author_pane'] = theme('author_pane', $variables['account'], advanced_forum_path_to_images(), 'advanced_forum-author-pane');
+    $variables['author_pane'] = theme('author_pane', $variables['account'], '', 'advanced_forum-author-pane');
   }
   /* Signatures */
   if (module_exists('signature_forum')) {

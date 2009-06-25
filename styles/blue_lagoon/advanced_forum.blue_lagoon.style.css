@@ -32,10 +32,7 @@ Images used:
 
 /*** PAGER *******************************************************************/
 
-#forum .pager-current,
-#forum .pager a:link,
-#forum .pager a:visited,
-#forum .pager a:hover{
+#forum .topic-pager {
   font-size: 90%;
   font-style: italic;
 }
@@ -208,7 +205,3 @@ Images used:
   border-left: 1px solid #91CDF5;
 }
 
-.topic-pager {
-  font-size: 80%;
-  font-style: italic;
-}
