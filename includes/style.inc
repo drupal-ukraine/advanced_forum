@@ -68,8 +68,8 @@ function advanced_forum_style_lineage($style = NULL) {
   // CSS of one other style and toss it in as a pseudo parent. We do not 
   // follow the path up its parent. The primary use is for adding in the 
   // "stacked" CSS but could be used for other purposes as well.
-  $extra_style = $all_styles[$style]['extra style'];
-  if (!empty($extra_style) && !empty($all_styles[$extra_style]['path'])) {
+  if (!empty($all_styles[$style]['extra style']) && !empty($all_styles[$all_styles[$style]['extra style']]['path'])) {
+    $extra_style = $all_styles[$style]['extra style'];
     $lineage[$extra_style] = $all_styles[$extra_style]['path'];
   }
 

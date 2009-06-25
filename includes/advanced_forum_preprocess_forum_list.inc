@@ -30,6 +30,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     $orginal_forums = $variables['forums'];
     $variables['forums'] = array();
     $variables['forums'][$parent_id] = $container;
+    $variables['forums'][$parent_id]->depth = 0;
     foreach ($orginal_forums as $id => $forum) {
       $variables['forums'][$id] = $forum;
       $variables['forums'][$id]->depth++;
@@ -108,7 +109,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   
   // Give meaning to $tid for themers. $tid actually stands for term id.
-  $variables['forum_id'] = $variables['tid'];
+  $variables['forum_id'] = isset($variables['tid']) ? $variables['tid'] : 0;
   unset($variables['tid']);
 
   // Fetch the forum statistics.

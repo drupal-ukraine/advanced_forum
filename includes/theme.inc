@@ -374,4 +374,6 @@ function advanced_forum_preprocess_comment(&$variables) {
  }
 }
 
-  
+function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
+  $variables['prev'] = $variables['next'] = '';
+}

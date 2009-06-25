@@ -32,6 +32,7 @@ function _advanced_forum_preprocess_forums(&$variables) {
     // Grab the forum description and make it available to the template file
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
+    $variables['search'] = '';
   }
   
   // Theme the links core provides us. (New topic, etc)
