@@ -9,6 +9,7 @@ June 25, 2009
 #501616 by Michelle, neclimlap, merlinofchaos: More fixes for the title popup.
 #501616 by merlinofchaos, Michelle: Changed over to doing the whole popup in the view. Left old way in as an alternate.
 #502370 by neclimdul: E-ALL fixes.
+#470202 by tom_o_t, merlinofchaos: Changed mark all read to look at node changed instead of node created to fix weird edge cases.
 
 June 24, 2009
 -------------

@@ -309,7 +309,7 @@ function advanced_forum_markasread() {
             FROM {node} AS n
               INNER JOIN {term_node} AS tn ON n.nid = tn.nid
               INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-            WHERE (n.created > %d OR ncs.last_comment_timestamp > %d) AND tn.tid = %d";
+            WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND tn.tid = %d";
 
     $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id);
     db_query($sql, $args);
@@ -341,7 +341,7 @@ function advanced_forum_markasread() {
               INNER JOIN {term_node} AS tn ON n.nid=tn.nid
               INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
               INNER JOIN {term_data} AS td ON tn.tid = td.tid
-            WHERE (n.created > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
+            WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
 
     $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
 
