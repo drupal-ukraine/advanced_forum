@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+June 25, 2009
+-------------
+#497450 by Michelle: reply, edit, delete node links now working.
+
 June 24, 2009
 -------------
 NOISSUE by merlinofchaos: Made blue lagoon pager smaller and italic.

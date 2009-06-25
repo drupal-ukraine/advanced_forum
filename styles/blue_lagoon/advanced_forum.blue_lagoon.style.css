@@ -18,18 +18,6 @@ Images used:
   images/pager-bg.png Pager background gradient.
 */
 
-/*** FORUM LINK LISTS ********************************************************/
-
-.forum-links li {
-  list-style-image: none;
-  list-style-type: none;
-  background: none;
-}
-
-.forum-links li a {
-  font-weight: bold;
-}
-
 /*** PAGER *******************************************************************/
 
 #forum .topic-pager {
