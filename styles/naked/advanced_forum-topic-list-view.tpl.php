@@ -35,7 +35,8 @@
         <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
           <?php if (empty($shadow[$count])): ?>
             <?php foreach ($row as $field => $content): ?>
-              <td class="views-field views-field-<?php print $fields[$field]; ?>" title="<?php print $teasers[$count] ?>">
+              <?php /* To add popup from teaser in the title of the td, add: title="<?php print $teasers[$count] ?>"*/ ?>
+              <td class="views-field views-field-<?php print $fields[$field]; ?>">
                <?php /* Extra label for stickies. */ ?>
                <?php if ($field == 'title' && $sticky[$count]): ?>
                  <span class="sticky-label"><?php print t('Sticky:'); ?></span>

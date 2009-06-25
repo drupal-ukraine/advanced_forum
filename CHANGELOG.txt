@@ -7,6 +7,7 @@ June 25, 2009
 #497450 by Michelle: reply, edit, delete node links now working.
 #501616 by Michelle, neclimlap: Stripped the tags from the teaser for the title popup.
 #501616 by Michelle, neclimlap, merlinofchaos: More fixes for the title popup.
+#501616 by merlinofchaos, Michelle: Changed over to doing the whole popup in the view. Left old way in as an alternate.
 
 June 24, 2009
 -------------

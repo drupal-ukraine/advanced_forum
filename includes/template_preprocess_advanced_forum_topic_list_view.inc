@@ -9,7 +9,7 @@
 function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
   $view = $variables['view'];
-  
+
   // We need the raw data for this grouping, which is passed in as $variables['rows'].
   // However, the template also needs to use for the rendered fields.  We
   // therefore swap the raw data out to a new variable and reset $variables['rows']
@@ -45,12 +45,14 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     foreach ($keys as $id) {
       $renders[$count][$id] = $view->field[$id]->theme($row);
     }
-    
-    // Grab the teaser so it can be used in the popup preview.
+
+    // Grab the teaser so it can be used on the title of the td as a popup
+    // preview. By default, the view provides the teaser as a popup on the
+    // title link.
     $teaser = $renders[$count]['teaser'];
     $teaser = htmlentities($teaser);
     $teasers[$count] = $teaser;
-    
+
     // Determine stickiness.
     if (!$stickies_done) {
       $sticky[$count] = !empty($row->topic_is_sticky);
@@ -68,7 +70,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       }
     }
 
-    // Shadow (moved) topics.  
+    // Shadow (moved) topics.
     if ($forum && !in_array($row->topic_actual_forum, $forum)) {
       $term = taxonomy_get_term($row->topic_actual_forum);
       $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', $row->node_title, $row->nid, $term->name);
@@ -80,7 +82,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   // Make the sticky variable available to the template.
   $variables['sticky'] = $sticky;
   $variables['teasers'] = $teasers;
-  
+
   foreach ($columns as $field => $column) {
     // render the header labels
     if ($field == $column && empty($fields[$field]->options['exclude'])) {
