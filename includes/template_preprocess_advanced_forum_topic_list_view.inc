@@ -41,11 +41,16 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $sticky_count = 0;
 
   foreach ($result as $count => $row) {
-    $teasers[$count] = $row->node_revisions_teaser;
 
     foreach ($keys as $id) {
       $renders[$count][$id] = $view->field[$id]->theme($row);
     }
+    
+    // Grab the teaser so it can be used in the popup preview.
+    $teaser = $renders[$count]['teaser'];
+    $teaser = htmlentities($teaser);
+    $teasers[$count] = $teaser;
+    
     // Determine stickiness.
     if (!$stickies_done) {
       $sticky[$count] = !empty($row->topic_is_sticky);

@@ -36,6 +36,7 @@
           <?php if (empty($shadow[$count])): ?>
             <?php foreach ($row as $field => $content): ?>
               <td class="views-field views-field-<?php print $fields[$field]; ?>" title="<?php print $teasers[$count] ?>">
+               <?php /* Extra label for stickies. */ ?>
                <?php if ($field == 'title' && $sticky[$count]): ?>
                  <span class="sticky-label"><?php print t('Sticky:'); ?></span>
                <?php endif; ?>
