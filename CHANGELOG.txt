@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 1, 2009
+------------
+#497450 by Michelle: Changed to a better image replacement technique that works if images are disabled.
+
 June 25, 2009
 -------------
 #497450 by Michelle: reply, edit, delete node links now working.

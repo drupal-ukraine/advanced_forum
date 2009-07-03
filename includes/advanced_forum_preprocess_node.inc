@@ -46,6 +46,12 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['node']->links['comment_add']['title'] = t('Reply');
   }
 
+  // Add extra span tags for image replacement.
+  foreach ($variables['node']->links AS $key => $link) {
+    $variables['node']->links[$key]['title'] = $variables['node']->links[$key]['title'] . '<span class="image-replace"></span>';
+    $variables['node']->links[$key]['html'] = TRUE;
+  }
+    
   // Remake the links with our changes
   $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
 

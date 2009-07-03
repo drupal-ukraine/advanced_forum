@@ -92,67 +92,48 @@
 
 
 /* TEXT REPLACEMENT IMAGES ***************************************************/
-.forum-links .forum a {
-  background: transparent url(images/new-topic.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+/* Post new topic options on topic listings */
+.forum-links .forum span {
+  background: transparent url(images/new-topic.png) no-repeat;
+  height: 30px;
   width: 95px;
-  height: 28px;
 }
 
-.forum-links .poll a {
-  background: transparent url(images/new-poll.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+.forum-links .poll span {
+  background: transparent url(images/new-poll.png) no-repeat;
+  height: 30px;
   width: 95px;
-  height: 28px;
 }
 
-.reply-allowed a {
-  background: transparent url(images/post-reply.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+/* New topic / locked on top / bottom of topics */
+.reply-allowed span {
+  background: transparent url(images/post-reply.png) no-repeat;
+  height: 30px;
   width: 95px;
-  height: 28px;
 }
 
-.reply-locked {
-  background: transparent url(images/locked-topic.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+.reply-locked span {
+  background: transparent url(images/locked-topic.png) no-repeat;
+  height: 30px;
   width: 95px;
-  height: 28px;
 }
 
-
-.comment_add a,
-.comment_reply a  {
-  background: transparent url(images/reply.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+/* Post links */
+.comment_add span,
+.comment_reply span {
+  background: transparent url(images/reply.png) no-repeat;
+  height: 16px;
   width: 50px;
-  height: 14px;
-  margin-top: 5px;
 }
 
-.comment_edit a  {
-  background: transparent url(images/edit.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+.comment_edit span {
+  background: transparent url(images/edit.png) no-repeat;
+  height: 16px;
   width: 50px;
-  height: 14px;
-  margin-top: 5px;
 }
 
-.comment_delete a  {
-  background: transparent url(images/delete.png) no-repeat top left;
-  text-indent: -9999px;
-  display: block;
+.comment_delete span {
+  background: transparent url(images/delete.png) no-repeat;
+  height: 16px;
   width: 50px;
-  height: 14px;
-  margin-top: 5px;
 }
-
-
-
-

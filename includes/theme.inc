@@ -17,7 +17,7 @@ function theme_advanced_forum_reply_link($node) {
   // Link will be link to post reply or message.
   $reply_link = advanced_forum_get_reply_link($node);
   
-  return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '</div>';
+  return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '<span class="image-replace"></span>' . '</div>';
 }
 
 /**

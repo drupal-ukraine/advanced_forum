@@ -35,6 +35,12 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $variables['search'] = '';
   }
   
+  // Add extra span tags for image replacement.
+  foreach ($variables['links'] AS $key => $link) {
+    $variables['links'][$key]['title'] = $variables['links'][$key]['title'] . '<span class="image-replace"></span>';
+    $variables['links'][$key]['html'] = TRUE;
+  }
+    
   // Theme the links core provides us. (New topic, etc)
   $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'links forum-links')); 
 
