@@ -5,6 +5,7 @@ $Id$
 July 4, 2009
 ------------
 NOISSUE by Michelle: Moved around the forum legend & link lists to reduce clutter and organize them better on the page.
+#509878 by Michelle: Fixed broken link on 'post reply' with help from marsilainen on IRC.
 
 July 3, 2009
 ------------

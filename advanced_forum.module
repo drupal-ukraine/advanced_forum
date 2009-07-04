@@ -514,7 +514,7 @@ function advanced_forum_get_reply_link($node) {
       $attributes = $node->links['comment_add']['attributes'];
      
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply'), $href, array('fragment' => $fragment, 'attributes' => $attributes));    
+      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'html' => TRUE, 'attributes' => $attributes));    
       return $reply_link;
     }
      
@@ -526,7 +526,7 @@ function advanced_forum_get_reply_link($node) {
       $query = ($_GET['page']) ? "page=" . $_GET['page'] : NULL;
       
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply'), $href, array('query' => $query, 'attributes' => $attributes)); 
+      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('query' => $query, 'html' => TRUE, 'attributes' => $attributes)); 
       return $reply_link;
     }
     else {
@@ -539,7 +539,7 @@ function advanced_forum_get_reply_link($node) {
   else {
     // Topic is locked
     $reply_link->class = 'reply-locked';
-    $reply_link->link = t('Locked');
+    $reply_link->link = t('Locked') . '<span class="image-replace"></span>';
     return $reply_link;
   }
 }
