@@ -1,9 +1,9 @@
 <div class="forum-topic-header clear-block">
   <a id="top"></a>
 
-  <?php print $search; ?>
-
   <?php print $reply_link; ?>
+
+  <?php print $search; ?>
 
   <div class="reply-count">
     <?php print $total_posts; ?>

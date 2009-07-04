@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 3, 2009
+------------
+#497450 by Michelle: More fixes for link lists including some renaming and repositioning.
+
 July 1, 2009
 ------------
 #497450 by Michelle: Changed to a better image replacement technique that works if images are disabled.

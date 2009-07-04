@@ -4,7 +4,7 @@
 /**
  * @file
  * Holds the contents of a preprocess function moved into its own file
- * to easy memory requirements and having too much code in one file.
+ * to ease memory requirements and having too much code in one file.
  */
 
 function _advanced_forum_preprocess_forums(&$variables) {
@@ -33,16 +33,55 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
     $variables['search'] = '';
-  }
-  
+  /*
   // Add extra span tags for image replacement.
   foreach ($variables['links'] AS $key => $link) {
     $variables['links'][$key]['title'] = $variables['links'][$key]['title'] . '<span class="image-replace"></span>';
     $variables['links'][$key]['html'] = TRUE;
   }
+  */
+
+    // Format the "post new content" links listing.
+    $vid = variable_get('forum_nav_vocabulary', '');
+    $vocabulary = taxonomy_vocabulary_load($vid);
+    $forum_types = array();
+
+    // Loop through all node types for forum vocabulary.
+    foreach ($vocabulary->nodes as $type) {
+      // Check if the current user has the 'create' permission for this node type.
+      if (node_access('create', $type)) {
+        // Fetch the "General" name of the content type.
+        $node_type = node_get_types('name', $type);
+        
+        // Remove the word "Forum" out of "Forum topic" to shorten it.
+        // @TODO: this is a little dodgy and may not work right with 
+        // translations. Should be replaced if there's a better way.
+        $node_type = str_replace('Forum', '', $node_type);
+        
+        // Push the link with title and url to the array.
+        $forum_types[$type] = array(
+          'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>', 
+          'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $variables['tid'], 
+          'html' => TRUE);
+      }
+    }
+
+    if (empty($forum_types)) {
+      // The user is logged-in; but denied access to create any new forum content type.
+      if ($user->uid) {
+        $forum_types['disallowed'] = array('title' => t('You are not allowed to post new content in forum.'));
+      }
+      // The user is not logged-in; and denied access to create any new forum content type.
+      else {
+        $forum_types['login'] = array(
+          'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))), 
+          'html' => TRUE);
+      }
+    }
     
-  // Theme the links core provides us. (New topic, etc)
-  $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'links forum-links')); 
+    $variables['links'] = $forum_types;
+    $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'forum-links')); 
+  }
 
   $tid = intval($variables['tid']);
   // Add in the mark as read link if user has access
@@ -83,5 +122,5 @@ function _advanced_forum_preprocess_forums(&$variables) {
   }
 
   // Render our added links.
-  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'links forum-secondary-links')); 
+  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'forum-links')); 
 }

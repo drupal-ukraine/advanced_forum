@@ -14,7 +14,7 @@
  * - $path: The path to the search widget for the form action.
  */
 ?>
-<div class="clear-block">
+<div class="search-topic">
   <form action="<?php print $path ?>" accept-charset="UTF-8" method="get" id="advanced-forum-search-topic">
   <div class="container-inline">
     <div class="form-item" id="edit-keys-wrapper">
