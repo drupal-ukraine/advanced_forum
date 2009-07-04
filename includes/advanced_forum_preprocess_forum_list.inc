@@ -111,13 +111,4 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   // Give meaning to $tid for themers. $tid actually stands for term id.
   $variables['forum_id'] = isset($variables['tid']) ? $variables['tid'] : 0;
   unset($variables['tid']);
-
-  // Fetch the forum statistics.
-  $variables['forum_statistics'] = '';
-  if ($main_forum_page && user_access('view forum statistics')) {
-    $variables['forum_statistics'] = theme('advanced_forum_statistics');
-  }
-
-  // Fetch the forum legend.
-  $variables['forum_legend'] = theme('advanced_forum_forum_legend');
 }

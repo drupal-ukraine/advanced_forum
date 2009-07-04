@@ -123,4 +123,15 @@ function _advanced_forum_preprocess_forums(&$variables) {
 
   // Render our added links.
   $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'forum-links')); 
+  
+  
+  // Fetch the forum statistics.
+  $variables['forum_statistics'] = '';
+  if (user_access('view forum statistics')) {
+    $variables['forum_statistics'] = theme('advanced_forum_statistics');
+  }
+
+  // Fetch the forum legend.
+  $variables['forum_legend'] = theme('advanced_forum_forum_legend');
+
 }
