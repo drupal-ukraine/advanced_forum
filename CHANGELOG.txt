@@ -5,6 +5,7 @@ $Id$
 July 3, 2009
 ------------
 #497450 by Michelle: More fixes for link lists including some renaming and repositioning.
+#497450 by Michelle: Removed setting options for images since this is all handled via CSS now.
 
 July 1, 2009
 ------------

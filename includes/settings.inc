@@ -34,23 +34,6 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_style', 'naked'),
   );
 
-  // Choose image directory
-  $form['advanced_forum_general']['advanced_forum_image_directory'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Image directory'),
-    '#size' => 50,
-    '#description' => t('Images are assumed to be in the "images" subdirectory of your style. If you need images to be somewhere else, put the full path here.'),
-    '#default_value' => variable_get('advanced_forum_image_directory', ''),
-  );
-
-  // Use buttons for links
-  $form['advanced_forum_general']['advanced_forum_button_links'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use graphical buttons for links'),
-    '#default_value' => variable_get('advanced_forum_button_links', 1),
-    '#description' => t('Included buttons are in English. Uncheck this to use translatable links instead.'),
-  );
-
   // Theme all site comments as forums
   $form['advanced_forum_general']['advanced_forum_theme_all_comments'] = array(
     '#type' => 'checkbox',
@@ -127,7 +110,6 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_use_topic_navigation', 0),
     '#description' => t('Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor.'),
   );
-
 
   if (module_exists('imagecache')) {
     $options = array('' => '');
