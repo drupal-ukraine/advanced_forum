@@ -4,7 +4,7 @@
 /**
  * @file
  *
- * Theme implementation: Template for each forum post whether node or comment.
+ * Theme implementation: Template the preview version of a post.
  *
  * All variables available in node.tpl.php and comment.tpl.php for your theme
  * are available here. In addition, Advanced Forum makes available the following
@@ -17,28 +17,27 @@
  * - $links_array: Unformatted array of links.
  * - $account: User object of the post author.
  * - $name: User name of post author.
- * - $author_pane: Entire contents of advf-author-pane.tpl.php.
+ * - $author_pane: Entire contents of advanced_forum-author-pane.tpl.php.
 
  */
 ?>
 
 <?php if ($top_post): ?>
   <a id="top"></a>
-
-  <?php $classes .= $node_classes; ?>
-  <div id="node-<?php print $node->nid; ?>" class="top-post forum-post <?php print $classes; ?> clear-block">
-
 <?php else: ?>
-  <?php $classes .= $comment_classes; ?>
-  <div id="comment-<?php print $comment->cid; ?>" class="forum-post <?php print $classes; ?> clear-block">
+  <a id="comment-<?php print $node->nid; ?>"></a>
 <?php endif; ?>
 
+<div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">
   <div class="post-info clear-block">
     <div class="posted-on">
       <?php print $date ?>
 
-      <?php if (!$top_post && !empty($comment->new)): ?>
-        <a id="new"><span class="new">(<?php print $new ?>)</span></a>
+      <?php if (!$top_post): ?>
+        <?php if (!empty($first_new)): ?>
+          <?php print $first_new; ?>
+        <?php endif; ?>
+        <?php print $new_output; ?>
       <?php endif; ?>
     </div>
 
@@ -48,15 +47,12 @@
   </div>
 
   <div class="forum-post-wrapper">
-
     <div class="forum-post-panel-sub">
-      <div class="author-pane">
-        <?php print $author_pane; ?>
-     </div>
+      <?php print $author_pane; ?>
     </div>
 
     <div class="forum-post-panel-main clear-block">
-      <?php if ($title && !$top_post): ?>
+      <?php if ($title): ?>
         <div class="post-title">
           <?php print $title ?>
         </div>
@@ -71,6 +67,12 @@
           <?php print $signature ?>
         </div>
       <?php endif; ?>
+    </div>
+  </div>
+
+  <div class="forum-post-footer clear-block">
+    <div class="forum-jump-links">
+      <a href="#top" title="Jump to top of page"><?php print t("Top"); ?></a>
     </div>
   </div>
 </div>

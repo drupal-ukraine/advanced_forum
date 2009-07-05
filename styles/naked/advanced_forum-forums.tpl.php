@@ -21,7 +21,7 @@
 ?>
 
 <?php if ($forums_defined): ?>
-  <div id="forum">
+  <div id="forum" class="<?php print $language_class; ?>">
     <?php if ($search): ?>
       <div id="search-all-forums"><?php print $search; ?></div>
     <?php endif; ?>

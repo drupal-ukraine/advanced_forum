@@ -23,18 +23,12 @@
 ?>
 
 <?php if ($top_post): ?>
-
   <?php print $topic_header ?>
-
-  <?php $classes .= $node_classes; ?>
-  <div id="node-<?php print $node->nid; ?>" class="top-post forum-post <?php print $classes; ?> clear-block">
-
 <?php else: ?>
-  <?php $classes .= $comment_classes; ?>
   <a id="comment-<?php print $node->nid; ?>"></a>
-  <div id="reply-<?php print $reply_id; ?>" class="forum-post <?php print $classes; ?> clear-block">
 <?php endif; ?>
 
+<div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">
   <div class="post-info clear-block">
     <div class="posted-on">
       <?php print $date ?>
@@ -53,13 +47,12 @@
   </div>
 
   <div class="forum-post-wrapper">
-
     <div class="forum-post-panel-sub">
       <?php print $author_pane; ?>
     </div>
 
     <div class="forum-post-panel-main clear-block">
-      <?php if ($title && !$top_post): ?>
+      <?php if ($title): ?>
         <div class="post-title">
           <?php print $title ?>
         </div>

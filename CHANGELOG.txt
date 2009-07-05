@@ -8,6 +8,8 @@ NOISSUE by Michelle: Moved around the forum legend & link lists to reduce clutte
 #509878 by Michelle: Fixed broken link on 'post reply' with help from marsilainen on IRC.
 NOISSUE by Michelle: Switched order of links div and search div to line them up better on the main forums page.
 #509716 by Michelle, merlinofchaos: Fixed problem with views not getting style applied.
+#497450 by Michelle: Made translated images work. Moved all images into new directories.
+NOISSUE by Michelle: Cleaned up the id/class printing on post template.
 
 July 3, 2009
 ------------

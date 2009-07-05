@@ -133,5 +133,9 @@ function _advanced_forum_preprocess_forums(&$variables) {
 
   // Fetch the forum legend.
   $variables['forum_legend'] = theme('advanced_forum_forum_legend');
+  
+  // Fetch the current language
+  global $language;
+  $variables['language_class'] = $language->language;
 
 }

@@ -11,7 +11,7 @@
  * like you typically find in forum software. You could also put a specially
  * formatted teaser to remind people what post they are reading. If you like
  * having the entire node repeated, simply copy the entire contents of
- * advf-forum-post.tpl.php into this file. All the same variables are available.
+ * advanced_forum-post.tpl.php into this file. All the same variables are available.
  */
 ?>
 

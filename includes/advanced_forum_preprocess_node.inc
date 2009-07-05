@@ -8,6 +8,10 @@
  */
 
 function _advanced_forum_preprocess_node(&$variables) {
+  // Start a variable that will hold classes to attach to the containing div
+  $classes = array();
+  $classes[] = 'forum-post clear-block';
+
   /* Determine the template file to use for the node. */
   if (empty($variables['node']->comment_target_nid) && isset($_GET['page']) && $_GET['page'] > 0) {
     // This is the repeated node on the top of subsequent pages.
@@ -38,6 +42,10 @@ function _advanced_forum_preprocess_node(&$variables) {
 
     // Build the topic header
     $variables['topic_header'] = theme('advanced_forum_topic_header', $variables['node'], $variables['comment_count']);
+    
+    // Add to the classes
+    $classes[] = 'top-post';
+    $variables['css_id'] = "node-" . $variables['node']->nid;
   }
 
   /* Link section */
@@ -92,5 +100,14 @@ function _advanced_forum_preprocess_node(&$variables) {
     $linktext = '#' . (($page_number * $post_per_page) + $post_number);
     $linkpath = 'node/' . $parent_node->nid;
     $variables['comment_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+    
+    $variables['css_id'] = 'reply-' . $variables['node']->nid;
   }
+  
+  // Fetch the current language
+  global $language;
+  $classes[] = $language->language;
+
+  // Node classes
+  $variables['classes'] .= implode(' ', $classes);
 }

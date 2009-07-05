@@ -91,49 +91,96 @@
 
 
 
-/* TEXT REPLACEMENT IMAGES ***************************************************/
+/* TEXT REPLACEMENT IMAGES - ENGLISH ***************************************/
 /* Post new topic options on topic listings */
-.forum-links .forum span {
-  background: transparent url(images/new-topic.png) no-repeat;
+.en .forum-links .forum span {
+  background: transparent url(images/en/new-topic.png) no-repeat;
   height: 30px;
   width: 95px;
 }
 
-.forum-links .poll span {
-  background: transparent url(images/new-poll.png) no-repeat;
+.en .forum-links .poll span {
+  background: transparent url(images/en/new-poll.png) no-repeat;
   height: 30px;
   width: 95px;
 }
 
 /* New topic / locked on top / bottom of topics */
-.reply-allowed span {
-  background: transparent url(images/post-reply.png) no-repeat;
+.en .reply-allowed span {
+  background: transparent url(images/en/post-reply.png) no-repeat;
   height: 30px;
   width: 95px;
 }
 
-.reply-locked span {
-  background: transparent url(images/locked-topic.png) no-repeat;
+.en .reply-locked span {
+  background: transparent url(images/en/locked-topic.png) no-repeat;
   height: 30px;
   width: 95px;
 }
 
 /* Post links */
-.comment_add span,
-.comment_reply span {
-  background: transparent url(images/reply.png) no-repeat;
+.en .comment_add span,
+.en .comment_reply span {
+  background: transparent url(images/en/reply.png) no-repeat;
   height: 16px;
   width: 50px;
 }
 
-.comment_edit span {
-  background: transparent url(images/edit.png) no-repeat;
+.en .comment_edit span {
+  background: transparent url(images/en/edit.png) no-repeat;
   height: 16px;
   width: 50px;
 }
 
-.comment_delete span {
-  background: transparent url(images/delete.png) no-repeat;
+.en .comment_delete span {
+  background: transparent url(images/en/delete.png) no-repeat;
   height: 16px;
   width: 50px;
 }
+
+/* TEXT REPLACEMENT IMAGES - FRENCH ****************************************/
+/* Post new topic options on topic listings */
+.fr .forum-links .forum span {
+  background: transparent url(images/fr/fr_new-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.fr .forum-links .poll span {
+ /* New poll button not provided in this translation */
+}
+
+/* New topic / locked on top / bottom of topics */
+.fr .reply-allowed span {
+  background: transparent url(images/fr/fr_post-reply.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.fr .reply-locked span {
+  background: transparent url(images/fr/fr_locked-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+/* Post links */
+.fr .comment_add span,
+.fr .comment_reply span {
+  background: transparent url(images/fr/fr_reply.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.fr .comment_edit span {
+  background: transparent url(images/fr/fr_edit.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.fr .comment_delete span {
+  background: transparent url(images/fr/fr_delete.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+ 
