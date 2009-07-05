@@ -7,6 +7,10 @@
  * to ease memory requirements and having too much code in one file.
  */
 function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
+  // Even though this isn't needed for the actual topic list view, the other
+  // views use this same style and need the AF style files added.
+  _advanced_forum_add_files();
+  
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
   $view = $variables['view'];
 
