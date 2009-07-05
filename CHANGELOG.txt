@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 5, 2009
+------------
+#383116 by Michelle: Added terms to post and added new top post footer to hold them.
+
 July 4, 2009
 ------------
 NOISSUE by Michelle: Moved around the forum legend & link lists to reduce clutter and organize them better on the page.

@@ -359,6 +359,11 @@ ul.forum-links li {
   text-align: right;
 }
 
+.top-post-footer {
+  margin: 10px 0 10px 0;
+  padding: 5px;
+}
+
 /* Defeat garland */
 #comments.forum-comment-wrapper {
   margin-top: 0;

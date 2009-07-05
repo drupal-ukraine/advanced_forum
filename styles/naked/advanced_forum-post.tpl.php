@@ -82,3 +82,9 @@
     <?php endif; ?>
   </div>
 </div>
+
+<?php if ($top_post): ?>
+  <div class="top-post-footer">
+   <?php print t('Tags') ?>: <?php print $terms ?>
+  </div>
+<?php endif; ?>
