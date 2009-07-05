@@ -1,4 +1,4 @@
-<div class="forum-topic-header clear-block">
+<div class="<?php print $classes; ?>">
   <a id="top"></a>
 
   <?php print $reply_link; ?>

@@ -306,6 +306,9 @@ function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topi
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   $variables['template_files'][] = 'advanced_forum-topic-header';
+  
+  global $language;
+  $variables['classes'] = $language->language . " forum-topic-header clear-block";
 
   // Build the reply link / button
   $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);

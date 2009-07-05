@@ -31,7 +31,10 @@
  * @see advanced_forum_preprocess_comment_wrapper()
  */
 ?>
-<div id="forum-comments">
+
+<?php global $language; ?>
+ 
+<div id="forum-comments" class="<?php print $language->language; ?>">
   <?php print $content; ?>
   <?php print $reply_link; ?>
 </div>

@@ -10,6 +10,7 @@ NOISSUE by Michelle: Switched order of links div and search div to line them up 
 #509716 by Michelle, merlinofchaos: Fixed problem with views not getting style applied.
 #497450 by Michelle: Made translated images work. Moved all images into new directories.
 NOISSUE by Michelle: Cleaned up the id/class printing on post template.
+#497450 by Michelle: Added the language class to the topic header and comment wrapper.
 
 July 3, 2009
 ------------
