@@ -262,6 +262,40 @@ function advanced_forum_comment(&$a1, $op) {
   }
 }
 
+/**
+ * Implementation of hook_link().
+ */
+function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
+  $links = array();
+
+  if ($type == 'node') {
+    // Get a list of node types that can go in the forum.
+    $vid = variable_get('forum_nav_vocabulary', '');
+    $vocabulary = taxonomy_vocabulary_load($vid);
+    if (in_array($node->type, $vocabulary->nodes)) {  
+      // Add edit / delete links to the node links to be match replies.
+      if (node_access('update', $node)) {
+        $links['post_edit'] = array(
+          'title' => t('edit'),
+          'href' => 'node/'. $node->nid .'/edit',
+          'query' => drupal_get_destination(),
+        );
+      }
+        
+      if (node_access('delete', $node)) {
+        $links['post_delete'] = array(
+          'title' => t('delete'),
+          'href' => 'node/'. $node->nid .'/delete',
+          'query' => drupal_get_destination(),
+        );
+      }
+    }
+  }
+  
+  return $links;
+}
+
+
 // MAKE VIEWS BITS WORK *****************************************************/
 function advanced_forum_views_api() {
   return array(

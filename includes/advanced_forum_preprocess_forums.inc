@@ -33,13 +33,6 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $forum = taxonomy_get_term($variables['tid']);
     $variables['forum_description'] = $forum->description;
     $variables['search'] = '';
-  /*
-  // Add extra span tags for image replacement.
-  foreach ($variables['links'] AS $key => $link) {
-    $variables['links'][$key]['title'] = $variables['links'][$key]['title'] . '<span class="image-replace"></span>';
-    $variables['links'][$key]['html'] = TRUE;
-  }
-  */
 
     // Format the "post new content" links listing.
     $vid = variable_get('forum_nav_vocabulary', '');

@@ -5,6 +5,7 @@ $Id$
 July 5, 2009
 ------------
 #383116 by Michelle: Added terms to post and added new top post footer to hold them.
+#268421 by Michelle: Added edit/delete links to nodes of types that can be in the forums. Thanks to nodecomment for some of the code.
 
 July 4, 2009
 ------------
