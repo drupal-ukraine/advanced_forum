@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 8, 2009
+------------
+#512222 by Michelle: Added in Naked as an automatic base theme for templates to avoid errors if a style does not include templates.
+
 July 5, 2009
 ------------
 #383116 by Michelle: Added terms to post and added new top post footer to hold them.

@@ -217,7 +217,15 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     $ancestor = $themes[$ancestor]->base_theme;
   }
 
+  // Get the sequence of styles to look in for templates
   $lineage = advanced_forum_style_lineage();
+  
+  if (!array_key_exists('naked', $lineage)) {
+    // Add naked in at the end of the line to prevent problems if a style 
+    // doesn't include all needed templates.
+    $lineage['naked'] = drupal_get_path('module', 'advanced_forum') . '/styles/naked';   
+  }
+  
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
     if (!empty($theme_registry[$template])) {
