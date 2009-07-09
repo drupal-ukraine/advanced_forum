@@ -501,6 +501,30 @@ function advanced_forum_path_to_theme() {
 }
 
 /**
+ * Manipulate the template suggestions to add in one for each style as well
+ * as the default.
+ */
+function advanced_forum_add_template_suggestions($template, &$template_suggestions) {
+  // We only need to calculate the style lineage once per page load.
+  static $lineage ;
+  
+  if (empty($lineage)) {
+    $lineage = advanced_forum_style_lineage();
+    $lineage = array_reverse($lineage, TRUE);
+  }
+  
+  // Add in a version without any style name.
+  $template_suggestions[] = "advanced_forum.$template";
+  
+  // Add a suggestion for each style in the lineage.
+  foreach ($lineage AS $key => $path) {
+    $template_suggestions[] = "advanced_forum.$key.$template"; 
+  }
+  
+  return;
+}
+
+/**
  * Adds extra files needed for styling.
  * This is currently just CSS files but was made generic to allow adding
  * javascript in the future.

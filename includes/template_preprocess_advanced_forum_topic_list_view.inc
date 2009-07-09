@@ -12,6 +12,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   _advanced_forum_add_files();
   
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
+  advanced_forum_add_template_suggestions("topic-list-view", $variables['template_files']);
+  
   $view = $variables['view'];
 
   // We need the raw data for this grouping, which is passed in as $variables['rows'].

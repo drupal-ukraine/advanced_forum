@@ -16,16 +16,16 @@ function _advanced_forum_preprocess_node(&$variables) {
   if (empty($variables['node']->comment_target_nid) && isset($_GET['page']) && $_GET['page'] > 0) {
     // This is the repeated node on the top of subsequent pages.
     // We send this to a special .tpl so people can adjust it to their needs.
-    $variables['template_files'][] = "advanced_forum-post-repeated";
+    advanced_forum_add_template_suggestions("post-repeated", $variables['template_files']);
   }
   elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add')) {
     // 'reply' deals with the first post being shown when adding a comment.
     // 'node/add' is when previewing a new forum post.
-    $variables['template_files'][] = "advanced_forum-post-preview";
+    advanced_forum_add_template_suggestions("post-preview", $variables['template_files']);
   }
   else {
     // Use our combined node/comment template file
-    $variables['template_files'][] = "advanced_forum-post";
+    advanced_forum_add_template_suggestions("post", $variables['template_files']);
   }
 
   /* Reply ID - Nodecomment only */

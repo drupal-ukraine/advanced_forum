@@ -8,8 +8,8 @@
  */
 
 function _advanced_forum_preprocess_forum_list(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-forum-list';
-
+  advanced_forum_add_template_suggestions("forum-list", $variables['template_files']);
+  
   // This will be the ID of the container or forum we are in. If empty,
   // we are on the root forum page.
   $parent_id = arg(1);

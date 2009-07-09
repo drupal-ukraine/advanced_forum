@@ -8,8 +8,8 @@
  */
 
 function _advanced_forum_preprocess_forums(&$variables) {
-  $variables['template_files'][] = 'advanced_forum-forums';
-
+  advanced_forum_add_template_suggestions("forums", $variables['template_files']);
+  
   if (empty($variables['topics'])) {
     // No forum description on the top level.
     $variables['forum_description'] = '';

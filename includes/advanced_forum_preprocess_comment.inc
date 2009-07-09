@@ -15,11 +15,11 @@ function _advanced_forum_preprocess_comment(&$variables) {
   /* Determine the template file to use for the comment. */
   if (arg(1) == 'reply' || arg(1) == 'edit') {
     // Use the preview version
-    $variables['template_files'][] = "advanced_forum-post-preview";
+    advanced_forum_add_template_suggestions("post-preview", $variables['template_files']);
   }
   else {
     // Use our combined node/comment template file
-    $variables['template_files'][] = 'advanced_forum-post';
+    advanced_forum_add_template_suggestions("post", $variables['template_files']);
   }
 
   // This is a comment, not the node.
