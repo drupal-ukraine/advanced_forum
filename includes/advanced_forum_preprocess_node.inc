@@ -75,8 +75,9 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';
   }
   else {
-    $variables['author_pane'] = theme('author_pane', $variables['account'], '', 'advanced_forum-author-pane');
+    $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum');
   }
+  
   /* Signatures */
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that

@@ -89,9 +89,37 @@
   background: transparent url(images/topic-sticky.png) no-repeat top left;
 }
 
+/* AUTHOR PANE **************************************************************/
+.author-pane-online-status {
+  background: transparent url(images/author-pane/user-offline.png) no-repeat;
+  padding-left: 18px;
+  height: 20px;
+  width: 100px;
+  display: block;
+  
+}
+
+.author-contact-icon {
+  background: transparent url(images/author-pane/contact.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+
+}
 
 
-/* TEXT REPLACEMENT IMAGES ***************************************************/
+.author-privatemsg-icon {
+  background: transparent url(images/author-pane/private-message.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+
+}
+
+
+/* TEXT REPLACEMENT IMAGES **************************************************/
 /* Post new topic options on topic listings */
 .forum-links .forum span {
   background: transparent url(images/new-topic.png) no-repeat;

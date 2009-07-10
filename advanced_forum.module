@@ -191,6 +191,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'forum_topic_list',
                      'forum_icon',
                      'forum_submitted',
+                     'forum-topic-navigation',
                      'author_pane',
                      'advanced_forum_statistics',
                      'advanced_forum_search_forum',
@@ -257,6 +258,15 @@ function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($op == 'update' || $op == 'insert' || $op == 'delete') {
     // Update the cached statistics.
     advanced_forum_statistics_replies(TRUE);
+  }
+  
+  if ($op == 'view' && !$teaser) {
+    if (!empty($node->content['forum_navigation'])) {
+      // Move the forum navigation to a seperate variable so it doesn't
+      // get lumped in with the content.
+      $node->advanced_forum_navigation = $node->content['forum_navigation']['#value'];
+      $node->content['forum_navigation'] = NULL;
+    }
   }
 }
 
@@ -941,7 +951,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
         $token = $matches[0][$match]; // This is the exact string that matched.
         if (!isset($tokens[$token])) {
           $account = user_load($uid);
-          $tokens[$token] = theme('author_pane', $account, '', 'advanced_forum-author-pane');
+          $tokens[$token] = theme('author_pane', $account, 'advanced_forum');
         }
       }
     }

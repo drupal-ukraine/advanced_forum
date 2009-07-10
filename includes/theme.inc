@@ -333,9 +333,11 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
  * Preprocesses template variables for the author pane.
  */
 function advanced_forum_preprocess_author_pane(&$variables) {
-  // Author pane is used in various places. The only way to be sure to only
-  // hit it when we are using it is to check the template suggestion.
-  if (!empty($variables['template_suggestion']) && $variables['template_suggestion'] == 'advanced_forum-author-pane') {
+  // Author pane is used in various places. Check the caller to make sure
+  // we are the one that called it.
+  if (!empty($variables['caller']) && $variables['caller'] == 'advanced_forum') {
+    advanced_forum_add_template_suggestions("author-pane", $variables['template_files']);
+    
     // Attempt to override the user picture fetched by Author Pane from core.
     $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
     if (!empty($sized_picture)) {
@@ -364,6 +366,8 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
       // the reply/locked link / button
       $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
     }
+    
+    $variables['topic_navigation'] =  $variables['node']->advanced_forum_navigation;
   }
 }
 
@@ -378,5 +382,13 @@ function advanced_forum_preprocess_comment(&$variables) {
 }
 
 function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
-  $variables['prev'] = $variables['next'] = '';
+  advanced_forum_add_template_suggestions("topic-navigation", $variables['template_files']);
+  
+  // If we killed the preprocess, initialize these to avoid notices.
+  if (!isset($variables['prev'])) {
+    $variables['prev'] = '';
+  }
+  if (!isset($variables['next'])) {
+    $variables['next'] = '';
+  }
 }

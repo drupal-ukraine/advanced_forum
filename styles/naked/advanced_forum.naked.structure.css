@@ -292,7 +292,6 @@ ul.forum-links li {
 }
 
 /* Author information pane */
-/* Note: more CSS in the author pane css file */
 .forum-post-panel-sub {
   float: left;
   line-height: 100%;
@@ -303,13 +302,23 @@ ul.forum-links li {
   margin: 10px;
 }
 
-.forum-post-panel-sub .author-pane-picture .picture {
+.forum-post-panel-sub .author-pane .picture {
+  float: none;
+  padding-left: 0px;
   margin: 2px 0 10px 0;
 }
 
-.forum-post-panel-sub .author-pane-picture .picture img {
+.forum-post-panel-sub .author-pane .picture img {
   /* This is invisible in Naked but gives space for substyles with borders */
   margin: 10px;
+}
+
+.forum-post-panel-sub .author-pane .author-pane-section {
+  margin-bottom: 10px;
+}
+
+.forum-post-panel-sub .author-pane .author-pane-line {
+  padding-bottom: 5px;
 }
 
 /* Post text area */
