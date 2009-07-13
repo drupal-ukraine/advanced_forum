@@ -90,24 +90,29 @@
 }
 
 /* AUTHOR PANE **************************************************************/
-.author-pane-online-status {
-  background: transparent url(images/author-pane/user-offline.png) no-repeat;
-  padding-left: 18px;
+.author-online {
+  background: transparent url(images/author-pane/user-online.png) no-repeat;
+  padding-left: 20px;
   height: 20px;
   width: 100px;
   display: block;
-  
 }
 
-.author-contact-icon {
+.author-offline {
+  background: transparent url(images/author-pane/user-offline.png) no-repeat;
+  padding-left: 20px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-email-icon {
   background: transparent url(images/author-pane/contact.png) no-repeat;
   padding-left: 26px;
   height: 20px;
   width: 100px;
   display: block;
-
 }
-
 
 .author-privatemsg-icon {
   background: transparent url(images/author-pane/private-message.png) no-repeat;
@@ -115,7 +120,22 @@
   height: 20px;
   width: 100px;
   display: block;
+}
 
+.author-relationship-add-icon {
+  background: transparent url(images/author-pane/buddy-add.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-relationship-remove-icon {
+  background: transparent url(images/author-pane/buddy-remove.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
 }
 
 

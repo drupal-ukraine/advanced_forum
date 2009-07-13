@@ -149,7 +149,7 @@ function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$va
  * Preprocesses template variables for the submitted by/in template.
  */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  advanced_forum_add_template_suggestions("forum-submitted", $variables['template_files']);
+  advanced_forum_add_template_suggestions("submitted", $variables['template_files']);
 
   // Avoid E_ALL warning
   $variables['topic_link'] = '';

@@ -7,6 +7,8 @@ July 13, 2009
 #500988 by Michelle: Now works without nodecomment.
 #500988 by Michelle: Some work on getting AF to work without NC.
 NOISSUE by Michelle: Various notice fixes.
+#497450 by Michelle: More work on Author Pane image conversion.
+#512222 by Michelle: Fixed typo preventing 'submitted' template from being found.
 
 July 8, 2009
 ------------
