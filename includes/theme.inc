@@ -266,7 +266,6 @@ function template_preprocess_advanced_forum_topic_list_view(&$variables) {
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
   // Take control of the template file.
   advanced_forum_add_template_suggestions("topic-list", $variables['template_files']);
-
   if (!module_exists('views')) {
     include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_forum_topic_list.inc';
     _advanced_forum_preprocess_forum_topic_list($variables);

@@ -4,7 +4,7 @@
 /**
  * @file
  * Holds the contents of a preprocess function moved into its own file
- * to easy memory requirements and having too much code in one file.
+ * to ease memory requirements and having too much code in one file.
  */
 
 function _advanced_forum_preprocess_node(&$variables) {
@@ -79,15 +79,18 @@ function _advanced_forum_preprocess_node(&$variables) {
   }
   
   /* Signatures */
+  // Load the signature.
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that
     $variables['signature'] = signature_forum_get_signature($variables['node']);
   }
   elseif (variable_get('user_signatures', 0)) {
-    // Otherwise load Drupal's built in one, if enabled.
-    $variables['signature'] = check_markup($variables['account']->signature, $variables['node']->format);
+    if ($variables['account']->signature) {
+      // Otherwise load Drupal's built in one, if enabled.
+      $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format);
+    }
   }
-
+  
   // Node-comment specific variables
   if (!empty($variables['node']->comment_target_nid)) {
     static $post_number = 0;
@@ -110,5 +113,10 @@ function _advanced_forum_preprocess_node(&$variables) {
   $classes[] = $language->language;
 
   // Node classes
-  $variables['classes'] .= implode(' ', $classes);
+  if (empty($variables['classes'])) {
+    $variables['classes'] = implode(' ', $classes);
+  }
+  else {
+    $variables['classes'] .= ' ' . implode(' ', $classes);  
+  }
 }

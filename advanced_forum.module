@@ -98,13 +98,13 @@ function advanced_forum_theme() {
          'new_forum' => NULL,
         )
   );
-  
+
   $items['advanced_forum_subforum_list'] = array(
       'arguments' => array(
          'subforum_list' => NULL,
        )
   );
-  
+
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
     $items['advanced_forum_search_forum'] = array(
@@ -220,13 +220,13 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
 
   // Get the sequence of styles to look in for templates
   $lineage = advanced_forum_style_lineage();
-  
+
   if (!array_key_exists('naked', $lineage)) {
-    // Add naked in at the end of the line to prevent problems if a style 
+    // Add naked in at the end of the line to prevent problems if a style
     // doesn't include all needed templates.
-    $lineage['naked'] = drupal_get_path('module', 'advanced_forum') . '/styles/naked';   
+    $lineage['naked'] = drupal_get_path('module', 'advanced_forum') . '/styles/naked';
   }
-  
+
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
     if (!empty($theme_registry[$template])) {
@@ -235,11 +235,11 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
       $existing_path = array_shift($theme_registry[$template]['theme paths']);
 
       // Add paths for our style and ancestors before the existing path, if any.
-      foreach ($lineage AS $style => $style_path) { 
+      foreach ($lineage AS $style => $style_path) {
         array_unshift($theme_registry[$template]['theme paths'], $existing_path, $style_path);
         $existing_path = array_shift($theme_registry[$template]['theme paths']);
       }
- 
+
       // If there are any ancestor paths (ie: we are in a subtheme, add those)
       foreach ($ancestor_paths as $ancestor_path) {
         $theme_registry[$template]['theme paths'][] = $ancestor_path;
@@ -259,8 +259,8 @@ function advanced_forum_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     // Update the cached statistics.
     advanced_forum_statistics_replies(TRUE);
   }
-  
-  if ($op == 'view' && !$teaser) {
+
+  if ($op == 'view' && !$node->teaser) {
     if (!empty($node->content['forum_navigation'])) {
       // Move the forum navigation to a seperate variable so it doesn't
       // get lumped in with the content.
@@ -290,7 +290,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
     // Get a list of node types that can go in the forum.
     $vid = variable_get('forum_nav_vocabulary', '');
     $vocabulary = taxonomy_vocabulary_load($vid);
-    if (in_array($node->type, $vocabulary->nodes)) {  
+    if (in_array($node->type, $vocabulary->nodes)) {
       // Add edit / delete links to the node links to be match replies.
       if (node_access('update', $node)) {
         $links['post_edit'] = array(
@@ -299,7 +299,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
           'query' => drupal_get_destination(),
         );
       }
-        
+
       if (node_access('delete', $node)) {
         $links['post_delete'] = array(
           'title' => t('delete'),
@@ -309,7 +309,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
       }
     }
   }
-  
+
   return $links;
 }
 
@@ -517,20 +517,20 @@ function advanced_forum_path_to_theme() {
 function advanced_forum_add_template_suggestions($template, &$template_suggestions) {
   // We only need to calculate the style lineage once per page load.
   static $lineage ;
-  
+
   if (empty($lineage)) {
     $lineage = advanced_forum_style_lineage();
     $lineage = array_reverse($lineage, TRUE);
   }
-  
+
   // Add in a version without any style name.
   $template_suggestions[] = "advanced_forum.$template";
-  
+
   // Add a suggestion for each style in the lineage.
   foreach ($lineage AS $key => $path) {
-    $template_suggestions[] = "advanced_forum.$key.$template"; 
+    $template_suggestions[] = "advanced_forum.$key.$template";
   }
-  
+
   return;
 }
 
@@ -548,20 +548,20 @@ function _advanced_forum_add_files() {
     $lineage = advanced_forum_style_lineage();
     $lineage = array_reverse($lineage, TRUE);
     $theme_path = advanced_forum_path_to_theme();
-    
+
     foreach (array('structure.css', 'style.css', 'images.css') as $css_type) {
-      $css_file = "$theme_path/advanced_forum.$css_type";   
+      $css_file = "$theme_path/advanced_forum.$css_type";
       if (file_exists($css_file)) {
         // CSS files with no style name in the theme directory trump all
         // to provide a theme specific style override.
         drupal_add_css($css_file);
       }
       else {
-        // For each style from the current style on up through each parent 
+        // For each style from the current style on up through each parent
         // style, look for the style specific CSS file first in the active
         // theme and then in the style directory.
         foreach ($lineage AS $key => $path) {
-          $css_file = "/advanced_forum.$key.$css_type"; 
+          $css_file = "/advanced_forum.$key.$css_type";
           if (file_exists("$theme_path/$css_file")) {
             // If the style specific file is in the theme, use that.
             drupal_add_css("$theme_path/$css_file");
@@ -578,7 +578,7 @@ function _advanced_forum_add_files() {
 
 function advanced_forum_get_reply_link($node) {
   $reply_link = new stdClass;
-  
+
   // Give nodecomment (if installed) first shot at the comment setting
   $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
 
@@ -588,21 +588,22 @@ function advanced_forum_get_reply_link($node) {
       $href = $node->links['comment_add']['href'];
       $fragment = $node->links['comment_add']['fragment'];
       $attributes = $node->links['comment_add']['attributes'];
-     
+
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'html' => TRUE, 'attributes' => $attributes));    
+      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'html' => TRUE, 'attributes' => $attributes));
       return $reply_link;
     }
-     
+
     if (!module_exists('nodecomment') && user_access('post comments') || !empty($nc_user_access)) {
-      // Comment will not show the link when the form is on the page so we 
+      // Comment will not show the link when the form is on the page so we
       // need to fake it.
       $href = $_GET['q'];
       $attributes = array('title' => t('Share your thoughts and opinions related to this posting.'));
-      $query = ($_GET['page']) ? "page=" . $_GET['page'] : NULL;
-      
+      $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
+      $query = ($current_page) ? "page=$current_page" : NULL;
+
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('query' => $query, 'html' => TRUE, 'attributes' => $attributes)); 
+      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('query' => $query, 'html' => TRUE, 'attributes' => $attributes));
       return $reply_link;
     }
     else {

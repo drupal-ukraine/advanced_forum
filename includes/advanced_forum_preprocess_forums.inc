@@ -25,7 +25,6 @@ function _advanced_forum_preprocess_forums(&$variables) {
       $view->set_display('default');
       $view->set_arguments(array($variables['tid']));
       $topic_list_view = $view->preview();
-
       $variables['topics'] = $topic_list_view;
     }
 

@@ -4,7 +4,7 @@
 /**
  * @file
  * Holds the contents of a preprocess function moved into its own file
- * to easy memory requirements and having too much code in one file.
+ * to ease memory requirements and having too much code in one file.
  */
 
 function _advanced_forum_preprocess_forum_topic_list(&$variables) {

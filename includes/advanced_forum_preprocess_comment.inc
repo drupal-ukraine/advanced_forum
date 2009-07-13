@@ -4,10 +4,14 @@
 /**
  * @file
  * Holds the contents of a preprocess function moved into its own file
- * to easy memory requirements and having too much code in one file.
+ * to ease memory requirements and having too much code in one file.
  */
 
 function _advanced_forum_preprocess_comment(&$variables) {
+  // Start a variable that will hold classes to attach to the containing div
+  $classes = array();
+  $classes[] = 'forum-post clear-block';
+
   /* Make the topic starting node available */
   $node = node_load($variables['comment']->nid);
   $variables['first_post'] = $node;
@@ -24,9 +28,10 @@ function _advanced_forum_preprocess_comment(&$variables) {
 
   // This is a comment, not the node.
   $variables['top_post'] = FALSE;
+  $variables['css_id'] = "reply-" . $variables['node']->nid;
 
   // Set the reply ID for theming / targetting
-  $variables[$reply_id] = $variables['comment']->cid;
+  $variables['reply_id'] = $variables['comment']->cid;
 
   // Just use the date for the submitted on.
   $variables['submitted'] = format_date($variables['comment']->timestamp);
@@ -56,11 +61,16 @@ function _advanced_forum_preprocess_comment(&$variables) {
     drupal_alter('link', $links, $node);
     unset($links['comment_parent']);
 
-    // Iconify common links (optional to avoid translation issues)
-    _advanced_forum_buttonify_links($links);
+    // Add extra span tags for image replacement.
+    foreach ($links AS $key => $link) {
+      $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
+      $links[$key]['html'] = TRUE;
+    }
 
     // Remake the links with our changes
-    $variables['links'] = theme('links', $links, array('class' => 'links forum-links'));
+    $variables['links'] = theme('links', $links, array('class' => 'links inline forum-links'));
+
+    // Make an array version of $links
     $variables['links_array'] = $links;
   }
 
@@ -81,7 +91,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   _advanced_forum_topic_nid($variables['node']->nid);
 
   $post_per_page = _comment_get_display_setting('comments_per_page', $variables['node']);
-  $page_number = $_GET['page'];
+  $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
   if (!$page_number) {
     $page_number = 0;
   }
@@ -100,6 +110,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   }
 
   /* Signatures */
+  // Load the signature.
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that
     $variables['signature'] = signature_forum_get_signature($variables['comment']);
@@ -107,7 +118,19 @@ function _advanced_forum_preprocess_comment(&$variables) {
   elseif (variable_get('user_signatures', 0)) {
     if ($variables['account']->signature) {
       // Otherwise load Drupal's built in one, if enabled.
-      $variables['signature'] = check_markup($variables['account']->signature, $variables['comment']->format);
+      $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format);
     }
+  }
+    
+  // Fetch the current language
+  global $language;
+  $classes[] = $language->language;
+
+  // Classes
+  if (empty($variables['classes'])) {
+    $variables['classes'] = implode(' ', $classes);
+  }
+  else {
+    $variables['classes'] .= ' ' . implode(' ', $classes);  
   }
 }

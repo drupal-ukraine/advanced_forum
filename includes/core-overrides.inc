@@ -13,6 +13,11 @@
  * This is copied from the forum module and adapted.
  */
 function advanced_forum_page($tid = 0) {
+  if (!is_numeric($tid)) {
+    return MENU_NOT_FOUND;
+  }
+  $tid = (int)$tid;
+
   _advanced_forum_add_files();
 
   $topics = '';
