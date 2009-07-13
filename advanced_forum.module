@@ -601,9 +601,18 @@ function advanced_forum_get_reply_link($node) {
       $attributes = array('title' => t('Share your thoughts and opinions related to this posting.'));
       $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
       $query = ($current_page) ? "page=$current_page" : NULL;
+      $fragment = 'comment-form';
 
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('query' => $query, 'html' => TRUE, 'attributes' => $attributes));
+      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'query' => $query, 'html' => TRUE, 'attributes' => $attributes));
+      
+      // Add a couple more properties that lets this function be reused for 
+      // the purpose of getting the link into the node links when the form
+      // is on the same page.
+      $reply_link->href = $href;
+      $reply_link->query = $query;
+      $reply_link->fragment = $fragment;
+
       return $reply_link;
     }
     else {

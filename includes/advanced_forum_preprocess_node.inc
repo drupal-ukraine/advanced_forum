@@ -49,9 +49,20 @@ function _advanced_forum_preprocess_node(&$variables) {
   }
 
   /* Link section */
-  // Change first post from "add comment" to "Reply"
+   if (empty($variables['node']->links['comment_add'])) {
+    // Attempt to get the reply link for this node.
+    $reply_link = advanced_forum_get_reply_link($variables['node']);
+    if (!empty($reply_link->href)) {
+      $variables['node']->links['comment_add']['title'] = t('reply');
+      $variables['node']->links['comment_add']['href'] = $reply_link->href;
+      $variables['node']->links['comment_add']['query'] = $reply_link->query;
+      $variables['node']->links['comment_add']['fragment'] = $reply_link->fragment;
+    }
+  }
+   
+  // Change first post from "add comment" to "reply" if it isn't already.
   if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
-    $variables['node']->links['comment_add']['title'] = t('Reply');
+    $variables['node']->links['comment_add']['title'] = t('reply');
   }
 
   // Add extra span tags for image replacement.

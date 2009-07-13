@@ -116,7 +116,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
     $variables['signature'] = signature_forum_get_signature($variables['comment']);
   }
   elseif (variable_get('user_signatures', 0)) {
-    if ($variables['account']->signature) {
+    if (!empty($variables['account']->signature)) {
       // Otherwise load Drupal's built in one, if enabled.
       $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format);
     }

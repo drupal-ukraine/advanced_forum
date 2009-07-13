@@ -38,7 +38,7 @@
               <?php /* To add popup from teaser in the title of the td, add: title="<?php print $teasers[$count] ?>"*/ ?>
               <td class="views-field views-field-<?php print $fields[$field]; ?>">
                <?php /* Extra label for stickies. */ ?>
-               <?php if ($field == 'title' && $sticky[$count]): ?>
+               <?php if ($field == 'title' && !empty($sticky[$count])): ?>
                  <span class="sticky-label"><?php print t('Sticky:'); ?></span>
                <?php endif; ?>
                <?php print $content; ?>

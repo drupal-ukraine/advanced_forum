@@ -4,6 +4,7 @@ $Id$
 
 July 13, 2009
 ------------
+#500988 by Michelle: Now works without nodecomment.
 #500988 by Michelle: Some work on getting AF to work without NC.
 NOISSUE by Michelle: Various notice fixes.
 

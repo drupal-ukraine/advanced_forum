@@ -52,7 +52,7 @@
     </div>
 
     <div class="forum-post-panel-main clear-block">
-      <?php if ($title): ?>
+      <?php if (!empty($title)): ?>
         <div class="post-title">
           <?php print $title ?>
         </div>
@@ -62,7 +62,7 @@
         <?php print $content ?>
       </div>
 
-      <?php if ($signature): ?>
+      <?php if (!empty($signature)): ?>
         <div class="author-signature">
           <?php print $signature ?>
         </div>
