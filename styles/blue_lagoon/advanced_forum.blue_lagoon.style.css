@@ -20,15 +20,27 @@ Images used:
 
 /*** PAGER *******************************************************************/
 
+/* This is the pager on the topics in the list */
 #forum .topic-pager {
   font-size: 90%;
   font-style: italic;
 }
 
+/* Other pagers in the forum */
+#forum-comments .pager {
+  text-align: right;
+}
+
+#forum-comments .pager li {
+  padding: 0;
+  margin: 0;
+}
+
+
 #forum .pager a:link,
 #forum .pager a:visited,
-.forum-comment-wrapper .pager a:link,
-.forum-comment-wrapper .pager a:visited {
+#forum-comments .pager a:link,
+#forum-comments .pager a:visited {
   text-decoration: none;
   border: 1px solid #91CDF5;
   background: #ffffff url(images/pager-bg.png) repeat-x left top;
@@ -37,13 +49,13 @@ Images used:
 
 #forum .pager-current,
 #forum .pager a:hover,
-.forum-comment-wrapper .pager-current,
-.forum-comment-wrapper .pager a:hover {
+#forum-comments .pager-current,
+#forum-comments .pager a:hover {
   color: #0062A0; 
 }
 
 #forum .pager a.active,
-.forum-comment-wrapper .pager a.active {
+#forum-comments .pager a.active {
   background: #fff url(images/pager-bg.png) repeat-x left top;
   color: #0062A0; 
 }
