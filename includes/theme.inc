@@ -382,7 +382,7 @@ function advanced_forum_preprocess_comment(&$variables) {
 
 function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
   advanced_forum_add_template_suggestions("topic-navigation", $variables['template_files']);
-  
+
   // If we killed the preprocess, initialize these to avoid notices.
   if (!isset($variables['prev'])) {
     $variables['prev'] = '';

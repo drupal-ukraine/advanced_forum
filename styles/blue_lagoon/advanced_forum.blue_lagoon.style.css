@@ -115,7 +115,7 @@ Images used:
   font-weight: bold;
 }
 
-/*** FORUM THREADS **********************************************************/
+/*** FORUM TOPICS **********************************************************/
 
 .forum-post {
   border: 2px solid #91CDF5;
@@ -194,6 +194,11 @@ Images used:
 }
 
 .top-post-footer {
+  border: 2px solid #91CDF5;
+}
+
+/* Topic navigation */
+.forum-topic-navigation {
   border: 2px solid #91CDF5;
 }
 
