@@ -360,12 +360,22 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
     advanced_forum_add_template_suggestions("comment-wrapper", $variables['template_files']);
 
     $variables['reply_link'] = '';
-    if ($variables['node']->comment != COMMENT_NODE_READ_WRITE || variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
-      // If the post is locked or the comment form is on a seperate page, build
-      // the reply/locked link / button
+    $form_on_seperate_page = variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
+    
+    if (module_exists('nodecomment')) {
+      $comments_locked = $variables['node']->node_comment != COMMENT_NODE_READ_WRITE;
+    }
+    else {
+      $comments_locked = $variables['node']->comment != COMMENT_NODE_READ_WRITE;
+    }
+    
+    if ($form_on_seperate_page || $comments_locked) {
+      // If the post is locked or the comment form is on a seperate page,
+      // build the reply/locked link / button
       $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
     }
     
+    // Grab the topic navigation that we hijacked in nodeapi.
     $variables['topic_navigation'] =  $variables['node']->advanced_forum_navigation;
   }
 }

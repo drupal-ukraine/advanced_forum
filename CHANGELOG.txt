@@ -10,6 +10,7 @@ NOISSUE by Michelle: Various notice fixes.
 #497450 by Michelle: More work on Author Pane image conversion.
 #512222 by Michelle: Fixed typo preventing 'submitted' template from being found.
 #515966 by Michelle: Moved topic navigation out of node content and down to bottom of topic.
+NOISSUE by Michelle: Fixed post reply button incorrectly showing up at the bottom of topic when using nodecomment.
 
 July 8, 2009
 ------------
