@@ -12,6 +12,8 @@ NOISSUE by Michelle: Various notice fixes.
 #515966 by Michelle: Moved topic navigation out of node content and down to bottom of topic.
 NOISSUE by Michelle: Fixed post reply button incorrectly showing up at the bottom of topic when using nodecomment.
 NOISSUE by Michelle: Made the pager at the bottom of a topic look better in blue lagoon.
+#483544 by Michelle: Copied code from Nodecomment to remove the teaser splitter.
+NOISSUE by Michelle: Added functions to return node types that can be in a forum and tell if a given node type is in the forum.
 
 July 8, 2009
 ------------

@@ -288,10 +288,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
   $links = array();
 
   if ($type == 'node') {
-    // Get a list of node types that can go in the forum.
-    $vid = variable_get('forum_nav_vocabulary', '');
-    $vocabulary = taxonomy_vocabulary_load($vid);
-    if (in_array($node->type, $vocabulary->nodes)) {
+    if (advanced_forum_type_is_in_forum($node->type)) {
       // Add edit / delete links to the node links to be match replies.
       if (node_access('update', $node)) {
         $links['post_edit'] = array(
@@ -314,6 +311,18 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_form_alter().
+ */
+function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
+  if (advanced_forum_type_is_in_forum($form['#node']->type)) {
+    // Remove the teaser splitter.
+    $teaser_js_build = array_search('node_teaser_js', $form['body_field']['#after_build']);
+    unset($form['body_field']['#after_build'][$teaser_js_build]);
+    $form['body_field']['teaser_js']['#access'] = FALSE;
+    $form['body_field']['teaser_include']['#access'] = FALSE;
+  }
+}
 
 // MAKE VIEWS BITS WORK *****************************************************/
 function advanced_forum_views_api() {
@@ -993,3 +1002,23 @@ function advanced_forum_comment_wrapper($content, $node) {
 function _advanced_forum_comment_wrapper($content, $node) {
   return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
 }
+
+/**
+ * Return an array of node types that can be in the forum.
+ */
+function advanced_forum_get_forum_types() {
+  $vid = variable_get('forum_nav_vocabulary', '');
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  return $vocabulary->nodes;
+}
+
+/**
+ * Return whether a given node type can be in the forum.
+ */
+function advanced_forum_type_is_in_forum($type) {
+  $forum_types = advanced_forum_get_forum_types();
+  if (in_array($type, $forum_types)) {
+    return TRUE;
+  }
+}
+
