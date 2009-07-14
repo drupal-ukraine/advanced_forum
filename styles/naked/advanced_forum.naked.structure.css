@@ -308,11 +308,6 @@ ul.forum-links li {
   margin: 2px 0 10px 0;
 }
 
-.forum-post-panel-sub .author-pane .picture img {
-  /* This is invisible in Naked but gives space for substyles with borders */
-  margin: 10px;
-}
-
 .forum-post-panel-sub .author-pane .author-pane-section {
   margin-bottom: 10px;
 }

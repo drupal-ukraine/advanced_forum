@@ -37,27 +37,25 @@ floats.
   height: 100px;
 }
 
-.forum-post-panel-sub .author-pane-picture,
-.forum-post-panel-sub .author-pane-name-status,
-.forum-post-panel-sub .author-pane-admin,
+.forum-post-panel-sub .author-pane .picture {
+  float: left;
+  display: block;
+  margin: 2px 10px 2px 2px;
+}
+
+.forum-post-panel-sub .author-pane-section-1,
+.forum-post-panel-sub .author-pane-section-2,
 .forum-post-panel-sub .author-pane-stats {
   float: left;
   display: block;
-  width: 145px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
-.forum-post-panel-sub .author-pane-stats {
+.forum-post-panel-sub .author-pane-contact,
+.forum-post-panel-sub .author-pane-admin {
   float: right;
-}
-
-.forum-post-panel-sub .author-pane-name-groups {
-  margin: 5px;
-}
-
-.forum-post-panel-sub .author-pane-picture .picture {
-  float: none;
-  margin: 0; /* Reset */
+  display: block;
+  margin-right: 5px;
 }
 
 /* Post text area */
