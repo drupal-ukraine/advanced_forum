@@ -1,6 +1,8 @@
 $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
+#497450 by Michelle: Changed topic legend classes to match classes in topic icons themselves. The names aren't as clear but it's more consistant.
+#497450 by Michelle: Cleaned up and re-organized image css, including removing all images from Naked's CSS except forum folder / topic icons.
 
 July 13, 2009
 ------------

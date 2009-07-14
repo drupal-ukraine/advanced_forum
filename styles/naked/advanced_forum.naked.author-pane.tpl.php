@@ -11,18 +11,12 @@
 
 <div class="author-pane">
  <div class="author-pane-inner">
+    <?php /* General section */ ?>
     <div class="author-pane-section author-pane-general">
       <?php /* Account name */ ?>
       <div class="author-pane-line author-name"> 
         <?php print $account_name; ?> 
       </div>
-
-      <?php /* Facebook-style status */ ?>
-      <?php if (!empty($facebook_status_status)): ?>
-        <div class="author-pane-line author-facebook-status">
-          <?php print $facebook_status_status;  ?>
-        </div>
-      <?php endif; ?>
 
       <?php /* Avatar (has div in variable) */ ?>
       <?php if (!empty($picture)): ?>
@@ -79,6 +73,7 @@
       <?php endif; ?>
     </div>
 
+    <?php /* Contact section */ ?>
     <div class="author-pane-section author-pane-contact">
       <?php /* Contact / Email */ ?>
       <?php if (!empty($contact_link)): ?>
@@ -109,6 +104,7 @@
       <?php endif; ?>
     </div>
 
+    <?php /* Admin section */ ?>
     <div class="author-pane-section author-pane-admin">
       <?php /* IP */ ?>
       <?php if (!empty($user_stats_ip)): ?>

@@ -1,8 +1,10 @@
-/* Forum list ****************************************************************/
+/* FORUM LIST ICONS *********************************************************/
 .forum-folder {
   background: transparent url(images/forum-folder.png) no-repeat center center;
 }
 
+
+/* FORUM LIST ICON LEGEND ***************************************************/
 .forum-folder-legend .forum-folder {
   background: transparent url(images/forum-folder.png) no-repeat top left;
 }
@@ -15,56 +17,42 @@
   background: transparent url(images/forum-folder-new-posts.png) no-repeat top left;
 }
 
-/* Topic list ****************************************************************/
-.topic-icon-no-new-posts {
+
+/* TOPIC LIST ICONS *********************************************************/
+.topic-icon-default {
   background: transparent url(images/topic-default.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-no-new-posts {
-  background: transparent url(images/topic-default.png) no-repeat top left;
-}
-
-.topic-icon-new-posts {
+.topic-icon-new {
   background: transparent url(images/topic-new.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-new-posts {
-  background: transparent url(images/topic-new.png) no-repeat top left;
-}
-
-.topic-icon-hot-no-new-posts {
+.topic-icon-hot {
   background: transparent url(images/topic-hot.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-hot-no-new-posts {
-  background: transparent url(images/topic-hot.png) no-repeat top left;
-}
-
-.topic-icon-hot-new-posts {
+.topic-icon-hot-new {
   background: transparent url(images/topic-hot-new.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-hot-new-posts {
-  background: transparent url(images/topic-hot-new.png) no-repeat top left;
-}
-
-.topic-icon-sticky-topic {
+.topic-icon-sticky {
   background: transparent url(images/topic-sticky.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-sticky-topic {
-  background: transparent url(images/topic-sticky.png) no-repeat top left;
-}
-
-.topic-icon-locked-topic {
+.topic-icon-closed {
   background: transparent url(images/topic-closed.png) no-repeat center center;
 }
 
-.forum-topic-legend .topic-icon-locked-topic {
-  background: transparent url(images/topic-closed.png) no-repeat top left;
+
+/* TOPIC LIST ICON LEGEND ***************************************************/
+.topic-icon-default {
+  background: transparent url(images/topic-default.png) no-repeat top left;
 }
 
-/* TOPIC ICONS **************************************************************/
+.topic-icon-new {
+  background: transparent url(images/topic-new.png) no-repeat top left;
+}
+
 .topic-icon-hot {
   background: transparent url(images/topic-hot.png) no-repeat top left;
 }
@@ -73,22 +61,63 @@
   background: transparent url(images/topic-hot-new.png) no-repeat top left;
 }
 
-.topic-icon-new {
-  background: transparent url(images/topic-new.png) no-repeat top left;
-}
-
-.topic-icon-default {
-  background: transparent url(images/topic-default.png) no-repeat top left;
+.topic-icon-sticky {
+  background: transparent url(images/topic-sticky.png) no-repeat top left;
 }
 
 .topic-icon-closed {
   background: transparent url(images/topic-closed.png) no-repeat top left;
 }
 
-.topic-icon-sticky {
-  background: transparent url(images/topic-sticky.png) no-repeat top left;
+
+/* AUTHOR PANE **************************************************************/
+.author-online {
+  background: transparent url(images/author-pane/user-online.png) no-repeat;
+  padding-left: 20px;
+  height: 20px;
+  width: 100px;
+  display: block;
 }
 
+.author-offline {
+  background: transparent url(images/author-pane/user-offline.png) no-repeat;
+  padding-left: 20px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-email-icon {
+  background: transparent url(images/author-pane/contact.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-privatemsg-icon {
+  background: transparent url(images/author-pane/private-message.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-relationship-add-icon {
+  background: transparent url(images/author-pane/buddy-add.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-relationship-remove-icon {
+  background: transparent url(images/author-pane/buddy-remove.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
 
 
 /* TEXT REPLACEMENT IMAGES - ENGLISH ***************************************/
@@ -126,13 +155,21 @@
   width: 50px;
 }
 
-.en .comment_edit span {
+.en .quote span {
+  background: transparent url(images/en/quote.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.en .comment_edit span,
+.en .post_edit span {
   background: transparent url(images/en/edit.png) no-repeat;
   height: 16px;
   width: 50px;
 }
 
-.en .comment_delete span {
+.en .comment_delete span,
+.en .post_delete span {
   background: transparent url(images/en/delete.png) no-repeat;
   height: 16px;
   width: 50px;
