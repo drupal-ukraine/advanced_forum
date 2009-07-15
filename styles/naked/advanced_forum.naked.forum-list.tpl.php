@@ -31,7 +31,6 @@
  * @see theme_forum_list()
  */
 ?>
-
 <?php $container_number = 0 ?>
 <?php foreach ($forums as $forum_id => $forum): ?>
 
@@ -45,6 +44,11 @@
       <thead class="forum-header">
         <tr>
           <th class="forum-icon"></th>
+          
+          <?php if ($use_taxonomy_image): ?>
+          <th class="forum-image"></th>
+          <?php endif; ?>
+          
           <th class="forum-name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></th>
           <th class="forum-num-topics"><?php print t('Topics');?></th>
           <th class="forum-posts"><?php print t('Posts'); ?></th>
@@ -67,6 +71,13 @@
         <td class="<?php print $forum->icon_classes ?>"> 
           <span><?php print $forum->icon_text ?></span>
         </td>
+        
+        <?php if ($use_taxonomy_image): ?>
+          <td class="forum-image-<?php print $forum_id; ?>">
+            <?php print $forum->forum_image; ?>
+          </td>
+        <?php endif; ?>
+
 
         <td class="forum-details">
           <div class="name">

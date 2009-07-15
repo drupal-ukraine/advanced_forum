@@ -37,6 +37,9 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     }
   }
   
+  // Determine if we want to use taxonomy image outside of the loop.
+  $variables['use_taxonomy_image'] = (function_exists(taxonomy_image_display) && variable_get('advanced_forum_use_taxonomy_image', TRUE));
+  
   global $user;
   $row = 0;
   // Sanitize each forum so that the template can safely print the data.
@@ -91,6 +94,11 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     else {
       $variables['forums'][$id]->icon_classes = "forum-icon forum-folder";
       $variables['forums'][$id]->icon_text = t("No new");
+    }
+    
+    // Add in the taxonomy image, if any
+    if ($variables['use_taxonomy_image']) {
+      $variables['forums'][$id]->forum_image = taxonomy_image_display($forum->tid);
     }
     
     if ($variables['forums'][$id]->depth > 1) {

@@ -78,6 +78,15 @@ function advanced_forum_settings_page() {
     );
   }
 
+  if (function_exists(taxonomy_image_display)) {
+     $form['advanced_forum_lists']['advanced_forum_use_taxonomy_image'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use taxonomy image in forum listing'),
+      '#default_value' => variable_get('advanced_forum_use_taxonomy_image', TRUE),
+      '#description' => t('If this is checked, Advanced Forum will add a new column to the forum listing for the image associated with the forum term.'),
+    );
+  }
+
   // Retrieve new comments on forum listing
   $form['advanced_forum_lists']['advanced_forum_get_new_comments'] = array(
     '#type' => 'checkbox',
