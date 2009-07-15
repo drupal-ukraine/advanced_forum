@@ -10,6 +10,13 @@
 function _advanced_forum_preprocess_comment(&$variables) {
   // Start a variable that will hold classes to attach to the containing div
   $classes = array();
+ 
+  // Some themes use $comment_classes instead of $classes.
+  if (!empty($variables['comment_classes'])) {
+    $classes[] = $variables['comment_classes'];
+  }
+  
+  // Add in our classes.
   $classes[] = 'forum-post clear-block';
 
   /* Make the topic starting node available */

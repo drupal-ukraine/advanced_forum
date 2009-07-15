@@ -5,6 +5,7 @@ $Id$
 July 15, 2009
 ------------
 #276577 by Michelle: Added taxonomy image support for main forum listing.
+NOISSUE by Michelle: Lost adding in $node_classes / $comment_classes when I restructured the $classes variable. Putting that back.
 
 July 14, 2009
 ------------

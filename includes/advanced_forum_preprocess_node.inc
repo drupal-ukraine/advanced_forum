@@ -8,8 +8,15 @@
  */
 
 function _advanced_forum_preprocess_node(&$variables) {
-  // Start a variable that will hold classes to attach to the containing div
+  // Start a variable that will hold classes to attach to the containing div.
   $classes = array();
+  
+  // Some themes use $node_classes instead of $classes.
+  if (!empty($variables['node_classes'])) {
+    $classes[] = $variables['node_classes'];
+  }
+  
+  // Add in our classes.
   $classes[] = 'forum-post clear-block';
 
   /* Determine the template file to use for the node. */
