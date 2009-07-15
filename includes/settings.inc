@@ -31,7 +31,7 @@ function advanced_forum_settings_page() {
     '#title' => t('Advanced forum style'),
     '#options' => $options,
     '#description' => t('Choose which style to use for your forums. This will apply independent of site theme.'),
-    '#default_value' => variable_get('advanced_forum_style', 'naked'),
+    '#default_value' => variable_get('advanced_forum_style', 'blue_lagoon_stacked'),
   );
 
   // Theme all site comments as forums
@@ -67,6 +67,15 @@ function advanced_forum_settings_page() {
       '#description' => t('Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10'),
       '#default_value' => variable_get('advanced_forum_topic_pager_max', 5),
     );
+
+    // Time ago cutoff
+    $form['advanced_forum_lists']['advanced_forum_time_ago_cutoff'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Number of hours before switching to date posted in displays'),
+      '#size' => 5,
+      '#description' => t('Will show "time ago" until this cutoff and then switch to actual date posted.'),
+      '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
+    );
   }
 
   // Retrieve new comments on forum listing
@@ -86,15 +95,6 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_topic_title_length', 15),
   );
 
-  // Time ago cutoff
-  $form['advanced_forum_lists']['advanced_forum_time_ago_cutoff'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Number of hours before switching to date posted in displays'),
-    '#size' => 5,
-    '#description' => t('Will show "time ago" until this cutoff and then switch to actual date posted.'),
-    '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
-  );
-
   /* Topic settings */
   $form['advanced_forum_topics'] = array(
     '#type' => 'fieldset',
@@ -107,8 +107,8 @@ function advanced_forum_settings_page() {
   $form['advanced_forum_topics']['advanced_forum_use_topic_navigation'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use topic navigation'),
-    '#default_value' => variable_get('advanced_forum_use_topic_navigation', 0),
-    '#description' => t('Core forum gets the next and previous topics and shows links to them under the top post. This is turned off by default as the query has performance issues and the placement of the links is poor.'),
+    '#default_value' => variable_get('advanced_forum_use_topic_navigation', 1),
+    '#description' => t('The query to get the previous / next topics can cause performance problems. Unchecking this will prevent the query from running.'),
   );
 
   if (module_exists('imagecache')) {

@@ -9,7 +9,7 @@
  */
 ?>
 
-<div class="author-pane">
+<div class="author-pane clear-block">
  <div class="author-pane-inner">
     <?php /* Avatar (has div in variable) */ ?>
     <?php if (!empty($picture)): ?>
