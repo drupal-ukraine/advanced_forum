@@ -72,13 +72,11 @@ Colors used:
   color: #3C78A7;
 }
 
-#forum-statistics div {
-  border: 2px solid white;
-}
-
 .forum-statistics-sub-header {
   background-color: #E7F2F9;
   color: #3C78A7;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
 }
 
 .forum-statistics-sub-body {

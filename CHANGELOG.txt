@@ -9,6 +9,7 @@ July 20, 2009
 NOISSUE by Michelle: Many small changes to styles, fixing layout, markup and style, making Naked nakeder, etc.
 #523958 by merlinofchaos: Added new style Cloudless Day.
 #525460 by Michelle, robertdjung: Removed extra slash from CSS path.
+#523958 by Michelle, merlinofchaos: Small change to sats borders in CD.
 
 July 15, 2009
 ------------
