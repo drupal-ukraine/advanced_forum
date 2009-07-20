@@ -49,24 +49,20 @@ floats.
 /*** FORUM LINK LISTS *******************************************************/
 
 /* Applies to all forum links */
-ul.forum-links {
-}
-
 ul.forum-links li {
   display: inline;
-  background: none;
-  list-style-image: none;
-  list-style-type: none;
 }
 
 /* New topic / New poll / Etc */
-.forum-primary-links {
-  float: left;
+.forum-primary-links li {
+  background: none;
+  list-style-image: none;
+  list-style-type: none;
+  padding: 0 8px 0 0;
 }
 
 /* Mark as read & views */
 .forum-secondary-links {
-  padding: 5px 0 0 0;
 }
 
 /* Image replacement */
@@ -106,41 +102,23 @@ ul.forum-links li {
 
 /*** FORUM & TOPIC LIST *****************************************************/
 
-#forum {
-  width: 100%;
-}
-
 #forum table {
   clear: both;
   width: 100%;
 }
 
-#forum div.indent {
-  margin-left: 30px;
-}
-
-/* Header */
+/* Header, both tables */
 #forum th {
-  border-bottom: 0;
   text-align: center;
 }
 
+/* Forum listing */
 #forum th.forum-name {
   text-align: left;
 }
 
-/* Forum listing */
-#forum tr.container-description td {
-  font-size: .9em;
-}
-
-#forum td.forum-icon {
-  text-indent: -9999px;
-  width: 50px;
-}
-
-#forum td.forum-details .name a {
-  font-size: 1.2em;
+#forum td.forum-details {
+  width: 50%;
 }
 
 #forum td.forum-details .description {
@@ -149,66 +127,57 @@ ul.forum-links li {
 
 #forum td.forum-details .subforums,
 #forum td.forum-details .subforums a {
-  font-size: 1em;
   padding-left: 10px;
 }
 
+#forum td.topics {
+  width: 10%;
+}
+
+#forum td.posts {
+  width: 10%;
+}
+
+#forum td.last-reply {
+  width: 20%;
+}
 
 /* Topic listing */
-#forum span.topic-icon {
-  display: block;
-  width: 24px;
-  height: 24px;
-  text-indent: -9999px;
+#forum .forum-topics th.views-field-title {
+  text-align: left;
 }
 
-#forum td.views {
+#forum .forum-topics td.views-field-topic-icon {
+  width: 26px;
+}
+
+#forum .forum-topics span.topic-icon {
+  display: block;
+}
+
+#forum .forum-topics td.views-field-title {
+  width: 50%;
+}
+
+#forum .forum-topics td.views,
+#forum .forum-topics td.views-field-comment-count,
+#forum .forum-topics td.views-field-totalcount {
   text-align: center;
   white-space: nowrap;
-  width: 35px;
+  width: 10%;
 }
 
-#forum td.created,
-#forum td.last-reply {
+#forum .forum-topics td.created,
+#forum .forum-topics td.last-reply {
   font-size: 0.9em;
   line-height: 140%;
   padding: 0 10px;
   white-space: normal !important;
-  width: 130px;
+  width: 25%;
 }
 
-#forum td .links {
+#forum .forum-topics td .links {
   padding-top: 10px;
-}
-
-#forum #search-all-forums {
-  float: right;
-}
-
-#forum #search-single-forum {
-  float: left;
-  padding: 0 0 0 15px;
-}
-
-#forum #advanced-forum-search-forum,
-.forum-topic-header #advanced-forum-search-topic {
-  margin: 0;
-  padding: 14px 0 0 0;
-}
-
-#forum #advanced-forum-search-forum input,
-.forum-topic-header #advanced-forum-search-topic input {
-  margin: 0;
-  padding: 0;
-}
-
-.forum-topic-header #advanced-forum-search-topic {
-  margin-bottom: 10px;
-}
-
-.view-avf-search .views-row,
-.view-avf-search-topic .views-row {
-  margin-bottom: 2em;
 }
 
 /*** FORUM STATISTICS *******************************************************/
@@ -319,9 +288,13 @@ ul.forum-links li {
 /* Post text area */
 .forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
-  min-height: 350px;
+  
+/* These heights keep the AP items from jumping out of the bottom. Depending 
+   on how many items you display, there, this number may need to be adjusted 
+   to avoid having unnecessary white space in your posts. */
+  min-height: 230px;
   height: auto !important;
-  height: 350px;
+  height: 230px;
 }
 
 .forum-post-panel-main .content {
@@ -373,6 +346,38 @@ ul.forum-links li {
   margin-top: 0;
 }
 
+/* Search */
+#forum #search-all-forums {
+  float: right;
+}
+
+#forum #search-single-forum {
+  float: left;
+}
+
+#forum #advanced-forum-search-forum,
+.forum-topic-header #advanced-forum-search-topic {
+  margin: 0;
+  padding: 14px 0 0 0;
+}
+
+#forum #advanced-forum-search-forum input,
+.forum-topic-header #advanced-forum-search-topic input {
+  margin: 0;
+  padding: 0;
+}
+
+.forum-topic-header #advanced-forum-search-topic {
+  margin-bottom: 10px;
+}
+
+.view-avf-search .views-row,
+.view-avf-search-topic .views-row {
+  margin-bottom: 2em;
+}
+
 .forum-search-result {
   margin-bottom: 10px;
 }
+
+

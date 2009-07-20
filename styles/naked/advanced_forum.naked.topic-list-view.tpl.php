@@ -15,7 +15,7 @@
  * @ingroup views_templates
  */
 ?>
- <div id="forum">
+ <div id="forum-topic-list">
   <?php if (!empty($title)) : ?>
     <caption><?php print $title; ?></caption>
   <?php endif; ?>

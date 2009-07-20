@@ -2,6 +2,13 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 20, 2009
+------------
+#523942 by Michelle: Normalized table widths on forum listing.
+#520694 by Michelle: Improved layout on narrow themes.
+NOISSUE by Michelle: Many small changes to styles, fixing layout, markup and style, making Naked nakeder, etc.
+#523958 by merlinofchaos: Added new style Cloudless Day.
+
 July 15, 2009
 ------------
 #276577 by Michelle: Added taxonomy image support for main forum listing.

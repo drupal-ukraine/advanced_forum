@@ -4,43 +4,33 @@
 This file contains colors, graphics, and text effects. 
 
 Colors used:
-  #DEDEDE Sticky posts, statistics subheader
-  #CCCCCC Borders, post seperator, avatar frame
+  #CCCCCC Borders, post seperator, avatar frame, statistics subheader.
+  #494949 Table header font color.
 */
-
-/*** FORUM LINK LISTS ********************************************************/
-
-.forum-links li {
-  list-style-image: none;
-  list-style-type: none;
-  background: none;
-}
-
-.forum-links li a {
-  font-weight: bold;
-}
 
 /*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
 #forum .forum-table,
 #forum .forum-topics {
-  border: 2px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
 }
 
 /* Headers */
 #forum .forum-table th,
+#forum .forum-topics th {
+  background-color: #CCCCCC;
+}
+
+#forum .forum-table th,
 #forum .forum-table th a,
 #forum .forum-topics th,
 #forum .forum-topics th a {
+  color: #494949;
   font-weight: bold;
 }
 
 /* Topic listings */
-#forum tr.sticky {
-  background-color: #DEDEDE;
-}
-
 #forum tr.forum-last-sticky {
   border-bottom: 10px solid #CCCCCC;
 }
@@ -49,30 +39,38 @@ Colors used:
   font-weight: bold;
 }
 
-
 /*** FORUM STATISTICS *********************************************************/
 
 #forum-statistics {
-  border: 2px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
 }
 
 #forum-statistics-header {
+  background-color: #CCCCCC;
   font-weight: bold;
 }
 
 .forum-statistics-sub-header {
-  background-color: #DEDEDE;
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
   font-weight: bold;
+}
+
+.forum-statistics-sub-body {
+  padding-left: 15px;
 }
 
 /*** FORUM THREADS ***********************************************************/
 
 .forum-post {
-  border: 2px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
 }
 
 /* Header at the top of each post */
 .post-info {
+  background-color: #CCCCCC;
+  color: #494949;
+  font-weight: bold;
   border-bottom: 1px solid #CCCCCC;
 }
 
@@ -94,7 +92,6 @@ Colors used:
 
 .forum-post-panel-sub .author-pane .picture img {
   border: 1px solid #CCCCCC;
-  background: #ffffff;
 }
 
 .forum-post-panel-sub .author-pane .author-pane-label {

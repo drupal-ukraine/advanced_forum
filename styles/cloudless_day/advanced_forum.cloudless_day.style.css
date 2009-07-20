@@ -1,0 +1,139 @@
+/* $Id$ */
+
+/*
+This file contains colors, graphics, and text effects. 
+
+Colors used:
+  #C8DBEA main border, header background
+  #EDF5FA background #1
+  #E7F2F9 background #2
+*/
+
+/*** FORUM & TOPIC LIST ******************************************************/
+
+/* General */
+#forum .forum-table,
+#forum .forum-topics {
+  border: 1px solid #C8DBEA !important;
+  color: #494949;
+  border-collapse: separate;
+  margin: 0 0 10px;
+  padding: 0;
+  width: 100%;
+  background-color: white;
+}
+
+/* Headers */
+#forum .forum-table th,
+#forum .forum-topics th {
+  background-color: #C8DBEA;
+}
+
+#forum .forum-table th,
+#forum .forum-topics th {
+  color: #3C78A7;
+  line-height: 1.5em;
+  padding: 2px 5px;
+}
+
+#forum .forum-table th a,
+#forum .forum-topics th a {
+  color:#3C78A7;
+}
+
+/* Rows, both tables */
+#forum .forum-table tr.odd,
+#forum .forum-topics tr.odd {
+  background-color: #EDF5FA;
+}
+
+#forum .forum-table tr.even,
+#forum .forum-topics tr.even {
+  background-color: #E7F2F9;
+}
+
+#forum .forum-table td,
+#forum .forum-topics td {
+  line-height: 1.5em;
+  padding: 4px;
+}
+
+#forum td.forum-details .name a {
+  font-size: 1em;
+}
+
+/*** FORUM STATISTICS *********************************************************/
+#forum-statistics {
+  border: 1px solid #C8DBEA;
+}
+
+#forum-statistics-header {
+  background-color: #C8DBEA;
+  color: #3C78A7;
+}
+
+#forum-statistics div {
+  border: 2px solid white;
+}
+
+.forum-statistics-sub-header {
+  background-color: #E7F2F9;
+  color: #3C78A7;
+}
+
+.forum-statistics-sub-body {
+  background-color: #EDF5FA;
+  color: #494949;
+  padding-left: 2em;
+}
+
+/*** FORUM THREADS ***********************************************************/
+
+.forum-post {
+  border: 1px solid #C8DBEA !important;
+}
+
+/* Header at the top of each post */
+.post-info,
+.forum-post-wrapper,
+.forum-post-footer {
+  border: 2px solid white;
+}
+
+.post-info {
+  background-color: #C8DBEA;
+  color: #3C78A7;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* Post text area */
+.forum-post-panel-main {
+  border: none;
+  background-color: white;
+}
+
+.forum-post-wrapper {
+  background-color: #E7F2F9;
+  border-bottom: 2px solid white;
+}
+
+.post-title {
+  border-bottom: none;
+  background-color: #EDF5FA;
+  line-height: 225%;
+  padding-bottom: 2px;
+}
+
+/* Post footer */
+.forum-post-footer {
+  background-color: #EDF5FA;
+}
+
+.forum-jump-links {
+  border-right: 2px solid white;
+}
+
+.post-title {
+  border-left: 2px solid white;
+}

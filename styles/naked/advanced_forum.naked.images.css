@@ -1,24 +1,43 @@
 /* FORUM LIST ICONS *********************************************************/
-.forum-folder {
-  background: transparent url(images/forum-folder.png) no-repeat center center;
+#forum td.forum-icon {
+  text-indent: -9999px;
+  width: 50px;
 }
 
-
-/* FORUM LIST ICON LEGEND ***************************************************/
-.forum-folder-legend .forum-folder {
-  background: transparent url(images/forum-folder.png) no-repeat top left;
+.forum-folder {
+  background: transparent url(images/forum-folder.png) no-repeat center center;
 }
 
 .forum-folder-new-posts {
   background: transparent url(images/forum-folder-new-posts.png) no-repeat center center;
 }
 
+.forum-folder-locked {
+  background: transparent url(images/forum-folder-locked.png) no-repeat center center;
+}
+
+/* FORUM LIST ICON LEGEND ***************************************************/
+.forum-folder-legend .forum-folder {
+  background: transparent url(images/forum-folder.png) no-repeat top left;
+}
+
 .forum-folder-legend .forum-folder-new-posts {
   background: transparent url(images/forum-folder-new-posts.png) no-repeat top left;
 }
 
+.forum-folder-legend .forum-folder-locked {
+  background: transparent url(images/forum-folder-locked.png) no-repeat top left;
+}
+
+
 
 /* TOPIC LIST ICONS *********************************************************/
+#forum span.topic-icon {
+  width: 24px;
+  height: 24px;
+  text-indent: -9999px;
+}
+
 .topic-icon-default {
   background: transparent url(images/topic-default.png) no-repeat center center;
 }
