@@ -1,0 +1,223 @@
+/* FORUM LIST ICONS *********************************************************/
+.forum-folder {
+  background: transparent url(images/forum-folder.png) no-repeat center center;
+}
+
+
+/* FORUM LIST ICON LEGEND ***************************************************/
+.forum-folder-legend .forum-folder {
+  background: transparent url(images/forum-folder.png) no-repeat top left;
+}
+
+.forum-folder-new-posts {
+  background: transparent url(images/forum-folder-new-posts.png) no-repeat center center;
+}
+
+.forum-folder-legend .forum-folder-new-posts {
+  background: transparent url(images/forum-folder-new-posts.png) no-repeat top left;
+}
+
+
+/* TOPIC LIST ICONS *********************************************************/
+.topic-icon-default {
+  background: transparent url(images/topic-default.png) no-repeat center center;
+}
+
+.topic-icon-new {
+  background: transparent url(images/topic-new.png) no-repeat center center;
+}
+
+.topic-icon-hot {
+  background: transparent url(images/topic-hot.png) no-repeat center center;
+}
+
+.topic-icon-hot-new {
+  background: transparent url(images/topic-hot-new.png) no-repeat center center;
+}
+
+.topic-icon-sticky {
+  background: transparent url(images/topic-sticky.png) no-repeat center center;
+}
+
+.topic-icon-closed {
+  background: transparent url(images/topic-closed.png) no-repeat center center;
+}
+
+
+/* TOPIC LIST ICON LEGEND ***************************************************/
+.topic-icon-default {
+  background: transparent url(images/topic-default.png) no-repeat top left;
+}
+
+.topic-icon-new {
+  background: transparent url(images/topic-new.png) no-repeat top left;
+}
+
+.topic-icon-hot {
+  background: transparent url(images/topic-hot.png) no-repeat top left;
+}
+
+.topic-icon-hot-new {
+  background: transparent url(images/topic-hot-new.png) no-repeat top left;
+}
+
+.topic-icon-sticky {
+  background: transparent url(images/topic-sticky.png) no-repeat top left;
+}
+
+.topic-icon-closed {
+  background: transparent url(images/topic-closed.png) no-repeat top left;
+}
+
+
+/* AUTHOR PANE **************************************************************/
+.author-online {
+  background: transparent url(images/author-pane/user-online.png) no-repeat;
+  padding-left: 20px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-offline {
+  background: transparent url(images/author-pane/user-offline.png) no-repeat;
+  padding-left: 20px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-email-icon {
+  background: transparent url(images/author-pane/contact.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-privatemsg-icon {
+  background: transparent url(images/author-pane/private-message.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-relationship-add-icon {
+  background: transparent url(images/author-pane/buddy-add.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+.author-relationship-remove-icon {
+  background: transparent url(images/author-pane/buddy-remove.png) no-repeat;
+  padding-left: 26px;
+  height: 20px;
+  width: 100px;
+  display: block;
+}
+
+
+/* TEXT REPLACEMENT IMAGES - ENGLISH ***************************************/
+/* Post new topic options on topic listings */
+.en .forum-links .forum span {
+  background: transparent url(images/en/new-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.en .forum-links .poll span {
+  background: transparent url(images/en/new-poll.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+/* New topic / locked on top / bottom of topics */
+.en .reply-allowed span {
+  background: transparent url(images/en/post-reply.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.en .reply-locked span {
+  background: transparent url(images/en/locked-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+/* Post links */
+.en .comment_add span,
+.en .comment_reply span {
+  background: transparent url(images/en/reply.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.en .quote span {
+  background: transparent url(images/en/quote.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.en .comment_edit span,
+.en .post_edit span {
+  background: transparent url(images/en/edit.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.en .comment_delete span,
+.en .post_delete span {
+  background: transparent url(images/en/delete.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+/* TEXT REPLACEMENT IMAGES - FRENCH ****************************************/
+/* Post new topic options on topic listings */
+.fr .forum-links .forum span {
+  background: transparent url(images/fr/fr_new-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.fr .forum-links .poll span {
+ /* New poll button not provided in this translation */
+}
+
+/* New topic / locked on top / bottom of topics */
+.fr .reply-allowed span {
+  background: transparent url(images/fr/fr_post-reply.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+.fr .reply-locked span {
+  background: transparent url(images/fr/fr_locked-topic.png) no-repeat;
+  height: 30px;
+  width: 95px;
+}
+
+/* Post links */
+.fr .comment_add span,
+.fr .comment_reply span {
+  background: transparent url(images/fr/fr_reply.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.fr .comment_edit span {
+  background: transparent url(images/fr/fr_edit.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+.fr .comment_delete span {
+  background: transparent url(images/fr/fr_delete.png) no-repeat;
+  height: 16px;
+  width: 50px;
+}
+
+ 
