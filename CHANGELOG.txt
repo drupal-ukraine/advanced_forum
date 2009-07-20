@@ -8,6 +8,7 @@ July 20, 2009
 #520694 by Michelle: Improved layout on narrow themes.
 NOISSUE by Michelle: Many small changes to styles, fixing layout, markup and style, making Naked nakeder, etc.
 #523958 by merlinofchaos: Added new style Cloudless Day.
+#525460 by Michelle, robertdjung: Removed extra slash from CSS path.
 
 July 15, 2009
 ------------

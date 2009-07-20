@@ -578,7 +578,7 @@ function _advanced_forum_add_files() {
           }
           elseif (file_exists("$path/$css_file")) {
             // Otherwise look in the style for it.
-            drupal_add_css("$path/$css_file");
+            drupal_add_css("$path" . "$css_file");
           }
         }
       }
