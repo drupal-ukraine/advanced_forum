@@ -85,7 +85,7 @@
       <?php endif; ?>
 
       <?php /* Private message */ ?>
-      <?php if (!empty($privatemsg)): ?>
+      <?php if (!empty($privatemsg_link)): ?>
         <div class="author-pane-line author-privatemsg">
           <?php print $privatemsg_link; ?>
         </div>

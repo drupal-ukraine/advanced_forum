@@ -45,9 +45,9 @@
       <?php endif; ?>
 
       <?php /* Location */ ?>
-      <?php if (!empty($location)): ?>
+      <?php if (!empty($location_user_location)): ?>
         <div class="author-pane-line author-location"> 
-          <?php print $location;  ?> 
+          <?php print $location_user_location;  ?> 
         </div>
       <?php endif; ?>
  
@@ -83,7 +83,7 @@
       <?php endif; ?>
 
       <?php /* Private message */ ?>
-      <?php if (!empty($privatemsg)): ?>
+      <?php if (!empty($privatemsg_link)): ?>
         <div class="author-pane-line author-privatemsg">
           <?php print $privatemsg_link; ?>
         </div>

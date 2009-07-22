@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 21, 2009
+-------------
+#523422 by Michelle: Fixed wrong location variable name.
+
 July 20, 2009
 ------------
 #523942 by Michelle: Normalized table widths on forum listing.
