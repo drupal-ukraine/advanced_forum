@@ -61,45 +61,6 @@ ul.forum-links li {
   padding: 0 8px 0 0;
 }
 
-/* Mark as read & views */
-.forum-secondary-links {
-}
-
-/* Image replacement */
-.forum-links li a,
-.reply-link {
-  position: relative;
-  margin: 0; 
-  padding: 0;
-  /* hide overflow:hidden from IE5/Mac */
-  /* \*/
-  overflow: hidden;
-  /* */
-}
-
-.forum-primary-links .forum-links li a,
-.reply-link {
-  width: 95px;
-  height: 30px;
-  padding: 0 25px 0 0;
-}
-
-.forum-post-links .forum-links li a{
-  height: 16px;
-  width: 50px;
-  padding: 0 15px 0 0;
-}
-
-.forum-links li span.image-replace,
-.reply-link span.image-replace {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1; /*for Opera 5 and 6*/
-}
-
-
 /*** FORUM & TOPIC LIST *****************************************************/
 
 #forum table {

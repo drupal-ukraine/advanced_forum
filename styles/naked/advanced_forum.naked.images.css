@@ -29,8 +29,6 @@
   background: transparent url(images/forum-folder-locked.png) no-repeat top left;
 }
 
-
-
 /* TOPIC LIST ICONS *********************************************************/
 #forum span.topic-icon {
   width: 24px;
@@ -61,7 +59,6 @@
 .topic-icon-closed {
   background: transparent url(images/topic-closed.png) no-repeat center center;
 }
-
 
 /* TOPIC LIST ICON LEGEND ***************************************************/
 .topic-icon-default {

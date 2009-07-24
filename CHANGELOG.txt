@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 23, 2009
+-------------
+#497450 by Michelle: More work on the text replacement images.
+
 July 21, 2009
 -------------
 #523422 by Michelle: Fixed wrong location variable name.
