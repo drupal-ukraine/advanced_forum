@@ -9,11 +9,11 @@
 
 function _advanced_forum_preprocess_forums(&$variables) {
   advanced_forum_add_template_suggestions("forums", $variables['template_files']);
-  
+
   if (empty($variables['topics'])) {
     // No forum description on the top level.
     $variables['forum_description'] = '';
-    
+
     // We only handle the search on the top level forum. Per forum searches
     // are handled in the topic list view preprocess.
     $variables['search'] = theme('advanced_forum_search_forum');
@@ -44,16 +44,16 @@ function _advanced_forum_preprocess_forums(&$variables) {
       if (node_access('create', $type)) {
         // Fetch the "General" name of the content type.
         $node_type = node_get_types('name', $type);
-        
+
         // Remove the word "Forum" out of "Forum topic" to shorten it.
-        // @TODO: this is a little dodgy and may not work right with 
+        // @TODO: this is a little dodgy and may not work right with
         // translations. Should be replaced if there's a better way.
         $node_type = str_replace('Forum', '', $node_type);
-        
+
         // Push the link with title and url to the array.
         $forum_types[$type] = array(
-          'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>', 
-          'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $variables['tid'], 
+          'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>',
+          'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $variables['tid'],
           'html' => TRUE);
       }
     }
@@ -66,13 +66,13 @@ function _advanced_forum_preprocess_forums(&$variables) {
       // The user is not logged-in; and denied access to create any new forum content type.
       else {
         $forum_types['login'] = array(
-          'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))), 
+          'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))),
           'html' => TRUE);
       }
     }
-    
+
     $variables['links'] = $forum_types;
-    $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'forum-links')); 
+    $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'forum-links'));
   }
 
   $tid = intval($variables['tid']);
@@ -114,9 +114,9 @@ function _advanced_forum_preprocess_forums(&$variables) {
   }
 
   // Render our added links.
-  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'forum-links')); 
-  
-  
+  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'forum-links'));
+
+
   // Fetch the forum statistics.
   $variables['forum_statistics'] = '';
   if (user_access('view forum statistics')) {
@@ -125,7 +125,7 @@ function _advanced_forum_preprocess_forums(&$variables) {
 
   // Fetch the forum legend.
   $variables['forum_legend'] = theme('advanced_forum_forum_legend');
-  
+
   // Fetch the current language
   global $language;
   $variables['language_class'] = $language->language;

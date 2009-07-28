@@ -86,13 +86,18 @@ function advanced_forum_get_forums($tid = 0) {
       $forum->num_posts = 0;
     }
 
+    $info = advanced_forum_style_info();
+
+    $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
     // This query does not use full ANSI syntax since MySQL 3.x does not support
     // table1 INNER JOIN table2 INNER JOIN table3 ON table2_criteria ON table3_criteria
     // used to join node_comment_statistics to users.
-    $sql = "SELECT n.nid, n.title, n.type,
-                   ncs.last_comment_timestamp,
-                   IF (ncs.last_comment_uid != 0, u2.name, ncs.last_comment_name) AS last_comment_name,
-                   ncs.last_comment_uid
+    $sql = "SELECT n.nid,
+                   n.title as node_title,
+                   n.type,
+                   ncs.last_comment_timestamp as timestamp,
+                   IF (ncs.last_comment_uid != 0, u2.name, ncs.last_comment_name) AS name,
+                   ncs.last_comment_uid as uid
             FROM {node} n
             INNER JOIN {users} u1 ON n.uid = u1.uid
             INNER JOIN {term_node} tn ON n.vid = tn.vid
@@ -101,20 +106,17 @@ function advanced_forum_get_forums($tid = 0) {
             WHERE n.status = 1 AND tn.tid = %d
             ORDER BY ncs.last_comment_timestamp DESC";
     $sql = db_rewrite_sql($sql);
-    $topic = db_fetch_object(db_query_range($sql, $forum->tid, 0, 1));
-
-    $last_post = new stdClass();
-    if (!empty($topic->last_comment_timestamp)) {
-      $last_post->timestamp = $topic->last_comment_timestamp;
-      $last_post->name = $topic->last_comment_name;
-      $last_post->uid = $topic->last_comment_uid;
-      $last_post->nid = $topic->nid;
-      // Note, we call it "node_title" otherwise it gets picked up on the
-      // topic list as well.
-      $last_post->node_title = $topic->title;
-      $last_post->type = $topic->type;
+    if ($post_count) {
+      $result = db_query_range($sql, $forum->tid, 0, $post_count);
+      while ($topic = db_fetch_object($result)) {
+        if ($post_count > 1) {
+          $forum->last_post[] = $topic;
+        }
+        else {
+          $forum->last_post = $topic;
+        }
+      }
     }
-    $forum->last_post = $last_post;
 
     $forums[$forum->tid] = $forum;
   }

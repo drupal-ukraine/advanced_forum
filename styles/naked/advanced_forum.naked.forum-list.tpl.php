@@ -39,16 +39,16 @@
     <?php if ($container_number > 1): ?>
       </tbody></table>
     <?php endif; ?>
-    
+
     <table id="container-<?php print $container_number; ?>" class="forum-table">
       <thead class="forum-header">
         <tr>
           <th class="forum-icon"></th>
-          
+
           <?php if ($use_taxonomy_image): ?>
           <th class="forum-image"></th>
           <?php endif; ?>
-          
+
           <th class="forum-name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></th>
           <th class="forum-num-topics"><?php print t('Topics');?></th>
           <th class="forum-posts"><?php print t('Posts'); ?></th>
@@ -64,14 +64,14 @@
             </td>
           </tr>
         <?php endif; ?>
- 
+
   <?php else: ?>
     <?php if ($forum->depth == 1): ?>
-      <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">   
-        <td class="<?php print $forum->icon_classes ?>"> 
+      <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">
+        <td class="<?php print $forum->icon_classes ?>">
           <span><?php print $forum->icon_text ?></span>
         </td>
-        
+
         <?php if ($use_taxonomy_image): ?>
           <td class="forum-image-<?php print $forum_id; ?>">
             <?php print $forum->forum_image; ?>
@@ -86,7 +86,7 @@
           <?php if (!empty($forum->description)): ?>
             <div class="description"><?php print $forum->description; ?></div>
           <?php endif; ?>
-          
+
           <?php if (!empty($forum->subforums)): ?>
             <div class="subforums"><?php print t("Subforums") ?>: <?php print $forum->subforums; ?></div>
           <?php endif; ?>

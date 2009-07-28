@@ -14,7 +14,7 @@
 function advanced_forum_get_current_style() {
   return variable_get('advanced_forum_style', 'blue_lagoon_stacked');
 }
- 
+
 function advanced_forum_get_style($style) {
   ctools_include('plugins');
   return ctools_get_plugins('advanced_forum', 'styles', $style);
@@ -31,12 +31,12 @@ function advanced_forum_get_all_styles() {
 function advanced_forum_path_to_style($requested_style = NULL) {
   // Set a static variable so this is cached after the first call.
   static $style_paths = array();
-  
+
   if (empty($requested_style)) {
     // If no style is passed in, assume the current style is wanted.
     $requested_style = advanced_forum_get_current_style();
   }
-  
+
   if (empty($style_path)) {
     // Get the path information
     $styles = advanced_forum_get_all_styles();
@@ -51,46 +51,78 @@ function advanced_forum_path_to_style($requested_style = NULL) {
  * Starting at a given style, return paths of it and all ancestor styles
  */
 function advanced_forum_style_lineage($style = NULL) {
+  static $lineages = array();
   if (empty($style)) {
     // If no style is passed in, assume the current style is wanted.
     $style = advanced_forum_get_current_style();
   }
 
-  $lineage = array();
-  
-  // Get an array with information from all styles.
-  $all_styles = advanced_forum_get_all_styles();
+  if (!array_key_exists($style, $lineages)) {
+    $lineage = array();
 
-  // Add the current style to the lineage first
-  $lineage[$style] = $all_styles[$style]['path'];
-  
-  // Check if there is an "extra style" listed. This allows you to grab the 
-  // CSS of one other style and toss it in as a pseudo parent. We do not 
-  // follow the path up its parent. The primary use is for adding in the 
-  // "stacked" CSS but could be used for other purposes as well.
-  if (!empty($all_styles[$style]['extra style']) && !empty($all_styles[$all_styles[$style]['extra style']]['path'])) {
-    $extra_style = $all_styles[$style]['extra style'];
-    $lineage[$extra_style] = $all_styles[$extra_style]['path'];
+    // Get an array with information from all styles.
+    $all_styles = advanced_forum_get_all_styles();
+
+    // Add the current style to the lineage first
+    $lineage[$style] = $all_styles[$style]['path'];
+
+    // Check if there is an "extra style" listed. This allows you to grab the
+    // CSS of one other style and toss it in as a pseudo parent. We do not
+    // follow the path up its parent. The primary use is for adding in the
+    // "stacked" CSS but could be used for other purposes as well.
+    if (!empty($all_styles[$style]['extra style']) && !empty($all_styles[$all_styles[$style]['extra style']]['path'])) {
+      $extra_style = $all_styles[$style]['extra style'];
+      $lineage[$extra_style] = $all_styles[$extra_style]['path'];
+    }
+
+    // Grab the style we are looking at. This variable starts out as the current
+    // style in use on the page but will change as we move up the chain.
+    $current_style = $style;
+
+    while (!empty($all_styles[$current_style]['base style'])) {
+      // There is a parent style, so move up to it.
+      $current_style = $all_styles[$current_style]['base style'];
+
+      // Make sure the listed parent style actually exists.
+      if (!empty($all_styles[$current_style]['path'])) {
+        // Add the style to our list.
+        $lineage[$current_style] = $all_styles[$current_style]['path'];
+      }
+    }
+
+    $lineages[$style] = $lineage;
   }
 
-  // Grab the style we are looking at. This variable starts out as the current 
-  // style in use on the page but will change as we move up the chain.
-  $current_style = $style;
-  
-  while (!empty($all_styles[$current_style]['base style'])) {
-    // There is a parent style, so move up to it.
-    $current_style = $all_styles[$current_style]['base style'];
-    
-    // Make sure the listed parent style actually exists.
-    if (!empty($all_styles[$current_style]['path'])) {
-      // Add the style to our list.
-      $lineage[$current_style] = $all_styles[$current_style]['path'];
-    }  
-   }
-
-  return $lineage;
+  return $lineages[$style];
 }
 
+/**
+ * Get the info for a style, using an additive notation to
+ * include all items from the parent lineage.
+ */
+function advanced_forum_style_info($style = NULL) {
+  static $info = array();
+  if (empty($style)) {
+    // If no style is passed in, assume the current style is wanted.
+    $style = advanced_forum_get_current_style();
+  }
+
+  if (!array_key_exists($style, $info)) {
+    $info[$style] = array();
+    $lineage = advanced_forum_style_lineage();
+    foreach ($lineage as $key => $dir) {
+      // using the + operator is additive but will not overwrite.
+      // $lineage comes out as the actual style with each
+      // successive style after it, so simply adding the arrays
+      // together means that all info will be combined and keys
+      // in the parent info will be defaults passed down to children
+      // only if they do not override them.
+      $info[$style] += advanced_forum_get_style($key);
+    }
+  }
+
+  return $info[$style];
+}
 
 /**
  * This function returns TRUE if the node/comment should be themed and
@@ -109,7 +141,7 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
       if ($variables['node']->comment_target_nid == $forum_node_id) {
         $decision = TRUE;
       }
-    } 
+    }
     else {
       $vid = variable_get('forum_nav_vocabulary', '');
       $vocabulary = taxonomy_vocabulary_load($vid);
@@ -198,12 +230,12 @@ function advanced_forum_treat_as_forum_post($hook, $variables) {
   return $decision;
 }
 
-// CTOOLS INTEGRATION FOR STYLES ********************************************/ 
-function advanced_forum_ctools_plugin_styles() { 
+// CTOOLS INTEGRATION FOR STYLES ********************************************/
+function advanced_forum_ctools_plugin_styles() {
   return array(
-    'info file' => TRUE, 
+    'info file' => TRUE,
     'load themes' => TRUE,
-  ); 
+  );
 }
 
 function advanced_forum_ctools_plugin_directory($module, $plugin) {

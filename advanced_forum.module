@@ -526,7 +526,7 @@ function advanced_forum_path_to_theme() {
  */
 function advanced_forum_add_template_suggestions($template, &$template_suggestions) {
   // We only need to calculate the style lineage once per page load.
-  static $lineage ;
+  static $lineage;
 
   if (empty($lineage)) {
     $lineage = advanced_forum_style_lineage();
@@ -615,8 +615,8 @@ function advanced_forum_get_reply_link($node) {
 
       $reply_link->class = 'reply-allowed';
       $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'query' => $query, 'html' => TRUE, 'attributes' => $attributes));
-      
-      // Add a couple more properties that lets this function be reused for 
+
+      // Add a couple more properties that lets this function be reused for
       // the purpose of getting the link into the node links when the form
       // is on the same page.
       $reply_link->href = $href;

@@ -9,13 +9,48 @@
 
 function _advanced_forum_preprocess_forum_list(&$variables) {
   advanced_forum_add_template_suggestions("forum-list", $variables['template_files']);
-  
+
   // This will be the ID of the container or forum we are in. If empty,
   // we are on the root forum page.
   $parent_id = arg(1);
 
   if (empty($parent_id)) {
     $main_forum_page = TRUE;
+    $root_forums = FALSE;
+    $fake_container = FALSE;
+    $containers = FALSE;
+    $tids = array();
+    foreach ($variables['forums'] as $id => $forum) {
+      // If uncontained forums come after an existing container, they'll
+      // be put into that container due to the ordering in the template.
+      // So don't bother with a fake container if there won't be anything
+      // in it.
+      if (!empty($forum->container) && !$fake_container) {
+        $containers = TRUE;
+      }
+
+      if (empty($forum->container) && $forum->parents == array(0 => 0)) {
+        $root_forums = TRUE;
+        if (!$containers) {
+          $fake_container = TRUE;
+        }
+        $variables['forums'][$id]->depth++;
+        $tids[$forum->tid] = $forum->tid;
+      }
+
+      if ($root_forums && !empty($tids[$forum->parents[0]])) {
+        $variables['forums'][$id]->depth++;
+        $tids[$forum->tid] = $forum->tid;
+      }
+    }
+
+    if ($fake_container) {
+      $container = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', ''));
+      $container->tid = 0;
+      $container->container = TRUE;
+      $container->num_topics = 0;
+      $variables['forums'] = array(0 => $container) + $variables['forums'];
+    }
   }
   else {
     $main_forum_page = FALSE;
@@ -23,8 +58,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     $container = taxonomy_get_term($parent_id);
     $container->container = TRUE;
     $container->num_topics = 0;
- 
-    // Add in the "container" at the top and bump up the depth of everything 
+
+    // Add in the "container" at the top and bump up the depth of everything
     // underneath. Note that we can't use array_unshift to add the container
     // to the top as that changes all the keys.
     $orginal_forums = $variables['forums'];
@@ -36,10 +71,10 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $variables['forums'][$id]->depth++;
     }
   }
-  
+
   // Determine if we want to use taxonomy image outside of the loop.
   $variables['use_taxonomy_image'] = (function_exists(taxonomy_image_display) && variable_get('advanced_forum_use_taxonomy_image', TRUE));
-  
+
   global $user;
   $row = 0;
   // Sanitize each forum so that the template can safely print the data.
@@ -63,9 +98,9 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       }
       $variables['forums'][$id]->old_topics = $forum->num_topics - $variables['forums'][$id]->new_topics;
     }
-    
+
     $variables['forums'][$id]->last_reply = theme('forum_submitted', $forum->last_post);
-  
+
     $variables['forums'][$id]->new_posts = 0;
     $variables['forums'][$id]->new_text_posts = '';
     $variables['forums'][$id]->new_url_posts = '';
@@ -95,27 +130,29 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $variables['forums'][$id]->icon_classes = "forum-icon forum-folder";
       $variables['forums'][$id]->icon_text = t("No new");
     }
-    
+
     // Add in the taxonomy image, if any
     if ($variables['use_taxonomy_image']) {
       $variables['forums'][$id]->forum_image = taxonomy_image_display($forum->tid);
     }
-    
+
     if ($variables['forums'][$id]->depth > 1) {
       // This is a subforum. Add it to the list for the compact listing.
-      $parent_id = $variables['forums'][$id]->parents['0'];
+      $parent_id = $id;
+      for ($count = $variables['forums'][$id]->depth; $count > 1; $count--) {
+        $parent_id = $variables['forums'][$parent_id]->parents['0'];
+      }
       $variables['forums'][$parent_id]->subforum_list[$id] = $variables['forums'][$id];
-    }     
+    }
   }
 
   foreach ($variables['forums'] as $id => $forum) {
-     if (!empty($forum->subforum_list)) {
-       $variables['forums'][$id]->subforums = theme('advanced_forum_subforum_list', $forum->subforum_list);
-       unset($variables['forums'][$id]->subforum_list);
-     }
-   }
+    if (!empty($forum->subforum_list)) {
+      $variables['forums'][$id]->subforums = theme('advanced_forum_subforum_list', $forum->subforum_list);
+      unset($variables['forums'][$id]->subforum_list);
+    }
+  }
 
-  
   // Give meaning to $tid for themers. $tid actually stands for term id.
   $variables['forum_id'] = isset($variables['tid']) ? $variables['tid'] : 0;
   unset($variables['tid']);
