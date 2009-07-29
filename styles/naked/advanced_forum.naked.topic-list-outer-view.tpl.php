@@ -49,10 +49,6 @@
     <div id="forum-pager-top"><?php print $pager; ?></div>
   <?php endif; ?>
 
-  <?php if ($search): ?>
-    <div id="search-single-forum" class="clear-block"><?php print $search; ?></div>
-  <?php endif; ?>
-
   <?php if ($rows): ?>
     <div class="view-content">
       <?php print $rows; ?>
@@ -66,8 +62,6 @@
   <?php if ($pager): ?>
     <div id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
-
-  <?php print $topic_legend; ?>
 
   <?php if ($attachment_after): ?>
     <div class="attachment attachment-after">

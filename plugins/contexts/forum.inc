@@ -1,0 +1,77 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ *
+ * Plugin to provide a user context
+ */
+
+/**
+ * Implementation of specially named hook_advanced_forum_forum_contexts().
+ */
+function advanced_forum_forum_ctools_contexts() {
+  return array(
+    'title' => t("Forum"),
+    'description' => t('A single forum object.'),
+    'context' => 'advanced_forum_forum_context_create_forum',
+    'settings form' => 'advanced_forum_forum_context_settings_form',
+    'settings form validate' => 'advanced_forum_forum_context_settings_form_validate',
+    'keyword' => 'forum',
+    'context name' => 'forum',
+    'convert list' => array(
+      'tid' => t('Forum ID'),
+      'name' => t('Forum name'),
+    ),
+    'convert' => 'advanced_forum_forum_context_convert',
+  );
+}
+
+/**
+ * It's important to remember that $conf is optional here, because contexts
+ * are not always created from the UI.
+ */
+function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf = FALSE) {
+  $context = new ctools_context(array('forum', 'term'));
+  $context->plugin = 'forum';
+
+  if ($empty) {
+    return $context;
+  }
+
+  if ($conf) {
+    $data = taxonomy_term_load($data['tid']);
+  }
+
+
+  if (!empty($data)) {
+    $data->container = (!$data->tid || in_array($data->tid, variable_get('forum_containers', array())));
+    $context->data     = $data;
+    $context->title    = $data->name;
+    $context->argument = $data->tid;
+    $context->vid = variable_get('forum_nav_vocabulary', '');
+    $context->vocabulary = taxonomy_vocabulary_load($context->vid);
+    if ($data->tid) {
+      $context->parents = taxonomy_get_parents_all($data->tid);
+    }
+
+    return $context;
+  }
+}
+
+function advanced_forum_forum_context_settings_form($conf) {
+  $form = array();
+  return $form;
+}
+
+/**
+ * Convert a context into a string.
+ */
+function advanced_forum_forum_context_convert($context, $type) {
+  switch ($type) {
+    case 'tid':
+      return $context->data->tid;
+    case 'name':
+      return $context->data->name;
+  }
+}

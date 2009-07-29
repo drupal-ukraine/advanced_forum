@@ -151,6 +151,7 @@ function advanced_forum_theme() {
  * Implementation of hook_theme_registry_alter().
  */
 function advanced_forum_theme_registry_alter(&$theme_registry) {
+  advanced_forum_load_style_includes();
   // Garland's phptemplate_comment_wrapper really sucks. Chances are, a theme
   // does NOT want to control this on forum nodes anyway, so we're going to take
   // it over:
@@ -175,6 +176,14 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
       if ($value == 'template_preprocess_forum_topic_list') {
         unset($theme_registry['forum_topic_list']['preprocess functions'][$key]);
       }
+    }
+  }
+
+  // Don't let core do its basic preprocess for forums, as we want to do
+  // other stuff now.
+  foreach ($theme_registry['forums']['preprocess functions'] as $key => $value) {
+    if ($value == 'template_preprocess_forums') {
+      unset($theme_registry['forums']['preprocess functions'][$key]);
     }
   }
 
@@ -231,7 +240,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
     if (!empty($theme_registry[$template])) {
-
       // If there was a path in there, store it.
       $existing_path = array_shift($theme_registry[$template]['theme paths']);
 
@@ -248,6 +256,30 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
 
       // Put the active theme's path last since that takes precidence.
       $theme_registry[$template]['theme paths'][] = advanced_forum_path_to_theme();
+
+      // Add preprocess functions if our style has them.
+      $preprocess = array();
+      foreach ($lineage as $key => $path) {
+        if (function_exists('advanced_forum_' . $key . '_preprocess_' . $template)) {
+          $preprocess[] = 'advanced_forum_' . $key . '_preprocess_' . $template;
+        }
+      }
+
+      // There are preprocess functions to add, so figure out where we want to add
+      // them.
+      if ($preprocess) {
+        $position = 0;
+        foreach ($theme_registry[$template]['preprocess functions'] as $function) {
+          $position++;
+          // If we see either of these items, that means we can place our
+          // preprocess functions after this.
+          if (substr($function, 0, 25) == 'advanced_forum_preprocess' || substr($function, 0, 34) == 'template_preprocess_advanced_forum') {
+            break;
+          }
+        }
+        // Add in our new preprocess functions:
+        array_splice($theme_registry[$template]['preprocess functions'], $position, 0, $preprocess);
+      }
     }
   }
 }
@@ -583,6 +615,8 @@ function _advanced_forum_add_files() {
         }
       }
     }
+
+    advanced_forum_load_style_includes();
   }
 }
 
@@ -1022,3 +1056,24 @@ function advanced_forum_type_is_in_forum($type) {
   }
 }
 
+/**
+ * Tell CTools about what plugins we support.
+ */
+function advanced_forum_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'advanced_forum') {
+    return 'styles';
+  }
+
+  if ($module == 'page_manager' || $module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+function advanced_forum_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api = 'pages_default') {
+    return array(
+      'version' => 1,
+      'path' => drupal_get_path('module', 'advanced_forum') . '/includes/panels',
+    );
+  }
+}

@@ -30,18 +30,19 @@
       <?php // We only want these printed on top on the main forum page ?>
       <div class="forum-secondary-links"><?php print $forum_secondary_links ?></div>
     <?php endif; ?>
-    
+
     <?php print $forums; ?>
-    
+
     <?php if (!empty($topics)): ?>
       <?php // Print a set on top of the topics. ?>
       <div class="forum-primary-links"><?php print $forum_links ?></div>
       <div class="forum-secondary-links clear-block"><?php print $forum_secondary_links ?></div>
     <?php endif; ?>
-    
+
     <?php print $topics; ?>
-    
+
     <?php if (!empty($topics)): ?>
+      <?php print $topic_legend; ?>
       <?php // Print a set under the topics. ?>
       <div class="forum-primary-links"><?php print $forum_links ?></div>
       <div class="forum-secondary-links clear-block"><?php print $forum_secondary_links ?></div>

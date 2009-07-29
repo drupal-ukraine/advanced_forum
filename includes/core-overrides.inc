@@ -30,6 +30,32 @@ function advanced_forum_page($tid = 0) {
     $topics = advanced_forum_get_topics($tid, $sortby, $forum_per_page);
   }
 
+  $vid = variable_get('forum_nav_vocabulary', '');
+  $vocabulary = taxonomy_vocabulary_load($vid);
+
+  // Breadcrumb navigation:
+  $breadcrumb[] = l(t('Home'), NULL);
+  if ($tid) {
+    $breadcrumb[] = l($vocabulary->name, 'forum');
+  }
+  if ($parents) {
+    foreach (array_reverse($parents) as $p) {
+      if ($p->tid != $tid) {
+        $breadcrumb[] = l($p->name, 'forum/'. $p->tid);
+      }
+      else {
+        $title = $p->name;
+      }
+    }
+  }
+
+  if (empty($title)) {
+    $title = $vocabulary->name;
+  }
+
+  drupal_set_breadcrumb($breadcrumb);
+  drupal_set_title(check_plain($title));
+
   return theme('forums', $forums, $topics, $parents, $tid, $sortby, $forum_per_page);
 }
 
@@ -128,6 +154,16 @@ function advanced_forum_get_forums($tid = 0) {
  * This is copied from the forum module and adapted.
  */
 function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
+  $term = taxonomy_get_term($tid);
+  drupal_add_feed(url('taxonomy/term/'. $tid .'/0/feed'), 'RSS - '. check_plain($term->name));
+  if (module_exists('views')) {
+    // When views is installed, we let it take over the topic list page.
+    $view = views_get_view('advanced_forum_topic_list');
+    $view->set_display('default');
+    $view->set_arguments(array($tid));
+    return $view->preview();
+  }
+
   global $user, $forum_topic_list_header;
 
   $forum_topic_list_header = array(
@@ -183,6 +219,104 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
     $topics[] = $topic;
   }
 
-  return $topics;
+  return theme('forum_topic_list', $tid, $topics, $sortby, $forum_per_page);
 }
 
+/**
+ * Generate a list of links for a forum.
+ *
+ * This is used on the forum list, allowing us to have direct
+ * links to post to a forum and other interesting bits and pieces.
+ */
+function advanced_forum_get_forum_post_links($tid) {
+  global $user;
+
+  // Format the "post new content" links listing.
+  $vid = variable_get('forum_nav_vocabulary', '');
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $forum_types = array();
+
+  // Loop through all node types for forum vocabulary.
+  foreach ($vocabulary->nodes as $type) {
+    // Check if the current user has the 'create' permission for this node type.
+    if (node_access('create', $type)) {
+      // Fetch the "General" name of the content type.
+      $node_type = node_get_types('name', $type);
+
+      // Remove the word "Forum" out of "Forum topic" to shorten it.
+      // @TODO: this is a little dodgy and may not work right with
+      // translations. Should be replaced if there's a better way.
+      $node_type = str_replace('Forum', '', $node_type);
+
+      // Push the link with title and url to the array.
+      $forum_types[$type] = array(
+        'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>',
+        'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $tid,
+        'html' => TRUE);
+    }
+  }
+
+  if (empty($forum_types)) {
+    // The user is logged-in; but denied access to create any new forum content type.
+    if ($user->uid) {
+      $forum_types['disallowed'] = array('title' => t('You are not allowed to post new content in forum.'));
+    }
+    // The user is not logged-in; and denied access to create any new forum content type.
+    else {
+      $forum_types['login'] = array(
+        'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))),
+        'html' => TRUE);
+    }
+  }
+
+  return $forum_types;
+}
+
+/**
+ * Generate a list of secondary links for a forum.
+ *
+ * This includes the mark-as-read button as well as other links such as
+ * the unread list, unanswered list and similar.
+ */
+function advanced_forum_get_forum_secondary_links($tid) {
+  global $user;
+  $links = array();
+  // Add in the mark as read link if user has access
+  if (advanced_forum_markasread_access()) {
+    if ($tid) {
+      $links['mark-read']['title'] = t('Mark all topics read');
+      $links['mark-read']['href'] = "forum/markasread/$tid";
+    }
+    else {
+      $links['mark-read']['title'] = t('Mark all forums read');
+      $links['mark-read']['href'] = "forum/markasread";
+    }
+  }
+
+  // If using Views, add in our special top level views.
+  if (module_exists('views')) {
+    global $user;
+    if ($tid) {
+      if ($user->uid) {
+        $links['unread']['title'] = t('My unread');
+        $links['unread']['href'] = "forum/unread";
+        $links['unread']['query'] = array('forum' => $tid);
+      }
+      $links['unanswered']['title'] = t('Unanswered topics');
+      $links['unanswered']['href'] = "forum/unanswered";
+      $links['unanswered']['query'] = array('forum' => $tid);
+    }
+    else {
+      if ($user->uid) {
+        $links['unread']['title'] = t('My unread');
+        $links['unread']['href'] = "forum/unread";
+      }
+      $links['unanswered']['title'] = t('Unanswered topics');
+      $links['unanswered']['href'] = "forum/unanswered";
+      $links['active']['title'] = t('Active topics');
+      $links['active']['href'] = "forum/active";
+    }
+  }
+
+  return $links;
+}

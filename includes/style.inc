@@ -97,6 +97,18 @@ function advanced_forum_style_lineage($style = NULL) {
 }
 
 /**
+ * Load any .inc files related to the style so that preprocess
+ * functions can run as appropriate.
+ */
+function advanced_forum_load_style_includes($style = NULL) {
+  $lineage = advanced_forum_style_lineage($style);
+  foreach ($lineage as $key => $path) {
+    if (file_exists("$path/$key.inc")) {
+      require_once("$path/$key.inc");
+    }
+  }
+}
+/**
  * Get the info for a style, using an additive notation to
  * include all items from the parent lineage.
  */
@@ -236,10 +248,4 @@ function advanced_forum_ctools_plugin_styles() {
     'info file' => TRUE,
     'load themes' => TRUE,
   );
-}
-
-function advanced_forum_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'advanced_forum') {
-    return 'styles';
-  }
 }

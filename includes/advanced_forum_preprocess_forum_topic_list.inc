@@ -98,8 +98,4 @@ function _advanced_forum_preprocess_forum_topic_list(&$variables) {
 
       }
   }
-
-  // Set a variable for displaying the topic legend.
-  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
-
 }

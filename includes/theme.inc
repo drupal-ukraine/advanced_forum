@@ -16,7 +16,7 @@ function theme_advanced_forum_reply_link($node) {
   // Class will be one of: reply-allowed, reply-forbidden, reply-locked.
   // Link will be link to post reply or message.
   $reply_link = advanced_forum_get_reply_link($node);
-  
+
   return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '</div>';
 }
 
@@ -77,11 +77,11 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
 
   if (!empty($topic_pager->initial_pages)) {
     if (!empty($topic_pager->last_page_text)) {
-      // If you prefer to end with the number, replace 
+      // If you prefer to end with the number, replace
       // $topic_pager->last_page_text with $topic_pager->last_page_number
       $last_page = ' &hellip; ' . $topic_pager->last_page_text;
     }
-    
+
     return '<span class="topic-pager">(Page: ' . implode(", ", $topic_pager->initial_pages) . $last_page . ')</span>';
   }
 }
@@ -99,8 +99,8 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
  *   String to print in place of the title/author info on topic lists.
  */
 function theme_advanced_forum_shadow_topic($title, $nid, $new_forum) {
-  return $title . '<br />' . 
-    t('This topic has been moved to "!forum"', array('!forum' => $new_forum)) . 
+  return $title . '<br />' .
+    t('This topic has been moved to "!forum"', array('!forum' => $new_forum)) .
     ' (' . l(t('View topic'), "node/$nid") . ')';
 }
 
@@ -117,7 +117,7 @@ function theme_advanced_forum_subforum_list($subforum_list) {
   foreach($subforum_list AS $tid => $subforum) {
     $subforums[] = l($subforum->name, "forum/$tid");
   }
-  
+
   return implode(', ', $subforums);
 }
 
@@ -135,7 +135,7 @@ function advanced_forum_preprocess_forums(&$variables) {
 
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   advanced_forum_add_template_suggestions("search-forum", $variables['template_files']);
-  
+
   $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
   $variables['path'] = url('forum/search');
 }
@@ -241,14 +241,16 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("topic-list-outer-view", $variables['template_files']);
-  
+
+  /*
   // Set a variable for displaying the search.
   $view = $variables['view'];
   $forum = $view->args[0];
   $variables['search'] = theme('advanced_forum_search_forum', $forum);
-  
+
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+  */
 }
 
 /**
@@ -305,7 +307,7 @@ function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topi
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   advanced_forum_add_template_suggestions("topic-header", $variables['template_files']);
-  
+
   global $language;
   $variables['classes'] = $language->language . " forum-topic-header clear-block";
 
@@ -323,7 +325,7 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 
   // Add count of new posts (if any) linked to the first one.
   $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
-  
+
   // Add search form to search within the topic. (only works with nodecomment)
   $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
 }
@@ -336,7 +338,7 @@ function advanced_forum_preprocess_author_pane(&$variables) {
   // we are the one that called it.
   if (!empty($variables['caller']) && $variables['caller'] == 'advanced_forum') {
     advanced_forum_add_template_suggestions("author-pane", $variables['template_files']);
-    
+
     // Attempt to override the user picture fetched by Author Pane from core.
     $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
     if (!empty($sized_picture)) {
@@ -361,20 +363,20 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
 
     $variables['reply_link'] = '';
     $form_on_seperate_page = variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
-    
+
     if (module_exists('nodecomment')) {
       $comments_locked = $variables['node']->node_comment != COMMENT_NODE_READ_WRITE;
     }
     else {
       $comments_locked = $variables['node']->comment != COMMENT_NODE_READ_WRITE;
     }
-    
+
     if ($form_on_seperate_page || $comments_locked) {
       // If the post is locked or the comment form is on a seperate page,
       // build the reply/locked link / button
       $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
     }
-    
+
     // Grab the topic navigation that we hijacked in nodeapi.
     $variables['topic_navigation'] =  $variables['node']->advanced_forum_navigation;
   }
