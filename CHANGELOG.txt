@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 29, 2009
+-------------
+#510772 by Michelle: Added group topic list view and outer template.
+
+
 July 23, 2009
 -------------
 #497450 by Michelle: More work on the text replacement images.

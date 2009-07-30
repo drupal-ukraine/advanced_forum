@@ -253,6 +253,15 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
   */
 }
 
+function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
+  _advanced_forum_add_files();
+  advanced_forum_add_template_suggestions("group-topic-list-outer-view", $variables['template_files']);
+  
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+}
+
+
 /**
  * Display a view as a forum topic list style.
  */

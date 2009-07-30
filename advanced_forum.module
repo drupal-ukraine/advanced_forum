@@ -130,18 +130,25 @@ function advanced_forum_theme() {
     );
   }
 
-  // Topic list as a view
+  // Templates for features added by Views
   if (module_exists('views')) {
     $items['views_view_forum_topic_list__advanced_forum_topic_list'] = array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
       'template' => 'advanced_forum-topic-list-view',
       'original hook' => 'views_view_forum_topic_list',
     );
+    
     $items['views_view__advanced_forum_topic_list'] = array(
       'arguments' => array('view' => NULL),
       'template' => 'advanced_forum-topic-list-outer-view',
       'original hook' => 'views_view',
     );
+    
+    $items['views_view__advanced_forum_group_topic_list'] = array(
+      'arguments' => array('view' => NULL),
+      'template' => 'advanced_forum-group-topic-list-outer-view',
+      'original hook' => 'views_view',
+    );    
   }
 
   return $items;
@@ -210,8 +217,9 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'views_view_fields__advanced_forum_search',
                      'views_view_fields__advanced_forum_search_topic',
                      'views_view_forum_topic_list__advanced_forum_topic_list',
+                     'views_view_forum_topic_list__advanced_forum_group_topic_list',
                      'views_view__advanced_forum_topic_list',
-                     'views_view__advanced_forum_topic_list',
+                     'views_view__advanced_forum_group_topic_list',
                      'advanced_forum_topic_legend',
                      'advanced_forum_forum_legend',
                      'advanced_forum_topic_header',
