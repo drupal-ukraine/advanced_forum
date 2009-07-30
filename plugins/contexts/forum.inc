@@ -46,10 +46,10 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
 
   if (!empty($data)) {
     $data->container = (!$data->tid || in_array($data->tid, variable_get('forum_containers', array())));
-    $context->data     = $data;
-    $context->title    = $data->name;
-    $context->argument = $data->tid;
-    $context->vid = variable_get('forum_nav_vocabulary', '');
+    $context->data       = drupal_clone($data);
+    $context->title      = $data->name;
+    $context->argument   = $data->tid;
+    $context->vid        = variable_get('forum_nav_vocabulary', '');
     $context->vocabulary = taxonomy_vocabulary_load($context->vid);
     if ($data->tid) {
       $context->parents = taxonomy_get_parents_all($data->tid);
