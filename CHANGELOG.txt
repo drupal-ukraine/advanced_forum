@@ -5,7 +5,7 @@ $Id$
 July 29, 2009
 -------------
 #510772 by Michelle: Added group topic list view and outer template.
-
+#534816 by Michelle: Changed top anchor to forum-topic-top to avoid conflicts with some themes.
 
 July 23, 2009
 -------------

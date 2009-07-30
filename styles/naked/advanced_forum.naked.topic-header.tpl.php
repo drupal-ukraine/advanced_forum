@@ -1,5 +1,5 @@
 <div class="<?php print $classes; ?>">
-  <a id="top"></a>
+  <a id="forum-topic-top"></a>
 
   <?php print $reply_link; ?>
 
