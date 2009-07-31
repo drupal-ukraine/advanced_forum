@@ -2,10 +2,25 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 30, 2009
+-------------
+#525206 by Michelle: Fixed error with search results template not being found.
+
 July 29, 2009
 -------------
 #510772 by Michelle: Added group topic list view and outer template.
 #534816 by Michelle: Changed top anchor to forum-topic-top to avoid conflicts with some themes.
+#527020 by merlinofchaos: Panelize advanced forum. This introduces a "task" or a system page 
+                          for Panels for the forum page. It introduces 3 default handlers 
+                          for that page which cover the top page, a forum container page 
+                          and a forum topic list page. It includes a bunch of panels/ctools 
+                          plugins in order to cover all this content and makes it possible 
+                          to change the layout and easily add/remove content to these pages.
+#533818 by merlinofchaos: Allow styles to use preprocesses.
+
+July 28, 2009
+-------------
+#520758 by merlinofchaos: Allow forums not in containers to have a fake container so they still render okay.
 
 July 23, 2009
 -------------
@@ -24,7 +39,7 @@ NOISSUE by Michelle: Many small changes to styles, fixing layout, markup and sty
 #525460 by Michelle, robertdjung: Removed extra slash from CSS path.
 #523958 by Michelle, merlinofchaos: Small change to sats borders in CD.
 
-July 15, 2009
+July 15, 2009 -- ALPHA 1
 ------------
 #276577 by Michelle: Added taxonomy image support for main forum listing.
 NOISSUE by Michelle: Lost adding in $node_classes / $comment_classes when I restructured the $classes variable. Putting that back.
@@ -94,11 +109,15 @@ NOISSUE by merlinofchaos: Made blue lagoon pager smaller and italic.
 NOISSUE by Michelle: Put the functions in theme.inc into a more logical order so I can find things.
 #497450 by Michelle: Changed how forum links are handled. Split core links and added links into two and removed theme_links from reply button.
 #497450 by Michelle: More work on the image replacement. Node links are still not right.
+#290327 by merlinofchaos:  Add "active topics" view (only for all forums), add "Forum" column to unread, unanswered and active views, and make unread only visible to logged in users.
 
 June 23, 2009
 -------------
 #497450 by Michelle: Images on the forum list page converted to CSS.
 #497450 by Michelle: Topic list page images converted.
+NOISSUE by merlinofchaos: Fix a bug causing Views to think default Views are in the database.
+#290327 by merlinofchaos: Add views and links for unread and unanswered posts
+NOISSUE by merlinofchaos: pager on top and bottom of topic list view
 
 June 22, 2009
 -------------

@@ -133,6 +133,9 @@ function advanced_forum_preprocess_forums(&$variables) {
    _advanced_forum_preprocess_forums($variables);
 }
 
+/**
+ * Preprocesses template variables for the forum search form template.
+ */
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   advanced_forum_add_template_suggestions("search-forum", $variables['template_files']);
 
@@ -140,9 +143,12 @@ function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   $variables['path'] = url('forum/search');
 }
 
+/**
+ * Preprocesses template variables for the search results template.
+ */
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
   _advanced_forum_add_files();
-  $variables['template_files'][] = 'advanced_forum-search-result';
+  advanced_forum_add_template_suggestions("search-result", $variables['template_files']);
 }
 
 /**
@@ -241,26 +247,7 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("topic-list-outer-view", $variables['template_files']);
-
-  /*
-  // Set a variable for displaying the search.
-  $view = $variables['view'];
-  $forum = $view->args[0];
-  $variables['search'] = theme('advanced_forum_search_forum', $forum);
-
-  // Set a variable for displaying the topic legend.
-  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
-  */
 }
-
-function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
-  _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("group-topic-list-outer-view", $variables['template_files']);
-  
-  // Set a variable for displaying the topic legend.
-  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
-}
-
 
 /**
  * Display a view as a forum topic list style.
@@ -412,3 +399,15 @@ function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
     $variables['next'] = '';
   }
 }
+
+/*** ORGANIC GROUPS *********************************************************/
+
+function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
+  _advanced_forum_add_files();
+  advanced_forum_add_template_suggestions("group-topic-list-outer-view", $variables['template_files']);
+  
+  // Set a variable for displaying the topic legend.
+  $variables['topic_legend'] = theme('advanced_forum_topic_legend');
+}
+
+

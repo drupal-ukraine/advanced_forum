@@ -213,6 +213,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'advanced_forum_statistics',
                      'advanced_forum_search_forum',
                      'advanced_forum_search_topic',
+                     'advanced_forum_search_result',
                      'advanced_forum_topic_list_view',
                      'views_view_fields__advanced_forum_search',
                      'views_view_fields__advanced_forum_search_topic',
