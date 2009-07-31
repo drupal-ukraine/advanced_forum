@@ -344,6 +344,18 @@ function advanced_forum_preprocess_author_pane(&$variables) {
 }
 
 /**
+ * Preprocesses template variables for the page template.
+ */
+function advanced_forum_preprocess_page(&$variables) {
+  if (arg(0) == 'forum') {
+    $variables['forum_page'] = TRUE;
+  }
+  elseif (arg(0) == 'node' && !empty($variables['node']) && advanced_forum_type_is_in_forum($variables['node']->type)) {
+    $variables['forum_page'] = TRUE;
+  }
+}
+
+/**
  * Preprocesses template variables for the node template.
  */
 function advanced_forum_preprocess_node(&$variables) {

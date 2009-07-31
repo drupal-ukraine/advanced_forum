@@ -6,6 +6,7 @@ July 31, 2009
 -------------
 #524592 by Dave Reid: Added email to fake user object sent to Author Pane on comments for anon users.
 #534816 by Michelle: Made sure all classes / IDs were forum specific.
+NOISSUE by Michelle: Added a page preprocess to add a variable "forum_page" when a page is either the main forum/ pages or a node that can go in the forums.
 
 July 30, 2009
 -------------
