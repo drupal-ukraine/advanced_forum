@@ -5,6 +5,7 @@ $Id$
 July 30, 2009
 -------------
 #525206 by Michelle: Fixed error with search results template not being found.
+#531572 by Michelle: Fixed error that caused incorrect 'new posts' amounts on forum overview.
 
 July 29, 2009
 -------------

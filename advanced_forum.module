@@ -948,7 +948,6 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
 
   if (is_NULL($result_cache)) {
     $result_cache = array();
-    $vid = variable_get('forum_nav_vocabulary', '');
 
     if (module_exists("nodecomment")) {
       $sql = "SELECT COUNT(nc.cid) AS count, f.tid
@@ -972,7 +971,7 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
       $sql = db_rewrite_sql($sql, 'c', 'cid');
     }
 
-    $result = db_query($sql, $vid, $uid, NODE_NEW_LIMIT);
+    $result = db_query($sql, $uid, NODE_NEW_LIMIT);
     while ($row = db_fetch_array($result)) {
         $result_cache[$row['tid']] = $row['count'];
     }
