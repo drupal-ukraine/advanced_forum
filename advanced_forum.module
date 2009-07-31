@@ -189,11 +189,19 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // Don't let core do its basic preprocess for forums, as we want to do
   // other stuff now.
   foreach ($theme_registry['forums']['preprocess functions'] as $key => $value) {
-    if ($value == 'template_preprocess_forums') {
+     if ($value == 'template_preprocess_forums') {
       unset($theme_registry['forums']['preprocess functions'][$key]);
     }
   }
 
+  // We duplicate all of core's forum list preprocessing so no need to run
+  // it twice. Running twice also causes problems with & in forum name.
+  foreach ($theme_registry['forum_list']['preprocess functions'] as $key => $value) {
+    if ($value == 'template_preprocess_forum_list') {
+      unset($theme_registry['forum_list']['preprocess functions'][$key]);
+    }    
+  }
+  
   // --- The following section manipulates the theme registry so the .tpl files
   // --- for the given templates can be found first in the (sub)theme directory
   // --- then in ancestor themes, if any, then in the active style directory

@@ -6,6 +6,7 @@ July 30, 2009
 -------------
 #525206 by Michelle: Fixed error with search results template not being found.
 #531572 by Michelle: Fixed error that caused incorrect 'new posts' amounts on forum overview.
+#267859 by Michelle: Bypassed core forum list preprocess to avoid running forum title thru check_plain twice and also remove redundant code.
 
 July 29, 2009
 -------------
