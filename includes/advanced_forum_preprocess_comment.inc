@@ -52,6 +52,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
     // Anonymous user. Make a fake user object for theme_username
     $variables['account']->name = $variables['comment']->name;
     $variables['account']->homepage = $variables['comment']->homepage;
+    $variables['account']->email = $variables['comment']->email;    
   }
   else {
     // Load up the real user object
