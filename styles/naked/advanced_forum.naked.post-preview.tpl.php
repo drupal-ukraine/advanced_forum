@@ -23,14 +23,14 @@
 ?>
 
 <?php if ($top_post): ?>
-  <a id="top"></a>
+  <a id="forum-topic-top"></a>
 <?php else: ?>
-  <a id="comment-<?php print $node->nid; ?>"></a>
+  <a id="forum-reply-<?php print $node->nid; ?>"></a>
 <?php endif; ?>
 
 <div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">
-  <div class="post-info clear-block">
-    <div class="posted-on">
+  <div class="forum-post-info clear-block">
+    <div class="forum-posted-on">
       <?php print $date ?>
 
       <?php if (!$top_post): ?>
@@ -42,7 +42,7 @@
     </div>
 
     <?php if (!$top_post): ?>
-      <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
+      <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
   </div>
 
@@ -58,7 +58,7 @@
         </div>
       <?php endif; ?>
 
-      <div class="content">
+      <div class="forum-post-content">
         <?php print $content ?>
       </div>
 
@@ -72,7 +72,7 @@
 
   <div class="forum-post-footer clear-block">
     <div class="forum-jump-links">
-      <a href="#top" title="Jump to top of page"><?php print t("Top"); ?></a>
+      <a href="#forum-topic-top" title="Jump to top of page"><?php print t("Top"); ?></a>
     </div>
   </div>
 </div>

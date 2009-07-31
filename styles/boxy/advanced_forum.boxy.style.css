@@ -67,19 +67,19 @@ Colors used:
 }
 
 /* Header at the top of each post */
-.post-info {
+.forum-post-info {
   background-color: #CCCCCC;
   color: #494949;
   font-weight: bold;
   border-bottom: 1px solid #CCCCCC;
 }
 
-.posted-on {
+.forum-posted-on {
   font-size: .8em;
   font-weight: bold;
 }
 
-.post-title {
+.forum-post-title {
   font-weight: bold;
   border-bottom: 1px solid #CCCCCC;
 }

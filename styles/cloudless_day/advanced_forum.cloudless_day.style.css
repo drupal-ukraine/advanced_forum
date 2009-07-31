@@ -92,13 +92,13 @@ Colors used:
 }
 
 /* Header at the top of each post */
-.post-info,
+.forum-post-info,
 .forum-post-wrapper,
 .forum-post-footer {
   border: 2px solid white;
 }
 
-.post-info {
+.forum-post-info {
   background-color: #C8DBEA;
   color: #3C78A7;
   margin-bottom: 0;
@@ -116,7 +116,7 @@ Colors used:
   border-bottom: 2px solid white;
 }
 
-.post-title {
+.forum-post-title {
   border-bottom: none;
   background-color: #EDF5FA;
   line-height: 225%;
@@ -132,6 +132,6 @@ Colors used:
   border-right: 2px solid white;
 }
 
-.post-title {
+.forum-post-title {
   border-left: 2px solid white;
 }

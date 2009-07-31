@@ -36,7 +36,6 @@ Images used:
   margin: 0;
 }
 
-
 #forum .pager a:link,
 #forum .pager a:visited,
 #forum-comments .pager a:link,
@@ -134,31 +133,31 @@ Images used:
 }
 
 /* Header at the top of each post */
-.post-info {
+.forum-post-info {
   background: #91CDF5 ;
   color: #ffffff;
   border-bottom: 1px solid #91CDF5;
   margin-bottom: 0; /* Reset from Naked's structure*/
 }
 
-.posted-on {
+.forum-posted-on {
   font-size: .8em;
   font-weight: bold;
 }
 
-.forum-post .new {
+.forum-forum-post .new {
   color: #ffffff;
 }
 
-.post-title {
+.forum-post-title {
   font-weight: bold;
   border-bottom: 1px solid #91CDF5;
 }
 
-.post-num a:link,
-.post-num a:visited,
-.post-num a:active,
-.post-num a:hover {
+.forum-post-num a:link,
+.forum-post-num a:visited,
+.forum-post-num a:active,
+.forum-post-num a:hover {
   color: #ffffff;
 }
 
@@ -205,7 +204,7 @@ Images used:
   border-left: 1px solid #91CDF5;
 }
 
-.top-post-footer {
+.forum-top-post-footer {
   border: 2px solid #91CDF5;
 }
 

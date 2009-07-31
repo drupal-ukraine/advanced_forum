@@ -25,12 +25,12 @@
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
 <?php else: ?>
-  <a id="comment-<?php print $node->nid; ?>"></a>
+  <a id="forum-reply-<?php print $node->nid; ?>"></a>
 <?php endif; ?>
 
 <div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">
-  <div class="post-info clear-block">
-    <div class="posted-on">
+  <div class="forum-post-info clear-block">
+    <div class="forum-posted-on">
       <?php print $date ?>
 
       <?php if (!$top_post): ?>
@@ -42,7 +42,7 @@
     </div>
 
     <?php if (!$top_post): ?>
-      <span class="post-num"><?php print $comment_link . ' ' . $page_link; ?></span>
+      <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
   </div>
 
@@ -53,12 +53,12 @@
 
     <div class="forum-post-panel-main clear-block">
       <?php if (!empty($title)): ?>
-        <div class="post-title">
+        <div class="forum-post-title">
           <?php print $title ?>
         </div>
       <?php endif; ?>
 
-      <div class="content">
+      <div class="forum-post-content">
         <?php print $content ?>
       </div>
 
@@ -84,7 +84,7 @@
 </div>
 
 <?php if ($top_post): ?>
-  <div class="top-post-footer">
+  <div class="forum-top-post-footer">
    <?php print t('Tags') ?>: <?php print $terms ?>
   </div>
 <?php endif; ?>

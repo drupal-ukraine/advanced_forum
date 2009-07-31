@@ -201,13 +201,13 @@ ul.forum-links li {
 }
 
 /* Header at the top of each post */
-.post-info {
+.forum-post-info {
   height:100%;
   clear: both;
   margin-bottom: 3px;
 }
 
-.posted-on {
+.forum-posted-on {
   padding: 0 5px;
   float: left;
 }
@@ -216,7 +216,7 @@ ul.forum-links li {
   float: none;
 }
 
-.post-num {
+.forum-post-number {
   float: right;
   margin-right: 5px;
 }
@@ -297,7 +297,7 @@ ul.forum-links li {
   text-align: right;
 }
 
-.top-post-footer {
+.forum-top-post-footer {
   margin: 10px 0 10px 0;
   padding: 5px;
 }
