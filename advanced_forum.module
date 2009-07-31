@@ -399,13 +399,11 @@ include_once drupal_get_path('module', 'advanced_forum') . '/includes/core-overr
 /**
  * Marks all posts in forums or in a given forum as read by the current user.
  */
-function advanced_forum_markasread() {
+function advanced_forum_markasread($current_forum_id = 0) {
   global $user;
 
   // See if we're on a forum or on the forum overview
   // Path will be /forum/markasread or /forum/markasread/tid
-  $current_forum_id = arg(2);
-
   if ($current_forum_id) {
     // Delete the current history entries so already visited nodes get updated.
     $sql = "DELETE h
@@ -431,36 +429,35 @@ function advanced_forum_markasread() {
     }
 
     drupal_set_message(t('All content in this forum has been marked as read'));
-    drupal_goto('forum/'. $current_forum_id);
+    drupal_goto('forum/' . $current_forum_id);
   }
-  else {
-    // We are on the forum overview, requesting all forums be marked read
-    $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
 
-    // Delete the current history entries so already visited nodes get updated.
-    $sql = "DELETE h
-            FROM {history} AS h
-              INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
-              INNER JOIN {term_data} AS td ON (td.tid = tn.tid)
-            WHERE h.uid = %d AND td.vid = %d";
-    db_query($sql, $user->uid, $forum_vocabulary_id);
+  // We are on the forum overview, requesting all forums be marked read
+  $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
 
-    // Update the history table with all forum nodes newer than the cutoff.
-    $sql = "INSERT INTO {history} (uid, nid, timestamp)
-            SELECT DISTINCT %d, n.nid, %d
-            FROM {node} AS n
-              INNER JOIN {term_node} AS tn ON n.nid=tn.nid
-              INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-              INNER JOIN {term_data} AS td ON tn.tid = td.tid
-            WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
+  // Delete the current history entries so already visited nodes get updated.
+  $sql = "DELETE h
+          FROM {history} AS h
+            INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
+            INNER JOIN {term_data} AS td ON (td.tid = tn.tid)
+          WHERE h.uid = %d AND td.vid = %d";
+  db_query($sql, $user->uid, $forum_vocabulary_id);
 
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
+  // Update the history table with all forum nodes newer than the cutoff.
+  $sql = "INSERT INTO {history} (uid, nid, timestamp)
+          SELECT DISTINCT %d, n.nid, %d
+          FROM {node} AS n
+            INNER JOIN {term_node} AS tn ON n.nid=tn.nid
+            INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
+            INNER JOIN {term_data} AS td ON tn.tid = td.tid
+          WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
 
-    db_query($sql, $args);
+  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
 
-    drupal_set_message(t('All forum content been marked as read'));
-    drupal_goto('forum');
-  }
+  db_query($sql, $args);
+
+  drupal_set_message(t('All forum content been marked as read'));
+  drupal_goto('forum');
 }
 
 /**
