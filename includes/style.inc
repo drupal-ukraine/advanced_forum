@@ -12,7 +12,7 @@
  * Returns the name of the forum style to use.
  */
 function advanced_forum_get_current_style() {
-  return variable_get('advanced_forum_style', 'blue_lagoon_stacked');
+  return variable_get('advanced_forum_style', 'cloudless_day_stacked');
 }
 
 function advanced_forum_get_style($style) {
