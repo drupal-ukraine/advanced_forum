@@ -202,21 +202,28 @@
 .en .post_edit a,
 .en .comment_delete a,
 .en .post_delete a {
-  text-decoration: none;
   display: block;
   float: right;
   height: 16px;
   width: 50px;
+  position: relative;
+  text-decoration: none;
+  margin: 0; 
   padding-right: 5px;
 }
 
-.en .comment_add span,
-.en .comment_reply span,
-.en .quote span,
-.en .comment_edit span,
-.en .post_edit span,
-.en .comment_delete span,
-.en .post_delete span {
+.en .comment_add span.image-replace,
+.en .comment_reply span.image-replace,
+.en .quote span.image-replace,
+.en .comment_edit span.image-replace,
+.en .post_edit span.image-replace,
+.en .comment_delete span.image-replace,
+.en .post_delete span.image-replace {
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  z-index: 1; /*for Opera 5 and 6*/
   height: 16px;
   width: 50px;
 }
