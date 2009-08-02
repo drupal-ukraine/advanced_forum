@@ -33,6 +33,8 @@
     <div class="forum-posted-on">
       <?php print $date ?>
 
+      <?php // This section is here to keep the views caching used for
+           // Nodecomment from caching the new markers. ?>
       <?php if (!$top_post): ?>
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>

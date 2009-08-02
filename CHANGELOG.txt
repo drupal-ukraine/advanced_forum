@@ -15,6 +15,7 @@ August 1, 2009
 #537018 by Michelle: Added span around 'subforums' label so it can be styled.
                      Made .forum-table a generic class for both types of tables and added .forum-table-forums and .forum-table-topics.                     
                      Made classes in forum tables more specific.
+#518110 by Michelle: Documented the chunk of code in the post .tpl there to keep the new markers from being cached.
 
 July 31, 2009
 -------------
