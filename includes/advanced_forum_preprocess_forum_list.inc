@@ -73,7 +73,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   }
 
   // Determine if we want to use taxonomy image outside of the loop.
-  $variables['use_taxonomy_image'] = (function_exists(taxonomy_image_display) && variable_get('advanced_forum_use_taxonomy_image', TRUE));
+  $variables['use_taxonomy_image'] = (function_exists('taxonomy_image_display') && variable_get('advanced_forum_use_taxonomy_image', TRUE));
 
   global $user;
   $row = 0;
@@ -99,12 +99,14 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $variables['forums'][$id]->old_topics = $forum->num_topics - $variables['forums'][$id]->new_topics;
     }
 
+    // Avoid notices if there is no last post.
+    $forum->last_post = (empty($forum->last_post)) ? '' : $forum->last_post;
     $variables['forums'][$id]->last_reply = theme('forum_submitted', $forum->last_post);
 
     $variables['forums'][$id]->new_posts = 0;
     $variables['forums'][$id]->new_text_posts = '';
     $variables['forums'][$id]->new_url_posts = '';
-    $variables['forums'][$id]->old_posts = $forum->num_posts;
+    $variables['forums'][$id]->old_posts = (empty($forum->num_posts)) ? '' : $forum->num_posts;
 
     if ($user->uid) {
       // Show number of new posts as well as topics

@@ -78,7 +78,7 @@ function advanced_forum_settings_page() {
     );
   }
 
-  if (function_exists(taxonomy_image_display)) {
+  if (function_exists('taxonomy_image_display')) {
      $form['advanced_forum_lists']['advanced_forum_use_taxonomy_image'] = array(
       '#type' => 'checkbox',
       '#title' => t('Use taxonomy image in forum listing'),

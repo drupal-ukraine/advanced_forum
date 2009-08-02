@@ -39,7 +39,9 @@
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
-        <?php print $new_output; ?>
+        <?php if (!empty($new_output)): ?>
+          <?php print $new_output; ?>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
 
