@@ -144,10 +144,14 @@ ul.forum-links li {
 /*** FORUM STATISTICS *******************************************************/
 
 #forum-statistics-header,
-.forum-statistics-sub-header,
-.forum-statistics-sub-body {
+.forum-statistics-sub-header {
   padding: 0.3em 0.5em;
 }
+
+.forum-statistics-sub-body {
+  padding: 0.3em 0.5em 0 2em;
+}
+
 
 /*** ICONS LEGEND ***********************************************************/
 

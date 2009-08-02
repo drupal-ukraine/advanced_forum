@@ -6,6 +6,7 @@ August 1, 2009
 --------------
 #528480 by Michelle: Added extra divs around topics / latest user on statistics for seperate styling.
 #436084 by MGParisi: Reduced size of some Blue Lagoon images.
+#537018 by Michelle: Indented subbody of statistics in Naked and removed indenting from Boxy/Cloudless Day
 
 July 31, 2009
 -------------
