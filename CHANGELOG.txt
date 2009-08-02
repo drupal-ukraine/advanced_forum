@@ -7,6 +7,11 @@ August 1, 2009
 #528480 by Michelle: Added extra divs around topics / latest user on statistics for seperate styling.
 #436084 by MGParisi: Reduced size of some Blue Lagoon images.
 #537018 by Michelle: Indented subbody of statistics in Naked and removed indenting from Boxy/Cloudless Day
+#537018 by Michelle: Added a margin to the right of the post reply button on top of topics to Naked.
+Put padding around .forum-post-content and .forum-post-title in Naked.
+Added boxes around .forum-top-post-footer and .forum-topic-navigation in Boxy.
+Made post number white on Boxy and Blue Lagoon.
+Added odd/even table shading to Boxy as well as borders around the TDs.
 
 July 31, 2009
 -------------

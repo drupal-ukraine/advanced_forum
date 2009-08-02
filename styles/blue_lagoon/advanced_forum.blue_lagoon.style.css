@@ -154,11 +154,8 @@ Images used:
   border-bottom: 1px solid #91CDF5;
 }
 
-.forum-post-num a:link,
-.forum-post-num a:visited,
-.forum-post-num a:active,
-.forum-post-num a:hover {
-  color: #ffffff;
+.forum-post-number a {
+  color: #ffffff !important;
 }
 
 /* Wrap around author pane and comment */
@@ -204,6 +201,7 @@ Images used:
   border-left: 1px solid #91CDF5;
 }
 
+/* Box under top post before first reply */
 .forum-top-post-footer {
   border: 2px solid #91CDF5;
 }

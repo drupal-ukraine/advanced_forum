@@ -181,7 +181,7 @@ ul.forum-links li {
 
 .forum-topic-header .reply-link {
   float: left;
-  margin: 10px 0 2px 0;  
+  margin: 10px 15px 2px 0;  
 }
 
 .forum-topic-header .search-topic {
@@ -225,6 +225,10 @@ ul.forum-links li {
   margin-right: 5px;
 }
 
+.forum-post-title {
+  padding: 1px 1px 1px 10px;
+}
+
 /* Author information pane */
 .forum-post-panel-sub {
   float: left;
@@ -262,12 +266,12 @@ ul.forum-links li {
   height: 230px;
 }
 
-.forum-post-panel-main .content {
+.forum-post-panel-main .forum-post-content {
   padding-top: 2px;
 }
 
 .forum-post-panel-main .post-title,
-.forum-post-panel-main .content {
+.forum-post-panel-main .forum-post-content {
   margin-left: 0;
   padding-left: 10px;
 }

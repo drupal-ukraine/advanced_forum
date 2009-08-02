@@ -20,6 +20,7 @@ Colors used:
 #forum .forum-table th,
 #forum .forum-topics th {
   background-color: #CCCCCC;
+  border-bottom: none;
 }
 
 #forum .forum-table th,
@@ -28,6 +29,18 @@ Colors used:
 #forum .forum-topics th a {
   color: #494949;
   font-weight: bold;
+}
+
+#forum tr.even {
+  background-color: #EEEEEE;
+}
+
+#forum tr.odd {
+  background-color: #ffffff;
+}  
+
+#forum td {
+  border: 1px solid #CCCCCC;
 }
 
 /* Topic listings */
@@ -75,6 +88,10 @@ Colors used:
   font-weight: bold;
 }
 
+.forum-post-number a {
+  color: #ffffff !important;
+}
+
 .forum-post-title {
   font-weight: bold;
   border-bottom: 1px solid #CCCCCC;
@@ -112,3 +129,14 @@ Colors used:
 .forum-jump-links {
   border-right: 1px solid #CCCCCC;
 }
+
+/* Box under top post before first reply */
+.forum-top-post-footer {
+  border: 1px solid #CCCCCC;
+}
+
+/* Topic navigation */
+.forum-topic-navigation {
+  border: 1px solid #CCCCCC;
+}
+
