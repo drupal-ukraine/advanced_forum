@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+August 1, 2009
+--------------
+#528480 by Michelle: Added extra divs around topics / latest user on statistics for seperate styling.
+
 July 31, 2009
 -------------
 #524592 by Dave Reid: Added email to fake user object sent to Author Pane on comments for anon users.

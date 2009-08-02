@@ -34,7 +34,11 @@
   </div>
 
   <div id="forum-statistics-statistics-body" class="forum-statistics-sub-body">
-    <?php print t('Topics: !topics, Posts: !posts, Users: !users', array('!topics' => $topics, '!posts' => $posts, '!users' => $users)); ?>
-    <br /><?php print t('Welcome to our latest member, !user', array('!user' => $latest_user)); ?>
+    <div id="forum-statistics-topics">
+      <?php print t('Topics: !topics, Posts: !posts, Users: !users', array('!topics' => $topics, '!posts' => $posts, '!users' => $users)); ?>
+    </div>
+    <div id="forum-statistics-latest-user">
+      <?php print t('Welcome to our latest member, !user', array('!user' => $latest_user)); ?>
+    </div>
   </div>
 </div>
