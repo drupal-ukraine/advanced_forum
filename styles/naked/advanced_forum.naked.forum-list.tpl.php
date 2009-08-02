@@ -40,7 +40,7 @@
       </tbody></table>
     <?php endif; ?>
 
-    <table id="container-<?php print $container_number; ?>" class="forum-table">
+    <table id="container-<?php print $container_number; ?>" class="forum-table .forum-table-forums">
       <thead class="forum-header">
         <tr>
           <th class="forum-icon"></th>
@@ -50,7 +50,7 @@
           <?php endif; ?>
 
           <th class="forum-name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></th>
-          <th class="forum-num-topics"><?php print t('Topics');?></th>
+          <th class="forum-number-topics"><?php print t('Topics');?></th>
           <th class="forum-posts"><?php print t('Posts'); ?></th>
           <th class="forum-last-post"><?php print t('Last post'); ?></th>
         </tr>
@@ -80,27 +80,27 @@
 
 
         <td class="forum-details">
-          <div class="name">
+          <div class="forum-name">
             <a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a>
           </div>
           <?php if (!empty($forum->description)): ?>
-            <div class="description"><?php print $forum->description; ?></div>
+            <div class="forum-description"><?php print $forum->description; ?></div>
           <?php endif; ?>
 
           <?php if (!empty($forum->subforums)): ?>
-            <div class="subforums"><?php print t("Subforums") ?>: <?php print $forum->subforums; ?></div>
+            <div class="forum-subforums"><span class="forum-subforums-label"><?php print t("Subforums") ?>:</span> <?php print $forum->subforums; ?></div>
           <?php endif; ?>
         </td>
 
-        <td class="topics">
-          <div class="num num-topics"><?php print $forum->num_topics ?>
+        <td class="forum-number-topics">
+          <div class="forum-number-topics"><?php print $forum->num_topics ?>
             <?php if ($forum->new_topics): ?>
-              <div class="num num-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
+              <div class="forum-number-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
             <?php endif; ?>
           </div>
         </td>
 
-        <td class="num posts">
+        <td class="forum-number-posts">
           <?php print $forum->num_posts ?>
           <?php if ($forum->new_posts): ?>
               <br />
@@ -108,7 +108,7 @@
           <?php endif; ?>
         </td>
 
-        <td class="last-reply"><?php print $forum->last_reply ?></td>
+        <td class="forum-last-reply"><?php print $forum->last_reply ?></td>
       </tr>
     <?php endif; ?>
   <?php endif; ?>

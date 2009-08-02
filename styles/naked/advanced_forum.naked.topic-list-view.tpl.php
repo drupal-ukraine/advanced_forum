@@ -20,7 +20,7 @@
     <caption><?php print $title; ?></caption>
   <?php endif; ?>
 
-  <table class="forum-topics <?php print $class; ?>">
+  <table class="forum-table forum-table-topics <?php print $class; ?>">
     <thead>
       <tr>
         <?php foreach ($header as $field => $label): ?>

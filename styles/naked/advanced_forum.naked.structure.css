@@ -63,13 +63,13 @@ ul.forum-links li {
 
 /*** FORUM & TOPIC LIST *****************************************************/
 
-#forum table {
+#forum .forum-table {
   clear: both;
   width: 100%;
 }
 
 /* Header, both tables */
-#forum th {
+#forum .forum-table th {
   text-align: center;
 }
 
@@ -82,54 +82,56 @@ ul.forum-links li {
   width: 50%;
 }
 
-#forum td.forum-details .description {
+#forum td.forum-details .forum-description {
   margin: 0;
 }
 
-#forum td.forum-details .subforums,
-#forum td.forum-details .subforums a {
+#forum td.forum-details .forum-subforums,
+#forum td.forum-details .forum-subforums a {
   padding-left: 10px;
 }
 
-#forum td.topics {
+#forum td.forum-number-topics {
   width: 10%;
+  text-align: center;
 }
 
-#forum td.posts {
+#forum td.forum-number-posts {
   width: 10%;
+  text-align: center;
 }
 
-#forum td.last-reply {
+#forum td.forum-last-reply {
   width: 20%;
 }
 
 /* Topic listing */
-#forum .forum-topics th.views-field-title {
+#forum .forum-table-topics th.views-field-title {
   text-align: left;
 }
 
-#forum .forum-topics td.views-field-topic-icon {
+#forum .forum-table-topics td.views-field-topic-icon {
   width: 26px;
 }
 
-#forum .forum-topics span.topic-icon {
+#forum .forum-table-topics span.topic-icon {
   display: block;
 }
 
-#forum .forum-topics td.views-field-title {
+#forum .forum-table-topics td.views-field-title {
   width: 50%;
 }
 
-#forum .forum-topics td.views,
-#forum .forum-topics td.views-field-comment-count,
-#forum .forum-topics td.views-field-totalcount {
+#forum .forum-table-topics td.views,
+#forum .forum-table-topics td.views-field-comment-count,
+#forum .forum-table-topics td.views-field-totalcount {
   text-align: center;
   white-space: nowrap;
   width: 10%;
 }
 
-#forum .forum-topics td.created,
-#forum .forum-topics td.last-reply {
+#forum .forum-table-topics td.created,
+#forum .forum-table-topics td.last-reply {
   font-size: 0.9em;
   line-height: 140%;
   padding: 0 10px;
@@ -137,7 +139,7 @@ ul.forum-links li {
   width: 25%;
 }
 
-#forum .forum-topics td .links {
+#forum .forum-table-topics td .links {
   padding-top: 10px;
 }
 

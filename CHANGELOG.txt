@@ -8,10 +8,13 @@ August 1, 2009
 #436084 by MGParisi: Reduced size of some Blue Lagoon images.
 #537018 by Michelle: Indented subbody of statistics in Naked and removed indenting from Boxy/Cloudless Day
 #537018 by Michelle: Added a margin to the right of the post reply button on top of topics to Naked.
-Put padding around .forum-post-content and .forum-post-title in Naked.
-Added boxes around .forum-top-post-footer and .forum-topic-navigation in Boxy.
-Made post number white on Boxy and Blue Lagoon.
-Added odd/even table shading to Boxy as well as borders around the TDs.
+                     Put padding around .forum-post-content and .forum-post-title in Naked.
+                     Added boxes around .forum-top-post-footer and .forum-topic-navigation in Boxy.
+                     Made post number white on Boxy and Blue Lagoon.
+                     Added odd/even table shading to Boxy as well as borders around the TDs.
+#537018 by Michelle: Added span around 'subforums' label so it can be styled.
+                     Made .forum-table a generic class for both types of tables and added .forum-table-forums and .forum-table-topics.                     
+                     Made classes in forum tables more specific.
 
 July 31, 2009
 -------------

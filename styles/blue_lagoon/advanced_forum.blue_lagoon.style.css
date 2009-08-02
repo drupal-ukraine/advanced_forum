@@ -62,51 +62,49 @@ Images used:
 /*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
-#forum .forum-table,
-#forum .forum-topics {
+#forum .forum-table {
   border: 3px solid #91CDF5;
 }
 
 /* Headers */
-#forum .forum-table th,
-#forum .forum-table th a,
-#forum .forum-topics th,
-#forum .forum-topics th a,
-#forum .forum-topics th a:link,
-#forum .forum-topics th a:hover,
-#forum .forum-topics th a:visited {
+#forum .forum-table th {
   background-color: #91CDF5;
+  color: #ffffff;
+  font-weight: bold;
+  border-bottom: none;
+}
+
+#forum .forum-table th a {
   color: #ffffff;
   font-weight: bold;
 }
 
-#forum .forum-table tbody,
-#forum .forum-topics tbody {
-  border-top: none;
-}
-
 /* Containers & Forums */
-#forum tr.even, 
-#forum tr.odd {
+#forum .forum-table tr.even, 
+#forum .forum-table tr.odd {
   background-color: #EDF5FA;
 }
 
-#forum td.topics,
-#forum td.last-reply {
+#forum .forum-table td.forum-number-topics,
+#forum .forum-table td.forum-last-reply {
   background-color: #ffffff;
 }
 
 /* Topic listings */
-#forum tr.sticky {
+#forum .forum-table tr.sticky {
   background-color: #E6EDEC;
 }
 
-#forum tr.forum-last-sticky {
+#forum .forum-table tr.forum-last-sticky {
   border-bottom: 10px solid #91CDF5;
 }
 
-#forum .sticky-label {
+#forum .forum-table .sticky-label {
   font-weight: bold;
+}
+
+#forum .forum-table td.views-field-comment-count {
+  background-color: #ffffff;
 }
 
 /*** FORUM STATISTICS *******************************************************/

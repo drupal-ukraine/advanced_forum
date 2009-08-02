@@ -39,7 +39,7 @@
 
 <?php print $pager; ?>
 
-<table id="forum-topic-<?php print $topic_id; ?>" class="forum-topics">
+<table id="forum-topic-<?php print $topic_id; ?>" class="forum-table forum-table-topics">
   <thead>
     <tr><?php print $header; ?></tr>
   </thead>
@@ -69,7 +69,7 @@
     <tr class="<?php print $topic->zebra;?> <?php print $topic->sticky_class;?>">
       <td class="icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
 
-      <td class="title">
+      <td class="forum-topic-title">
       <?php print $topic->title . $topic_new; ?>
       <?php if (!empty($topic->pager)): ?>
          <div class="forum-topic-pager"> <?php print $topic->pager ?> </div>
@@ -81,22 +81,22 @@
         <?php print $topic->message; ?>
         </td>
       <?php else: ?>
-        <td class="replies">
-          <div class="num num-replies"><?php print $topic->num_comments; ?></div>
+        <td class="forum-replies">
+          <div class="forum-number-replies"><?php print $topic->num_comments; ?></div>
           <?php if ($topic->new_replies): ?>
-            <div class="num num-new-replies"><a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a></div>
+            <div class="forum-number-new-replies"><a href="<?php print $topic->new_url; ?>"><?php print $topic->new_text; ?></a></div>
           <?php endif; ?>
         </td>
 
       <?php if (module_exists('statistics')): ?>
-        <td class="views"><?php print $topic->views;?> </td>
+        <td class="forum-number-views"><?php print $topic->views;?> </td>
       <?php endif; ?>
 
       <?php if (!variable_get('advanced_forum_hide_created', 0)): ?>
-        <td class="created"><?php print $topic->created; ?></td>
+        <td class="forum-topic-created"><?php print $topic->created; ?></td>
       <?php endif; ?>
 
-      <td class="last-reply"><?php print $topic->last_reply; ?></td>
+      <td class="forum-last-reply"><?php print $topic->last_reply; ?></td>
     <?php endif; ?>
     </tr>
   <?php endforeach; ?>
