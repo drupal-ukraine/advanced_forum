@@ -5,6 +5,7 @@ $Id$
 August 1, 2009
 --------------
 #528480 by Michelle: Added extra divs around topics / latest user on statistics for seperate styling.
+#436084 by MGParisi: Reduced size of some Blue Lagoon images.
 
 July 31, 2009
 -------------
