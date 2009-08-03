@@ -5,6 +5,7 @@ $Id$
 August 1, 2009
 --------------
 NOISSUE by Michelle: Fixed notices.
+#413494 by Michelle, snufkin: Added support for commend edited message in the post template.
 
 August 1, 2009
 --------------

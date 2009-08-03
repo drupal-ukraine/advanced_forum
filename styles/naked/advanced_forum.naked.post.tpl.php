@@ -65,6 +65,12 @@
       <div class="forum-post-content">
         <?php print $content ?>
       </div>
+      
+      <?php if (!empty($comment->comment_edited)): ?>
+        <div class="comment-edited">
+          <?php print $comment->comment_edited ?>
+        </div>
+      <?php endif; ?>
 
       <?php if (!empty($signature)): ?>
         <div class="author-signature">
