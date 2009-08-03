@@ -112,9 +112,10 @@ function advanced_forum_get_forums($tid = 0) {
       $forum->num_posts = 0;
     }
 
+    // Find out from the style's .info how many posts per forum to collect.
     $info = advanced_forum_style_info();
-
     $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
+
     // This query does not use full ANSI syntax since MySQL 3.x does not support
     // table1 INNER JOIN table2 INNER JOIN table3 ON table2_criteria ON table3_criteria
     // used to join node_comment_statistics to users.
@@ -156,8 +157,9 @@ function advanced_forum_get_forums($tid = 0) {
 function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
   $term = taxonomy_get_term($tid);
   drupal_add_feed(url('taxonomy/term/'. $tid .'/0/feed'), 'RSS - '. check_plain($term->name));
+
+  // When views is installed, we let it take over the topic list page.
   if (module_exists('views')) {
-    // When views is installed, we let it take over the topic list page.
     $view = views_get_view('advanced_forum_topic_list');
     $view->set_display('default');
     $view->set_arguments(array($tid));
@@ -166,13 +168,38 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
 
   global $user, $forum_topic_list_header;
 
-  $forum_topic_list_header = array(
-    NULL,
-    array('data' => t('Topic'), 'field' => 'n.title'),
-    array('data' => t('Replies'), 'field' => 'l.comment_count'),
-    array('data' => t('Created'), 'field' => 'n.created'),
-    array('data' => t('Last reply'), 'field' => 'l.last_comment_timestamp'),
-  );
+  $forum_topic_list_header = array();
+  
+  /* Topic icon*/
+  $forum_topic_list_header[] = array('class' => 'forum-topic-icon', 'data' => NULL, 'field' => NULL);
+  
+  /* Topic title */
+  if (variable_get('advanced_forum_hide_created', 0)) {
+   // If we are not having "created" as a seperate title, sort this column on
+   // created instead of title because the created info will be merged into it.
+   $forum_topic_list_header[] = array('class' => 'forum-topic-title', 'data' => t('Topic / Created'), 'field' => 'n.created');
+  }
+  else {
+    $forum_topic_list_header[] = array('class' => 'forum-topic-title', 'data' => t('Topic'), 'field' => 'n.title');
+  }
+
+  /* Replies */
+  $forum_topic_list_header[] = array('class' => 'forum-replies', 'data' => t('Replies'), 'field' => 'l.comment_count');
+  
+  // Topic views require the statistics module so don't show if it's not enabled
+  if (module_exists('statistics')) {
+    $forum_topic_list_header[] = array('class' => 'forum-number-views', 'data' => t('Views'), 'field' => 'nc.totalcount');
+  }
+  
+  /* Created */
+  // Allow admins to turn off the created column
+  if (!variable_get('advanced_forum_hide_created', 0)) {
+    $forum_topic_list_header[] = array('class' => 'forum-topic-created', 'data' => t('Created'), 'field' => 'n.created');
+  }
+  
+  /* Last reply */
+  $forum_topic_list_header[] = array('class' => 'forum-last-reply', 'data' => t('Last reply'), 'field' => 'l.last_comment_timestamp');
+  
 
   $order = _forum_get_topic_order($sortby);
   for ($i = 0; $i < count($forum_topic_list_header); $i++) {
@@ -183,7 +210,30 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
 
   $term = taxonomy_get_term($tid);
 
-  $sql = db_rewrite_sql("SELECT n.nid, r.tid, n.title, n.type, n.sticky, u.name, u.uid, n.created AS timestamp, n.comment AS comment_mode, l.last_comment_timestamp, IF(l.last_comment_uid != 0, cu.name, l.last_comment_name) AS last_comment_name, l.last_comment_uid, l.comment_count AS num_comments, f.tid AS forum_tid FROM {node_comment_statistics} l INNER JOIN {node} n ON n.nid = l.nid INNER JOIN {users} cu ON l.last_comment_uid = cu.uid INNER JOIN {term_node} r ON n.vid = r.vid INNER JOIN {users} u ON n.uid = u.uid INNER JOIN {forum} f ON n.vid = f.vid WHERE n.status = 1 AND r.tid = %d");
+
+  $sql = "SELECT n.nid,
+                 r.tid,
+                 n.title,
+                 n.type,
+                 n.sticky,
+                 u.name,
+                 u.uid,
+                 n.created AS timestamp,
+                 n.comment AS comment_mode,
+                 nc.totalcount AS views,
+                 l.last_comment_timestamp,
+                 IF(l.last_comment_uid != 0, cu.name, l.last_comment_name) AS last_comment_name,
+                 l.last_comment_uid,
+                 l.comment_count AS num_comments,
+                 f.tid AS forum_tid
+          FROM {node_comment_statistics} l
+            INNER JOIN {node} n ON n.nid = l.nid
+            INNER JOIN {node_counter} nc ON n.nid = nc.nid
+            INNER JOIN {users} cu ON l.last_comment_uid = cu.uid
+            INNER JOIN {term_node} r ON n.vid = r.vid
+            INNER JOIN {users} u ON n.uid = u.uid
+            INNER JOIN {forum} f ON n.vid = f.vid WHERE n.status = 1 AND r.tid = %d";
+  $sql = db_rewrite_sql($sql);
   $sql .= tablesort_sql($forum_topic_list_header, 'n.sticky DESC,');
   $sql .= ', n.created DESC';  // Always add a secondary sort order so that the news forum topics are on top.
 

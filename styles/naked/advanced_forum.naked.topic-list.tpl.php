@@ -67,7 +67,7 @@
     ?>
 
     <tr class="<?php print $topic->zebra;?> <?php print $topic->sticky_class;?>">
-      <td class="icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
+      <td class="forum-topic-icon"><div class="forum-icon"><?php print $topic->icon; ?></div></td>
 
       <td class="forum-topic-title">
       <?php print $topic->title . $topic_new; ?>

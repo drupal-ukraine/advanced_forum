@@ -137,4 +137,6 @@ function _advanced_forum_preprocess_node(&$variables) {
   else {
     $variables['classes'] .= ' ' . implode(' ', $classes);  
   }
+  dsm($variables['node']);
+
 }

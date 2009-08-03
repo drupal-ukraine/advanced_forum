@@ -6,6 +6,7 @@ August 1, 2009
 --------------
 NOISSUE by Michelle: Fixed notices.
 #413494 by Michelle, snufkin: Added support for commend edited message in the post template.
+#479124 by Michelle: Merged some topic list preprocessing into advanced_forum_get_topics and cleaned up topic list when views is not enabled.
 
 August 1, 2009
 --------------
