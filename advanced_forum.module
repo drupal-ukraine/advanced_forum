@@ -67,6 +67,16 @@ function advanced_forum_theme() {
         'comment_count' => NULL,
         )
   );
+  $items['advanced_forum_active_poster'] = array(
+      'template' => 'advanced_forum-active-poster',
+      'arguments' => array(
+        'forum' => NULL,
+        'account' => NULL,
+        'posts' => NULL,
+        'topics' => NULL,
+        'last_post' => NULL,
+        )
+  );
 
   $items['advanced_forum_forum_legend'] = array(
       'template' => 'advanced_forum-forum-legend',
@@ -137,18 +147,18 @@ function advanced_forum_theme() {
       'template' => 'advanced_forum-topic-list-view',
       'original hook' => 'views_view_forum_topic_list',
     );
-    
+
     $items['views_view__advanced_forum_topic_list'] = array(
       'arguments' => array('view' => NULL),
       'template' => 'advanced_forum-topic-list-outer-view',
       'original hook' => 'views_view',
     );
-    
+
     $items['views_view__advanced_forum_group_topic_list'] = array(
       'arguments' => array('view' => NULL),
       'template' => 'advanced_forum-group-topic-list-outer-view',
       'original hook' => 'views_view',
-    );    
+    );
   }
 
   return $items;
@@ -232,6 +242,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
                      'advanced_forum_topic_legend',
                      'advanced_forum_forum_legend',
                      'advanced_forum_topic_header',
+                     'advanced_forum_active_poster',
                 );
 
   // Find all our ancestor themes and put them in an array.

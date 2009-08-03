@@ -327,6 +327,20 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 }
 
 /**
+ * Preprocesses template variables for the topic header template.
+ */
+function advanced_forum_preprocess_advanced_forum_active_poster(&$variables) {
+  advanced_forum_add_template_suggestions("active-poster", $variables['template_files']);
+
+  $variables['account_name'] = theme('username', $variables['account']);
+  $variables['picture'] = theme('advanced_forum_user_picture', $variables['account']);
+
+  $node = $variables['last_post'];
+  $variables['last_post_title'] = l($node->title, "node/$node->nid");
+  $variables['last_post_date'] = format_date($node->created);
+}
+
+/**
  * Preprocesses template variables for the author pane.
  */
 function advanced_forum_preprocess_author_pane(&$variables) {
@@ -417,7 +431,7 @@ function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
 function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("group-topic-list-outer-view", $variables['template_files']);
-  
+
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }

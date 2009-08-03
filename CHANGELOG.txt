@@ -1,6 +1,9 @@
 $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
+August 3, 2009
+--------------
+NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
 
 August 1, 2009
 --------------

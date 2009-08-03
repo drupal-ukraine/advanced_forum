@@ -351,6 +351,9 @@ function advanced_forum_get_forum_secondary_links($tid) {
         $links['unread']['title'] = t('My unread');
         $links['unread']['href'] = "forum/unread";
         $links['unread']['query'] = array('forum' => $tid);
+        $links['my-posts']['title'] = t('My posts');
+        $links['my-posts']['href'] = "forum/user";
+        $links['my-posts']['query'] = array('forum' => $tid);
       }
       $links['unanswered']['title'] = t('Unanswered topics');
       $links['unanswered']['href'] = "forum/unanswered";
@@ -360,6 +363,8 @@ function advanced_forum_get_forum_secondary_links($tid) {
       if ($user->uid) {
         $links['unread']['title'] = t('My unread');
         $links['unread']['href'] = "forum/unread";
+        $links['my-posts']['title'] = t('My posts');
+        $links['my-posts']['href'] = "forum/user";
       }
       $links['unanswered']['title'] = t('Unanswered topics');
       $links['unanswered']['href'] = "forum/unanswered";
