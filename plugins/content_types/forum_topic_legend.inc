@@ -57,6 +57,6 @@ function advanced_forum_forum_topic_legend_content_type_edit_form_submit(&$form,
 }
 
 function advanced_forum_forum_topic_legend_content_type_admin_title($subtype, $conf, $context) {
-  return t('"@s" topic_legend', array('@s' => $context->identifier));
+  return t('"@s" topic legend', array('@s' => $context->identifier));
 }
 

@@ -156,6 +156,20 @@ ul.forum-links li {
   display: block;
 }
 
+#advanced-forum-forum-topic-list-sort-form,
+#advanced-forum-forum-topic-list-sort-form input,
+#advanced-forum-forum-topic-list-sort-form .form-item {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  vertical-align: center;
+}
+
+#forum #forum-sort-top {
+  padding: 14px 0 0 0;
+}
+
 /*** FORUM STATISTICS *******************************************************/
 
 #forum-statistics-header,
@@ -196,7 +210,7 @@ ul.forum-links li {
 
 .forum-topic-header .reply-link {
   float: left;
-  margin: 10px 15px 2px 0;  
+  margin: 10px 15px 2px 0;
 }
 
 .forum-topic-header .search-topic {
@@ -272,9 +286,9 @@ ul.forum-links li {
 /* Post text area */
 .forum-post-panel-main {
   margin-left: 150px; /*Set left margin to LeftColumnWidth*/
-  
-/* These heights keep the AP items from jumping out of the bottom. Depending 
-   on how many items you display, there, this number may need to be adjusted 
+
+/* These heights keep the AP items from jumping out of the bottom. Depending
+   on how many items you display, there, this number may need to be adjusted
    to avoid having unnecessary white space in your posts. */
   min-height: 230px;
   height: auto !important;

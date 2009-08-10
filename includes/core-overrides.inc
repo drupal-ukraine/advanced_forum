@@ -154,7 +154,7 @@ function advanced_forum_get_forums($tid = 0) {
 /**
  * This is copied from the forum module and adapted.
  */
-function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
+function advanced_forum_get_topics($tid, $sortby, $forum_per_page, $sort_form = TRUE) {
   $term = taxonomy_get_term($tid);
   drupal_add_feed(url('taxonomy/term/'. $tid .'/0/feed'), 'RSS - '. check_plain($term->name));
 
@@ -163,16 +163,17 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
     $view = views_get_view('advanced_forum_topic_list');
     $view->set_display('default');
     $view->set_arguments(array($tid));
+    $view->sort_form = $sort_form;
     return $view->preview();
   }
 
   global $user, $forum_topic_list_header;
 
   $forum_topic_list_header = array();
-  
+
   /* Topic icon*/
   $forum_topic_list_header[] = array('class' => 'forum-topic-icon', 'data' => NULL, 'field' => NULL);
-  
+
   /* Topic title */
   if (variable_get('advanced_forum_hide_created', 0)) {
    // If we are not having "created" as a seperate title, sort this column on
@@ -185,21 +186,21 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
 
   /* Replies */
   $forum_topic_list_header[] = array('class' => 'forum-replies', 'data' => t('Replies'), 'field' => 'l.comment_count');
-  
+
   // Topic views require the statistics module so don't show if it's not enabled
   if (module_exists('statistics')) {
     $forum_topic_list_header[] = array('class' => 'forum-number-views', 'data' => t('Views'), 'field' => 'nc.totalcount');
   }
-  
+
   /* Created */
   // Allow admins to turn off the created column
   if (!variable_get('advanced_forum_hide_created', 0)) {
     $forum_topic_list_header[] = array('class' => 'forum-topic-created', 'data' => t('Created'), 'field' => 'n.created');
   }
-  
+
   /* Last reply */
   $forum_topic_list_header[] = array('class' => 'forum-last-reply', 'data' => t('Last reply'), 'field' => 'l.last_comment_timestamp');
-  
+
 
   $order = _forum_get_topic_order($sortby);
   for ($i = 0; $i < count($forum_topic_list_header); $i++) {
@@ -270,6 +271,89 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page) {
   }
 
   return theme('forum_topic_list', $tid, $topics, $sortby, $forum_per_page);
+}
+
+/**
+ * Display the "sort" widget. This is a specially hacked widget that only
+ * works with tablesorting. Tablesorting MUST be on for these widgets
+ * to appear.
+ */
+function advanced_forum_forum_topic_list_sort() {
+  $form_state = array(
+    'method' => 'get',
+    'no_redirect' => TRUE,
+    'rerender' => TRUE,
+    'input' => $_GET,
+    'drop tokens' => TRUE,
+  );
+
+  ctools_include('form');
+  return ctools_build_form('advanced_forum_forum_topic_list_sort_form', $form_state);
+}
+
+function advanced_forum_forum_topic_list_sort_form(&$form_state) {
+  $view = views_get_view('advanced_forum_topic_list');
+  $view->set_display('default');
+  $view->init_handlers();
+  $view->init_style();
+
+  // Work up a list of possible fields.
+  $handler = &$view->style_plugin;
+  $fields = &$view->field;
+  $columns  = $handler->sanitize_columns($handler->options['columns'], $fields);
+
+  $options = array();
+  foreach ($columns as $field => $column) {
+    if ($field == $column && empty($fields[$field]->options['exclude'])) {
+      if (empty($handler->options['info'][$field]['sortable']) || !$fields[$field]->click_sortable()) {
+        continue;
+      }
+      $label = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
+      $options[$field] = $label;
+    }
+  }
+
+  $form['inline'] = array(
+    '#prefix' => '<div class="container-inline">',
+    '#suffix' => '</div>',
+  );
+  $form['inline']['order'] = array(
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => $handler->options['default'],
+  );
+
+  $form['inline']['sort'] = array(
+    '#type' => 'select',
+    '#options' => array(
+      'asc' => t('Up'),
+      'desc' => t('Down'),
+    ),
+    '#default_value' => 'desc',
+  );
+
+  $form['inline']['submit'] = array(
+    '#name' => '',
+    '#type' => 'submit',
+    '#value' => t('Sort'),
+  );
+
+  if (isset($_GET['page'])) {
+    $form['page'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $_GET['page'],
+    );
+  }
+
+  if (!variable_get('clean_url', FALSE)) {
+    $form['q'] = array(
+      '#type' => 'hidden',
+      '#value' => $_GET['q'],
+    );
+  }
+
+  $view->destroy();
+  return $form;
 }
 
 /**

@@ -49,6 +49,10 @@
     <div id="forum-pager-top"><?php print $pager; ?></div>
   <?php endif; ?>
 
+  <?php if (!empty($view->sort_form)): ?>
+    <div id="forum-sort-top"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
+  <?php endif; ?>
+
   <?php if ($rows): ?>
     <div class="view-content">
       <?php print $rows; ?>
