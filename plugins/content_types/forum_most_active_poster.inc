@@ -13,7 +13,7 @@ function advanced_forum_forum_most_active_poster_ctools_content_types() {
       'description' => t('A block with information about the most active forum poster.'),
       'required context' => new ctools_context_required(t('Forum'), 'forum'),
       'category' => t('Forum'),
-      'defaults' => array(),
+      'defaults' => array('period' => 'ever', 'exclude' => 0, 'uidone' => TRUE),
     );
   }
 }
@@ -33,26 +33,70 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
     $tid = $context->data->tid;
   }
 
+  $period = empty($conf['period']) ? 'ever' : $conf['period'];
+
+  switch ($period) {
+    case 'day':
+      $period_arg = 60 * 60 * 24;
+      break;
+    case 'week':
+      $period_arg = 60 * 60 * 24 * 7;
+      break;
+    case 'month':
+      $period_arg = 60 * 60 * 24 * 30;
+      break;
+    case 'quarter':
+      $period_arg = 60 * 60 * 24 * 91;
+      break;
+    case 'year':
+      $period_arg = 60 * 60 * 24 * 365;
+      break;
+  }
+
   $block = new stdClass();
   $block->module = 'forum-active-poster';
   $block->delta  = $tid;
   _advanced_forum_add_files();
 
+  $args = array();
   $query = "SELECT n.uid, COUNT(DISTINCT n.nid) AS posts FROM {node} n ";
   $query .= "LEFT JOIN {node_comments} nc ON n.nid = nc.cid ";
   $query .= "INNER JOIN {node} n2 ON COALESCE(nc.nid, n.nid) = n2.nid ";
   $query .= "INNER JOIN {forum} f ON f.vid = n2.vid ";
+
+  // Add a join to exclude our roles if needed.
+  if (!empty($conf['exclude'])) {
+    $query .= "LEFT JOIN {users_roles} ur ON n.uid = ur.uid AND ur.rid = %d ";
+    $args[] = $conf['exclude'];
+  }
+
   $query .= "WHERE n2.status <> 0 AND n.uid <> 0 ";
-  $args = array();
+
   if ($tid) {
     $forum = taxonomy_get_term($tid);
-    $block->title = t('Most active poster in @forum', array('@forum' => $forum->name)); // by default this has no title.
+    $block->title = t('Most active poster in @forum', array('@forum' => $forum->name));
     $query .= "AND f.tid = %d ";
     $args = array($tid);
   }
   else {
-    $block->title = t('Most active poster'); // by default this has no title.
+    $block->title = t('Most active poster');
   }
+
+  // Add a WHERE to make sure our excluded role is not present.
+  if (!empty($conf['exclude'])) {
+    $query .= "AND ur.rid IS NULL ";
+  }
+
+  // Exclude the superuser if configged to do so.
+  if (!empty($conf['uidone'])) {
+    $query .= "AND n.uid <> 1 ";
+  }
+
+  if (!empty($period_arg)) {
+    $query .= "AND n2.created >= %d ";
+    $args[] = time() - $period_arg;
+  }
+
   $query .= "GROUP BY n.uid ";
   $query .= "ORDER BY COUNT(DISTINCT n.nid) DESC LIMIT 1";
 
@@ -76,6 +120,10 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
     $args[] = $tid;
   }
 
+  if (!empty($period_arg)) {
+    $query .= " AND n.created >= %d";
+    $args[] = time() - $period_arg;
+  }
   $topics = db_result(db_query($query, $args));
 
   // And get their last post.
@@ -89,6 +137,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
     $query .= " AND f.tid = %d ";
     $args[] = $tid;
   }
+
   $query .= "ORDER BY n.created DESC LIMIT 1";
 
   $last_post = node_load(db_result(db_query($query, $args)));
@@ -104,6 +153,42 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
  * Returns an edit form for the custom type.
  */
 function advanced_forum_forum_most_active_poster_content_type_edit_form(&$form, &$form_state) {
+  // make sure conf contains newer defaults. CTools should do this for us:
+  $conf = $form_state['conf'];
+  $conf += $form_state['plugin']['defaults'];
+
+  $form['period'] = array(
+    '#type' => 'select',
+    '#title' => t('Period'),
+    '#options' => array(
+      'day' => t('In the last day'),
+      'week' => t('In the last week'),
+      'month' => t('In the last month'),
+      'quarter' => t('In the last quarter'),
+      'year' => t('In the last year'),
+      'ever' => t('Ever'),
+    ),
+    '#description' => t('Select what period you want to search for the most active poster.'),
+    '#default_value' => $conf['period'],
+  );
+
+  $roles = array('0' => t('Allow all roles')) + user_roles(TRUE);
+  unset($roles[DRUPAL_AUTHENTICATED_RID]);
+
+  $form['exclude'] = array(
+    '#type' => 'select',
+    '#title' => t('Exclude role'),
+    '#options' => $roles,
+    '#description' => t('Choose a role that will be excluded from being an active poster.'),
+    '#default_value' => $conf['exclude'],
+  );
+
+  $form['uidone'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Exclude UID 1'),
+    '#description' => t('If checked the super user will not be a possible most active poster.'),
+    '#default_value' => $conf['uidone'],
+  );
 }
 
 function advanced_forum_forum_most_active_poster_content_type_edit_form_submit(&$form, &$form_state) {
