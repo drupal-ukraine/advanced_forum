@@ -72,17 +72,24 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['node']->links['comment_add']['title'] = t('reply');
   }
 
-  // Add extra span tags for image replacement.
-  foreach ($variables['node']->links AS $key => $link) {
-    $variables['node']->links[$key]['title'] = $variables['node']->links[$key]['title'] . '<span class="image-replace"></span>';
-    $variables['node']->links[$key]['html'] = TRUE;
-  }
-    
-  // Remake the links with our changes
-  $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
+  if (!empty($variables['node']->links)) {
+    // Add extra span tags for image replacement.
+    foreach ($variables['node']->links AS $key => $link) {
+      $variables['node']->links[$key]['title'] = $variables['node']->links[$key]['title'] . '<span class="image-replace"></span>';
+      $variables['node']->links[$key]['html'] = TRUE;
+    }
+  
+    // Remake the links with our changes
+    $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
 
-  // Make an array version of $links
-  $variables['links_array'] = $variables['node']->links;
+    // Make an array version of $links
+    $variables['links_array'] = $variables['node']->links;
+  }
+  else {
+    // We don't have any links so just initialize the variables.
+    $variables['links'] = '';
+    $variables['links_array'] = array();
+  }
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));

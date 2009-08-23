@@ -21,6 +21,7 @@
  */
 
 ?>
+
 <div class="view view-<?php print $css_name; ?> view-id-<?php print $name; ?> view-display-id-<?php print $display_id; ?> view-dom-id-<?php print $dom_id; ?>">
   <?php if ($admin_links): ?>
     <div class="views-admin-links views-hide">

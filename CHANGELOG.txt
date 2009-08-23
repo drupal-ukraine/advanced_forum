@@ -9,7 +9,19 @@ August 3, 2009
 --------------
 NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
 
-August 1, 2009
+August 22, 2009
+---------------
+#551548 by Michelle, crea: Added check to make sure links array isn't empty before iterating through it.
+
+August 10, 2009
+---------------
+NOISSUE by merlinofchaos: Add a sort widget for the forum topic list that utilizes the tablesort headers.
+
+August 3, 2009
+--------------
+NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
+
+August 2, 2009
 --------------
 NOISSUE by Michelle: Fixed notices.
 #413494 by Michelle, snufkin: Added support for commend edited message in the post template.
