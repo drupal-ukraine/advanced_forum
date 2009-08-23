@@ -40,7 +40,7 @@
       </tbody></table>
     <?php endif; ?>
 
-    <table id="container-<?php print $container_number; ?>" class="forum-table .forum-table-forums">
+    <table id="container-<?php print $container_number; ?>" class="forum-table forum-table-forums">
       <thead class="forum-header">
         <tr>
           <th class="forum-icon"></th>

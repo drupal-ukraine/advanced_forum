@@ -1,17 +1,11 @@
 $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
-August 10, 2009
---------------
-NOISSUE by merlinofchaos: Add a sort widget for the forum topic list that utilizes the tablesort headers.
-
-August 3, 2009
---------------
-NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
 
 August 22, 2009
 ---------------
 #551548 by Michelle, crea: Added check to make sure links array isn't empty before iterating through it.
+#537018 by bas.hr: Removed typo extra . in class name.
 
 August 10, 2009
 ---------------
