@@ -926,9 +926,9 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
     }
 
     $topic_pager = new stdClass();
-    $topic_pager->initial_pages = $pager_array;
-    $topic_pager->last_page_text = $pager_last_text;
-    $topic_pager->last_page_number = $pager_last_number;
+    $topic_pager->initial_pages = (empty($pager_array)) ? array() : $pager_array;
+    $topic_pager->last_page_text = (empty($pager_last_text)) ? '' : $pager_last_text;
+    $topic_pager->last_page_number = (empty($pager_last_numer)) ? '' : $pager_last_number;
 
     return $topic_pager;
   }

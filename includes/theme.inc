@@ -74,7 +74,8 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
   //  last_page_text: Linked text "Last page" (translatable)
   //  last_page_number: Linked number pointing to the last page.
   $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
-
+  $last_page = '';
+  
   if (!empty($topic_pager->initial_pages)) {
     if (!empty($topic_pager->last_page_text)) {
       // If you prefer to end with the number, replace
