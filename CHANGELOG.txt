@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+August 24, 2009
+---------------
+#538344 by merlinofchaos: Added view of a user's topics.
+#537822 by Michelle, stephthegeek: Added forum-topic-title class to title in topic listing. Also fixed spacing on items in topic listing.
+
 August 22, 2009
 ---------------
 #551548 by Michelle, crea: Added check to make sure links array isn't empty before iterating through it.
@@ -10,7 +15,8 @@ August 22, 2009
 August 10, 2009
 ---------------
 NOISSUE by merlinofchaos: Add a sort widget for the forum topic list that utilizes the tablesort headers.
-
+NOISSUE by merlinofchaos: Add a time period plus role exclusion to the most active poster pane.
+ 
 August 3, 2009
 --------------
 NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
