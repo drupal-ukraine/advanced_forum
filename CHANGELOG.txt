@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+August 27, 2009
+---------------
+#545590 by Michelle: Removed dependency in CSS on markup being within a #forum div.
+
 August 24, 2009
 ---------------
 #538344 by merlinofchaos: Added view of a user's topics.

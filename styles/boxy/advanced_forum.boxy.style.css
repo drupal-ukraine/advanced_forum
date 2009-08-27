@@ -11,40 +11,42 @@ Colors used:
 /*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
-#forum .forum-table {
+.forum-table {
   border: 1px solid #CCCCCC;
 }
 
 /* Headers */
-#forum .forum-table th {
+.forum-table th {
+  color: #494949;
   background-color: #CCCCCC;
   border-bottom: none;
 }
 
-#forum .forum-table th,
-#forum .forum-table th a {
+.forum-table th a,
+.forum-table th a:visited,
+.forum-table th a:link {
   color: #494949;
   font-weight: bold;
 }
 
-#forum .forum-table tr.even {
+.forum-table tr.even {
   background-color: #EEEEEE;
 }
 
-#forum .forum-table tr.odd {
+.forum-table tr.odd {
   background-color: #ffffff;
 }  
 
-#forum .forum-table td {
+.forum-table td {
   border: 1px solid #CCCCCC;
 }
 
 /* Topic listings */
-#forum .forum-table tr.forum-last-sticky {
+.forum-table tr.forum-last-sticky {
   border-bottom: 10px solid #CCCCCC;
 }
 
-#forum .forum-table .sticky-label {
+.forum-table .sticky-label {
   font-weight: bold;
 }
 

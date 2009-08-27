@@ -21,7 +21,7 @@ Images used:
 /*** PAGER *******************************************************************/
 
 /* This is the pager on the topics in the list */
-#forum .topic-pager {
+.topic-pager {
   font-size: 90%;
   font-style: italic;
 }
@@ -36,8 +36,8 @@ Images used:
   margin: 0;
 }
 
-#forum .pager a:link,
-#forum .pager a:visited,
+.forum-pager .pager a:link,
+.forum-pager .pager a:visited,
 #forum-comments .pager a:link,
 #forum-comments .pager a:visited {
   text-decoration: none;
@@ -46,14 +46,14 @@ Images used:
   font-weight: bold;
 }
 
-#forum .pager-current,
-#forum .pager a:hover,
+.forum-pager .pager-current,
+.forum-pager .pager a:hover,
 #forum-comments .pager-current,
 #forum-comments .pager a:hover {
   color: #0062A0; 
 }
 
-#forum .pager a.active,
+.forum-pager .pager a.active,
 #forum-comments .pager a.active {
   background: #fff url(images/pager-bg.png) repeat-x left top;
   color: #0062A0; 
@@ -62,48 +62,50 @@ Images used:
 /*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
-#forum .forum-table {
+.forum-table {
   border: 3px solid #91CDF5;
 }
 
 /* Headers */
-#forum .forum-table th {
+.forum-table th {
   background-color: #91CDF5;
   color: #ffffff;
   font-weight: bold;
   border-bottom: none;
 }
 
-#forum .forum-table th a {
+.forum-table th a,
+.forum-table th a:visited,
+.forum-table th a:link {
   color: #ffffff;
   font-weight: bold;
 }
 
 /* Containers & Forums */
-#forum .forum-table tr.even, 
-#forum .forum-table tr.odd {
+.forum-table tr.even, 
+.forum-table tr.odd {
   background-color: #EDF5FA;
 }
 
-#forum .forum-table td.forum-number-topics,
-#forum .forum-table td.forum-last-reply {
+.forum-table td.forum-number-topics,
+.forum-table td.forum-last-reply {
   background-color: #ffffff;
 }
 
 /* Topic listings */
-#forum .forum-table tr.sticky {
+.forum-table tr.sticky {
   background-color: #E6EDEC;
 }
 
-#forum .forum-table tr.forum-last-sticky {
+.forum-table tr.forum-last-sticky {
   border-bottom: 10px solid #91CDF5;
 }
 
-#forum .forum-table .sticky-label {
+.forum-table .sticky-label {
   font-weight: bold;
 }
 
-#forum .forum-table td.views-field-comment-count {
+.forum-table td.views-field-comment-count {
   background-color: #ffffff;
 }
 

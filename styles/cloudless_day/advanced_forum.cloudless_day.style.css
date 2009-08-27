@@ -12,7 +12,7 @@ Colors used:
 /*** FORUM & TOPIC LIST ******************************************************/
 
 /* General */
-#forum .forum-table {
+.forum-table {
   border: 1px solid #C8DBEA !important;
   color: #494949;
   border-collapse: separate;
@@ -23,36 +23,38 @@ Colors used:
 }
 
 /* Headers */
-#forum .forum-table th {
+.forum-table th {
   background-color: #C8DBEA;
 }
 
-#forum .forum-table th {
+.forum-table th {
   color: #3C78A7;
   line-height: 1.5em;
   padding: 2px 5px;
 }
 
-#forum .forum-table th a {
+.forum-table th a,
+.forum-table th a:visited,
+.forum-table th a:link {
   color:#3C78A7;
 }
 
 /* Rows, both tables */
-#forum .forum-table tr.odd {
+.forum-table tr.odd {
   background-color: #EDF5FA;
 }
 
-#forum .forum-table tr.even {
+.forum-table tr.even {
   background-color: #E7F2F9;
 }
 
-#forum .forum-table td {
+.forum-table td {
   line-height: 1.5em;
   padding: 4px;
   border: none;
 }
 
-#forum td.forum-details .forum-name a {
+td.forum-details .forum-name a {
   font-size: 1em;
 }
 

@@ -1,5 +1,5 @@
 /* FORUM LIST ICONS *********************************************************/
-#forum td.forum-icon {
+td.forum-icon {
   text-indent: -9999px;
   width: 50px;
 }
@@ -30,7 +30,7 @@
 }
 
 /* TOPIC LIST ICONS *********************************************************/
-#forum span.topic-icon {
+span.topic-icon {
   width: 24px;
   height: 24px;
   text-indent: -9999px;

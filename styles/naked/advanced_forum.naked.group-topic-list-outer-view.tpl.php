@@ -47,7 +47,7 @@
   <?php endif; ?>
 
   <?php if ($pager): ?>
-    <div id="forum-pager-top"><?php print $pager; ?></div>
+    <div class="forum-pager" id="forum-pager-top"><?php print $pager; ?></div>
   <?php endif; ?>
 
   <?php if ($search): ?>
@@ -65,7 +65,7 @@
   <?php endif; ?>
 
   <?php if ($pager): ?>
-    <div id="forum-pager-bottom"><?php print $pager; ?></div>
+    <div class="forum-pager" id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
 
   <?php print $topic_legend; ?>
