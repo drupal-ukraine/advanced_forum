@@ -31,7 +31,6 @@
  * @see advanced_forum_preprocess_comment_wrapper()
  */
 ?>
-
 <?php global $language; ?>
  
 <div id="forum-comments" class="<?php print $language->language; ?>">

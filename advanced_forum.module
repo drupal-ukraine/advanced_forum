@@ -382,6 +382,11 @@ function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
     $form['body_field']['teaser_js']['#access'] = FALSE;
     $form['body_field']['teaser_include']['#access'] = FALSE;
   }
+  
+  // Add our OG view as a potential RON for organic groups.
+  if (!empty($form['og_settings']['group_details']['og_home_page_view'])) {
+     $form['og_settings']['group_details']['og_home_page_view']['#options']['advanced_forum_group_topic_list'] = 'advanced_forum_group_topic_list';
+  }
 }
 
 // MAKE VIEWS BITS WORK *****************************************************/
