@@ -5,6 +5,7 @@ $Id$
 August 28, 2009
 ---------------
 #510772 by Michelle: Added form alter so AF's OG topics view can be used as a group's RON.
+#561448 by Michelle: Made unanswered topics view make more sense.
 
 August 27, 2009
 ---------------
