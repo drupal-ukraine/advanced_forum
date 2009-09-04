@@ -432,9 +432,9 @@ function advanced_forum_get_forum_secondary_links($tid) {
     global $user;
     if ($tid) {
       if ($user->uid) {
-        $links['unread']['title'] = t('My unread');
-        $links['unread']['href'] = "forum/unread";
-        $links['unread']['query'] = array('forum' => $tid);
+        $links['new-posts']['title'] = t('New posts');
+        $links['new-posts']['href'] = "forum/new";
+        $links['new-posts']['query'] = array('forum' => $tid);
         $links['my-posts']['title'] = t('My posts');
         $links['my-posts']['href'] = "forum/user";
         $links['my-posts']['query'] = array('forum' => $tid);
@@ -445,8 +445,8 @@ function advanced_forum_get_forum_secondary_links($tid) {
     }
     else {
       if ($user->uid) {
-        $links['unread']['title'] = t('My unread');
-        $links['unread']['href'] = "forum/unread";
+        $links['new-posts']['title'] = t('New posts');
+        $links['new-posts']['href'] = "forum/new";
         $links['my-posts']['title'] = t('My posts');
         $links['my-posts']['href'] = "forum/user";
       }
