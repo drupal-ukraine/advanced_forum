@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+September 6, 2009
+-----------------
+#561448 by Michelle: Fixed problem with active forum topics topic titles not linking.
+
 September 3, 2009
 -----------------
 #561448 by Michelle: Cleaned up all the views except user topics/posts and the searches.
