@@ -5,6 +5,7 @@ $Id$
 September 6, 2009
 -----------------
 #561448 by Michelle: Fixed problem with active forum topics topic titles not linking.
+#542998 by Michelle: Moved user picture handling to Author Pane.
 
 September 3, 2009
 -----------------

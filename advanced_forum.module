@@ -1034,7 +1034,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
         $token = $matches[0][$match]; // This is the exact string that matched.
         if (!isset($tokens[$token])) {
           $account = user_load($uid);
-          $tokens[$token] = theme('author_pane', $account, 'advanced_forum');
+          $tokens[$token] = theme('author_pane', $account, 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
         }
       }
     }

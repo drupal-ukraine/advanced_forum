@@ -21,43 +21,6 @@ function theme_advanced_forum_reply_link($node) {
 }
 
 /**
- * Theme function to return imagecached version of the user picture.
- */
-function theme_advanced_forum_user_picture($account) {
-  // Get the imagecache preset to use, if any.
-  $preset = variable_get('advanced_forum_user_picture_preset', '');
-
-  // Only proceed if user pictures are enabled, and there is a preset set, and
-  // imagecache is enabled. For performace reasons, we return nothing if these
-  // critera aren't met because we only call this function when the non
-  // imagecached version is already created. If you use this function elsewhere
-  // you will need to provide a picture when imagecache is not used.
-  if (variable_get('user_pictures', 0) && !empty($preset) && module_exists('imagecache')) {
-    if ($account->picture && file_exists($account->picture)) {
-      // User has picture, so use that
-      $alt = t("@user's picture", array('@user' => $account->name ? $account->name : 'Visitor'));
-      $picture = theme('imagecache', $preset, $account->picture);
-    }
-    else {
-      // User doesn't have a picture so use the default, if any
-      $default_picture = variable_get('user_picture_default', '');
-      if ($default_picture) {
-        $picture = theme('imagecache', $preset, $default_picture);
-      }
-    }
-
-    if (!empty($picture)) {
-      // If the user has access to view profiles, link the picture
-      if (!empty($account->uid) && user_access('access user profiles')) {
-        $picture = l($picture, "user/$account->uid", array('title' => t('View user profile.'), 'html' => TRUE));
-      }
-    }
-
-    return '<div class="picture">' . $picture . '</div>';
-  }
-}
-
-/**
  * Theme function to return assembled pager for use on each topic in list.
  *
  * @param $pagecount
@@ -349,12 +312,6 @@ function advanced_forum_preprocess_author_pane(&$variables) {
   // we are the one that called it.
   if (!empty($variables['caller']) && $variables['caller'] == 'advanced_forum') {
     advanced_forum_add_template_suggestions("author-pane", $variables['template_files']);
-
-    // Attempt to override the user picture fetched by Author Pane from core.
-    $sized_picture = theme('advanced_forum_user_picture', $variables['account']);
-    if (!empty($sized_picture)) {
-      $variables['picture'] = $sized_picture;
-    }
   }
 }
 
