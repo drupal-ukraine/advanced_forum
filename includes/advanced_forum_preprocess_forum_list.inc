@@ -12,7 +12,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   // This will be the ID of the container or forum we are in. If empty,
   // we are on the root forum page.
-  $parent_id = arg(1);
+  $parent_id = $variables['tid'];
 
   if (empty($parent_id)) {
     $main_forum_page = TRUE;

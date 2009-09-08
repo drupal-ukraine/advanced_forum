@@ -38,8 +38,9 @@ function advanced_forum_forum_list_content_type_render($subtype, $conf, $panel_a
   _advanced_forum_add_files();
 
   $forums = advanced_forum_get_forums($tid);
+
   if ($forums) {
-    $block->content = theme('forum_list', $forums, $parents, $tid);
+    $block->content = theme('forum_list', $forums, $context->parents, $tid);
 
     if (user_access('administer forums')) {
       $block->admin_links['administer_forums'] = array(

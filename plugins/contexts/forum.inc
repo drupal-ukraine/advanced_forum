@@ -24,6 +24,7 @@ function advanced_forum_forum_ctools_contexts() {
       'name' => t('Forum name'),
     ),
     'convert' => 'advanced_forum_forum_context_convert',
+    'defaults' => array('tid' => 0),
   );
 }
 
@@ -40,9 +41,8 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
   }
 
   if ($conf) {
-    $data = taxonomy_term_load($data['tid']);
+    $data = taxonomy_get_term($data['tid']);
   }
-
 
   if (!empty($data)) {
     $data->container = (!$data->tid || in_array($data->tid, variable_get('forum_containers', array())));
@@ -60,7 +60,32 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
 }
 
 function advanced_forum_forum_context_settings_form($conf) {
+  if (empty($conf)) {
+    $conf = array('tid' => 0);
+  }
+
   $form = array();
+
+  $options = array();
+  $vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', ''));
+  $options[0] = $vocabulary->name;
+
+  $tree = taxonomy_get_tree($vocabulary->vid);
+  if ($tree) {
+    foreach ($tree as $term) {
+      $choice = new stdClass();
+      $choice->option = array($term->tid => str_repeat('-', $term->depth + 1) . $term->name);
+      $options[] = $choice;
+    }
+  }
+
+  $form['tid'] = array(
+    '#type' => 'select',
+    '#title' => t('Forum'),
+    '#default_value' => $conf['tid'],
+    '#options' => $options,
+  );
+
   return $form;
 }
 
