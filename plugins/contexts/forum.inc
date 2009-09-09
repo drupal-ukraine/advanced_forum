@@ -41,7 +41,13 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
   }
 
   if ($conf) {
-    $data = taxonomy_get_term($data['tid']);
+    if ($data['tid']) {
+      $data = taxonomy_get_term($data['tid']);
+    }
+    else {
+      $data = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', ''));
+      $data->tid = 0;
+    }
   }
 
   if (!empty($data)) {
