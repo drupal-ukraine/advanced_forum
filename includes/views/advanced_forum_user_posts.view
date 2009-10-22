@@ -6,7 +6,8 @@
  * When you export, please note the calls to variable_get('forum_nav_vocabulary', '')
  * to ensure that the forum vocabulary gets the right vid.
  */
-if (module_exists('nodecomment') && module_exists('panels')) {
+ 
+if (module_exists('nodecomment')) {
 
 // BEGIN VIEW EXPORT ********************************************************/
 $view = new view;
@@ -736,3 +737,5 @@ $handler->override_option('allow', array(
 $handler->override_option('argument_input', array());
 $handler->override_option('link_to_view', 0);
 $handler->override_option('inherit_panels_path', 0);
+// END VIEW EXPORT ********************************************************/
+}
