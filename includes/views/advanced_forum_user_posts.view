@@ -508,7 +508,7 @@ $handler->override_option('use_pager', '1');
 $handler->override_option('use_more', 0);
 $handler->override_option('use_more_text', 'More topics');
 $handler->override_option('distinct', 1);
-$handler->override_option('style_plugin', 'table');
+$handler->override_option('style_plugin', 'forum_topic_list');
 $handler->override_option('style_options', array(
   'grouping' => '',
   'override' => 1,
@@ -546,7 +546,7 @@ $handler->override_option('style_options', array(
       'separator' => '',
     ),
     'title_1' => array(
-      'sortable' => 1,
+      'sortable' => 0,
       'separator' => '',
     ),
     'last_updated' => array(
@@ -562,6 +562,7 @@ $handler->override_option('style_options', array(
     ),
   ),
   'default' => 'created',
+  'tid' => '',
 ));
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'forum/user');

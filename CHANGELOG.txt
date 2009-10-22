@@ -5,6 +5,7 @@ $Id$
 October 21, 2009
 -----------------
 #568422 by Michelle: Removed 'My topics' view and made 'My posts' much better.
+#568422 by Michelle: Made 'My posts' view use forum topic list style
 
 September 6, 2009
 -----------------
