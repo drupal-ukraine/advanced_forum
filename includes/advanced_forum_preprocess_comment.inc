@@ -40,9 +40,6 @@ function _advanced_forum_preprocess_comment(&$variables) {
   // Set the reply ID for theming / targetting
   $variables['reply_id'] = $variables['comment']->cid;
 
-  // Just use the date for the submitted on.
-  $variables['submitted'] = format_date($variables['comment']->timestamp);
-
   // Assign the comment to the content variable for consistancy with nodes.
   $variables['content'] = $variables['comment']->comment;
 

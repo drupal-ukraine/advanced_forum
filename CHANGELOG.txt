@@ -5,6 +5,7 @@ $Id$
 October 25, 2009
 -----------------
 #492794 by Michelle: Rewrote code that determines what AF applies a style to.
+#586652 by Michelle: Removed modification to $submitted.
 
 October 21, 2009
 -----------------
