@@ -34,13 +34,47 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_style', 'cloudless_day_stacked'),
   );
 
-  // Theme all site comments as forums
-  $form['advanced_forum_general']['advanced_forum_theme_all_comments'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Treat all site comments like forum posts'),
-    '#default_value' => variable_get('advanced_forum_theme_all_comments', 0),
-    '#description' => t('Choosing yes causes advanced forum to consider every comment a forum comment and attempt to theme it that way. Some changes to your theme may be required.'),
+  // Choose node types that are styled.
+  $node_types = node_get_types();
+  $options = array();
+  foreach($node_types as $node_machine_name => $node_type) {
+    $options[$node_machine_name] = $node_type->name;
+  }
+
+  $form['advanced_forum_general']['advanced_forum_styled_node_types'] = array(
+    '#type' => 'select',
+    '#title' => t('Node types to style'),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#description' => t('Choose which node types will have the forum style applied.'),
+    '#default_value' => variable_get('advanced_forum_styled_node_types', array('forum')),
   );
+
+  // Style nodes presented in teaser form.
+  $form['advanced_forum_general']['advanced_forum_style_teasers'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Style nodes when being displayed as teasers.'),
+    '#default_value' => variable_get('advanced_forum_style_teasers', 0),
+    '#description' => t('If checked, selected node types will be styled even when they are in a teaser list.'),
+  );
+
+  // Style nodes only if tagged for the forum.
+  $form['advanced_forum_general']['advanced_forum_style_only_forum_tagged'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Style nodes only if they have a forum term attached.'),
+    '#default_value' => variable_get('advanced_forum_style_only_forum_tagged', 1),
+    '#description' => t('If checked, selected node types will be only styled if they are associated with a forum term.'),
+  );
+
+  // Style all site comments as forums
+  $form['advanced_forum_general']['advanced_forum_style_all_comments'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Style all comments like forum replies.'),
+    '#default_value' => variable_get('advanced_forum_style_all_comments', 0),
+    '#description' => t('If checked, every comment will be styled as if it were a forum reply. This only works on comments from the core comment module. Nodecomments can be selected in the node type selection.'),
+  );
+  
+  
 
   /* Forum / topic list settings */
   $form['advanced_forum_lists'] = array(
@@ -101,7 +135,7 @@ function advanced_forum_settings_page() {
     '#title' => t('Number of characters to display for the topic title'),
     '#size' => 5,
     '#description' => t('Used on main forum page. Enter 0 to use the full title.'),
-    '#default_value' => variable_get('advanced_forum_topic_title_length', 15),
+    '#default_value' => variable_get('advanced_forum_topic_title_length', 20),
   );
 
   /* Topic settings */

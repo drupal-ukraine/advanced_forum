@@ -108,6 +108,7 @@ function advanced_forum_load_style_includes($style = NULL) {
     }
   }
 }
+
 /**
  * Get the info for a style, using an additive notation to
  * include all items from the parent lineage.
@@ -136,110 +137,100 @@ function advanced_forum_style_info($style = NULL) {
   return $info[$style];
 }
 
-/**
- * This function returns TRUE if the node/comment should be themed and
- * otherwise treated as a forum post.
- */
-function advanced_forum_treat_as_forum_post($hook, $variables) {
-  // Setting this static means the check only needs to be done once per thread
-  static $forum_node_id;
-
-  // Start out assuming it's not one of ours.
-  $decision = FALSE;
-
-  if ($hook == 'node') {
-    if (!empty($variables['node']->comment_target_nid)) {
-      // Special case for "comment" nodes
-      if ($variables['node']->comment_target_nid == $forum_node_id) {
-        $decision = TRUE;
-      }
-    }
-    else {
-      $vid = variable_get('forum_nav_vocabulary', '');
-      $vocabulary = taxonomy_vocabulary_load($vid);
-      if (empty($vocabulary) || !in_array($variables['node']->type, $vocabulary->nodes)) {
-        // No forum vocabulary or the node type cannot be used in the forums
-        unset($forum_node_id);
-        $decision = FALSE;
-      }
-      else {
-        // Get a list of the terms attached to this node
-        $terms = taxonomy_node_get_terms_by_vocabulary($variables['node'], $vid);
-        if (count($terms) > 0 && (arg(0) == 'node' && is_numeric(arg(1)) && arg(1) == $variables['node']->nid || arg(0) == 'comment')) {
-          // The node has at least one forum term attached to it and is not being
-          // shown on some other page (like a view or promoted to front page)
-          $forum_node_id = $variables['node']->nid;
-          $decision = TRUE;
+function advanced_forum_is_styled($content, $type = 'node') {
+  // This is the ID of the topic starting node
+  static $master_topic_id;
+  
+  // Give other modules a first crack at making the decision. To keep this 
+  // simple, he last one in the array wins.
+  $topic_ids = module_invoke_all('advanced_forum_is_styled_alter', $content, $type);
+  $topic_id = end($topic_ids);
+ 
+  if (!$topic_id) {
+    // If no other modules made a decision on this, we look at it.
+    switch ($type) {
+      case 'node':
+        if (!empty($content->comment_target_nid) && $content->comment_target_nid == $master_topic_id) {
+          // This nodecomment is attached to a node we already know is styled.
+          $topic_id = $master_topic_id;
         }
         else {
-          // We've hit a non forum node
-          unset($forum_node_id);
-          $decision = FALSE;
+          // See if the node should be styled.
+          $topic_id = advanced_forum_node_is_styled($content);
         }
-      }
-    }
-  }
-
-  if ($hook == 'comment') {
-    if (isset($forum_node_id) && ($variables['comment']->nid == $forum_node_id)) {
-      // We already know this comment is either part of a forum thread
-      // or that comments on this thread are known exceptions.
-      $decision = TRUE;
-    }
-    else {
-      // Not part of a forum thread. Check if this site wants all comments to
-      // use the forum comment template or the comment is being shown alone via
-      // the comment_page module
-      if (variable_get("advanced_forum_theme_all_comments", 0) == 1 ||
-        (arg(0) == 'comment' && is_numeric(arg(1)))) {
-        // This site wants all comments to use the forum comment template
-        $forum_node_id = $variables['comment']->nid;
-
-        $decision = TRUE;
-      }
-      else {
-        // If we are on a comment reply page, check if the node/comment gets styled.
-        if (arg(0) == 'comment' && arg(1) == 'reply') {
-          $nid = arg(2);
-          $variables['node'] = node_load($nid);
-          $decision = advanced_forum_treat_as_forum_post('node', $variables);
+        break;
+        
+      case 'comment':
+        $topic_id = advanced_forum_comment_is_styled($content, $master_topic_id);
+        break;
+        
+      case 'comment-wrapper':
+        if ($content->nid == $master_topic_id) {
+          // Use our comment wrapper only if we are on a styled node.
+          $topic_id = $master_topic_id;
         }
-      }
-    }
-  }
-
-  if ($hook == 'comment-wrapper') {
-    if (isset($forum_node_id) && ($variables['node']->nid == $forum_node_id)) {
-      // We only want to use our comment wrapper if we are on a node that
-      // passed the tests.
-      $decision = TRUE;
-    }
-  }
-
-  // Call a hook with our decisions and the available information. If it returns
-  // a number, override our decision and set the static variable to that number.
-  $override_nids = module_invoke_all('treat_as_forum_post_alter', $decision, $hook, $variables);
-
-  if (!empty($override_nids)) {
-    // At least one module has returned an nid. We are making an assumption here
-    // that if there was more than one the nids are the same and just grabbing
-    // the first one.
-    $forum_node_id = $override_nids[0];
-    if ($forum_node_id == -1) {
-      unset($forum_node_id);
-      $decision = FALSE;
-    }
-    else {
-      $decision = TRUE;
-    }
-  }
-
-  // If we're claiming this one, there are a few things we need to do...
-  if ($decision) {
+        break;
+      }   
+    }      
+  
+  if ($topic_id > 0) {
+    // If we have a positive number for the topic ID, then this item is styled.
+    // We need to update the master ID, add the CSS/JS files, and tell the caller
+    // our decision.
+    $master_topic_id = $topic_id;
     _advanced_forum_add_files();
+    return TRUE;
   }
+}
 
-  return $decision;
+function advanced_forum_node_is_styled($node) {
+  // Get the list of types that should have the style applied
+  $styled_node_types = variable_get('advanced_forum_styled_node_types', array());
+
+  // If this type is in the list of types that should be styled...
+  if (in_array($node->type, $styled_node_types)) {
+    if (variable_get('advanced_forum_style_teasers', FALSE) || empty($node->teaser)) {
+      // ... and if we are styling teasers or this isn't a teaser...
+      if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node)) {
+        // ... and if we are styling non forum tagged nodes or this is forum tagged
+        // then return the node ID.
+        return $node->nid;
+      }
+    }
+  }
+}
+
+function advanced_forum_comment_is_styled($comment, $master_topic_id) {
+    if (isset($master_topic_id) && ($comment->nid == $master_topic_id)) {
+      // This comment is on a node we already know is styled, or a previous comment on 
+      // this node is styled, so the comment is styled.
+      return $master_topic_id;
+    }
+    
+    if (variable_get("advanced_forum_style_all_comments", 0)) {
+      // All comments on this site should be styled.
+      return $comment->nid;
+    }
+    
+    // Load up the node this comment is attached to and see if it is styled.
+    // This should not happen often, only in a case where the comment is displayed
+    // seperately from the node.
+    $node = node_load($comment->nid);
+    if (advanced_forum_node_is_styled($node)) {
+      return $comment->nid;
+    }
+    
+    // Comment doesn't pass any styling test
+    return -1;
+}
+
+function advanced_forum_is_forum_tagged($node) {
+  // Get a list of the terms attached to this node
+  $vid = variable_get('forum_nav_vocabulary', '');  
+  $terms = taxonomy_node_get_terms_by_vocabulary($node, $vid);
+  if (count($terms) > 0) {
+    return TRUE;
+  }
 }
 
 // CTOOLS INTEGRATION FOR STYLES ********************************************/
