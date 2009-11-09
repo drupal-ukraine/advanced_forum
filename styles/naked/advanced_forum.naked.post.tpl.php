@@ -12,12 +12,12 @@
  *
  * - $top_post: TRUE if we are formatting the main post (ie, not a comment)
  * - $reply_link: Text link / button to reply to topic.
- * - %total_posts: Number of posts in topic (not counting first post).
+ * - $total_posts: Number of posts in topic (not counting first post).
  * - $new_posts: Number of new posts in topic, and link to first new.
  * - $links_array: Unformatted array of links.
  * - $account: User object of the post author.
  * - $name: User name of post author.
- * - $author_pane: Entire contents of advf-author-pane.tpl.php.
+ * - $author_pane: Entire contents of the Author Pane template.
 
  */
 ?>
@@ -26,6 +26,10 @@
   <?php print $topic_header ?>
 <?php else: ?>
   <a id="forum-reply-<?php print $node->nid; ?>"></a>
+  
+  <?php if (!empty($comment_anchor)): ?>
+    <?php print $comment_anchor; ?>
+  <?php endif; ?>
 <?php endif; ?>
 
 <div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">

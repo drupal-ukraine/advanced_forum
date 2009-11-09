@@ -35,9 +35,14 @@ function _advanced_forum_preprocess_node(&$variables) {
     advanced_forum_add_template_suggestions("post", $variables['template_files']);
   }
 
-  /* Reply ID - Nodecomment only */
+  /* Nodecomment only */
   if (!empty($variables['node']->comment_target_nid)) {
     $variables['reply_id'] = $variables['node']->nid;
+    
+    // We need to add this because nodecomment puts this in the template
+    // that we are overriding whereas the comment module adds it in code
+    // outside of the template and it will be there twice if we always add it.
+    $variables['comment_anchor'] = '<a id="comment-' . $variables['node']->nid . '"</a>';
   }
 
   /* Topic header */
