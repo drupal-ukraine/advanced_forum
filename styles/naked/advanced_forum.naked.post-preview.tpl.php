@@ -25,7 +25,7 @@
 <?php if ($top_post): ?>
   <a id="forum-topic-top"></a>
 <?php else: ?>
-  <a id="forum-reply-<?php print $node->nid; ?>"></a>
+  <a id="forum-reply-preview"></a>
 <?php endif; ?>
 
 <div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">

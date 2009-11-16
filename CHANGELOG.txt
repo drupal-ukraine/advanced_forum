@@ -2,7 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
-November 9, 2009
+November 16, 2009
+-----------------
+NOISSUE by Michelle: Small fixes to make nodecomment previews work better.
+
+November 9, 2009 -- ALPHA 2
 -----------------
 #627808 by Michelle: Account for insconsistancy in nodecomment's handling of the comment anchor link.
 

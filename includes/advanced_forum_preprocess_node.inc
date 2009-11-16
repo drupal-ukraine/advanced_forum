@@ -25,7 +25,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     // We send this to a special .tpl so people can adjust it to their needs.
     advanced_forum_add_template_suggestions("post-repeated", $variables['template_files']);
   }
-  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add')) {
+  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add') || ($variables['op'] == 'Preview')) {
     // 'reply' deals with the first post being shown when adding a comment.
     // 'node/add' is when previewing a new forum post.
     advanced_forum_add_template_suggestions("post-preview", $variables['template_files']);
