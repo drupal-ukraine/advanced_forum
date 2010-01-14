@@ -46,7 +46,7 @@
             <?php endforeach; ?>
           <?php else: ?> 
             <?php /* For shadow posts, we print only the icon and themed notice. */ ?>
-            <td class="views-field views-field-<?php print $fields['topic_icon']; ?>"
+            <td class="views-field views-field-<?php print $fields['topic_icon']; ?>">
               <?php print $row['topic_icon']; ?>
             </td>
             <td class="views-field views-field-<?php print $fields['title']; ?>" colspan="<?php print count($header)-1; ?>">
