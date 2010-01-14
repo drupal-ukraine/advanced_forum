@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+January 14, 2010
+----------------
+#655128 by sanduhrs: Fixed missed closing bracket.
+#658706 by ssm2017 Binder: Added missing t().
+
 November 16, 2009
 -----------------
 NOISSUE by Michelle: Small fixes to make nodecomment previews work better.
