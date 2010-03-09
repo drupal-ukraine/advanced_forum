@@ -423,6 +423,26 @@ include_once drupal_get_path('module', 'advanced_forum') . '/includes/core-overr
 // MARK AS READ **************************************************************/
 
 /**
+ * Either fill a $links array or return a string version of the link to mark read.
+ */
+function advanced_forum_get_mark_read_link($tid = 0, &$links = array()) {
+  if (advanced_forum_markasread_access()) {
+    if ($tid) {
+      $links['mark-read']['title'] = t('Mark all topics read');
+      $links['mark-read']['href'] = "forum/markasread/$tid";
+      
+      return l(t('Mark all topics read') . '<span class="image-replace"></span>', "forum/markasread/$tid", array('html' => TRUE));
+    }
+    else {
+      $links['mark-read']['title'] = t('Mark all forums read');
+      $links['mark-read']['href'] = "forum/markasread";
+      
+      return l(t('Mark all forums read') . '<span class="image-replace"></span>', "forum/markasread", array('html' => TRUE));
+    }
+  }
+}
+
+/**
  * Marks all posts in forums or in a given forum as read by the current user.
  */
 function advanced_forum_markasread($current_forum_id = 0) {

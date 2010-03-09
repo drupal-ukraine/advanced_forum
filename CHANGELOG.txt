@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+March 8, 2010
+-------------
+#736798 by Michelle: Added setting that will switch on a default local task for the main forum listing.
+NOISSUE by Michelle: Split out fetching the mark read link as its own function to make it easier to use independent of the secondary links.
+
 January 14, 2010
 ----------------
 #655128 by sanduhrs: Fixed missed closing bracket.

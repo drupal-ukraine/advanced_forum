@@ -415,17 +415,9 @@ function advanced_forum_get_forum_post_links($tid) {
 function advanced_forum_get_forum_secondary_links($tid) {
   global $user;
   $links = array();
+  
   // Add in the mark as read link if user has access
-  if (advanced_forum_markasread_access()) {
-    if ($tid) {
-      $links['mark-read']['title'] = t('Mark all topics read');
-      $links['mark-read']['href'] = "forum/markasread/$tid";
-    }
-    else {
-      $links['mark-read']['title'] = t('Mark all forums read');
-      $links['mark-read']['href'] = "forum/markasread";
-    }
-  }
+  advanced_forum_get_mark_read_link($tid, $links);
 
   // If using Views, add in our special top level views.
   if (module_exists('views')) {
