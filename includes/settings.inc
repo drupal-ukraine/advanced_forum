@@ -74,6 +74,13 @@ function advanced_forum_settings_page() {
     '#description' => t('If checked, every comment will be styled as if it were a forum reply. This only works on comments from the core comment module. Nodecomments can be selected in the node type selection.'),
   );
   
+  $form['advanced_forum_general']['advanced_forum_add_local_task'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add a tab for forum view page.'),
+    '#default_value' => variable_get('advanced_forum_add_local_task', FALSE),
+    '#description' => t('If checked, this will add a local task tab for "View forums". Use this in conjunction with making the included views have local tasks. If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
+  );
+  
   
 
   /* Forum / topic list settings */

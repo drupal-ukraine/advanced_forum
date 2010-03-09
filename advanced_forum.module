@@ -34,6 +34,16 @@ function advanced_forum_menu() {
     'title' => 'Advanced Forum',
   );
 
+  if (variable_get('advanced_forum_add_local_task', FALSE)) {
+    $items['forum/view'] = array(
+      'title' => 'View Forums',
+      'page callback' => 'advanced_forum_page',
+      'access arguments' => array('access content'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -100,
+    );
+  }
+
   return $items;
 }
 
@@ -46,7 +56,7 @@ function advanced_forum_menu_alter(&$callbacks) {
 
   // Turn 'forum' into a normal menu item so it appears in navigation.
   $callbacks['forum']['type'] = MENU_NORMAL_ITEM;
-}
+ }
 
 /**
  * Implementation of hook_theme().
