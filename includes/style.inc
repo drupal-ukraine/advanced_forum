@@ -182,7 +182,7 @@ function advanced_forum_is_styled($content, $type = 'node') {
     return TRUE;
   }
   elseif ($topic_id == -42) {
-    // A -2 means all the tests passed but the node is being previewed so there
+    // A -42 means all the tests passed but the node is being previewed so there
     // is no node id, yet. Add the files and return true but don't update the 
     // master topic ID.
     _advanced_forum_add_files();
@@ -211,8 +211,8 @@ function advanced_forum_node_is_styled($node) {
       else {
         // ...and if we are styling non forum tagged nodes or this is forum tagged...
         if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node, TRUE)) {
-          // ...Send back -42 as a special code to say that this should be styled
-          // but that it isn't the actual node id.
+          // ...Send back -42 as a special code to say that this should be 
+          // styled but that it isn't the actual node id.
           return -42;
         }
       }
@@ -221,27 +221,33 @@ function advanced_forum_node_is_styled($node) {
 }
 
 function advanced_forum_comment_is_styled($comment, $master_topic_id) {
-    if (isset($master_topic_id) && ($comment->nid == $master_topic_id)) {
-      // This comment is on a node we already know is styled, or a previous comment on 
-      // this node is styled, so the comment is styled.
-      return $master_topic_id;
-    }
-    
-    if (variable_get("advanced_forum_style_all_comments", 0)) {
-      // All comments on this site should be styled.
-      return $comment->nid;
-    }
-    
-    // Load up the node this comment is attached to and see if it is styled.
-    // This should not happen often, only in a case where the comment is displayed
-    // seperately from the node.
-    $node = node_load($comment->nid);
-    if (advanced_forum_node_is_styled($node)) {
-      return $comment->nid;
-    }
-    
-    // Comment doesn't pass any styling test
-    return -1;
+  if (isset($master_topic_id) && ($comment->nid == $master_topic_id)) {
+    // This comment is on a node we already know is styled, or a previous 
+    // comment on this node is styled, so the comment is styled.
+    return $master_topic_id;
+  }
+  
+  if (variable_get("advanced_forum_style_all_comments", 0)) {
+    // All comments on this site should be styled.
+    return $comment->nid;
+  }
+  
+  // Load up the node this comment is attached to and see if it is styled.
+  // This should not happen often, only in a case where the comment is 
+  // displayed seperately from the node (such as a reply preview). We have to
+  // wipe out the teaser because advanced_forum_node_is_styled() checks to 
+  // see if the node is being displayed as a teaser and manually loading
+  // the node like this gives a false postitive and prevents the comment from
+  // being themed on preview when it is on its own page.
+  $node = node_load($comment->nid);
+  $node->teaser = NULL;
+  
+  if (advanced_forum_node_is_styled($node)) {
+    return $comment->nid;
+  }
+  
+  // Comment doesn't pass any styling test
+  return -1;
 }
 
 function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
