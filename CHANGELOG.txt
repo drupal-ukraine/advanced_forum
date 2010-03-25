@@ -8,6 +8,7 @@ March 23, 2010
 #492794 by Michelle: Now themes the node preview for forum nodes.
 #492794 by Michelle: Fixed issue where $node->teaser in manually loaded node prevented comment previews from being themed when on their own page.
 #751890 by Michelle: Made Views a dependency.
+#738074 by yaslama: Adapted version of the core patch on [#113611].
 
 March 8, 2010
 -------------

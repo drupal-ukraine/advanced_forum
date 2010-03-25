@@ -84,17 +84,35 @@ function advanced_forum_get_forums($tid = 0) {
 
     $counts = array();
 
-    $sql = "SELECT r.tid, COUNT(n.nid) AS topic_count, SUM(l.comment_count) AS comment_count
-            FROM {node} n
-            INNER JOIN {node_comment_statistics} l ON n.nid = l.nid
-            INNER JOIN {term_node} r ON n.vid = r.vid
-            WHERE n.status = 1
-            GROUP BY r.tid";
-    $sql = db_rewrite_sql($sql);
+    $sql = "
+      SELECT r.tid AS tid, n.nid AS nid, l.comment_count AS nid_comment_count
+        FROM {node} n
+        INNER JOIN {node_comment_statistics} l ON n.nid = l.nid
+        INNER JOIN {term_node} r ON n.vid = r.vid
+        WHERE n.status = 1
+        GROUP BY r.tid, n.nid, l.comment_count";
+    $sql_rewritten = db_rewrite_sql($sql);
+    if ($sql_rewritten == $sql) {
+      $sql = "
+        SELECT r.tid, COUNT(n.nid) AS topic_count, SUM(l.comment_count) AS comment_count
+          FROM {node} n
+          INNER JOIN {node_comment_statistics} l ON n.nid = l.nid
+          INNER JOIN {term_node} r ON n.vid = r.vid
+          WHERE n.status = 1
+          GROUP BY r.tid";
+      $sql = db_rewrite_sql($sql);
+    }
+    else {
+      $sql = "
+        SELECT tid, COUNT(nid) AS topic_count, SUM(nid_comment_count) AS comment_count
+          FROM ($sql_rewritten) AS forum_content_list
+          GROUP BY tid";
+    }
+    
     $_counts = db_query($sql);
     while ($count = db_fetch_object($_counts)) {
       $counts[$count->tid] = $count;
-    }
+    }   
   }
 
   foreach ($_forums as $forum) {
