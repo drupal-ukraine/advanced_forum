@@ -193,7 +193,7 @@ function advanced_forum_is_styled($content, $type = 'node') {
 
 function advanced_forum_node_is_styled($node) {
   // Get the list of types that should have the style applied
-  $styled_node_types = variable_get('advanced_forum_styled_node_types', array());
+  $styled_node_types = variable_get('advanced_forum_styled_node_types', array('forum'));
 
   // If this type is in the list of types that should be styled...
   if (in_array($node->type, $styled_node_types)) {
