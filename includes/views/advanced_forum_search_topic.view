@@ -1,5 +1,9 @@
 <?php
 // $Id$
+ 
+if (module_exists('nodecomment')) {
+
+// BEGIN VIEW EXPORT ********************************************************/
 $view = new view;
 $view->name = 'advanced_forum_search_topic';
 $view->description = 'Search a single topic';
@@ -305,3 +309,5 @@ $handler->override_option('tab_options', array(
   'description' => '',
   'weight' => 0,
 ));
+// END VIEW EXPORT ********************************************************/
+}

@@ -6,6 +6,12 @@
  * When you export, please note the calls to variable_get('forum_nav_vocabulary', '')
  * to ensure that the forum vocabulary gets the right vid.
  */
+
+ 
+if (module_exists('nodecomment')) {
+
+// BEGIN VIEW EXPORT ********************************************************/
+ 
 $view = new view;
 $view->name = 'advanced_forum_search';
 $view->description = 'Search the forums';
@@ -337,3 +343,5 @@ $handler->override_option('tab_options', array(
   'description' => '',
   'weight' => 0,
 ));
+// END VIEW EXPORT ********************************************************/
+}

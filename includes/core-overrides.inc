@@ -437,34 +437,40 @@ function advanced_forum_get_forum_secondary_links($tid) {
   // Add in the mark as read link if user has access
   advanced_forum_get_mark_read_link($tid, $links);
 
-  // If using Views, add in our special top level views.
-  if (module_exists('views')) {
-    global $user;
-    if ($tid) {
-      if ($user->uid) {
-        $links['new-posts']['title'] = t('New posts');
-        $links['new-posts']['href'] = "forum/new";
-        $links['new-posts']['query'] = array('forum' => $tid);
+  // Add in our special top level views.
+  global $user;
+  if ($tid) {
+    if ($user->uid) {
+      $links['new-posts']['title'] = t('New posts');
+      $links['new-posts']['href'] = "forum/new";
+      $links['new-posts']['query'] = array('forum' => $tid);
+      
+      if (module_exists('nodecomment')) {
         $links['my-posts']['title'] = t('My posts');
         $links['my-posts']['href'] = "forum/user";
         $links['my-posts']['query'] = array('forum' => $tid);
       }
-      $links['unanswered']['title'] = t('Unanswered topics');
-      $links['unanswered']['href'] = "forum/unanswered";
-      $links['unanswered']['query'] = array('forum' => $tid);
     }
-    else {
-      if ($user->uid) {
-        $links['new-posts']['title'] = t('New posts');
-        $links['new-posts']['href'] = "forum/new";
+    $links['unanswered']['title'] = t('Unanswered topics');
+    $links['unanswered']['href'] = "forum/unanswered";
+    $links['unanswered']['query'] = array('forum' => $tid);
+  }
+  else {
+    if ($user->uid) {
+      $links['new-posts']['title'] = t('New posts');
+      $links['new-posts']['href'] = "forum/new";
+      
+      if (module_exists('nodecomment')) {
         $links['my-posts']['title'] = t('My posts');
         $links['my-posts']['href'] = "forum/user";
       }
-      $links['unanswered']['title'] = t('Unanswered topics');
-      $links['unanswered']['href'] = "forum/unanswered";
-      $links['active']['title'] = t('Active topics');
-      $links['active']['href'] = "forum/active";
     }
+    
+    $links['unanswered']['title'] = t('Unanswered topics');
+    $links['unanswered']['href'] = "forum/unanswered";
+    
+    $links['active']['title'] = t('Active topics');
+    $links['active']['href'] = "forum/active";
   }
 
   return $links;

@@ -9,6 +9,7 @@ March 23, 2010
 #492794 by Michelle: Fixed issue where $node->teaser in manually loaded node prevented comment previews from being themed when on their own page.
 #751890 by Michelle: Made Views a dependency.
 #738074 by yaslama: Adapted version of the core patch on [#113611].
+#702128 by Michelle: Added checks for nodecomment around search views as well as link to my posts view in secondary links.
 
 March 8, 2010
 -------------
