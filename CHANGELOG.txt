@@ -10,6 +10,7 @@ March 23, 2010
 #751890 by Michelle: Made Views a dependency.
 #738074 by yaslama: Adapted version of the core patch on [#113611].
 #702128 by Michelle: Added checks for nodecomment around search views as well as link to my posts view in secondary links.
+#692900 by Michelle, marcus0263: Fixed regression with #forum-topic-top link.
 
 March 8, 2010
 -------------
