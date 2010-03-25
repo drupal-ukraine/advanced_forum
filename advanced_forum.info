@@ -4,4 +4,6 @@ description = Enables the look and feel of other popular forum software.
 dependencies[] = forum
 dependencies[] = author_pane
 dependencies[] = ctools
+dependencies[] = views
+
 core = 6.x

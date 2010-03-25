@@ -7,6 +7,7 @@ March 23, 2010
 #687196 by iva2k, merlinofchaos, SupermanScott: Changed loading of views to use require instead of require once and use the view name instead of the filename.
 #492794 by Michelle: Now themes the node preview for forum nodes.
 #492794 by Michelle: Fixed issue where $node->teaser in manually loaded node prevented comment previews from being themed when on their own page.
+#751890 by Michelle: Made Views a dependency.
 
 March 8, 2010
 -------------
