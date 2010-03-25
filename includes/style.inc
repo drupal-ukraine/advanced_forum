@@ -181,6 +181,14 @@ function advanced_forum_is_styled($content, $type = 'node') {
     _advanced_forum_add_files();
     return TRUE;
   }
+  elseif ($topic_id == -42) {
+    // A -2 means all the tests passed but the node is being previewed so there
+    // is no node id, yet. Add the files and return true but don't update the 
+    // master topic ID.
+    _advanced_forum_add_files();
+    return TRUE;
+  }
+    
 }
 
 function advanced_forum_node_is_styled($node) {
@@ -189,12 +197,24 @@ function advanced_forum_node_is_styled($node) {
 
   // If this type is in the list of types that should be styled...
   if (in_array($node->type, $styled_node_types)) {
+    // ...and if we are styling teasers or this isn't a teaser...
     if (variable_get('advanced_forum_style_teasers', FALSE) || empty($node->teaser)) {
-      // ... and if we are styling teasers or this isn't a teaser...
-      if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node)) {
-        // ... and if we are styling non forum tagged nodes or this is forum tagged
-        // then return the node ID.
-        return $node->nid;
+      // ...and if this is not a new node being previewed...
+      if (!empty($node->nid)) {      
+        // ...and if we are styling non forum tagged nodes or this is forum tagged...
+        if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node)) {
+          // ... then return the node ID.
+          return $node->nid;
+        }
+      }
+      // ...or if this _is_ a new node being previewed...
+      else {
+        // ...and if we are styling non forum tagged nodes or this is forum tagged...
+        if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node, TRUE)) {
+          // ...Send back -42 as a special code to say that this should be styled
+          // but that it isn't the actual node id.
+          return -42;
+        }
       }
     }
   }
@@ -224,12 +244,21 @@ function advanced_forum_comment_is_styled($comment, $master_topic_id) {
     return -1;
 }
 
-function advanced_forum_is_forum_tagged($node) {
-  // Get a list of the terms attached to this node
+function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
   $vid = variable_get('forum_nav_vocabulary', '');  
-  $terms = taxonomy_node_get_terms_by_vocabulary($node, $vid);
-  if (count($terms) > 0) {
-    return TRUE;
+  if ($preview) {
+    foreach ($node->taxonomy as $term) {
+      if ($term->vid == $vid) {
+        return TRUE;
+      }
+    }
+  }
+  else {
+    // Get a list of the terms attached to this node
+    $terms = taxonomy_node_get_terms_by_vocabulary($node, $vid);
+    if (count($terms) > 0) {
+      return TRUE;
+    }
   }
 }
 
