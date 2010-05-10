@@ -1,6 +1,9 @@
 $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
+May 10, 2010
+------------
+#697234 by ericduran, nenne: Fixed issue with ampersand encoding in subforum list.
 
 March 24, 2010
 --------------

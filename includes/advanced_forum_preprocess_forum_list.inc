@@ -76,11 +76,11 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   global $user;
   $row = 0;
-  // Sanitize each forum so that the template can safely print the data.
+  // Sanitize each forum so that the template can safely print the data but skip the name of subforums.
   foreach ($variables['forums'] as $id => $forum) {
     $variables['forums'][$id]->description = !empty($forum->description) ? filter_xss_admin($forum->description) : '';
     $variables['forums'][$id]->link = url("forum/$forum->tid");
-    $variables['forums'][$id]->name = check_plain($forum->name);
+    $variables['forums'][$id]->name = empty($forum->parents[0]) ? check_plain($forum->name) : $forum->name;
     $variables['forums'][$id]->is_container = !empty($forum->container);
     $variables['forums'][$id]->zebra = $row % 2 == 0 ? 'odd' : 'even';
     $row++;
@@ -151,6 +151,11 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     if (!empty($forum->subforum_list)) {
       $variables['forums'][$id]->subforums = theme('advanced_forum_subforum_list', $forum->subforum_list);
       unset($variables['forums'][$id]->subforum_list);
+    }
+
+    if(!empty($forum->parents[0])){
+	  // Sanitize the subforums.
+      $variables['forums'][$id]->name  = check_plain($forum->name);
     }
   }
 
