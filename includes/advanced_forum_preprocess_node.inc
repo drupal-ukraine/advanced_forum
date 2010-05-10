@@ -42,7 +42,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     // We need to add this because nodecomment puts this in the template
     // that we are overriding whereas the comment module adds it in code
     // outside of the template and it will be there twice if we always add it.
-    $variables['comment_anchor'] = '<a id="comment-' . $variables['node']->nid . '"</a>';
+    $variables['comment_anchor'] = '<a id="comment-' . $variables['node']->nid . '"></a>';
   }
 
   /* Topic header */
