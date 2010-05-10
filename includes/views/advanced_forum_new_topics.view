@@ -7,13 +7,6 @@
  * to ensure that the forum vocabulary gets the right vid.
  */
 
-
-
-
-
-
-
-
 $view = new view;
 $view->name = 'advanced_forum_new_topics';
 $view->description = 'Shows the new topics in a given forum';
@@ -332,6 +325,7 @@ $handler->override_option('fields', array(
       'alt' => '',
       'prefix' => '',
       'suffix' => '',
+      'target' => '',
       'help' => '',
       'trim' => 0,
       'max_length' => '',
@@ -340,6 +334,9 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
+    'empty' => '0',
+    'hide_empty' => 0,
+    'empty_zero' => 1,
     'set_precision' => FALSE,
     'precision' => 0,
     'decimal' => '.',

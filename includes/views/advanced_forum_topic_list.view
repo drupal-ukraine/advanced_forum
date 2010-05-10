@@ -639,5 +639,5 @@ $handler->override_option('style_options', array(
     ),
   ),
   'default' => 'last_updated',
-  'tid' => '',
+  'tid' => 'argument.tid',
 ));

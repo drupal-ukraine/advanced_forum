@@ -322,7 +322,7 @@ $handler->override_option('fields', array(
       'alt' => '',
       'prefix' => '',
       'suffix' => '',
-
+      'target' => '',
       'help' => '',
       'trim' => 0,
       'max_length' => '',

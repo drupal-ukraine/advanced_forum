@@ -5,6 +5,7 @@ May 10, 2010
 ------------
 #697234 by ericduran, nenne: Fixed issue with ampersand encoding in subforum list.
 #791956 by friolator: Fixed missing closing bracked on comment anchor.
+#583674 by Michelle: Confirmed and fixed regression with views column and 0 views.
 
 March 24, 2010
 --------------
