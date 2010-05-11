@@ -6,6 +6,7 @@ May 11, 2010
 ------------
 #793020 by Michelle: Fixed issue with no-style-name template file not being found.
 #793664 by crea: Fixed Author Pane not showing on nodecomment reply preview.
+#622670 by neclimdul: Fixed clipped folder icons when no posts in forum.
 
 May 10, 2010
 ------------
