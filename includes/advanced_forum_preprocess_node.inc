@@ -25,7 +25,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     // We send this to a special .tpl so people can adjust it to their needs.
     advanced_forum_add_template_suggestions("post-repeated", $variables['template_files']);
   }
-  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add') || ($variables['op'] == 'Preview')) {
+  elseif (arg(1) == 'reply' || (arg(0) == 'node' && arg(1) == 'add') || $variables['node']->build_mode == NODE_BUILD_PREVIEW) {
     // 'reply' deals with the first post being shown when adding a comment.
     // 'node/add' is when previewing a new forum post.
     advanced_forum_add_template_suggestions("post-preview", $variables['template_files']);
@@ -98,8 +98,8 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));
-  // Only do this if post rendering is supported:
-  if (method_exists('views_plugin_cache', 'post_render')) {
+  // Only do this if post rendering is supported and it's not preview of nodecomment:
+  if (method_exists('views_plugin_cache', 'post_render') && $variables['node']->build_mode != NODE_BUILD_PREVIEW) {    
     // Place a token that will later be replaced by the author pane, which
     // will keep the pane fresh even when the view result is cached.
     $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';

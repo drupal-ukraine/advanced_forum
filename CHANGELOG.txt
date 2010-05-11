@@ -5,6 +5,7 @@ $Id$
 May 11, 2010
 ------------
 #793020 by Michelle: Fixed issue with no-style-name template file not being found.
+#793664 by crea: Fixed Author Pane not showing on nodecomment reply preview.
 
 May 10, 2010
 ------------
