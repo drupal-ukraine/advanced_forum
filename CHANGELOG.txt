@@ -1,11 +1,18 @@
 $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
+
+May 11, 2010
+------------
+#793020 by Michelle: Fixed issue with no-style-name template file not being found.
+
 May 10, 2010
 ------------
 #697234 by ericduran, nenne: Fixed issue with ampersand encoding in subforum list.
 #791956 by friolator: Fixed missing closing bracked on comment anchor.
 #583674 by Michelle: Confirmed and fixed regression with views column and 0 views.
+#755940 by Michelle: Removed (hopefully!) unneeded a id forum-reply-NNN and removed suspected bad copy/paste line.
+#769954 by Michelle, gege2061: Make sure there is a body field before trying to form alter it. Silly poll. :P
 
 March 24, 2010
 --------------

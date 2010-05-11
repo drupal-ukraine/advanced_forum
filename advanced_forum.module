@@ -179,6 +179,7 @@ function advanced_forum_theme() {
  */
 function advanced_forum_theme_registry_alter(&$theme_registry) {
   advanced_forum_load_style_includes();
+  
   // Garland's phptemplate_comment_wrapper really sucks. Chances are, a theme
   // does NOT want to control this on forum nodes anyway, so we're going to take
   // it over:
@@ -196,13 +197,10 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     }
   }
 
-  // When views is enabled, we want to use it to do the topic list pages so
-  // we get rid of the core template preprocess.
-  if (module_exists('views')) {
-    foreach ($theme_registry['forum_topic_list']['preprocess functions'] as $key => $value) {
-      if ($value == 'template_preprocess_forum_topic_list') {
-        unset($theme_registry['forum_topic_list']['preprocess functions'][$key]);
-      }
+  // Views handles the topic list pages so remove the core template preprocess.
+  foreach ($theme_registry['forum_topic_list']['preprocess functions'] as $key => $value) {
+    if ($value == 'template_preprocess_forum_topic_list') {
+      unset($theme_registry['forum_topic_list']['preprocess functions'][$key]);
     }
   }
 
@@ -385,7 +383,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
  * Implementation of hook_form_alter().
  */
 function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
-  if (!empty($form['#node']->type) && advanced_forum_type_is_in_forum($form['#node']->type)) {
+  if (!empty($form['#node']->type) && advanced_forum_type_is_in_forum($form['#node']->type) && isset($form['body_field'])) {
     // Remove the teaser splitter.
     $teaser_js_build = array_search('node_teaser_js', $form['body_field']['#after_build']);
     unset($form['body_field']['#after_build'][$teaser_js_build]);
@@ -625,13 +623,15 @@ function advanced_forum_add_template_suggestions($template, &$template_suggestio
     $lineage = array_reverse($lineage, TRUE);
   }
 
-  // Add in a version without any style name.
-  $template_suggestions[] = "advanced_forum.$template";
-
   // Add a suggestion for each style in the lineage.
   foreach ($lineage AS $key => $path) {
     $template_suggestions[] = "advanced_forum.$key.$template";
   }
+
+  // Add in a version without any style name at the end. The order will be
+  // reversed when drupal_discover_template() looks for the first matching
+  // file so adding this at the end means it will be found first.
+  $template_suggestions[] = "advanced_forum.$template";
 
   return;
 }

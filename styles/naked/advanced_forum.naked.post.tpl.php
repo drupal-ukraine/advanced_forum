@@ -25,8 +25,7 @@
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
 <?php else: ?>
-  <a id="forum-reply-<?php print $node->nid; ?>"></a>
-  
+  <?php // This is only used with nodecomment. ?>
   <?php if (!empty($comment_anchor)): ?>
     <?php print $comment_anchor; ?>
   <?php endif; ?>

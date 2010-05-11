@@ -35,7 +35,6 @@ function _advanced_forum_preprocess_comment(&$variables) {
 
   // This is a comment, not the node.
   $variables['top_post'] = FALSE;
-  $variables['css_id'] = "reply-" . $variables['node']->nid;
 
   // Set the reply ID for theming / targetting
   $variables['reply_id'] = $variables['comment']->cid;

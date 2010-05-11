@@ -31,6 +31,7 @@
  * @see theme_forum_list()
  */
 ?>
+
 <?php $container_number = 0 ?>
 <?php foreach ($forums as $forum_id => $forum): ?>
 
