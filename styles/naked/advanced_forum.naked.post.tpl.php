@@ -42,20 +42,23 @@
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
+        
         <?php if (!empty($new_output)): ?>
           <?php print $new_output; ?>
         <?php endif; ?>
       <?php endif; ?>
-    </div>
+    </div>  <?php // End of posted on div ?>
 
     <?php if (!$top_post): ?>
       <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
-  </div>
+  </div> <?php // End of post info div ?>
 
   <div class="forum-post-wrapper">
     <div class="forum-post-panel-sub">
-      <?php print $author_pane; ?>
+      <?php if (!empty($author_pane)): ?>
+        <?php print $author_pane; ?>
+      <?php endif; ?>
     </div>
 
     <div class="forum-post-panel-main clear-block">
@@ -81,7 +84,7 @@
         </div>
       <?php endif; ?>
     </div>
-  </div>
+  </div> <?php // End of post wrapper div ?>
 
   <div class="forum-post-footer clear-block">
     <div class="forum-jump-links">
@@ -93,9 +96,14 @@
         <?php print $links ?>
       </div>
     <?php endif; ?>
-  </div>
-</div>
+  </div> <?php // End of footer div ?>
+</div> <?php // End of main wrapping div ?>
 
+<?php 
+// Print the taxonomy terms for this node. This will print all terms,
+// including the term of the forum itself. If you don't use any other 
+// taxonomy on forum posts, you can safely delete this section.
+?>
 <?php if ($top_post): ?>
   <div class="forum-top-post-footer">
    <?php print t('Tags') ?>: <?php print $terms ?>

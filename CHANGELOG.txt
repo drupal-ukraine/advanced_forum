@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+May 24, 2010
+------------
+#807742 by Michelle: Started work on documenting the templates.
+
 May 11, 2010
 ------------
 #793020 by Michelle: Fixed issue with no-style-name template file not being found.
