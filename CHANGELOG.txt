@@ -5,6 +5,7 @@ $Id$
 May 27, 2010
 ------------
 #787454 by berdir, mikey_p, merlinofchaos, and Michelle: Fixed error in SQL that caused new posts to be counted twice if revisions were on when the node was moved to another forum.
+#801260 by dereine: advanced_forum_statistics_replies performance improved.
 
 May 24, 2010
 ------------
