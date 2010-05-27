@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+May 27, 2010
+------------
+#787454 by berdir, mikey_p, merlinofchaos, and Michelle: Fixed error in SQL that caused new posts to be counted twice if revisions were on when the node was moved to another forum.
+
 May 24, 2010
 ------------
 #807742 by Michelle: Started work on documenting the templates.
