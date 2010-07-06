@@ -26,6 +26,18 @@ function advanced_forum_forum_page_manager_tasks() {
     // Allow this to be enabled or disabled:
     'disabled' => variable_get('advanced_forum_forum_disabled', TRUE),
     'enable callback' => 'advanced_forum_forum_enable',
+
+    // Allow additional operations
+    'operations' => array(
+      'settings' => array(
+        'title' => t('Settings'),
+        'description' => t('Edit name, path and other basic settings for the page.'),
+        'form' => 'advanced_forum_forum_page_settings',
+      ),
+    ),
+    // Even though we don't have subtasks, this allows us to save our settings.
+    'save subtask callback' => 'advanced_forum_forum_page_save',
+
   );
 }
 
@@ -83,7 +95,7 @@ function advanced_forum_forum_get_arguments($task, $subtask_id) {
       'identifier' => t('Forum'),
       'id' => 1,
       'name' => 'forum_id',
-      'settings' => array('breadcrumb' => TRUE),
+      'settings' => array('breadcrumb' => variable_get('advanced_forum_forum_page_breadcrumb', TRUE)),
     ),
   );
 }
@@ -100,4 +112,41 @@ function advanced_forum_forum_get_contexts($task, $subtask_id) {
  */
 function advanced_forum_forum_enable($cache, $status) {
   variable_set('advanced_forum_forum_disabled', $status);
+}
+
+/**
+ * Settings page for this item.
+ */
+function advanced_forum_forum_page_settings(&$form, &$form_state) {
+  if (empty($form_state['page']->update_values)) {
+    $settings = array(
+      'advanced_forum_forum_page_breadcrumb' => variable_get('advanced_forum_forum_page_breadcrumb', TRUE),
+    );
+  }
+  else {
+    $settings = $form_state['page']->update_values;
+  }
+
+  $form['advanced_forum_forum_page_breadcrumb'] = array(
+    '#title' => t('Inject hierarchy of first term into breadcrumb trail'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['advanced_forum_forum_page_breadcrumb'],
+    '#description' => t('If checked, taxonomy term parents will appear in the breadcrumb trail.'),
+  );
+}
+
+/**
+ * Copy form values into the page cache.
+ */
+function advanced_forum_forum_page_settings_submit(&$form, &$form_state) {
+  $form_state['page']->update_values = $form_state['values'];
+}
+
+/**
+ * Save when the page cache is saved.
+ */
+function advanced_forum_forum_page_save($subtask, $cache) {
+  if (isset($cache->update_values)) {
+    variable_set('advanced_forum_forum_page_breadcrumb', $cache->update_values['advanced_forum_forum_page_breadcrumb']);
+  }
 }

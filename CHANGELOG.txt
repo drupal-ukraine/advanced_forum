@@ -5,6 +5,7 @@ $Id$
 July 5, 2010
 ------------
 #821744 by Michelle: Updated Author Pane integration to work with beta 1.
+#830102 by merlinofchaos: Added setting for 'Inject hierarchy of first term into breadcrumb trail' to forum page.
 
 May 27, 2010
 ------------
