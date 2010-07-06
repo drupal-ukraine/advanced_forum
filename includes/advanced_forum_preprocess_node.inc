@@ -117,7 +117,7 @@ function _advanced_forum_preprocess_node(&$variables) {
   elseif (variable_get('user_signatures', 0)) {
     if ($variables['account']->signature) {
       // Otherwise load Drupal's built in one, if enabled.
-      $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format);
+      $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
     }
   }
   
