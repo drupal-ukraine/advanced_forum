@@ -56,7 +56,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   }
 
   // Create the author pane
-  $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
+  $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $variables['comment'], TRUE);
 
   /* Link section */
   if (arg(1) != 'reply' && arg(1) != 'edit') {

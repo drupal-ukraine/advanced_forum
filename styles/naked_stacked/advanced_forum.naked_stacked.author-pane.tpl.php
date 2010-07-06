@@ -9,6 +9,15 @@
  */
 ?>
 
+<?php
+  // This bit of debugging info will show the full path to and name of this
+  // template file to make it easier to figure out which template is
+  // controlling which author pane.
+  if ($show_template_location) {
+    print __FILE__;
+  }
+?>
+
 <div class="author-pane clear-block">
  <div class="author-pane-inner">
     <?php /* Avatar (has div in variable) */ ?>

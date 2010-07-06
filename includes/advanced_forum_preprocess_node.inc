@@ -105,7 +105,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';
   }
   else {
-    $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
+    $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $variables['node'], TRUE);
   }
   
   /* Signatures */

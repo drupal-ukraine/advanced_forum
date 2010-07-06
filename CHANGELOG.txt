@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 5, 2010
+------------
+#821744 by Michelle: Updated Author Pane integration to work with beta 1.
+
 May 27, 2010
 ------------
 #787454 by berdir, mikey_p, merlinofchaos, and Michelle: Fixed error in SQL that caused new posts to be counted twice if revisions were on when the node was moved to another forum.
