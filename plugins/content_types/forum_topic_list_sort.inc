@@ -5,17 +5,15 @@
  * Callback function to supply a list of content types.
  */
 function advanced_forum_forum_topic_list_sort_ctools_content_types() {
-  if (module_exists('views')) {
-    return array(
-      'single' => TRUE,
-      'title' => t('Forum topic list sort widget'),
-      'icon' => 'icon_forum.png',
-      'description' => t('A small select widget to change the sort order of the forum topic list'),
-      'required context' => new ctools_context_required(t('Forum'), 'forum'),
-      'category' => t('Forum'),
-      'defaults' => array(),
-    );
-  }
+  return array(
+    'single' => TRUE,
+    'title' => t('Forum topic list sort widget'),
+    'icon' => 'icon_forum.png',
+    'description' => t('A small select widget to change the sort order of the forum topic list'),
+    'required context' => new ctools_context_required(t('Forum'), 'forum'),
+    'category' => t('Forum'),
+    'defaults' => array(),
+  );
 }
 
 /**

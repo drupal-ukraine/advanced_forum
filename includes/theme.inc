@@ -226,12 +226,7 @@ function template_preprocess_advanced_forum_topic_list_view(&$variables) {
  * Preprocesses template variables for the topic list template.
  */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
-  // Take control of the template file.
   advanced_forum_add_template_suggestions("topic-list", $variables['template_files']);
-  if (!module_exists('views')) {
-    include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_forum_topic_list.inc';
-    _advanced_forum_preprocess_forum_topic_list($variables);
-  }
 }
 
 /**
@@ -291,7 +286,7 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 }
 
 /**
- * Preprocesses template variables for the topic header template.
+ * Preprocesses template variables for the active poster template.
  */
 function advanced_forum_preprocess_advanced_forum_active_poster(&$variables) {
   advanced_forum_add_template_suggestions("active-poster", $variables['template_files']);

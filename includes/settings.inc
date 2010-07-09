@@ -91,34 +91,6 @@ function advanced_forum_settings_page() {
     '#collapsed' => FALSE,
   );
 
-  if (!module_exists('views')) {
-    // Hide 'created' column
-    $form['advanced_forum_lists']['advanced_forum_hide_created'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Hide the created column on the topic list'),
-      '#default_value' => variable_get('advanced_forum_hide_created', 0),
-      '#description' => t('This allows you to hide the created column on the topic list. Useful if you want to move the created by information to underneath the topic title.'),
-    );
-
-    // Pager max
-    $form['advanced_forum_lists']['advanced_forum_topic_pager_max'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Maximum number of pages to show on per title pager'),
-      '#size' => 5,
-      '#description' => t('Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10'),
-      '#default_value' => variable_get('advanced_forum_topic_pager_max', 5),
-    );
-
-    // Time ago cutoff
-    $form['advanced_forum_lists']['advanced_forum_time_ago_cutoff'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Number of hours before switching to date posted in displays'),
-      '#size' => 5,
-      '#description' => t('Will show "time ago" until this cutoff and then switch to actual date posted.'),
-      '#default_value' => variable_get('advanced_forum_time_ago_cutoff', 48),
-    );
-  }
-
   if (function_exists('taxonomy_image_display')) {
      $form['advanced_forum_lists']['advanced_forum_use_taxonomy_image'] = array(
       '#type' => 'checkbox',

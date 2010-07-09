@@ -151,25 +151,23 @@ function advanced_forum_theme() {
   }
 
   // Templates for features added by Views
-  if (module_exists('views')) {
-    $items['views_view_forum_topic_list__advanced_forum_topic_list'] = array(
-      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
-      'template' => 'advanced_forum-topic-list-view',
-      'original hook' => 'views_view_forum_topic_list',
-    );
+  $items['views_view_forum_topic_list__advanced_forum_topic_list'] = array(
+    'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+    'template' => 'advanced_forum-topic-list-view',
+    'original hook' => 'views_view_forum_topic_list',
+  );
 
-    $items['views_view__advanced_forum_topic_list'] = array(
-      'arguments' => array('view' => NULL),
-      'template' => 'advanced_forum-topic-list-outer-view',
-      'original hook' => 'views_view',
-    );
+  $items['views_view__advanced_forum_topic_list'] = array(
+    'arguments' => array('view' => NULL),
+    'template' => 'advanced_forum-topic-list-outer-view',
+    'original hook' => 'views_view',
+  );
 
-    $items['views_view__advanced_forum_group_topic_list'] = array(
-      'arguments' => array('view' => NULL),
-      'template' => 'advanced_forum-group-topic-list-outer-view',
-      'original hook' => 'views_view',
-    );
-  }
+  $items['views_view__advanced_forum_group_topic_list'] = array(
+    'arguments' => array('view' => NULL),
+    'template' => 'advanced_forum-group-topic-list-outer-view',
+    'original hook' => 'views_view',
+  );
 
   return $items;
 }
@@ -197,13 +195,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     }
   }
 
-  // Views handles the topic list pages so remove the core template preprocess.
-  foreach ($theme_registry['forum_topic_list']['preprocess functions'] as $key => $value) {
-    if ($value == 'template_preprocess_forum_topic_list') {
-      unset($theme_registry['forum_topic_list']['preprocess functions'][$key]);
-    }
-  }
-
   // Don't let core do its basic preprocess for forums, as we want to do
   // other stuff now.
   foreach ($theme_registry['forums']['preprocess functions'] as $key => $value) {
@@ -220,6 +211,13 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     }    
   }
   
+  // Views handles the topic list pages so remove the core template preprocess.
+  foreach ($theme_registry['forum_topic_list']['preprocess functions'] as $key => $value) {
+    if ($value == 'template_preprocess_forum_topic_list') {
+      unset($theme_registry['forum_topic_list']['preprocess functions'][$key]);
+    }
+  }
+
   // --- The following section manipulates the theme registry so the .tpl files
   // --- for the given templates can be found first in the (sub)theme directory
   // --- then in ancestor themes, if any, then in the active style directory
@@ -396,6 +394,9 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_link_alter().
+ */
 function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
   if (advanced_forum_type_is_in_forum($node->type)) {
     // Change first post from "add comment" to "reply" if it isn't already.
@@ -437,6 +438,28 @@ function advanced_forum_views_api() {
     'file' => 'views.inc',
   );
 }
+// MAKE CTOOLS BITS WORK *****************************************************/
+/**
+ * Tell CTools about what plugins we support.
+ */
+function advanced_forum_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'advanced_forum') {
+    return 'styles';
+  }
+
+  if ($module == 'page_manager' || $module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+function advanced_forum_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api = 'pages_default') {
+    return array(
+      'version' => 1,
+      'path' => drupal_get_path('module', 'advanced_forum') . '/includes/panels',
+    );
+  }
+}
 
 // SETTINGS PAGE ************************************************************/
 include_once drupal_get_path('module', 'advanced_forum') . '/includes/settings.inc';
@@ -451,102 +474,126 @@ include_once drupal_get_path('module', 'advanced_forum') . '/includes/style.inc'
 include_once drupal_get_path('module', 'advanced_forum') . '/includes/core-overrides.inc';
 
 // MARK AS READ **************************************************************/
+include_once drupal_get_path('module', 'advanced_forum') . '/includes/mark-read.inc';
+
+
+// VIEWS RELATED GOODIES ****************************************************/
 
 /**
- * Either fill a $links array or return a string version of the link to mark read.
+ * Post render a view and replace any advanced forum tokens.
  */
-function advanced_forum_get_mark_read_link($tid = 0, &$links = array()) {
-  if (advanced_forum_markasread_access()) {
-    if ($tid) {
-      $links['mark-read']['title'] = t('Mark all topics read');
-      $links['mark-read']['href'] = "forum/markasread/$tid";
-      
-      return l(t('Mark all topics read') . '<span class="image-replace"></span>', "forum/markasread/$tid", array('html' => TRUE));
+function advanced_forum_views_post_render(&$view, &$output) {
+  if (!$view->style_plugin->uses_row_plugin()) {
+    return;
+  }
+
+  $plugin = $view->display_handler->get_option('row_plugin');
+  if ($plugin == 'node' || $plugin == 'nodecomment_threaded') {
+    // Look for token matches in the output:
+    $matches = array();
+    $tokens = array();
+
+    // We want to change the look of the 'new' marker from the default, slightly:
+    $tokens['<span class="new">' . t('new') . '</span>'] = '<span class="new">(' . t('new') . ')</span>';
+
+    if (preg_match_all('/<!--post:author-pane-([\d]+)-->/us', $output, $matches)) {
+      foreach ($matches[1] as $match => $uid) {
+        $token = $matches[0][$match]; // This is the exact string that matched.
+        if (!isset($tokens[$token])) {
+          $account = user_load($uid);
+          $tokens[$token] = theme('author_pane', $account, 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
+        }
+      }
     }
-    else {
-      $links['mark-read']['title'] = t('Mark all forums read');
-      $links['mark-read']['href'] = "forum/markasread";
-      
-      return l(t('Mark all forums read') . '<span class="image-replace"></span>', "forum/markasread", array('html' => TRUE));
-    }
+
+    // Perform replacements.
+    $output = strtr($output, $tokens);
   }
 }
 
 /**
- * Marks all posts in forums or in a given forum as read by the current user.
+ * Display the "sort" widget. This is a specially hacked widget that only
+ * works with tablesorting. Tablesorting MUST be on for these widgets
+ * to appear.
  */
-function advanced_forum_markasread($current_forum_id = 0) {
-  global $user;
+function advanced_forum_forum_topic_list_sort() {
+  $form_state = array(
+    'method' => 'get',
+    'no_redirect' => TRUE,
+    'rerender' => TRUE,
+    'input' => $_GET,
+    'drop tokens' => TRUE,
+  );
 
-  // See if we're on a forum or on the forum overview
-  // Path will be /forum/markasread or /forum/markasread/tid
-  if ($current_forum_id) {
-    // Delete the current history entries so already visited nodes get updated.
-    $sql = "DELETE h
-            FROM {history} AS h
-              INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
-            WHERE h.uid = %d AND tn.tid = %d";
-    db_query($sql, $user->uid, $current_forum_id);
+  ctools_include('form');
+  return ctools_build_form('advanced_forum_forum_topic_list_sort_form', $form_state);
+}
 
-    // Update the history table with all forum nodes newer than the cutoff.
-    $sql = "INSERT INTO {history} (uid, nid, timestamp)
-            SELECT DISTINCT %d, n.nid, %d
-            FROM {node} AS n
-              INNER JOIN {term_node} AS tn ON n.nid = tn.nid
-              INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-            WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND tn.tid = %d";
+function advanced_forum_forum_topic_list_sort_form(&$form_state) {
+  $view = views_get_view('advanced_forum_topic_list');
+  $view->set_display('default');
+  $view->init_handlers();
+  $view->init_style();
 
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id);
-    db_query($sql, $args);
+  // Work up a list of possible fields.
+  $handler = &$view->style_plugin;
+  $fields = &$view->field;
+  $columns  = $handler->sanitize_columns($handler->options['columns'], $fields);
 
-    // Readpath integration
-    if (module_exists('readpath')) {
-      readpath_clear_readpath();
+  $options = array();
+  foreach ($columns as $field => $column) {
+    if ($field == $column && empty($fields[$field]->options['exclude'])) {
+      if (empty($handler->options['info'][$field]['sortable']) || !$fields[$field]->click_sortable()) {
+        continue;
+      }
+      $label = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
+      $options[$field] = $label;
     }
-
-    drupal_set_message(t('All content in this forum has been marked as read'));
-    drupal_goto('forum/' . $current_forum_id);
   }
 
-  // We are on the forum overview, requesting all forums be marked read
-  $forum_vocabulary_id = variable_get('forum_nav_vocabulary', '');
+  $form['inline'] = array(
+    '#prefix' => '<div class="container-inline">',
+    '#suffix' => '</div>',
+  );
+  $form['inline']['order'] = array(
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => $handler->options['default'],
+  );
 
-  // Delete the current history entries so already visited nodes get updated.
-  $sql = "DELETE h
-          FROM {history} AS h
-            INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
-            INNER JOIN {term_data} AS td ON (td.tid = tn.tid)
-          WHERE h.uid = %d AND td.vid = %d";
-  db_query($sql, $user->uid, $forum_vocabulary_id);
+  $form['inline']['sort'] = array(
+    '#type' => 'select',
+    '#options' => array(
+      'asc' => t('Up'),
+      'desc' => t('Down'),
+    ),
+    '#default_value' => 'desc',
+  );
 
-  // Update the history table with all forum nodes newer than the cutoff.
-  $sql = "INSERT INTO {history} (uid, nid, timestamp)
-          SELECT DISTINCT %d, n.nid, %d
-          FROM {node} AS n
-            INNER JOIN {term_node} AS tn ON n.nid=tn.nid
-            INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-            INNER JOIN {term_data} AS td ON tn.tid = td.tid
-          WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
+  $form['inline']['submit'] = array(
+    '#name' => '',
+    '#type' => 'submit',
+    '#value' => t('Sort'),
+  );
 
-  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
+  if (isset($_GET['page'])) {
+    $form['page'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $_GET['page'],
+    );
+  }
 
-  db_query($sql, $args);
+  if (!variable_get('clean_url', FALSE)) {
+    $form['q'] = array(
+      '#type' => 'hidden',
+      '#value' => $_GET['q'],
+    );
+  }
 
-  drupal_set_message(t('All forum content been marked as read'));
-  drupal_goto('forum');
+  $view->destroy();
+  return $form;
 }
 
-/**
- * Access callback for menus and link display.
- *
- * This separate function is needed because the Drupal 6 menu system doesn't
- * run hook_menu() every time and the logged-in status of the user can get
- * cached and re-used for other users.
- */
-function advanced_forum_markasread_access() {
-  global $user;
-  return user_access('access content') && $user->uid;
-}
 
 // STATISTICS ****************************************************************/
 
@@ -624,92 +671,105 @@ function advanced_forum_statistics_online_users() {
 // GENERAL UTILITY FUNCTIONS *************************************************/
 
 /**
- * Returns the path to actual site theme in use because path_to_theme is flaky.
+ * Generate a list of primary links for a forum.
+ *
+ * This is used on the forum list, allowing us to have direct
+ * links to post to a forum and other interesting bits and pieces.
  */
-function advanced_forum_path_to_theme() {
-  global $theme;
+function advanced_forum_get_forum_post_links($tid) {
+  global $user;
 
-  if (!empty($theme)) {
-    // Normally, the global theme variable is set, so we use that.
-    return drupal_get_path('theme', $theme);
+  // Format the "post new content" links listing.
+  $vid = variable_get('forum_nav_vocabulary', '');
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $forum_types = array();
+
+  // Loop through all node types for forum vocabulary.
+  foreach ($vocabulary->nodes as $type) {
+    // Check if the current user has the 'create' permission for this node type.
+    if (node_access('create', $type)) {
+      // Fetch the "General" name of the content type.
+      $node_type = node_get_types('name', $type);
+
+      // Remove the word "Forum" out of "Forum topic" to shorten it.
+      // @TODO: this is a little dodgy and may not work right with
+      // translations. Should be replaced if there's a better way.
+      $node_type = str_replace('Forum', '', $node_type);
+
+      // Push the link with title and url to the array.
+      $forum_types[$type] = array(
+        'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>',
+        'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $tid,
+        'html' => TRUE);
+    }
   }
 
-  // For some reason I've never figured out, some users are reporting
-  // that the global theme variable is not set when this is called.
-  // As a band-aid solution, this will pull the default theme out of the
-  // database and use that.
-  $default_theme = variable_get('theme_default', 'garland');
-  return drupal_get_path('theme', $default_theme);
+  if (empty($forum_types)) {
+    // The user is logged-in; but denied access to create any new forum content type.
+    if ($user->uid) {
+      $forum_types['disallowed'] = array('title' => t('You are not allowed to post new content in forum.'));
+    }
+    // The user is not logged-in; and denied access to create any new forum content type.
+    else {
+      $forum_types['login'] = array(
+        'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))),
+        'html' => TRUE);
+    }
+  }
+
+  return $forum_types;
 }
 
 /**
- * Manipulate the template suggestions to add in one for each style as well
- * as the default.
+ * Generate a list of secondary links for a forum.
+ *
+ * This includes the mark-as-read button as well as other links such as
+ * the unread list, unanswered list and similar.
  */
-function advanced_forum_add_template_suggestions($template, &$template_suggestions) {
-  // We only need to calculate the style lineage once per page load.
-  static $lineage;
+function advanced_forum_get_forum_secondary_links($tid) {
+  global $user;
+  $links = array();
+  
+  // Add in the mark as read link if user has access
+  advanced_forum_get_mark_read_link($tid, $links);
 
-  if (empty($lineage)) {
-    $lineage = advanced_forum_style_lineage();
-    $lineage = array_reverse($lineage, TRUE);
-  }
-
-  // Add a suggestion for each style in the lineage.
-  foreach ($lineage AS $key => $path) {
-    $template_suggestions[] = "advanced_forum.$key.$template";
-  }
-
-  // Add in a version without any style name at the end. The order will be
-  // reversed when drupal_discover_template() looks for the first matching
-  // file so adding this at the end means it will be found first.
-  $template_suggestions[] = "advanced_forum.$template";
-
-  return;
-}
-
-/**
- * Adds extra files needed for styling.
- * This is currently just CSS files but was made generic to allow adding
- * javascript in the future.
- */
-function _advanced_forum_add_files() {
-  // This could get called more than once on a page and we only need to do it once.
-  static $added;
-
-  if (!$added) {
-    $added = TRUE;
-    $lineage = advanced_forum_style_lineage();
-    $lineage = array_reverse($lineage, TRUE);
-    $theme_path = advanced_forum_path_to_theme();
-
-    foreach (array('structure.css', 'style.css', 'images.css') as $css_type) {
-      $css_file = "$theme_path/advanced_forum.$css_type";
-      if (file_exists($css_file)) {
-        // CSS files with no style name in the theme directory trump all
-        // to provide a theme specific style override.
-        drupal_add_css($css_file);
-      }
-      else {
-        // For each style from the current style on up through each parent
-        // style, look for the style specific CSS file first in the active
-        // theme and then in the style directory.
-        foreach ($lineage AS $key => $path) {
-          $css_file = "/advanced_forum.$key.$css_type";
-          if (file_exists("$theme_path/$css_file")) {
-            // If the style specific file is in the theme, use that.
-            drupal_add_css("$theme_path/$css_file");
-          }
-          elseif (file_exists("$path/$css_file")) {
-            // Otherwise look in the style for it.
-            drupal_add_css("$path" . "$css_file");
-          }
-        }
+  // Add in our special top level views.
+  global $user;
+  if ($tid) {
+    if ($user->uid) {
+      $links['new-posts']['title'] = t('New posts');
+      $links['new-posts']['href'] = "forum/new";
+      $links['new-posts']['query'] = array('forum' => $tid);
+      
+      if (module_exists('nodecomment')) {
+        $links['my-posts']['title'] = t('My posts');
+        $links['my-posts']['href'] = "forum/user";
+        $links['my-posts']['query'] = array('forum' => $tid);
       }
     }
-
-    advanced_forum_load_style_includes();
+    $links['unanswered']['title'] = t('Unanswered topics');
+    $links['unanswered']['href'] = "forum/unanswered";
+    $links['unanswered']['query'] = array('forum' => $tid);
   }
+  else {
+    if ($user->uid) {
+      $links['new-posts']['title'] = t('New posts');
+      $links['new-posts']['href'] = "forum/new";
+      
+      if (module_exists('nodecomment')) {
+        $links['my-posts']['title'] = t('My posts');
+        $links['my-posts']['href'] = "forum/user";
+      }
+    }
+    
+    $links['unanswered']['title'] = t('Unanswered topics');
+    $links['unanswered']['href'] = "forum/unanswered";
+    
+    $links['active']['title'] = t('Active topics');
+    $links['active']['href'] = "forum/active";
+  }
+
+  return $links;
 }
 
 function advanced_forum_get_reply_link($node) {
@@ -1078,60 +1138,6 @@ function advanced_forum_get_forum_list($tid = 0) {
 }
 
 /**
- * Post render a view and replace any advanced forum tokens.
- */
-function advanced_forum_views_post_render(&$view, &$output) {
-  if (!$view->style_plugin->uses_row_plugin()) {
-    return;
-  }
-
-  $plugin = $view->display_handler->get_option('row_plugin');
-  if ($plugin == 'node' || $plugin == 'nodecomment_threaded') {
-    // Look for token matches in the output:
-    $matches = array();
-    $tokens = array();
-
-    // We want to change the look of the 'new' marker from the default, slightly:
-    $tokens['<span class="new">' . t('new') . '</span>'] = '<span class="new">(' . t('new') . ')</span>';
-
-    if (preg_match_all('/<!--post:author-pane-([\d]+)-->/us', $output, $matches)) {
-      foreach ($matches[1] as $match => $uid) {
-        $token = $matches[0][$match]; // This is the exact string that matched.
-        if (!isset($tokens[$token])) {
-          $account = user_load($uid);
-          $tokens[$token] = theme('author_pane', $account, 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
-        }
-      }
-    }
-
-    // Perform replacements.
-    $output = strtr($output, $tokens);
-  }
-}
-
-/**
- * Allow themable wrapping of all comments.
- */
-function advanced_forum_comment_wrapper($content, $node) {
-  // See if this is a forum post:
-  $vid = variable_get('forum_nav_vocabulary', '');
-  foreach ($node->taxonomy as $tid => $term) {
-    if ($term->vid == $vid) {
-      return _advanced_forum_comment_wrapper($content, $node);
-    }
-  }
-
-  return phptemplate_comment_wrapper($content, $node);
-}
-
-/**
- * Wrap forum comments a little differently to make it easier.
- */
-function _advanced_forum_comment_wrapper($content, $node) {
-  return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
-}
-
-/**
  * Return an array of node types that can be in the forum.
  */
 function advanced_forum_get_forum_types() {
@@ -1150,24 +1156,3 @@ function advanced_forum_type_is_in_forum($type) {
   }
 }
 
-/**
- * Tell CTools about what plugins we support.
- */
-function advanced_forum_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'advanced_forum') {
-    return 'styles';
-  }
-
-  if ($module == 'page_manager' || $module == 'ctools') {
-    return 'plugins/' . $plugin;
-  }
-}
-
-function advanced_forum_ctools_plugin_api($module, $api) {
-  if ($module == 'page_manager' && $api = 'pages_default') {
-    return array(
-      'version' => 1,
-      'path' => drupal_get_path('module', 'advanced_forum') . '/includes/panels',
-    );
-  }
-}
