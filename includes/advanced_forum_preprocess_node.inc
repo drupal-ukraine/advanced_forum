@@ -58,43 +58,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     // Add to the classes
     $classes[] = 'top-post';
     $variables['css_id'] = "node-" . $variables['node']->nid;
-  }
-
-  /* Link section */
-   if (empty($variables['node']->links['comment_add'])) {
-    // Attempt to get the reply link for this node.
-    $reply_link = advanced_forum_get_reply_link($variables['node']);
-    if (!empty($reply_link->href)) {
-      $variables['node']->links['comment_add']['title'] = t('reply');
-      $variables['node']->links['comment_add']['href'] = $reply_link->href;
-      $variables['node']->links['comment_add']['query'] = $reply_link->query;
-      $variables['node']->links['comment_add']['fragment'] = $reply_link->fragment;
-    }
-  }
-   
-  // Change first post from "add comment" to "reply" if it isn't already.
-  if (!empty($variables['node']->links) && !empty($variables['node']->links['comment_add'])) {
-    $variables['node']->links['comment_add']['title'] = t('reply');
-  }
-
-  if (!empty($variables['node']->links)) {
-    // Add extra span tags for image replacement.
-    foreach ($variables['node']->links AS $key => $link) {
-      $variables['node']->links[$key]['title'] = $variables['node']->links[$key]['title'] . '<span class="image-replace"></span>';
-      $variables['node']->links[$key]['html'] = TRUE;
-    }
-  
-    // Remake the links with our changes
-    $variables['links'] = theme('links', $variables['node']->links, array('class' => 'links inline forum-links'));
-
-    // Make an array version of $links
-    $variables['links_array'] = $variables['node']->links;
-  }
-  else {
-    // We don't have any links so just initialize the variables.
-    $variables['links'] = '';
-    $variables['links_array'] = array();
-  }
+  } 
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));

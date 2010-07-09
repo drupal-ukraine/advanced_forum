@@ -58,25 +58,6 @@ function _advanced_forum_preprocess_comment(&$variables) {
   // Create the author pane
   $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $variables['comment'], TRUE);
 
-  /* Link section */
-  if (arg(1) != 'reply' && arg(1) != 'edit') {
-    // Because the $links array isn't available here, we recreate it
-    $links = module_invoke_all('link', 'comment', $variables['comment']);
-    drupal_alter('link', $links, $node);
-    unset($links['comment_parent']);
-
-    // Add extra span tags for image replacement.
-    foreach ($links AS $key => $link) {
-      $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
-      $links[$key]['html'] = TRUE;
-    }
-
-    // Remake the links with our changes
-    $variables['links'] = theme('links', $links, array('class' => 'links inline forum-links'));
-
-    // Make an array version of $links
-    $variables['links_array'] = $links;
-  }
 
   /* Title */
   if (variable_get('comment_subject_field_' . $node->type, 1) == 0) {

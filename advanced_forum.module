@@ -357,7 +357,7 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
 
   if ($type == 'node') {
     if (advanced_forum_type_is_in_forum($node->type)) {
-      // Add edit / delete links to the node links to be match replies.
+      // Add edit / delete links to the node links to match replies.
       if (node_access('update', $node)) {
         $links['post_edit'] = array(
           'title' => t('edit'),
@@ -370,13 +370,45 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
         $links['post_delete'] = array(
           'title' => t('delete'),
           'href' => 'node/'. $node->nid .'/delete',
-          'query' => drupal_get_destination(),
         );
       }
-    }
+
+      // Core only adds the link if the comment form is on a separate page
+      // but we want the link there regardless for consistancy.
+      // Nodecomment already handles this so only run if that's not enabled.
+      if (!module_exists('nodecomment')) {
+        if ($node->comment == COMMENT_NODE_READ_WRITE) {
+          if (user_access('post comments')) {
+            if (variable_get('comment_form_location_'. $node->type, COMMENT_FORM_SEPARATE_PAGE) != COMMENT_FORM_SEPARATE_PAGE) {
+              $links['comment_add'] = array(
+                'title' => t('Add new comment'),
+                'href' => "comment/reply/$node->nid",
+                'attributes' => array('title' => t('Reply to this topic.')),
+                'fragment' => 'comment-form'
+              );
+            }
+          }
+        }
+      }
+    }  
   }
 
   return $links;
+}
+
+function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
+  if (advanced_forum_type_is_in_forum($node->type)) {
+    // Change first post from "add comment" to "reply" if it isn't already.
+    if (!empty($links['comment_add'])) {
+      $links['comment_add']['title'] = t('reply');
+    }
+    
+    // Add extra span tags for image replacement.
+    foreach ($links AS $key => $link) {
+      $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
+      $links[$key]['html'] = TRUE;
+    }
+  }
 }
 
 /**
