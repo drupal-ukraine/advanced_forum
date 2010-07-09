@@ -14,7 +14,6 @@
  * - $reply_link: Text link / button to reply to topic.
  * - $total_posts: Number of posts in topic (not counting first post).
  * - $new_posts: Number of new posts in topic, and link to first new.
- * - $links_array: Unformatted array of links.
  * - $account: User object of the post author.
  * - $name: User name of post author.
  * - $author_pane: Entire contents of the Author Pane template.
@@ -24,7 +23,7 @@
 
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
-  
+
 <?php else: ?>
   <?php // If using nodecomment, add the anchor that comment normally provides ?>
   <?php if (!empty($comment_anchor)): ?>

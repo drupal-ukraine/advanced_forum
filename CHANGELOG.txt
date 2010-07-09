@@ -7,6 +7,7 @@ July 8, 2010
 #768348 by Michelle: Moved node/comment link handling to hook_link and hook_link_alter.
 #547824 by Michelle: When deleting a node from the node links, it now goes back to the front page like in core.
 #757804 by G-son, Michelle: Added back in code for 'new' markers on replies when using core comments that was accidentially removed when making it compatable with node comments.
+#831364 by Michelle, smerrill: Removed & from form_state paramater in form_alter to make php 5.3 happy.
 
 July 5, 2010 - ALPHA 3
 ------------
