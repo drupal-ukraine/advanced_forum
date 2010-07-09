@@ -24,8 +24,9 @@
 
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
+  
 <?php else: ?>
-  <?php // This is only used with nodecomment. ?>
+  <?php // If using nodecomment, add the anchor that comment normally provides ?>
   <?php if (!empty($comment_anchor)): ?>
     <?php print $comment_anchor; ?>
   <?php endif; ?>
@@ -35,10 +36,18 @@
   <div class="forum-post-info clear-block">
     <div class="forum-posted-on">
       <?php print $date ?>
-
-      <?php // This section is here to keep the views caching used for
-           // Nodecomment from caching the new markers. ?>
+      
+      <?php 
+      // This whole section is for printing the "new" marker. With core comment
+      // we just need to check a variable. With Node Comment, we need to do 
+      // extra work to keep the views caching used for Node Comment from 
+      //caching the new markers. 
+      ?>
       <?php if (!$top_post): ?>
+        <?php if (!module_exists('nodecomment') && !empty($comment->new)): ?>
+          <a id="new"><span class="new">(<?php print $new ?>)</span></a>
+        <?php endif; ?>	  
+      
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
