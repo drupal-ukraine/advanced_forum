@@ -119,7 +119,9 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
           $variables['forums'][$id]->new_url_posts = url("forum/$forum->tid", array('fragment' => 'new'));
         }
 
-        $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
+        if (isset($forum->num_posts)) {
+          $variables['forums'][$id]->old_posts = $forum->num_posts - $variables['forums'][$id]->new_posts;
+        }
       }
     }
 

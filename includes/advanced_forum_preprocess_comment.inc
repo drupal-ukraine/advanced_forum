@@ -8,6 +8,9 @@
  */
 
 function _advanced_forum_preprocess_comment(&$variables) {
+  // Define this to avoid notices when not using Node Comments
+  $variables['css_id'] = "";
+
   // Start a variable that will hold classes to attach to the containing div
   $classes = array();
  
@@ -46,9 +49,9 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $account_id = $variables['comment']->uid;
   if ($account_id == 0) {
     // Anonymous user. Make a fake user object for theme_username
-    $variables['account']->name = $variables['comment']->name;
-    $variables['account']->homepage = $variables['comment']->homepage;
-    $variables['account']->email = $variables['comment']->email;    
+    $variables['account']->name = empty($variables['comment']->name) ? "" : $variables['comment']->name;
+    $variables['account']->homepage = empty($variables['comment']->homepage) ? "" : $variables['comment']->homepage;
+    $variables['account']->email = empty($variables['comment']->email) ? "" : $variables['comment']->email;    
   }
   else {
     // Load up the real user object

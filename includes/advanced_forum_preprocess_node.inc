@@ -8,6 +8,9 @@
  */
 
 function _advanced_forum_preprocess_node(&$variables) {
+  // Define this to avoid notices when not using Node Comments
+  $variables['css_id'] = "";
+  
   // Start a variable that will hold classes to attach to the containing div.
   $classes = array();
   
