@@ -6,11 +6,8 @@
  * These are functions that are overriding core directly (not theme related.)
  */
 
-
 /**
  * Menu callback; prints a forum listing.
- *
- * This is copied from the forum module and adapted.
  */
 function advanced_forum_page($tid = 0) {
   if (!is_numeric($tid)) {
@@ -55,7 +52,10 @@ function advanced_forum_page($tid = 0) {
     $title = $vocabulary->name;
   }
 
-  drupal_set_breadcrumb($breadcrumb);
+  if (!variable_get('advanced_forum_disable_breadcrumbs', FALSE)) {
+    drupal_set_breadcrumb($breadcrumb);
+  }
+  
   drupal_set_title(check_plain($title));
 
   return theme('forums', $forums, $topics, $parents, $tid, $sortby, $forum_per_page);

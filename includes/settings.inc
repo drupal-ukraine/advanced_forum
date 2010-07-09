@@ -91,6 +91,15 @@ function advanced_forum_settings_page() {
     '#collapsed' => FALSE,
   );
 
+  // Disable breadcrumbs
+  $form['advanced_forum_lists']['advanced_forum_disable_breadcrumbs'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable breadcrumbs'),
+    '#default_value' => variable_get('advanced_forum_disable_breadcrumbs', 0),
+    '#description' => t('Check this to disable breadcrumbs in the forum if you are using another module to customize them. Does not affect node pages and does not work when Page Manager is overriding forum pages.'),
+  );
+
+  // Taxonomy image on forum list
   if (function_exists('taxonomy_image_display')) {
      $form['advanced_forum_lists']['advanced_forum_use_taxonomy_image'] = array(
       '#type' => 'checkbox',

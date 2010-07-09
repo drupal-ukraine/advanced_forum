@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 9, 2010
+------------
+#571114 by Michelle: Added ability to disable the breadcrumb setting by AF to avoid incompatibility with custom breadcrumbs.
+
 July 8, 2010
 ------------
 #768348 by Michelle: Moved node/comment link handling to hook_link and hook_link_alter.
