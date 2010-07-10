@@ -352,7 +352,7 @@ $handler->override_option('arguments', array(
     'validate_user_roles' => array(
       '2' => 2,
     ),
-    'relationship' => 'nid_or_self',
+    'relationship' => 'none',
     'default_options_div_prefix' => '',
     'default_argument_user' => 0,
     'default_argument_fixed' => '',

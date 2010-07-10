@@ -5,6 +5,7 @@ $Id$
 July 9, 2010
 ------------
 #571114 by Michelle: Added ability to disable the breadcrumb setting by AF to avoid incompatibility with custom breadcrumbs.
+#848964 by vladgur: Fixed 'My posts' view which wasn't showing replies to a topic started by another user.
 
 July 8, 2010
 ------------
