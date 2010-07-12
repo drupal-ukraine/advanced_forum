@@ -352,12 +352,16 @@ function advanced_forum_comment(&$a1, $op) {
  */
 function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
   $links = array();
-
-  if ($type == 'node') {
-    if (advanced_forum_type_is_in_forum($node->type)) {
+  
+  if (!$teaser) {
+    $node->teaser = NULL;
+  }
+  
+  if (advanced_forum_is_styled($node)) {
+    if ($type == 'node' && (!isset($node->comment_target_nid))) {
       // Add edit / delete links to the node links to match replies.
-      if (node_access('update', $node)) {
-        $links['post_edit'] = array(
+       if (node_access('update', $node)) {
+         $links['post_edit'] = array(
           'title' => t('edit'),
           'href' => 'node/'. $node->nid .'/edit',
           'query' => drupal_get_destination(),
@@ -398,18 +402,37 @@ function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
  * Implementation of hook_link_alter().
  */
 function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
-  if (advanced_forum_type_is_in_forum($node->type)) {
+  if (empty($comment)) {
+    $object = $node;
+    $object_type = 'node';
+  }
+  else {
+    $object = $comment;
+    $object_type = 'comment';
+  }
+  
+  if (advanced_forum_is_styled($object, $object_type)) {
     // Change first post from "add comment" to "reply" if it isn't already.
     if (!empty($links['comment_add'])) {
       $links['comment_add']['title'] = t('reply');
     }
-    
+   
     // Add extra span tags for image replacement.
     foreach ($links AS $key => $link) {
-      $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
-      $links[$key]['html'] = TRUE;
+      if (!empty($links[$key]['href'])) {
+        $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
+        $links[$key]['html'] = TRUE;
+      }
     }
-  }
+    
+    foreach (array('post_edit', 'comment_edit', 'post_delete', 'comment_delete','post_quote', 'comment_add', 'comment_reply') as $key) { 
+      if (isset($links[$key])) {
+        $temp = $links[$key]; 
+        unset($links[$key]); 
+        $links[$key] = $temp; 
+      }
+    }
+  } 
 }
 
 /**

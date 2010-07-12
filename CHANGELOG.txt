@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+July 11, 2010
+-------------
+#768348 by Michelle: Fixed node comment incompatability with new link alter.
+
 July 9, 2010
 ------------
 #571114 by Michelle: Added ability to disable the breadcrumb setting by AF to avoid incompatibility with custom breadcrumbs.

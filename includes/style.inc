@@ -145,7 +145,7 @@ function advanced_forum_is_styled($content, $type = 'node') {
   // simple, he last one in the array wins.
   $topic_ids = module_invoke_all('advanced_forum_is_styled_alter', $content, $type);
   $topic_id = end($topic_ids);
- 
+
   if (!$topic_id) {
     // If no other modules made a decision on this, we look at it.
     switch ($type) {
@@ -194,10 +194,9 @@ function advanced_forum_is_styled($content, $type = 'node') {
 function advanced_forum_node_is_styled($node) {
   // Get the list of types that should have the style applied
   $styled_node_types = variable_get('advanced_forum_styled_node_types', array('forum'));
-
   // If this type is in the list of types that should be styled...
   if (in_array($node->type, $styled_node_types)) {
-    // ...and if we are styling teasers or this isn't a teaser...
+  // ...and if we are styling teasers or this isn't a teaser...
     if (variable_get('advanced_forum_style_teasers', FALSE) || empty($node->teaser)) {
       // ...and if this is not a new node being previewed...
       if (!empty($node->nid)) {      
