@@ -23,8 +23,8 @@
     <?php /* General section */ ?>
     <div class="author-pane-section author-pane-general">
       <?php /* Account name */ ?>
-      <div class="author-pane-line author-name"> 
-        <?php print $account_name; ?> 
+      <div class="author-pane-line author-name">
+        <?php print $account_name; ?>
       </div>
 
       <?php /* Avatar (has div in variable) */ ?>
@@ -41,25 +41,25 @@
 
       <?php /* User title */ ?>
       <?php if (!empty($user_title)): ?>
-        <div class="author-pane-line author-title"> 
-          <?php print $user_title; ?> 
+        <div class="author-pane-line author-title">
+          <?php print $user_title; ?>
         </div>
       <?php endif; ?>
-      
+
       <?php /* User badges */ ?>
       <?php if (!empty($user_badges)): ?>
-        <div class="author-pane-line author-badges"> 
-          <?php print $user_badges; ?> 
+        <div class="author-pane-line author-badges">
+          <?php print $user_badges; ?>
         </div>
       <?php endif; ?>
 
       <?php /* Location */ ?>
       <?php if (!empty($location_user_location)): ?>
-        <div class="author-pane-line author-location"> 
-          <?php print $location_user_location;  ?> 
+        <div class="author-pane-line author-location">
+          <?php print $location_user_location;  ?>
         </div>
       <?php endif; ?>
- 
+
       <?php /* Joined */ ?>
       <?php if (!empty($joined)): ?>
         <div class="author-pane-line author-joined">
@@ -85,26 +85,26 @@
     <?php /* Contact section */ ?>
     <div class="author-pane-section author-pane-contact">
       <?php /* Contact / Email */ ?>
-      <?php if (!empty($contact_link)): ?>
+      <?php if (!empty($contact)): ?>
         <div class="author-pane-line author-contact">
-          <?php print $contact_link; ?>
+          <?php print $contact; ?>
         </div>
       <?php endif; ?>
 
       <?php /* Private message */ ?>
-      <?php if (!empty($privatemsg_link)): ?>
+      <?php if (!empty($privatemsg)): ?>
         <div class="author-pane-line author-privatemsg">
-          <?php print $privatemsg_link; ?>
+          <?php print $privatemsg; ?>
         </div>
       <?php endif; ?>
 
       <?php /* User relationships */ ?>
-      <?php if (!empty($user_relationships_api_link)): ?>
+      <?php if (!empty($user_relationships_api)): ?>
         <div class="author-pane-line author-user-relationship">
-          <?php print $user_relationships_api_link; ?>
+          <?php print $user_relationships_api; ?>
         </div>
       <?php endif; ?>
-      
+
       <?php /* Flag friend */ ?>
       <?php if (!empty($flag_friend)): ?>
         <div class="author-pane-line">
@@ -130,7 +130,7 @@
      <?php /* Troll ban */ ?>
       <?php if (!empty($troll_ban_author)): ?>
         <div class="author-pane-line author-troll-ban"><?php print $troll_ban_author; ?></div>
-      <?php endif; ?>        
-    </div>    
+      <?php endif; ?>
+    </div>
   </div>
 </div>

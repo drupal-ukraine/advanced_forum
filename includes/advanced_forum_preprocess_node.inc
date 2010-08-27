@@ -66,7 +66,7 @@ function _advanced_forum_preprocess_node(&$variables) {
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $variables['node']->uid));
   // Only do this if post rendering is supported and it's not preview of nodecomment:
-  if (method_exists('views_plugin_cache', 'post_render') && $variables['node']->build_mode != NODE_BUILD_PREVIEW) {    
+  if (!$variables['top_post'] && method_exists('views_plugin_cache', 'post_render') && $variables['node']->build_mode != NODE_BUILD_PREVIEW) {    
     // Place a token that will later be replaced by the author pane, which
     // will keep the pane fresh even when the view result is cached.
     $variables['author_pane'] = '<!--post:author-pane-' . $variables['node']->uid . '-->';

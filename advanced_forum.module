@@ -424,14 +424,17 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
         $links[$key]['html'] = TRUE;
       }
     }
-    
-    foreach (array('post_edit', 'comment_edit', 'post_delete', 'comment_delete','post_quote', 'comment_add', 'comment_reply') as $key) { 
+   
+    foreach (array('post_edit', 'comment_edit', 'post_delete', 'comment_delete','quote', 'comment_add', 'comment_reply') as $key) { 
       if (isset($links[$key])) {
         $temp = $links[$key]; 
         unset($links[$key]); 
         $links[$key] = $temp; 
       }
     }
+   // dsm($object->title);
+   // dsm('after AF alters');
+   // dsm($links);
   } 
 }
 

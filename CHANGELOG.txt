@@ -2,7 +2,12 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
-July 11, 2010
+August 26, 2010 
+-------------
+#850508 by Michelle: Updated Author Pane template.
+NOISSUE by Michelle: Author Pane tokenizing should not happen on topic starting node.
+
+July 11, 2010 
 -------------
 #768348 by Michelle: Fixed node comment incompatability with new link alter.
 
