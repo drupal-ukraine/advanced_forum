@@ -6,6 +6,8 @@ September 21, 2010
 ------------------
 #868550 by enzipher, szantog: Added missing brackets in query.
 #872294 by merlinofchaos, jeckman: Fixed query part of link for forum views so they can take multiple forum arguments.
+#857982 by aenw: Checked if $added is empty rather than !$added.
+#908938 by Michelle: Changed how check for node's being displayed as a teaser works.
 
 August 26, 2010 
 -------------

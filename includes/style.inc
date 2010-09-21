@@ -137,13 +137,13 @@ function advanced_forum_style_info($style = NULL) {
   return $info[$style];
 }
 
-function advanced_forum_is_styled($content, $type = 'node') {
+function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
   // This is the ID of the topic starting node
   static $master_topic_id;
   
   // Give other modules a first crack at making the decision. To keep this 
   // simple, he last one in the array wins.
-  $topic_ids = module_invoke_all('advanced_forum_is_styled_alter', $content, $type);
+  $topic_ids = module_invoke_all('advanced_forum_is_styled_alter', $content, $teaser, $type);
   $topic_id = end($topic_ids);
 
   if (!$topic_id) {
@@ -156,7 +156,7 @@ function advanced_forum_is_styled($content, $type = 'node') {
         }
         else {
           // See if the node should be styled.
-          $topic_id = advanced_forum_node_is_styled($content);
+          $topic_id = advanced_forum_node_is_styled($content, $teaser);
         }
         break;
         
@@ -191,13 +191,13 @@ function advanced_forum_is_styled($content, $type = 'node') {
     
 }
 
-function advanced_forum_node_is_styled($node) {
+function advanced_forum_node_is_styled($node, $teaser = FALSE) {
   // Get the list of types that should have the style applied
   $styled_node_types = variable_get('advanced_forum_styled_node_types', array('forum'));
   // If this type is in the list of types that should be styled...
   if (in_array($node->type, $styled_node_types)) {
-  // ...and if we are styling teasers or this isn't a teaser...
-    if (variable_get('advanced_forum_style_teasers', FALSE) || empty($node->teaser)) {
+    // ...and if we are styling teasers or this isn't a teaser...
+    if (variable_get('advanced_forum_style_teasers', FALSE) || !$teaser) {
       // ...and if this is not a new node being previewed...
       if (!empty($node->nid)) {      
         // ...and if we are styling non forum tagged nodes or this is forum tagged...
@@ -233,15 +233,9 @@ function advanced_forum_comment_is_styled($comment, $master_topic_id) {
   
   // Load up the node this comment is attached to and see if it is styled.
   // This should not happen often, only in a case where the comment is 
-  // displayed seperately from the node (such as a reply preview). We have to
-  // wipe out the teaser because advanced_forum_node_is_styled() checks to 
-  // see if the node is being displayed as a teaser and manually loading
-  // the node like this gives a false postitive and prevents the comment from
-  // being themed on preview when it is on its own page.
+  // displayed seperately from the node (such as a reply preview). 
   $node = node_load($comment->nid);
-  $node->teaser = NULL;
-  
-  if (advanced_forum_node_is_styled($node)) {
+  if (advanced_forum_node_is_styled($node, FALSE)) {
     return $comment->nid;
   }
   
@@ -321,7 +315,7 @@ function _advanced_forum_add_files() {
   // This could get called more than once on a page and we only need to do it once.
   static $added;
 
-  if (!$added) {
+  if (empty($added)) {
     $added = TRUE;
     $lineage = advanced_forum_style_lineage();
     $lineage = array_reverse($lineage, TRUE);

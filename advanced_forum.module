@@ -353,11 +353,7 @@ function advanced_forum_comment(&$a1, $op) {
 function advanced_forum_link($type, $node = NULL, $teaser = FALSE) {
   $links = array();
   
-  if (!$teaser) {
-    $node->teaser = NULL;
-  }
-  
-  if (advanced_forum_is_styled($node)) {
+  if (advanced_forum_is_styled($node, $teaser)) {
     if ($type == 'node' && (!isset($node->comment_target_nid))) {
       // Add edit / delete links to the node links to match replies.
        if (node_access('update', $node)) {
@@ -411,7 +407,7 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
     $object_type = 'comment';
   }
   
-  if (advanced_forum_is_styled($object, $object_type)) {
+  if (advanced_forum_is_styled($object, FALSE, $object_type)) {
     // Change first post from "add comment" to "reply" if it isn't already.
     if (!empty($links['comment_add'])) {
       $links['comment_add']['title'] = t('reply');

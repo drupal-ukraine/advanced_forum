@@ -326,14 +326,14 @@ function advanced_forum_preprocess_page(&$variables) {
  * Preprocesses template variables for the node template.
  */
 function advanced_forum_preprocess_node(&$variables) {
- if (advanced_forum_is_styled($variables['node'], 'node')) {
+ if (advanced_forum_is_styled($variables['node'], $variables['teaser'], 'node')) {
    include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_node.inc';
    _advanced_forum_preprocess_node($variables);
  }
 }
 
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
-  if (advanced_forum_is_styled($variables['node'], 'comment-wrapper')) {
+  if (advanced_forum_is_styled($variables['node'], FALSE, 'comment-wrapper')) {
     advanced_forum_add_template_suggestions("comment-wrapper", $variables['template_files']);
 
     $variables['reply_link'] = '';
@@ -361,7 +361,7 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
  * Preprocesses template variables for the comment template.
  */
 function advanced_forum_preprocess_comment(&$variables) {
- if (advanced_forum_is_styled($variables['comment'], 'comment')) {
+ if (advanced_forum_is_styled($variables['comment'], FALSE, 'comment')) {
    include_once drupal_get_path('module', 'advanced_forum') . '/includes/advanced_forum_preprocess_comment.inc';
    _advanced_forum_preprocess_comment($variables);
  }
