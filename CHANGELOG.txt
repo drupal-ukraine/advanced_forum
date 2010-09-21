@@ -5,7 +5,7 @@ $Id$
 September 21, 2010
 ------------------
 #868550 by enzipher, szantog: Added missing brackets in query.
-
+#872294 by merlinofchaos, jeckman: Fixed query part of link for forum views so they can take multiple forum arguments.
 
 August 26, 2010 
 -------------
