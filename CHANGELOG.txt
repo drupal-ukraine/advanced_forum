@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+September 21, 2010
+------------------
+#868550 by enzipher, szantog: Added missing brackets in query.
+
+
 August 26, 2010 
 -------------
 #850508 by Michelle: Updated Author Pane template.

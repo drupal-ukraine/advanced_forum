@@ -1134,7 +1134,7 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
       $sql = "SELECT COUNT(c.cid) AS count, f.tid
               FROM {comments} c
               INNER JOIN {forum} f ON c.nid = f.nid
-              INNER JOIN node n ON f.vid = n.vid
+              INNER JOIN {node} n ON f.vid = n.vid
               LEFT JOIN {history} h ON c.nid = h.nid AND h.uid = %d
               WHERE c.status = 0 AND c.timestamp > %d AND (c.timestamp > h.timestamp OR h.timestamp IS NULL)
               GROUP BY f.tid";
