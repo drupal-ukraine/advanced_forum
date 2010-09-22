@@ -124,6 +124,13 @@ function advanced_forum_theme() {
          'subforum_list' => NULL,
        )
   );
+  
+  $items['advanced_forum_simple_author_pane'] = array(
+      'arguments' => array(
+        'context' => NULL,
+        )
+  );
+  
 
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
@@ -407,6 +414,8 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
     $object_type = 'comment';
   }
   
+  
+  
   if (advanced_forum_is_styled($object, FALSE, $object_type)) {
     // Change first post from "add comment" to "reply" if it isn't already.
     if (!empty($links['comment_add'])) {
@@ -428,9 +437,6 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
         $links[$key] = $temp; 
       }
     }
-   // dsm($object->title);
-   // dsm('after AF alters');
-   // dsm($links);
   } 
 }
 
@@ -846,24 +852,6 @@ function advanced_forum_get_reply_link($node) {
     $reply_link->link = t('Locked') . '<span class="image-replace"></span>';
     return $reply_link;
   }
-}
-
-/**
- * Holds the node ID of the thread we are on.
- *
- * Used for linking the comment numbers.
- *
- * @param $nid
- *   Node ID
- */
-function _advanced_forum_topic_nid($node_id = 0) {
-  static $nid;
-
-  if (!empty($node_id)) {
-    $nid = $node_id;
-  }
-
-  return $nid;
 }
 
 /**

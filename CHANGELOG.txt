@@ -2,6 +2,12 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+September 22, 2010
+------------------
+#829456 by Michelle, meustrus: Added Permalink integration.
+NOISSUE by Michelle: Cleaned up node and comment preprocessing including starting #1 at the node, fixing bad logic in the class collection, re-arranging in display order, and more.
+#525194 by Michelle: Removed Author Pane dependency.
+
 September 21, 2010
 ------------------
 #868550 by enzipher, szantog: Added missing brackets in query.

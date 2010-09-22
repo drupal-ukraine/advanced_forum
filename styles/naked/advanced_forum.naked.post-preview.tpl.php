@@ -28,7 +28,28 @@
   <a id="forum-reply-preview"></a>
 <?php endif; ?>
 
-<div id="<?php print $css_id; ?>" class="<?php print $classes; ?>">
+<?php
+// Gather other possible class list variables into ours. This must be done here
+// rather than in the preprocess because themes run after the AF preprocess.
+  $all_classes = "";
+  if (!empty($advanced_forum_classes)) {
+    $all_classes = $advanced_forum_classes;
+  }
+  
+  if (!empty($classes)) {
+    $all_classes .= ' ' . $classes;
+  }
+
+  if (!empty($node_classes)) {
+    $all_classes .= ' ' . $node_classes;
+  }
+
+  if (!empty($comment_classes)) {
+    $all_classes .= ' ' . $comment_classes;
+  }
+?>
+
+<div id="<?php print $post_id; ?>" class="<?php print $all_classes; ?>">
   <div class="forum-post-info clear-block">
     <div class="forum-posted-on">
       <?php print $date ?>

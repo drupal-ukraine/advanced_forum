@@ -8,23 +8,13 @@
  */
 
 function _advanced_forum_preprocess_comment(&$variables) {
-  // Define this to avoid notices when not using Node Comments
-  $variables['css_id'] = "";
-
-  // Start a variable that will hold classes to attach to the containing div
-  $classes = array();
- 
-  // Some themes use $comment_classes instead of $classes.
-  if (!empty($variables['comment_classes'])) {
-    $classes[] = $variables['comment_classes'];
-  }
-  
-  // Add in our classes.
-  $classes[] = 'forum-post clear-block';
-
-  /* Make the topic starting node available */
-  $node = node_load($variables['comment']->nid);
+  /* Easy links to the comment and parent node */
+  $comment = $variables['comment'];
+  $node = node_load($comment->nid);
   $variables['first_post'] = $node;
+
+  // This is a comment, not the node.
+  $variables['top_post'] = FALSE;
 
   /* Determine the template file to use for the comment. */
   if (arg(1) == 'reply' || arg(1) == 'edit') {
@@ -36,31 +26,37 @@ function _advanced_forum_preprocess_comment(&$variables) {
     advanced_forum_add_template_suggestions("post", $variables['template_files']);
   }
 
-  // This is a comment, not the node.
-  $variables['top_post'] = FALSE;
+  /* Assemble all the classes & id that go on the main div. */
+  $classes = array();
 
-  // Set the reply ID for theming / targetting
-  $variables['reply_id'] = $variables['comment']->cid;
+  // Add our general classes.
+  $classes[] = 'forum-post clear-block';
 
-  // Assign the comment to the content variable for consistancy with nodes.
-  $variables['content'] = $variables['comment']->comment;
-
-  /* User information / author pane */
-  $account_id = $variables['comment']->uid;
-  if ($account_id == 0) {
-    // Anonymous user. Make a fake user object for theme_username
-    $variables['account']->name = empty($variables['comment']->name) ? "" : $variables['comment']->name;
-    $variables['account']->homepage = empty($variables['comment']->homepage) ? "" : $variables['comment']->homepage;
-    $variables['account']->email = empty($variables['comment']->email) ? "" : $variables['comment']->email;    
-  }
-  else {
-    // Load up the real user object
-    $variables['account'] = user_load(array('uid' => $variables['comment']->uid));
+  // Add the current language to the classes for image handling.
+  global $language;
+  if (!empty($language->language)) {
+    $classes[] = $language->language;
   }
 
-  // Create the author pane
-  $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $variables['comment'], TRUE);
+  // Add the poster's UID
+  $classes[] = "posted-by-$comment->uid";
 
+  // Add class if the poster is the viewer.
+  global $user;
+  if ($user->uid > 0 && $user->uid == $comment->uid) {
+    $classes[] = "post-by-viewer";
+  }
+
+  // Add class if the poster is the topic starter.
+  if ($node->uid > 0 && $node->uid == $comment->uid) {
+    $classes[] = "post-by-starter";
+  }
+
+  // Create the template variable.
+  $variables['advanced_forum_classes'] = implode(' ', $classes);
+
+  // Set the post ID for theming / targetting
+  $variables['post_id'] = "post-$comment->cid";
 
   /* Title */
   if (variable_get('comment_subject_field_' . $node->type, 1) == 0) {
@@ -69,56 +65,73 @@ function _advanced_forum_preprocess_comment(&$variables) {
   }
   else {
     // Assign the subject to the title variable for consistancy with nodes.
-    $variables['title'] = check_plain($variables['comment']->subject);
+    $variables['title'] = check_plain($comment->subject);
   }
 
-  /* Linked comment number & permalink */
+  /* Linked post number */
   if (!isset($post_number)) {
-    static $post_number = 0;
+    static $post_number = 1;
   }
-  _advanced_forum_topic_nid($variables['node']->nid);
 
-  $post_per_page = _comment_get_display_setting('comments_per_page', $variables['node']);
+  $post_per_page = _comment_get_display_setting('comments_per_page', $node);
+
   $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
   if (!$page_number) {
     $page_number = 0;
   }
 
   $post_number++;
-  $fragment = 'comment-' . $variables['comment']->cid;
-  $query = ($page_number) ? 'page=' . $page_number : NULL;
-  $linktext = '#' . (($page_number * $post_per_page) + $post_number);
-  $linkpath = 'node/' . _advanced_forum_topic_nid();
-  $variables['comment_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));;
 
-  // Link to page created by Comment Page module, if it exists
-  $variables['page_link'] = '';
-  if (!empty($variables['comment']->page_url) && !(arg(0) == 'comment' && arg(1) == $variables['comment']->cid)) {
-    $variables['page_link'] = l(t('(permalink)'), $variables['comment']->page_url);
+  $linktext = '#' . (($page_number * $post_per_page) + $post_number);
+
+  if (module_exists('permalink')) {
+    // If Permalink is enabled, use that to get the comment # link.
+    $permalink = permalink_link_render('comment', $comment);
+    $variables['post_link'] = l($linktext, $permalink['href'], $permalink);
   }
+  else {
+    // Otherwise, link to the comment anchor on the appropriate page.
+    $fragment = 'comment-' . $comment->cid;
+    $query = ($page_number) ? 'page=' . $page_number : NULL;
+    $linkpath = "node/$node->nid";
+
+    $variables['post_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+  }
+
+  /* User information / author pane */
+  if ($comment->uid == 0) {
+    // Anonymous user. Make a fake user object for theme_username
+    $variables['account']->name = empty($comment->name) ? "" : $comment->name;
+    $variables['account']->homepage = empty($comment->homepage) ? "" : $comment->homepage;
+    $variables['account']->email = empty($comment->email) ? "" : $comment->email;
+  }
+  else {
+    // Load up the real user object
+    $variables['account'] = user_load(array('uid' => $comment->uid));
+  }
+
+  // Create the author pane
+  if (module_exists('author_pane')) {
+    $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $comment, TRUE);
+  }
+  else {
+    $variables['author_pane'] = theme('advanced_forum_simple_author_pane', $comment);
+  }
+
+  /* Content */
+  // Assign the comment to the content variable for consistancy with nodes.
+  $variables['content'] = $comment->comment;
 
   /* Signatures */
   // Load the signature.
   if (module_exists('signature_forum')) {
     // If Signature For Forums is installed, use that
-    $variables['signature'] = signature_forum_get_signature($variables['comment']);
+    $variables['signature'] = signature_forum_get_signature($comment);
   }
   elseif (variable_get('user_signatures', 0)) {
     if (!empty($variables['account']->signature)) {
       // Otherwise load Drupal's built in one, if enabled.
       $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
     }
-  }
-    
-  // Fetch the current language
-  global $language;
-  $classes[] = $language->language;
-
-  // Classes
-  if (empty($variables['classes'])) {
-    $variables['classes'] = implode(' ', $classes);
-  }
-  else {
-    $variables['classes'] .= ' ' . implode(' ', $classes);  
   }
 }

@@ -8,6 +8,20 @@
  */
 
 // THEME FUNCTIONS **********************************************************/
+
+/**
+ * Theme function to show simple author pane when not using Author Pane.
+ */
+function theme_advanced_forum_simple_author_pane($context) {
+  // Sending the account rather than the name makes it work for anon comments.
+  $name = theme('username', $context);
+  
+  $account = user_load($context->uid);
+  $picture = theme('user_picture', $account);
+ 
+  return '<div class="author-pane">' . $name . $picture . '</div>';
+}
+
 /**
  * Theme function to format the reply link at the top/bottom of topic.
  */
