@@ -136,6 +136,10 @@ function _advanced_forum_preprocess_node(&$variables) {
     }
   }
 
-
-
+  /* Reply link */
+  if (!$node_parent_id) {
+    // Build the reply link / button. This isn't used in the default template
+    // but is provided as a convenience to people who want to customize theirs.
+    $variables['reply_link'] = theme('advanced_forum_reply_link', $node);
+  }
 }

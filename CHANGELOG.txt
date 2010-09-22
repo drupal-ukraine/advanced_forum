@@ -7,6 +7,8 @@ September 22, 2010
 #829456 by Michelle, meustrus: Added Permalink integration.
 NOISSUE by Michelle: Cleaned up node and comment preprocessing including starting #1 at the node, fixing bad logic in the class collection, re-arranging in display order, and more.
 #525194 by Michelle: Removed Author Pane dependency.
+#751890 by Michelle: Missed removing advanced_forum.naked.topic-list.tpl.php when Views was made a dependency.
+#725720 by ltwinner: Added variable for reply link to node preprocess.
 
 September 21, 2010
 ------------------
