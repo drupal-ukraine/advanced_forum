@@ -12,7 +12,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $comment = $variables['comment'];
   $node = node_load($comment->nid);
   $variables['first_post'] = $node;
-//dsm($comment);
+
   // This is a comment, not the node.
   $variables['top_post'] = FALSE;
 
@@ -92,18 +92,22 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $variables['in_reply_to'] = "";
   if ($comment->pid > 0) {
     // Find the display position of the parent post;.
-    $post_position = advanced_forum_post_position($node, $comment->pid);
+    $post_position = advanced_forum_post_position($node->nid, $comment->pid);
    
-    // Find the page the post is on. The -2 fixes the adjustment made in the
-    // function above to compensate for the 0 start array and the topic node.
-    $page_number = floor(($post_position - 2) / $posts_per_page);
+    // This extra if test is a sanity check in case the comment being replied
+    // to no longer exists.
+    if ($post_position > 0) {
+      // Find the page the post is on. We need to compensate for the topic node 
+      // being #1 which puts an extra post on the first page but not on the rest.
+      $page_number = floor(($post_position - 2) / $posts_per_page);
 
-    // Assemble the link.
-    $fragment = 'comment-' . $comment->pid;
-    $query = ($page_number) ? 'page=' . $page_number : NULL;
-    $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
-    $linkpath = "node/$node->nid";
-    $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+      // Assemble the link.
+      $fragment = 'comment-' . $comment->pid;
+      $query = ($page_number) ? 'page=' . $page_number : NULL;
+      $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
+      $linkpath = "node/$node->nid";
+      $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+    }
   }
 
   /* Title */

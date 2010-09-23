@@ -10,7 +10,7 @@
 function _advanced_forum_preprocess_node(&$variables) {
   /* Shortcut variables */
   $node = $variables['node'];
-//dsm($node);
+
   // This will be empty if not a Node Comment node.
   $node_parent_id = $variables['node']->comment_target_nid;
 
@@ -96,16 +96,38 @@ function _advanced_forum_preprocess_node(&$variables) {
   else {
     // This is a nodecomment node so we want to do the comment counting.
     $parent_node = node_load($node_parent_id);
-    $post_per_page = _comment_get_display_setting('comments_per_page', $parent_node);
+    $posts_per_page = _comment_get_display_setting('comments_per_page', $parent_node);
     $post_number++;
-    $linktext = '#' . (($page_number * $post_per_page) + $post_number);
+
+    $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
     $linkpath = "node/$parent_node->nid";
     $query = ($page_number) ? 'page=' . $page_number : NULL;
     $fragment = 'comment-' . $node->nid;
 
     $variables['post_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
-
   }
+
+  /* In reply to */
+  $variables['in_reply_to'] = "";
+  if ($node->comment_target_cid != 0) {
+    // Find the display position of the parent post;.
+    $post_position = advanced_forum_post_position($node_parent_id, $node->comment_target_cid);
+    
+    // This extra if test is a sanity check in case the comment being replied
+    // to no longer exists.
+    if ($post_position > 0) {
+      // Find the page the post is on. We need to compensate for the topic node 
+      // being #1 which puts an extra post on the first page but not on the rest.
+      $page_number = floor(($post_position - 2) / $posts_per_page);
+
+      // Assemble the link.
+      $fragment = 'comment-' . $node->comment_target_cid;
+      $query = ($page_number) ? 'page=' . $page_number : NULL;
+      $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
+      $linkpath = "node/$parent_node->nid";
+      $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+    }
+  }  
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $node->uid));

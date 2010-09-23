@@ -1169,36 +1169,39 @@ function advanced_forum_type_is_in_forum($type) {
 /**
   * Returns the display position of a given reply post ID on a given node.
   */
-function advanced_forum_post_position($node, $post_id) {
+function advanced_forum_post_position($node_id, $post_id) {
   static $post_order = array();
 
-  if (!isset($post_order[$node->nid])) {
+  if (!isset($post_order[$node_id])) {
     // Initialize the spot for this node's list.
-    $post_order[$node->nid] = array();
+    $post_order[$node_id] = array();
+    
+    // Make this work with either core comments or node comments.
+    $table = (module_exists('nodecomment')) ? "node_comments" : "comments";
     
     // Get the list of CIDs from the database in order of oldest first.
     // We are going to make that assumption for now for simplicity but may
     // revisit in the future if there are requests for newest first.
-    $query = "SELECT c.cid FROM {comments} c WHERE c.nid = %d ORDER BY c.cid ASC";
- 
+    $query = "SELECT c.cid FROM {" . $table . "} c WHERE c.nid = %d ORDER BY c.cid ASC";
+
     // Cycle through the results and fill in the array.
-    $result = db_query($query, $node->nid);
+    $result = db_query($query, $node_id);
     while ($post = db_fetch_array($result)) {
-      $post_order[$node->nid][] = reset($post);
+      $post_order[$node_id][] = reset($post);
     }
   }
-  
+
   // Find the position of the passed in post ID.
   $post_position = 0;
-  if (is_array($post_order[$node->nid])) {
-    if (($index = array_search($post_id, $post_order[$node->nid])) !== FALSE) {
+  if (is_array($post_order[$node_id])) {
+    if (($index = array_search($post_id, $post_order[$node_id])) !== FALSE) {
       $post_position = $index;
+
+      // We need to add 2 because the array starts at 0 and also because the topic 
+      // node is post #1 on display but is not included in the index.
+      $post_position = $post_position + 2;     
     }
   }
-  
-  // We need to add 2 because the array starts at 0 and also because the topic 
-  // node is post #1 on display but is not included in the index.
-  $post_position = $post_position + 2;
-  
+
   return $post_position;
 }

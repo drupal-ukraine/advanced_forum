@@ -5,6 +5,7 @@ $Id$
 September 23, 2010
 ------------------
 #376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for core comments.
+#376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for node comments.
 
 September 22, 2010
 ------------------
