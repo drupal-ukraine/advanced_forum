@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+September 23, 2010
+------------------
+#376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for core comments.
+
 September 22, 2010
 ------------------
 #829456 by Michelle, meustrus: Added Permalink integration.

@@ -12,7 +12,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $comment = $variables['comment'];
   $node = node_load($comment->nid);
   $variables['first_post'] = $node;
-
+//dsm($comment);
   // This is a comment, not the node.
   $variables['top_post'] = FALSE;
 
@@ -58,22 +58,12 @@ function _advanced_forum_preprocess_comment(&$variables) {
   // Set the post ID for theming / targetting
   $variables['post_id'] = "post-$comment->cid";
 
-  /* Title */
-  if (variable_get('comment_subject_field_' . $node->type, 1) == 0) {
-    // if comment titles are disabled, don't display it.
-    $variables['title'] = '';
-  }
-  else {
-    // Assign the subject to the title variable for consistancy with nodes.
-    $variables['title'] = check_plain($comment->subject);
-  }
-
   /* Linked post number */
   if (!isset($post_number)) {
     static $post_number = 1;
   }
 
-  $post_per_page = _comment_get_display_setting('comments_per_page', $node);
+  $posts_per_page = _comment_get_display_setting('comments_per_page', $node);
 
   $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
   if (!$page_number) {
@@ -82,7 +72,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
 
   $post_number++;
 
-  $linktext = '#' . (($page_number * $post_per_page) + $post_number);
+  $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
 
   if (module_exists('permalink')) {
     // If Permalink is enabled, use that to get the comment # link.
@@ -96,6 +86,34 @@ function _advanced_forum_preprocess_comment(&$variables) {
     $linkpath = "node/$node->nid";
 
     $variables['post_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+  }
+
+  /* In reply to */
+  $variables['in_reply_to'] = "";
+  if ($comment->pid > 0) {
+    // Find the display position of the parent post;.
+    $post_position = advanced_forum_post_position($node, $comment->pid);
+   
+    // Find the page the post is on. The -2 fixes the adjustment made in the
+    // function above to compensate for the 0 start array and the topic node.
+    $page_number = floor(($post_position - 2) / $posts_per_page);
+
+    // Assemble the link.
+    $fragment = 'comment-' . $comment->pid;
+    $query = ($page_number) ? 'page=' . $page_number : NULL;
+    $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
+    $linkpath = "node/$node->nid";
+    $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
+  }
+
+  /* Title */
+  if (variable_get('comment_subject_field_' . $node->type, 1) == 0) {
+    // if comment titles are disabled, don't display it.
+    $variables['title'] = '';
+  }
+  else {
+    // Assign the subject to the title variable for consistancy with nodes.
+    $variables['title'] = check_plain($comment->subject);
   }
 
   /* User information / author pane */

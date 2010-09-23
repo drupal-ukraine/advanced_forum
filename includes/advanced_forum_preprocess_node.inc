@@ -10,7 +10,7 @@
 function _advanced_forum_preprocess_node(&$variables) {
   /* Shortcut variables */
   $node = $variables['node'];
-
+//dsm($node);
   // This will be empty if not a Node Comment node.
   $node_parent_id = $variables['node']->comment_target_nid;
 

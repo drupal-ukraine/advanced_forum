@@ -77,6 +77,8 @@
         <?php endif; ?>
       <?php endif; ?>
     </div>  <?php // End of posted on div ?>
+    
+    <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
 
     <span class="forum-post-number"><?php print $post_link; ?></span>
   </div> <?php // End of post info div ?>
