@@ -490,8 +490,12 @@ $handler->override_option('filters', array(
     'table' => 'node',
     'field' => 'type',
     'relationship' => 'none',
+    'override' => array(
+      'button' => 'Override',
+    ),
   ),
 ));
+
 $handler->override_option('access', array(
   'type' => 'role',
   'role' => array(
@@ -571,7 +575,7 @@ $handler->override_option('path', 'forum/user');
 if (variable_get('advanced_forum_views_as_tabs', FALSE)) {
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'My posts',
+    'title' => 'My Posts',
     'description' => '',
     'weight' => '3',
     'name' => 'navigation',
