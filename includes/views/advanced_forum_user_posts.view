@@ -472,6 +472,7 @@ $handler->override_option('filters', array(
     'value' => array(
       'forum' => 'forum',
       'comment' => 'comment',
+      'forum_reply' => 'forum_reply',
     ),
     'group' => '0',
     'exposed' => TRUE,
@@ -501,7 +502,7 @@ $handler->override_option('cache', array(
   'type' => 'none',
 ));
 $handler->override_option('title', '%1');
-$handler->override_option('empty', 'No new posts in this forum.');
+$handler->override_option('empty', 'You have no posts.');
 $handler->override_option('empty_format', '1');
 $handler->override_option('items_per_page', 20);
 $handler->override_option('use_pager', '1');
@@ -566,19 +567,39 @@ $handler->override_option('style_options', array(
 ));
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'forum/user');
-$handler->override_option('menu', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-  'name' => 'navigation',
-));
-$handler->override_option('tab_options', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-));
+
+if (variable_get('advanced_forum_views_as_tabs', FALSE)) {
+  $handler->override_option('menu', array(
+    'type' => 'tab',
+    'title' => 'My posts',
+    'description' => '',
+    'weight' => '3',
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+}
+else {
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+}
+
 $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
 $handler->override_option('fields', array(
   'title' => array(

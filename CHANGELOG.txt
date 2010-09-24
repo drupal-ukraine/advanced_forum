@@ -6,6 +6,8 @@ September 23, 2010
 ------------------
 #376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for core comments.
 #376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for node comments.
+#913822 by Michelle, meustrus: Changed sorting so updates only bump on the New & My views.
+NOISSUE by Michelle: Many tweaks to the included views.
 
 September 22, 2010
 ------------------

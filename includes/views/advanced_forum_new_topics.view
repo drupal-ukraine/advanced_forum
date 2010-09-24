@@ -9,7 +9,7 @@
 
 $view = new view;
 $view->name = 'advanced_forum_new_topics';
-$view->description = 'Shows the new topics in a given forum';
+$view->description = 'Shows the new or update topics in a given forum (or all forums)';
 $view->tag = 'Advanced Forum';
 $view->view_php = '';
 $view->base_table = 'node';
@@ -20,8 +20,6 @@ $handler = $view->new_display('default', 'Defaults', 'default');
 $handler->override_option('fields', array(
   'teaser' => array(
     'label' => 'Teaser',
-
-
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -34,29 +32,19 @@ $handler->override_option('fields', array(
       'help' => '',
       'trim' => 1,
       'max_length' => '200',
-
-
       'word_boundary' => 1,
       'ellipsis' => 1,
       'strip_tags' => 1,
-
       'html' => 0,
     ),
     'exclude' => 1,
     'id' => 'teaser',
     'table' => 'node_revisions',
     'field' => 'teaser',
-
-
-
-
-
     'relationship' => 'none',
   ),
   'topic_icon' => array(
     'label' => '',
-
-
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -75,29 +63,21 @@ $handler->override_option('fields', array(
       'html' => 0,
     ),
     'hot_topic_threshold' => '15',
-
     'exclude' => 0,
     'id' => 'topic_icon',
-
     'table' => 'node',
     'field' => 'topic_icon',
-
     'relationship' => 'none',
   ),
   'title' => array(
     'label' => 'Topic / Topic starter',
-
-
     'alter' => array(
       'alter_text' => 1,
       'text' => '<span class="forum-topic-title">[title]</span> ',
-
       'make_link' => 1,
       'path' => 'node/[nid]',
-
       'link_class' => '',
       'alt' => '[teaser]',
-
       'prefix' => '',
       'suffix' => '',
       'target' => '',
@@ -113,14 +93,10 @@ $handler->override_option('fields', array(
     'hide_empty' => 0,
     'empty_zero' => 0,
     'link_to_node' => 1,
-
     'exclude' => 0,
     'id' => 'title',
     'table' => 'node',
     'field' => 'title',
-
-
-
     'relationship' => 'none',
   ),
   'timestamp' => array(
@@ -128,7 +104,6 @@ $handler->override_option('fields', array(
     'alter' => array(
       'alter_text' => 1,
       'text' => '[timestamp] ',
-
       'make_link' => 0,
       'path' => '',
       'link_class' => '',
@@ -261,6 +236,7 @@ $handler->override_option('fields', array(
       'alt' => '',
       'prefix' => '',
       'suffix' => '',
+      'target' => '',
       'help' => '',
       'trim' => 0,
       'max_length' => '',
@@ -269,6 +245,9 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
+    'empty' => '0',
+    'hide_empty' => 0,
+    'empty_zero' => 1,
     'set_precision' => FALSE,
     'precision' => 0,
     'decimal' => '.',
@@ -383,7 +362,7 @@ $handler->override_option('fields', array(
     ),
   ),
   'last_updated' => array(
-    'label' => 'Last post',
+    'label' => 'Last update',
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -415,8 +394,6 @@ $handler->override_option('fields', array(
   ),
   'name' => array(
     'label' => 'Forum',
-
-
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -439,18 +416,10 @@ $handler->override_option('fields', array(
     'id' => 'name',
     'table' => 'term_data',
     'field' => 'name',
-
-
-
-
-
-
     'relationship' => 'none',
   ),
   'sticky' => array(
     'label' => 'Sticky',
-
-
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -463,12 +432,9 @@ $handler->override_option('fields', array(
       'help' => '',
       'trim' => 0,
       'max_length' => '',
-
-
       'word_boundary' => 1,
       'ellipsis' => 1,
       'strip_tags' => 0,
-
       'html' => 0,
     ),
     'type' => 'yes-no',
@@ -477,9 +443,6 @@ $handler->override_option('fields', array(
     'id' => 'sticky',
     'table' => 'node',
     'field' => 'sticky',
-
-
-
     'relationship' => 'none',
   ),
   'comment' => array(
@@ -550,7 +513,6 @@ $handler->override_option('filters', array(
     'operator' => 'in',
     'value' => array(
       variable_get('forum_nav_vocabulary', '') => variable_get('forum_nav_vocabulary', ''),
-
     ),
     'group' => '0',
     'exposed' => FALSE,
@@ -575,8 +537,7 @@ $handler->override_option('filters', array(
       'use_operator' => 0,
       'operator' => 'term_node_tid_depth_op',
       'identifier' => 'forum',
-      'label' => 'Show new topics in:',
-
+      'label' => 'Show new & updated topics in:',
       'optional' => 1,
       'single' => 0,
       'remember' => 1,
@@ -606,8 +567,8 @@ $handler->override_option('access', array(
 $handler->override_option('cache', array(
   'type' => 'none',
 ));
-$handler->override_option('title', 'Topics with new posts');
-$handler->override_option('empty', 'No new posts in this forum.');
+$handler->override_option('title', 'Topics with new and updated posts');
+$handler->override_option('empty', 'No new or updated posts.');
 $handler->override_option('empty_format', '1');
 $handler->override_option('items_per_page', 20);
 $handler->override_option('use_pager', '1');
@@ -696,17 +657,36 @@ $handler->override_option('style_options', array(
 ));
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'forum/new');
-$handler->override_option('menu', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-  'name' => 'navigation',
-));
-$handler->override_option('tab_options', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-));
+
+if (variable_get('advanced_forum_views_as_tabs', FALSE)) {
+  $handler->override_option('menu', array(
+    'type' => 'tab',
+    'title' => 'New & updated topics',
+    'description' => '',
+    'weight' => '2',
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+}
+else {
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+}
 

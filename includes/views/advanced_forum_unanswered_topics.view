@@ -69,7 +69,7 @@ $handler->override_option('fields', array(
     'relationship' => 'none',
   ),
   'title' => array(
-    'label' => 'Topic / Topic starter',
+    'label' => 'Topic',
     'alter' => array(
       'alter_text' => 1,
       'text' => '<span class="forum-topic-title">[title]</span> ',
@@ -370,7 +370,7 @@ $handler->override_option('cache', array(
   'type' => 'none',
 ));
 $handler->override_option('title', 'Unanswered forum topics');
-$handler->override_option('empty', 'No unanswered topics in this forum.');
+$handler->override_option('empty', 'No unanswered topics found.');
 $handler->override_option('empty_format', '1');
 $handler->override_option('items_per_page', 20);
 $handler->override_option('use_pager', '1');
@@ -454,21 +454,40 @@ $handler->override_option('style_options', array(
       'separator' => '',
     ),
   ),
-  'default' => 'last_updated',
+  'default' => 'created',
   'tid' => 'filter.term_node_tid_depth',
 ));
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'forum/unanswered');
-$handler->override_option('menu', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-  'name' => 'navigation',
-));
-$handler->override_option('tab_options', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-));
+
+if (variable_get('advanced_forum_views_as_tabs', FALSE)) {
+  $handler->override_option('menu', array(
+    'type' => 'tab',
+    'title' => 'Unanswered topics',
+    'description' => '',
+    'weight' => '4',
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+}
+else {
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+}

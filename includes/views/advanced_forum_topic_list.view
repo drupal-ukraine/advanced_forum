@@ -24,6 +24,7 @@ $handler->override_option('fields', array(
       'alt' => '',
       'prefix' => '',
       'suffix' => '',
+      'target' => '',
       'help' => '',
       'trim' => 0,
       'max_length' => '',
@@ -32,6 +33,9 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
+    'empty' => '',
+    'hide_empty' => 0,
+    'empty_zero' => 0,
     'link_to_node' => 0,
     'exclude' => 1,
     'id' => 'nid',
@@ -91,13 +95,13 @@ $handler->override_option('fields', array(
     'relationship' => 'none',
   ),
   'title' => array(
-    'label' => 'Topic / Topic starter',
+    'label' => 'Topic',
     'alter' => array(
       'alter_text' => 1,
       'text' => '<span class="forum-topic-title">[title]</span> ',
       'make_link' => 1,
       'path' => 'node/[nid]',
-      'link_class' => '',
+      'link_class' => 'topic-title',
       'alt' => '[teaser]',
       'prefix' => '',
       'suffix' => '',
@@ -374,7 +378,7 @@ $handler->override_option('fields', array(
     'field' => 'last_comment_name',
     'relationship' => 'none',
   ),
-  'last_updated' => array(
+  'last_comment_timestamp' => array(
     'label' => 'Last post',
     'alter' => array(
       'alter_text' => 0,
@@ -400,9 +404,9 @@ $handler->override_option('fields', array(
     'date_format' => 'small',
     'custom_date_format' => '',
     'exclude' => 0,
-    'id' => 'last_updated',
+    'id' => 'last_comment_timestamp',
     'table' => 'node_comment_statistics',
-    'field' => 'last_updated',
+    'field' => 'last_comment_timestamp',
     'relationship' => 'none',
   ),
   'sticky' => array(
@@ -554,7 +558,7 @@ $handler->override_option('cache', array(
   'type' => 'none',
 ));
 $handler->override_option('title', 'Forum Name');
-$handler->override_option('empty', 'No posts in this forum.');
+$handler->override_option('empty', 'No posts found.');
 $handler->override_option('empty_format', '1');
 $handler->override_option('items_per_page', 20);
 $handler->override_option('use_pager', '1');
@@ -576,8 +580,8 @@ $handler->override_option('style_options', array(
     'comment_count' => 'comment_count',
     'new_comments' => 'comment_count',
     'totalcount' => 'totalcount',
-    'last_comment_name' => 'last_updated',
-    'last_updated' => 'last_updated',
+    'last_comment_name' => 'last_comment_timestamp',
+    'last_comment_timestamp' => 'last_comment_timestamp',
     'sticky' => 'sticky',
     'comment' => 'comment',
   ),
@@ -625,7 +629,7 @@ $handler->override_option('style_options', array(
       'sortable' => 1,
       'separator' => '<br />',
     ),
-    'last_updated' => array(
+    'last_comment_timestamp' => array(
       'sortable' => 1,
       'separator' => '<br />',
     ),
@@ -638,6 +642,6 @@ $handler->override_option('style_options', array(
       'separator' => '',
     ),
   ),
-  'default' => 'last_updated',
+  'default' => 'last_comment_timestamp',
   'tid' => 'argument.tid',
 ));
