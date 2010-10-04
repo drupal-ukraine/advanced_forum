@@ -5,6 +5,7 @@ $Id$
 October 4, 2010
 ---------------
 #905860 by Michelle: Ensure advanced_forum_get_forum_types returns an array()
+#876294 by RedKing: Updated French translation.
 
 September 23, 2010
 ------------------

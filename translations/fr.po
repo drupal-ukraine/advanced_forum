@@ -1,6 +1,6 @@
 # $Id$
 #
-# German translation of Drupal (general)
+# French translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
 #  advanced_forum.module,v 1.21.2.80 2008/10/22 23:01:17 michellec
@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Drupal Advanced Forum V6\n"
 "POT-Creation-Date: 2008-10-28 18:29+0100\n"
-"PO-Revision-Date: 2008-10-28 18:30+0100\n"
+"PO-Revision-Date: 2010-08-07 06:07+0100\n"
 "Last-Translator: Yannick WEBER <web.yannick@gmail.com>\n"
 "Language-Team: Yannick WEBER <web.yannick@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Le nombre maximum de pages affichées sous forme de titre dans la page n
 
 #: advanced_forum.module:209
 msgid "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10"
-msgstr "Used on the pager under topic titles in topic list. e.g. entering 5 will get you 1,2,3,4 ... 10."
+msgstr "Utiliser par la pagination sous les titres des sujets dans la liste des sujet.Par exemple, définissez la valeur 5 affichera une pagination de type 1,2,3,4 ... 10."
 
 #: advanced_forum.module:216
 msgid "Get the number of new comments per forum on the forum list"
@@ -91,7 +91,7 @@ msgstr "Indiquer le nombre de nouveaux commentaires par forum sur la liste des f
 
 #: advanced_forum.module:218
 msgid "Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under \"posts\" on the forum overview. Slow query not recommended on large forums."
-msgstr "Le noyau du module forum indique le nombre de nouveaux sujets. Si activé, Advanced Forum indique le nombre de nouveaux commentaires aussi et l'affiche sous \"posts\" sur la vue d'ensemble du forum. Gourmant en ressources, non recommandé sur les gros forums."
+msgstr "Le noyau du module forum indique le nombre de nouveaux sujets. Si activé, Advanced Forum indique le nombre de nouveaux commentaires et l'affiche sous \"posts\" sur la vue d'ensemble du forum. Gourmant en ressources, non recommandé sur les gros forums."
 
 #: advanced_forum.module:224
 msgid "Use topic navigation"
@@ -131,15 +131,15 @@ msgstr "L'utilisateur est Offline. Vue la dernière fois à @time."
 
 #: advanced_forum.module:571
 msgid "Offline"
-msgstr "offline"
+msgstr "Offline"
 
 #: advanced_forum.module:618
 msgid "Mark all topics read"
-msgstr "Marqué tous les sujets comme lus"
+msgstr "Marquer tous les sujets comme lus"
 
 #: advanced_forum.module:622
 msgid "Mark all forums read"
-msgstr "Marqué tous les forums comme lus"
+msgstr "Marquer tous les forums comme lus"
 
 #: advanced_forum.module:788
 msgid "Topic"
@@ -147,7 +147,7 @@ msgstr "Sujet"
 
 #: advanced_forum.module:789
 msgid "Replies"
-msgstr "Réponse"
+msgstr "Réponses"
 
 #: advanced_forum.module:793
 msgid "Views"
@@ -189,7 +189,7 @@ msgstr "Page"
 msgid "1 reply"
 msgid_plural "@count réponses"
 msgstr[0] "1 Réponse"
-msgstr[1] "@count Réponses"
+msgstr[1] "@count réponses"
 
 #: advanced_forum.module:698
 msgid "1 nouveau"
@@ -199,7 +199,7 @@ msgstr[1] "@count nouveaux"
 
 #: advanced_forum.module:36
 msgid "administer advanced forum"
-msgstr "Administrer Advanced forum"
+msgstr "Administrer advanced forum"
 
 #: advanced_forum.module:50
 msgid "Configure Advanced Forum with these settings."
@@ -208,15 +208,15 @@ msgstr "Configurer Advanced Forum avec ces réglages"
 #: advanced_forum.module:53
 #: advanced_forum.info:0
 msgid "Advanced Forum"
-msgstr ""
+msgstr "Advanced Forum"
 
 #: advanced_forum.module:0
 msgid "advanced_forum"
-msgstr ""
+msgstr "advanced_forum"
 
 #: advanced_forum.info:0
 msgid "Enables the look and feel of other popular forum software."
-msgstr "Activer le look d'autre soft de forum."
+msgstr "Permet d'avoir le design et la convivialité d'autres systèmes de forums populaires."
 
 #: modules/contact.author-pane.inc:19;19
 #: modules/contact.forum.inc:18;18
@@ -236,7 +236,7 @@ msgstr "Envoyer le message privé"
 #: styles/naked/advf-author-pane.tpl.php:76
 #: styles/naked_stacked/advf-author-pane.tpl.php:78
 msgid "Joined"
-msgstr "Inscription"
+msgstr "Rejoint"
 
 #: styles/blue_lagoon/advf-author-pane.tpl.php:82
 #: styles/blue_lagoon/advf-forum-list.tpl.php:42
@@ -261,7 +261,7 @@ msgstr ""
 #: styles/naked/advf-author-pane.tpl.php:94
 #: styles/naked_stacked/advf-author-pane.tpl.php:96
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: styles/blue_lagoon/advf-forum-list.tpl.php:40
 #: styles/blue_lagoon_stacked/advf-forum-list.tpl.php:40
