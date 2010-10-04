@@ -1153,7 +1153,14 @@ function advanced_forum_get_forum_list($tid = 0) {
 function advanced_forum_get_forum_types() {
   $vid = variable_get('forum_nav_vocabulary', '');
   $vocabulary = taxonomy_vocabulary_load($vid);
-  return $vocabulary->nodes;
+  
+  // Need a sanity check in case the site somehow doesn't have a forum vocab.
+  if (is_array($vocabulary)) {
+    return $vocabulary->nodes;
+  }
+  else {
+    return array();
+  }
 }
 
 /**

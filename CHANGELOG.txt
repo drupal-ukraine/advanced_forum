@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+October 4, 2010
+---------------
+#905860 by Michelle: Ensure advanced_forum_get_forum_types returns an array()
+
 September 23, 2010
 ------------------
 #376039 by Michelle with thanks to NowPublic for code reference: Added 'in reply to' for core comments.
