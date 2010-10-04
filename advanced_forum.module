@@ -599,6 +599,7 @@ function advanced_forum_forum_topic_list_sort_form(&$form_state) {
   );
 
   $form['inline']['submit'] = array(
+    '#id' => 'sort-topic-submit',  
     '#name' => '',
     '#type' => 'submit',
     '#value' => t('Sort'),
