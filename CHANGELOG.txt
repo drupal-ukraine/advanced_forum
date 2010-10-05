@@ -8,6 +8,9 @@ October 4, 2010
 #876294 by RedKing: Updated French translation.
 NOISSUE by Michelle: Made submit button IDs more specific on searching. Tangently related to #883452.
 #883452 by rodrigoaguilera: Added a specific ID to the topic list sort form.
+NOISSUE by Michelle: Changed 'search' buttons to 'search forum' and 'search topic'.
+NOISSUE by Michelle: Added message about unpublished post to post template.
+NOISSUE by Michelle: Fixed bug with new comment jump link on topic not working with nodecomment.
 
 September 23, 2010
 ------------------

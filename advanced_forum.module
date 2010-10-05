@@ -968,12 +968,23 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
     $timestamp = ($timestamp > NODE_NEW_LIMIT ? $timestamp : NODE_NEW_LIMIT);
 
     // Use the timestamp to retrieve the oldest new comment.
-    $query = 'SELECT c.cid
-              FROM {node} n
-              INNER JOIN {comments} c ON n.nid = c.nid
-              WHERE n.nid = %d AND timestamp > %d AND c.status = %d ORDER BY c.cid';
-    $result = db_result(db_query_range($query, $nid, $timestamp, COMMENT_PUBLISHED, 0, 1));
-
+    if (module_exists('nodecomment')){
+      $query = "SELECT nc.cid
+                FROM {node_comments} nc
+                INNER JOIN {node} n ON nc.cid = n.nid
+                WHERE nc.nid = %d AND n.changed > %d AND n.status = 1 
+                ORDER BY nc.cid";
+      $result = db_result(db_query_range($query, $nid, $timestamp, 0, 1));
+   
+    }
+    else {
+      $query = "SELECT c.cid
+                FROM {comments} c
+                WHERE c.nid = %d AND c.timestamp > %d AND c.status = %d 
+                ORDER BY c.cid";
+      $result = db_result(db_query_range($query, $nid, $timestamp, COMMENT_PUBLISHED, 0, 1));
+   }
+ 
     return $result;
   }
   else {
@@ -997,9 +1008,10 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
   $number_new_comments = advanced_forum_reply_num_new($nid);
 
   if ($number_new_comments > 0) {
+    $page_of_first_new = advanced_forum_page_first_new($comment_count, $number_new_comments, $node);
+    
     // Note that we are linking to the cid anchor rather than "new" because
     // the new links will be gone if we go to another page.
-    $page_of_first_new = advanced_forum_page_first_new($comment_count, $number_new_comments, $node);
     $cid_of_first_new = advanced_forum_first_new_comment($nid);
 
     return l($number_new_comments . ' ' . t('new'), 'node/' . $nid, array('query' => $page_of_first_new, 'fragment' => "comment-$cid_of_first_new")) ;

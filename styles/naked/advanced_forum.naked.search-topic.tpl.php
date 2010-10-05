@@ -20,7 +20,7 @@
     <div class="form-item" id="edit-keys-wrapper">
       <input type="text" maxlength="128" name="keys" id="edit-keys" value="" title="<?php print t('Enter the terms you wish to search for.'); ?>" class="form-text" />
     </div>
-    <input type="submit" id="edit-submit-forum-topic-search" value="<?php print t('Search'); ?>"  class="form-submit" />
+    <input type="submit" id="edit-submit-forum-topic-search" value="<?php print t('Search topic'); ?>"  class="form-submit" />
   </div>
   </form>
 </div>

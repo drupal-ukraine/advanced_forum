@@ -79,6 +79,10 @@
     </div>  <?php // End of posted on div ?>
     
     <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
+    
+    <?php if (!$node->status): ?>
+      <span class="unpublished-post-note">t("Unpublished post")</span>
+    <?php endif; ?>
 
     <span class="forum-post-number"><?php print $post_link; ?></span>
   </div> <?php // End of post info div ?>
