@@ -164,4 +164,9 @@ function _advanced_forum_preprocess_node(&$variables) {
     // but is provided as a convenience to people who want to customize theirs.
     $variables['reply_link'] = theme('advanced_forum_reply_link', $node);
   }
+  
+  /* Revisions */
+  if ($variables['created'] != $variables['revision_timestamp']) {
+    $variables['post_edited'] = theme('advanced_forum_post_edited', $variables['revision_uid'], $variables['revision_timestamp'], $variables['log']);
+  }
 }

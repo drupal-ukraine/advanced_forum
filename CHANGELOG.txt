@@ -2,6 +2,15 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+October 14, 2010
+----------------
+#868942 by Michelle: Redid image handling on pseudo buttons to use background image with actual text on top instead of image replacement.
+
+October 8, 2010
+---------------
+#933862 by Michelle: Added 'last edited' note based on node revisions. Changed Commented Edited integration to make use of new variable.
+NOISSUE by Michelle: Fixed missing print statement around unpublished post note.
+
 October 4, 2010
 ---------------
 #905860 by Michelle: Ensure advanced_forum_get_forum_types returns an array()

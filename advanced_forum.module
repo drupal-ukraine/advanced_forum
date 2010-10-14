@@ -131,6 +131,13 @@ function advanced_forum_theme() {
         )
   );
   
+  $items['advanced_forum_post_edited'] = array(
+      'arguments' => array(
+        'who' => NULL,
+        'when' => NULL,
+        'why' => NULL,
+        )
+  );
 
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {

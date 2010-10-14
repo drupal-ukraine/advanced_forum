@@ -10,6 +10,18 @@
 // THEME FUNCTIONS **********************************************************/
 
 /**
+ * Theme function to show who last edited a post.
+ */
+function theme_advanced_forum_post_edited($who, $when, $why) {
+    $editor = user_load($who);
+    $editor_name = theme('username', $editor);
+    
+    $datetime = format_date($when, 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
+  
+    return t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime. <span class="post-edit-label">Reason:</span> !reason', array('!editor' => $editor_name, '!datetime' => $datetime, '!reason' => $why));    
+}
+
+/**
  * Theme function to show simple author pane when not using Author Pane.
  */
 function theme_advanced_forum_simple_author_pane($context) {
@@ -32,6 +44,7 @@ function theme_advanced_forum_reply_link($node) {
   $reply_link = advanced_forum_get_reply_link($node);
 
   return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '</div>';
+
 }
 
 /**

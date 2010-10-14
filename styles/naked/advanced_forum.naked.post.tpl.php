@@ -77,11 +77,12 @@
         <?php endif; ?>
       <?php endif; ?>
     </div>  <?php // End of posted on div ?>
-    
+
+    <?php // Add a note when a post is unpublished so it doesn't rely on theming. ?>    
     <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
     
     <?php if (!$node->status): ?>
-      <span class="unpublished-post-note">t("Unpublished post")</span>
+      <span class="unpublished-post-note"><?php print t("Unpublished post") ?></span>
     <?php endif; ?>
 
     <span class="forum-post-number"><?php print $post_link; ?></span>
@@ -105,9 +106,9 @@
         <?php print $content ?>
       </div>
       
-      <?php if (!empty($comment->comment_edited)): ?>
-        <div class="comment-edited">
-          <?php print $comment->comment_edited ?>
+      <?php if (!empty($post_edited)): ?>
+        <div class="post-edited">
+          <?php print $post_edited ?>
         </div>
       <?php endif; ?>
 

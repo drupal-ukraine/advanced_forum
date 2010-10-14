@@ -309,6 +309,11 @@ td.forum-last-reply {
   margin: 10px 0 5px 10px;
 }
 
+/* Edited */
+.post-edited {
+  margin: 10px;
+}
+
 /* Post footer */
 .forum-post-footer {
   margin-top: 0;
