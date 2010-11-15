@@ -2,6 +2,11 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+November 14, 2010
+-----------------
+#933862 by Michelle: Restored compatability with the Comment Edited module that was inadvertantly lost.
+
+
 October 14, 2010
 ----------------
 #868942 by Michelle: Redid image handling on pseudo buttons to use background image with actual text on top instead of image replacement.

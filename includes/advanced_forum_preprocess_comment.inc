@@ -156,4 +156,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
       $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
     }
   }
+  
+  /* Post edited */
+  $variables['post_edited'] = (isset($variables['comment_edited'])) ? $variables['comment_edited'] : "";
 }
