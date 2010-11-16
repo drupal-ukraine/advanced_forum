@@ -28,6 +28,7 @@
       <?php print $admin_links; ?>
     </div>
   <?php endif; ?>
+  
   <?php if ($header): ?>
     <div class="view-header">
       <?php print $header; ?>

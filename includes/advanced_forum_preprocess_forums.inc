@@ -11,6 +11,7 @@ function _advanced_forum_preprocess_forums(&$variables) {
   $variables['forums_defined'] = count($variables['forums']) || count($variables['parents']);
 
   advanced_forum_add_template_suggestions("forums", $variables['template_files']);
+  
   $tid = intval($variables['tid']);
 
   if (!empty($variables['forums'])) {
@@ -20,11 +21,17 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $variables['forums'] = '';
   }
 
-  $variables['search'] = theme('advanced_forum_search_forum', $variables['tid']);
+  $variables['search'] = theme('advanced_forum_search_forum', $tid);
 
-  if (empty($variables['topics'])) {
-    // No forum description on the top level.
+  if (arg(1) == 0) {
+    // We're on the front page of the forums.
+    
+    // Remove forum description.
     $variables['forum_description'] = '';
+    
+    // This is normally attached to the topic list so we need to create it
+    // here as well since the main page has no topics.
+    $variables['forum_tools'] = advanced_forum_forum_tools(0);
 
   }
   else {
@@ -32,8 +39,8 @@ function _advanced_forum_preprocess_forums(&$variables) {
     $forum = taxonomy_get_term($tid);
     $variables['forum_description'] = $forum->description;
 
-    $variables['links'] = advanced_forum_get_forum_post_links($tid);
-    $variables['forum_links'] = theme('links', $variables['links'], array('class' => 'forum-links'));
+    // Get the themed list of node types that can be posted in this forum.
+    $variables['forum_links'] = theme('advanced_forum_node_type_create_list', $variables['tid']);
 
     // Set a variable for displaying the topic legend.
     $variables['topic_legend'] = theme('advanced_forum_topic_legend');

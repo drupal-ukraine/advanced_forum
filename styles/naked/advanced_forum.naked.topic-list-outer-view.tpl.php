@@ -28,6 +28,7 @@
       <?php print $admin_links; ?>
     </div>
   <?php endif; ?>
+  
   <?php if ($header): ?>
     <div class="view-header">
       <?php print $header; ?>
@@ -46,12 +47,10 @@
     </div>
   <?php endif; ?>
 
+  <div class="forum-node-create-links forum-node-create-links-top"><?php print $node_create_list ?></div>
+  
   <?php if ($pager): ?>
     <div class="forum-pager" id="forum-pager-top"><?php print $pager; ?></div>
-  <?php endif; ?>
-
-  <?php if (!empty($view->sort_form)): ?>
-    <div id="forum-sort-top"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
   <?php endif; ?>
 
   <?php if ($rows): ?>
@@ -64,9 +63,20 @@
     </div>
   <?php endif; ?>
 
+  <div class="forum-node-create-links"><?php print $node_create_list ?></div>
+
   <?php if ($pager): ?>
     <div class="forum-pager" id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
+  
+  <?php if (!empty($view->sort_form)): ?>
+     <div id="forum-sort"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
+  <?php endif; ?>
+
+  <?php if (!empty($forum_tools)): ?>
+    <div class="forum-tools"><?php print $forum_tools; ?></div>
+  <?php endif; ?>
+
 
   <?php if ($attachment_after): ?>
     <div class="attachment attachment-after">

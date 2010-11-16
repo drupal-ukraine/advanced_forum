@@ -2,10 +2,16 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+November 16, 2010
+-----------------
+NOISSUE by Michelle: Removed unneeded CSS left over from before Views was a dependency.
+#868942 by Michelle: Changed new content links to use divs instead of a link and added button code.
+#935322 by Michelle: Moved what was 'secondary links' into a 'forum tools' jump menu.
+#935322 by Michelle: Switched tabs to being on by default.
+
 November 14, 2010
 -----------------
 #933862 by Michelle: Restored compatability with the Comment Edited module that was inadvertantly lost.
-
 
 October 14, 2010
 ----------------

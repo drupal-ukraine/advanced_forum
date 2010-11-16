@@ -77,14 +77,14 @@ function advanced_forum_settings_page() {
   $form['advanced_forum_general']['advanced_forum_add_local_task'] = array(
     '#type' => 'checkbox',
     '#title' => t('Add a tab for forum view page.'),
-    '#default_value' => variable_get('advanced_forum_add_local_task', FALSE),
+    '#default_value' => variable_get('advanced_forum_add_local_task', TRUE),
     '#description' => t('If checked, this will add a local task tab for "View forums". Use this in conjunction with making the included views have local tasks. If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
   );
   
   $form['advanced_forum_general']['advanced_forum_views_as_tabs'] = array(
     '#type' => 'checkbox',
     '#title' => t('Add a tab for included views that have their own pages.'),
-    '#default_value' => variable_get('advanced_forum_views_as_tabs', FALSE),
+    '#default_value' => variable_get('advanced_forum_views_as_tabs', TRUE),
     '#description' => t('If checked, this will add a local task tab for "Active topics," "New posts," "My posts," and "Unanswered topics." If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
   );
   

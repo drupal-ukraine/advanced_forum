@@ -34,7 +34,7 @@ function advanced_forum_menu() {
     'title' => 'Advanced Forum',
   );
 
-  if (variable_get('advanced_forum_add_local_task', FALSE)) {
+  if (variable_get('advanced_forum_add_local_task', TRUE)) {
     $items['forum/view'] = array(
       'title' => 'View Forums',
       'page callback' => 'advanced_forum_page',
@@ -138,7 +138,13 @@ function advanced_forum_theme() {
         'why' => NULL,
         )
   );
-
+  
+  $items['advanced_forum_node_type_create_list'] = array(
+      'arguments' => array(
+        'forum_id' => NULL,
+        )
+  );
+  
   // These only exist if nodecomment is on.
   if (module_exists('nodecomment')) {
     $items['advanced_forum_search_forum'] = array(
@@ -421,8 +427,6 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
     $object_type = 'comment';
   }
   
-  
-  
   if (advanced_forum_is_styled($object, FALSE, $object_type)) {
     // Change first post from "add comment" to "reply" if it isn't already.
     if (!empty($links['comment_add'])) {
@@ -437,7 +441,8 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
       }
     }
    
-    foreach (array('post_edit', 'comment_edit', 'post_delete', 'comment_delete','quote', 'comment_add', 'comment_reply') as $key) { 
+    // Put the links in a consistent order.
+    foreach (array('post_edit', 'comment_edit', 'post_delete', 'comment_delete', 'quote', 'comment_add', 'comment_reply') as $key) { 
       if (isset($links[$key])) {
         $temp = $links[$key]; 
         unset($links[$key]); 
@@ -707,12 +712,25 @@ function advanced_forum_statistics_online_users() {
 // GENERAL UTILITY FUNCTIONS *************************************************/
 
 /**
- * Generate a list of primary links for a forum.
+ * Determine if user can create a topic of given node type in given forum.
+ *
+ * This function currently only checks node access. It is a seperate function
+ * as a stub to provide the ability to limit node type creation by forum in
+ * the future.
+ */
+function advanced_forum_node_type_allowed($type, $forum = 0) {
+  if (node_access('create', $type)) {
+    return TRUE;
+  }
+}
+
+/**
+ * Generate a list of node creation links for a forum.
  *
  * This is used on the forum list, allowing us to have direct
- * links to post to a forum and other interesting bits and pieces.
+ * links to create new nodes in the forum.
  */
-function advanced_forum_get_forum_post_links($tid) {
+function advanced_forum_node_type_create_list($tid) {
   global $user;
 
   // Format the "post new content" links listing.
@@ -723,7 +741,7 @@ function advanced_forum_get_forum_post_links($tid) {
   // Loop through all node types for forum vocabulary.
   foreach ($vocabulary->nodes as $type) {
     // Check if the current user has the 'create' permission for this node type.
-    if (node_access('create', $type)) {
+    if (advanced_forum_node_type_allowed($type)) {
       // Fetch the "General" name of the content type.
       $node_type = node_get_types('name', $type);
 
@@ -731,29 +749,68 @@ function advanced_forum_get_forum_post_links($tid) {
       // @TODO: this is a little dodgy and may not work right with
       // translations. Should be replaced if there's a better way.
       $node_type = str_replace('Forum', '', $node_type);
-
+      
       // Push the link with title and url to the array.
       $forum_types[$type] = array(
-        'title' => t('New @node_type', array('@node_type' => $node_type)) . '<span class="image-replace"></span>',
+        'name' => $node_type,
         'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $tid,
-        'html' => TRUE);
+        );
     }
   }
 
   if (empty($forum_types)) {
     // The user is logged-in; but denied access to create any new forum content type.
     if ($user->uid) {
-      $forum_types['disallowed'] = array('title' => t('You are not allowed to post new content in forum.'));
+      return t('You are not allowed to post new content in this forum.');
     }
     // The user is not logged-in; and denied access to create any new forum content type.
     else {
-      $forum_types['login'] = array(
-        'title' => t('<a href="@login">Login</a> to post new content in forum.', array('@login' => url('user/login', array('query' => drupal_get_destination())))),
-        'html' => TRUE);
+      $login = url('user/login', array('query' => drupal_get_destination()));
+      return t('<a href="@login">Login</a> to post new content in forum.', array('@login' => $login));
     }
   }
+  else {
+    return $forum_types;
+  }
+}
 
-  return $forum_types;
+function advanced_forum_forum_tools($tid=0) {
+  global $user;
+
+  if ($tid > 0) {
+    $targets[url("forum/active", array('query' => "forum[]=$tid"))] = "View active posts in this forum";
+    $targets[url("forum/unanswered", array('query' => "forum[]=$tid"))] = "View unanswered posts in this forum";
+    
+    if ($user->uid) {
+      $targets[url("forum/new", array('query' => "forum[]=$tid"))] = "View new posts in this forum";
+      
+      if (module_exists('nodecomment')) {
+        $targets[url("forum/user", array('query' => "forum[]=$tid"))] = "View your posts in this forum";
+      }
+      
+      $targets[url("forum/markasread/$tid")] = "Mark this forum read";
+    }    
+  }
+  else {
+    $targets[url("forum/active")] = "View active forum posts";
+    $targets[url("forum/unanswered")] = "View unanswered forum posts";
+    
+    if ($user->uid) {
+      $targets[url("forum/new")] = "View new forum posts";
+      
+      if (module_exists('nodecomment')) {
+        $targets[url("forum/user")] = "View your forum posts";
+      }
+      
+      $targets[url("forum/markasread")] = "Mark all forums read";
+    }      
+  }
+  
+  $options['choose'] = t("- Forum Tools -");
+
+  // Create and return the jump menu.
+  ctools_include('jump-menu');
+  return drupal_get_form('ctools_jump_menu', $targets, $options);
 }
 
 /**
@@ -1232,3 +1289,4 @@ function advanced_forum_post_position($node_id, $post_id) {
 
   return $post_position;
 }
+

@@ -12,6 +12,7 @@ floats.
   text-align: right;
   float: right;
   clear: none;
+  width: 30%;
 }
 
 #forum-pager-top .pager{
@@ -48,15 +49,24 @@ ul.forum-links li {
   display: inline;
 }
 
-/* New topic / New poll / Etc */
-.forum-primary-links li {
-  background: none;
-  list-style-image: none;
-  list-style-type: none;
-  padding: 0 8px 0 0;
+/*** FORUM NODE CREATION ****************************************************/
+
+.forum-node-create-links {
+  width: 30%;
+  float: left;
 }
 
-/*** FORUM & TOPIC LIST *****************************************************/
+.forum-node-create-links-top {
+  clear: both;
+  padding-top: 20px; /* Lines up horizontally with pager. */
+}
+
+.forum-node-create-links .forum-add-node {
+  float: left;
+  margin-right: 10px;
+}
+
+/*** FORUM & TOPIC LIST TABLES **********************************************/
 
 .forum-table {
   clear: both;
@@ -100,47 +110,37 @@ td.forum-last-reply {
   width: 20%;
 }
 
-/* Topic listing */
+/**** Topic listing ****/
 
 /* Set column widths */
-.forum-table-topics td.forum-topic-icon,
 .forum-table-topics td.views-field-topic-icon {
   width: 26px;
 }
 
-.forum-table-topics td.forum-topic-title,
 .forum-table-topics td.views-field-title {
   width: 50%;
 }
 
-.forum-table-topics td.forum-replies,
 .forum-table-topics td.views-field-comment-count,
-.forum-table-topics td.forum-number-views,
 .forum-table-topics td.views-field-totalcount {
   width: 10%;
 }
 
-.forum-table-topics td.forum-last-reply,
 .forum-table-topics td.views-field-last-updated {
   width: 30%;
 }
 
 /* Set alignments & spacing */
-.forum-table-topics .forum-topic-title,
 .forum-table-topics .views-field-title {
   text-align: left;
 }
 
-.forum-table-topics td.forum-replies,
 .forum-table-topics td.views-field-comment-count,
-.forum-table-topics td.forum-number-views,
 .forum-table-topics td.views-field-totalcount {
   text-align: center;
   white-space: nowrap;
 }
 
-.forum-table-topics td.forum-topic-created,
-.forum-table-topics td.forum-last-reply,
 .forum-table-topics td.views-field-last-updated {
   line-height: 140%;
   white-space: normal !important;
@@ -151,6 +151,7 @@ td.forum-last-reply {
   display: block;
 }
 
+/*** FORUM SORT *************************************************************/
 #advanced-forum-forum-topic-list-sort-form,
 #advanced-forum-forum-topic-list-sort-form input,
 #advanced-forum-forum-topic-list-sort-form .form-item {
@@ -161,8 +162,16 @@ td.forum-last-reply {
   vertical-align: center;
 }
 
-#forum-sort-top {
-  padding: 14px 0 0 0;
+#forum-sort {
+  clear: both;
+  float: left;
+}
+
+/*** FORUM TOOLS ***********************************************************/
+
+.forum-tools{
+  float: right;
+  margin-top: 10px;
 }
 
 /*** FORUM STATISTICS *******************************************************/
@@ -190,6 +199,7 @@ td.forum-last-reply {
 }
 
 .forum-topic-legend div {
+  clear: both;
   float: left;
   padding: 5px 0 5px 25px;
   margin-right: 7px;
@@ -348,8 +358,8 @@ td.forum-last-reply {
   clear: both;
 }
 
+/*** SEARCH ****************************************************************/
 
-/* Search */
 #search-all-forums {
   float: right;
 }
@@ -382,5 +392,7 @@ td.forum-last-reply {
 .forum-search-result {
   margin-bottom: 10px;
 }
+
+
 
 

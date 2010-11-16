@@ -10,6 +10,28 @@
 // THEME FUNCTIONS **********************************************************/
 
 /**
+ * Theme function to show list of types that can be posted in forum.
+ */
+function theme_advanced_forum_node_type_create_list($forum_id) {
+  $type_list = advanced_forum_node_type_create_list($forum_id);
+ 
+  if (is_array($type_list)) {
+    foreach ($type_list as $type => $item) {
+      $output .= '<div class="forum-add-node forum-add-' . $type . '">';
+      $output .=  t('<a href="!href" class="af-button-large"><span>New @node_type</span>', array('!href' => $item['href'], '@node_type' => $item['name']));
+      $output .= '</div>';
+    }
+  }
+  else {
+    // User did not have access to create any node types in this fourm so
+    // we just return the denial text / login prompt.
+    $output = $type_list;
+  }
+  
+  return $output;
+}
+
+/**
  * Theme function to show who last edited a post.
  */
 function theme_advanced_forum_post_edited($who, $when, $why) {
@@ -238,6 +260,13 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("topic-list-outer-view", $variables['template_files']);
+  
+  // @TODO: This is messy tying it to the URL. Need to find a better way.
+  $tid = arg(1);
+  if (arg(0) == 'forum' && $tid > 0) {
+    $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', $tid);
+    $variables['forum_tools'] = advanced_forum_forum_tools($tid);
+  }
 }
 
 /**

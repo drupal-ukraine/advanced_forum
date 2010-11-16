@@ -26,26 +26,16 @@
       <div id="search-all-forums"><?php print $search; ?></div>
     <?php endif; ?>
 
-    <?php if (empty($topics)): ?>
-      <?php // We only want these printed on top on the main forum page ?>
-      <div class="forum-secondary-links"><?php print $forum_secondary_links ?></div>
-    <?php endif; ?>
-
     <?php print $forums; ?>
 
-    <?php if (!empty($topics)): ?>
-      <?php // Print a set on top of the topics. ?>
-      <div class="forum-primary-links"><?php print $forum_links ?></div>
-      <div class="forum-secondary-links clear-block"><?php print $forum_secondary_links ?></div>
+    <?php if (!empty($forum_tools)): ?>
+      <div class="forum-tools"><?php print $forum_tools; ?></div>
     <?php endif; ?>
 
     <?php print $topics; ?>
 
     <?php if (!empty($topics)): ?>
       <?php print $topic_legend; ?>
-      <?php // Print a set under the topics. ?>
-      <div class="forum-primary-links"><?php print $forum_links ?></div>
-      <div class="forum-secondary-links clear-block"><?php print $forum_secondary_links ?></div>
     <?php endif; ?>
 
     <?php if (empty($topics) && !empty($forum_legend)): ?>

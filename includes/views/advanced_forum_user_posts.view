@@ -572,7 +572,7 @@ $handler->override_option('style_options', array(
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'forum/user');
 
-if (variable_get('advanced_forum_views_as_tabs', FALSE)) {
+if (variable_get('advanced_forum_views_as_tabs', TRUE)) {
   $handler->override_option('menu', array(
     'type' => 'tab',
     'title' => 'My Posts',

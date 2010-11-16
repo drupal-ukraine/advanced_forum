@@ -13,7 +13,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
 
   $variables['template_files'][] = 'advanced_forum-topic-list-view';
   advanced_forum_add_template_suggestions("topic-list-view", $variables['template_files']);
-
+  
   $view = $variables['view'];
 
   // We need the raw data for this grouping, which is passed in as $variables['rows'].
@@ -38,7 +38,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   }
 
   $forum = $view->style_plugin->get_forum_ids();
-
+  
   // Fields must be rendered in order as of Views 2.3, so we will pre-render
   // everything.
   $renders = array();
