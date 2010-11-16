@@ -8,6 +8,7 @@ NOISSUE by Michelle: Removed unneeded CSS left over from before Views was a depe
 #868942 by Michelle: Changed new content links to use divs instead of a link and added button code.
 #935322 by Michelle: Moved what was 'secondary links' into a 'forum tools' jump menu.
 #935322 by Michelle: Switched tabs to being on by default.
+#868942 by Michelle: Changed to new HTML for buttonized links, removed old CSS, and replaced with skeleton CSS.
 
 November 14, 2010
 -----------------

@@ -436,7 +436,8 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
     // Add extra span tags for image replacement.
     foreach ($links AS $key => $link) {
       if (!empty($links[$key]['href'])) {
-        $links[$key]['title'] = $links[$key]['title'] . '<span class="image-replace"></span>';
+        $links[$key]['attributes']['class'] .= ' af-button-small';
+        $links[$key]['title'] = '<span>' . $links[$key]['title'] . '</span>';
         $links[$key]['html'] = TRUE;
       }
     }
@@ -877,9 +878,12 @@ function advanced_forum_get_reply_link($node) {
       $href = $node->links['comment_add']['href'];
       $fragment = $node->links['comment_add']['fragment'];
       $attributes = $node->links['comment_add']['attributes'];
-
+      
+      // Add our button class.
+      $attributes['class'] = 'af-button-large';
+      
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'html' => TRUE, 'attributes' => $attributes));
+      $reply_link->link = l('<span>' . t('Post reply') . '</span>', $href, array('fragment' => $fragment, 'html' => TRUE, 'attributes' => $attributes));
       return $reply_link;
     }
 
@@ -887,13 +891,13 @@ function advanced_forum_get_reply_link($node) {
       // Comment will not show the link when the form is on the page so we
       // need to fake it.
       $href = $_GET['q'];
-      $attributes = array('title' => t('Share your thoughts and opinions related to this posting.'));
+      $attributes = array('title' => t('Share your thoughts and opinions related to this posting.'), 'class' => 'af-button-large');
       $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
       $query = ($current_page) ? "page=$current_page" : NULL;
       $fragment = 'comment-form';
 
       $reply_link->class = 'reply-allowed';
-      $reply_link->link = l(t('Post Reply') . '<span class="image-replace"></span>', $href, array('fragment' => $fragment, 'query' => $query, 'html' => TRUE, 'attributes' => $attributes));
+      $reply_link->link = l('<span>' . t('Post reply') . '</span>', $href, array('fragment' => $fragment, 'query' => $query, 'html' => TRUE, 'attributes' => $attributes));
 
       // Add a couple more properties that lets this function be reused for
       // the purpose of getting the link into the node links when the form
@@ -914,7 +918,10 @@ function advanced_forum_get_reply_link($node) {
   else {
     // Topic is locked
     $reply_link->class = 'reply-locked';
-    $reply_link->link = t('Locked') . '<span class="image-replace"></span>';
+    
+    // @TODO: The double span here is icky but I don't know how else to get
+    // around the fact that there's no "a" to put the button class on.
+    $reply_link->link = '<span class="af-button-large"><span>' . t('Topic locked') . '</span></span>';
     return $reply_link;
   }
 }
