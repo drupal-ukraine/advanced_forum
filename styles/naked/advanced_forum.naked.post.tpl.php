@@ -122,7 +122,7 @@
 
   <div class="forum-post-footer clear-block">
     <div class="forum-jump-links">
-      <a href="#forum-topic-top" title="<?php print t('Jump to top of page'); ?>"><?php print t("Top"); ?></a>
+      <a href="#forum-topic-top" title="<?php print t('Jump to top of page'); ?>" class="af-button-small"><span><?php print t("Top"); ?></span></a>
     </div>
 
     <?php if (!empty($links)): ?>

@@ -9,6 +9,7 @@ NOISSUE by Michelle: Removed unneeded CSS left over from before Views was a depe
 #935322 by Michelle: Moved what was 'secondary links' into a 'forum tools' jump menu.
 #935322 by Michelle: Switched tabs to being on by default.
 #868942 by Michelle: Changed to new HTML for buttonized links, removed old CSS, and replaced with skeleton CSS.
+#868942 by Michelle: Added jump to top button to the list of buttonized links.
 
 November 14, 2010
 -----------------
