@@ -5,6 +5,7 @@ $Id$
 November 17, 2010
 -----------------
 #559536 by troky, Michelle: Fixed $vars/$variables mixup in the topic list view include and removed the extra <br> from the last author field rewrite that had been compensating.
+#831364 by Michelle, Heine: Reverted changing form alter paramater to pass by value that shouldn't have been done.
 
 November 16, 2010
 -----------------
