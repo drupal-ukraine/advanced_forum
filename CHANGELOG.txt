@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+November 17, 2010
+-----------------
+#559536 by troky, Michelle: Fixed $vars/$variables mixup in the topic list view include and removed the extra <br> from the last author field rewrite that had been compensating.
+
 November 16, 2010
 -----------------
 NOISSUE by Michelle: Removed unneeded CSS left over from before Views was a dependency.

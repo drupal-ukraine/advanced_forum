@@ -969,8 +969,16 @@ function advanced_forum_last_post_link($node) {
   $last_comment_id = advanced_forum_last_post_in_topic($node->nid);
   $last_page = advanced_forum_get_last_page($node);
   $query = ($last_page > 0) ? "page=$last_page" : '';
-
-  return l(t('Last post'), "node/$node->nid", array('query' => $query, 'fragment' => "comment-$last_comment_id"));
+  $attributes = array('class' => 'af-button-large');
+  
+  $options = array(
+    'html' => TRUE, 
+    'query' => $query, 
+    'fragment' => "comment-$last_comment_id", 
+    'attributes' => $attributes,
+  );
+  
+  return l('<span>' . t('Last post') . '<span>', "node/$node->nid", $options);
 }
 
 /**
@@ -1085,7 +1093,18 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
     // the new links will be gone if we go to another page.
     $cid_of_first_new = advanced_forum_first_new_comment($nid);
 
-    return l($number_new_comments . ' ' . t('new'), 'node/' . $nid, array('query' => $page_of_first_new, 'fragment' => "comment-$cid_of_first_new")) ;
+    $number_new = t("(!new new)", array('!new' => $number_new_comments));
+    
+    $options = array(
+      'html' => TRUE,
+      'attributes' => array('class' => 'af-button-large'),
+      'query' => $page_of_first_new, 
+      'fragment' => "comment-$cid_of_first_new"
+    );
+    
+    $first_unread = l('<span>' . t('View first unread') . '</span>', 'node/' . $nid, $options);
+    
+    return $number_new . ' ' . $first_unread;
   }
 }
 

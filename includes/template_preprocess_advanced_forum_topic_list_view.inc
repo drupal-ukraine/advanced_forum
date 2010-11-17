@@ -129,8 +129,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       if (!empty($fields[$field]) && empty($fields[$field]->options['exclude'])) {
         $field_output = $renders[$num][$field];
 
-        if (!isset($vars['rows'][$num][$column])) {
-          $vars['rows'][$num][$column] = '';
+        if (!isset($variables['rows'][$num][$column])) {
+          $variables['rows'][$num][$column] = '';
         }
 
         // Don't bother with separators and stuff if the field does not show up.
@@ -139,7 +139,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
         }
 
         // Place the field into the column, along with an optional separator.
-        if ($vars['rows'][$num][$column] !== '') {
+        if ($variables['rows'][$num][$column] !== '') {
           if (!empty($options['info'][$column]['separator'])) {
             $variables['rows'][$num][$column] .= filter_xss_admin($options['info'][$column]['separator']);
           }
