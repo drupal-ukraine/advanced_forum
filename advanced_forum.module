@@ -36,7 +36,7 @@ function advanced_forum_menu() {
 
   if (variable_get('advanced_forum_add_local_task', TRUE)) {
     $items['forum/view'] = array(
-      'title' => 'View Forums',
+      'title' => t('View Forums'),
       'page callback' => 'advanced_forum_page',
       'access arguments' => array('access content'),
       'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -754,7 +754,7 @@ function advanced_forum_node_type_create_list($tid) {
       // Push the link with title and url to the array.
       $forum_types[$type] = array(
         'name' => $node_type,
-        'href' => 'node/add/'. str_replace('_', '-', $type) .'/'. $tid,
+        'href' => '/node/add/'. str_replace('_', '-', $type) .'/'. $tid,
         );
     }
   }

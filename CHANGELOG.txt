@@ -2,6 +2,13 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+December 2, 2010
+----------------
+#935322 by Michelle: Fixed node add links being relative.
+#935322 by Michelle: Fixed unclosed 'a' causing wonkiness.
+NOISSUE by Michelle: Fixed missing t() on View Forums tab.
+#868942 by Michelle, WorldFallz: Added CSS for image-less button to boxy. More of an example than anything at this point as it's likely to be changed.
+
 November 17, 2010
 -----------------
 #559536 by troky, Michelle: Fixed $vars/$variables mixup in the topic list view include and removed the extra <br> from the last author field rewrite that had been compensating.

@@ -18,7 +18,7 @@ function theme_advanced_forum_node_type_create_list($forum_id) {
   if (is_array($type_list)) {
     foreach ($type_list as $type => $item) {
       $output .= '<div class="forum-add-node forum-add-' . $type . '">';
-      $output .=  t('<a href="!href" class="af-button-large"><span>New @node_type</span>', array('!href' => $item['href'], '@node_type' => $item['name']));
+      $output .=  t('<a href="!href" class="af-button-large"><span>New @node_type</span></a>', array('!href' => $item['href'], '@node_type' => $item['name']));
       $output .= '</div>';
     }
   }
