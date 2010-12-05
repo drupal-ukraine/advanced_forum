@@ -13,6 +13,7 @@ NOISSUE by Michelle: Expanded statistics to show last 5 new users.
 NOISSUE by Michelle: Lots of cleanup, fixing, re-arranging, simplifying code.
 #961050 by designerbrent: Made forum 'folder' CSS more specific to avoid themes overriding it.
 #869006 by carlthuringer, Michelle: Changed @ to ! in topic navigation t() to avoid a second run through check_plain.
+#829540 by Michelle: Added sanity check on teaser split removal to avoid edge case error.
 
 December 2, 2010
 ----------------

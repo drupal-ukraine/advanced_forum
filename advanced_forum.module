@@ -470,7 +470,7 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
  * Implementation of hook_form_alter().
  */
 function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
-  if (!empty($form['#node']->type) && advanced_forum_type_is_in_forum($form['#node']->type) && isset($form['body_field'])) {
+  if (!empty($form['#node']->type) && advanced_forum_type_is_in_forum($form['#node']->type) && isset($form['body_field']) && isset($form['body_field']['#after_build'])) {
     // Remove the teaser splitter.
     $teaser_js_build = array_search('node_teaser_js', $form['body_field']['#after_build']);
     unset($form['body_field']['#after_build'][$teaser_js_build]);
