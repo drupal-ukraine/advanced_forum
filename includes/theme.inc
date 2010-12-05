@@ -10,15 +10,32 @@
 // THEME FUNCTIONS **********************************************************/
 
 /**
+ * Theme function to display a link, optionally buttonized.
+ */
+function theme_advanced_forum_l($text, $path, $options = array(), $button_class = NULL) {
+  if (!is_null($button_class)) {
+    // Buttonized link: add our button class and the span.
+    $options['attributes']['class'] .= 'af-button-' . $button_class;
+    $options['html'] = TRUE;
+    return l('<span>' . $text . '</span>', $path, $options);
+  }
+  else {
+    // Standard link: just send it through l().
+    return l($text, $path, $options);
+  }
+}
+
+/**
  * Theme function to show list of types that can be posted in forum.
  */
 function theme_advanced_forum_node_type_create_list($forum_id) {
+  // Get the list of node types to display links for.
   $type_list = advanced_forum_node_type_create_list($forum_id);
  
   if (is_array($type_list)) {
     foreach ($type_list as $type => $item) {
       $output .= '<div class="forum-add-node forum-add-' . $type . '">';
-      $output .=  t('<a href="!href" class="af-button-large"><span>New @node_type</span></a>', array('!href' => $item['href'], '@node_type' => $item['name']));
+      $output .=  theme('advanced_forum_l', t('New @node_type', array('@node_type' => $item['name'])), $item['href'], NULL, 'large');
       $output .= '</div>';
     }
   }
@@ -35,19 +52,19 @@ function theme_advanced_forum_node_type_create_list($forum_id) {
  * Theme function to show who last edited a post.
  */
 function theme_advanced_forum_post_edited($who, $when, $why) {
-    $editor = user_load($who);
-    $editor_name = theme('username', $editor);
-    
-    $datetime = format_date($when, 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
-  
-    return t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime. <span class="post-edit-label">Reason:</span> !reason', array('!editor' => $editor_name, '!datetime' => $datetime, '!reason' => $why));    
+  $editor = user_load($who);
+  $editor_name = theme('username', $editor);
+
+  $datetime = format_date($when, 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
+
+  return t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime. <span class="post-edit-label">Reason:</span> !reason', array('!editor' => $editor_name, '!datetime' => $datetime, '!reason' => $why));    
 }
 
 /**
  * Theme function to show simple author pane when not using Author Pane.
  */
 function theme_advanced_forum_simple_author_pane($context) {
-  // Sending the account rather than the name makes it work for anon comments.
+  // Sending the context rather than the account makes it work for anon comments.
   $name = theme('username', $context);
   
   $account = user_load($context->uid);
@@ -60,13 +77,26 @@ function theme_advanced_forum_simple_author_pane($context) {
  * Theme function to format the reply link at the top/bottom of topic.
  */
 function theme_advanced_forum_reply_link($node) {
-  // Get an object that tells us the CSS class as well as the link/text.
-  // Class will be one of: reply-allowed, reply-forbidden, reply-locked.
-  // Link will be link to post reply or message.
+  // Get the information about whether the user can reply and the link to do
+  // so if the user is allowed to.
   $reply_link = advanced_forum_get_reply_link($node);
 
-  return '<div class="reply-link ' . $reply_link->class . ' ">' . $reply_link->link . '</div>';
-
+  if (is_array($reply_link)) {
+    // Reply is allowed. Variable contains the link information.
+    $output = '<div class="topic-reply-allowed">';
+    $output .= theme('advanced_forum_l', $reply_link['title'], $reply_link['href'], $reply_link['options'], 'large');
+    $output .= '</div>';
+    return $output;
+  }
+  elseif ($reply_link == 'reply-locked') {
+    // @TODO: The double span here is icky but I don't know how else to get
+    // around the fact that there's no "a" to put the button class on.
+    return '<div class="topic-reply-locked"><span class="af-button-large"><span>' . t('Topic locked') . '</span></span></div>';
+  }
+  elseif ($reply_link == 'reply-forbidden') {
+    // User is not allowed to reply to this topic.
+    return theme('comment_post_forbidden', $node);
+  }
 }
 
 /**
@@ -234,8 +264,8 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
   $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
   $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
 
-  $latest_user = advanced_forum_statistics_latest_user();
-  $variables['latest_user'] = theme('username', $latest_user);
+  $latest_users = advanced_forum_statistics_latest_users();
+  $variables['latest_users'] = implode(', ', $latest_users);
 }
 
 /**
@@ -318,27 +348,27 @@ function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topi
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   advanced_forum_add_template_suggestions("topic-header", $variables['template_files']);
+  
+  $node = $variables['node'];
 
-  global $language;
-  $variables['classes'] = $language->language . " forum-topic-header clear-block";
-
-  // Build the reply link / button
-  $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
-
-  if (!empty($variables['comment_count'])) {
-    // Add count of total posts and link to last reply
-    $variables['total_posts'] = format_plural($variables['comment_count'], '1 reply', '@count replies');
-    $variables['last_post'] = advanced_forum_last_post_link($variables['node']);
-  }
-  else {
-    $variables['total_posts'] = t('No replies');
-  }
-
-  // Add count of new posts (if any) linked to the first one.
-  $variables['new_posts'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
-
-  // Add search form to search within the topic. (only works with nodecomment)
+  // Form to search within the topic. (only works with nodecomment)
   $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
+
+  // Reply link / button
+  $variables['reply_link'] = theme('advanced_forum_reply_link', $node);
+
+  // Total posts, including first post.
+  $posts = (empty($variables['comment_count'])) ? 1 : $variables['comment_count'] + 1;
+  $variables['total_posts_count'] = format_plural($posts, '1 post', '@count posts');
+  
+  // Number of new posts on topic.
+  $variables['new_posts_count'] = advanced_forum_reply_num_new($node->nid);
+  
+  // Link to first new post.
+  $variables['first_new_post_link'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
+
+  // Link to last post in topic.
+  $variables['last_post_link'] = advanced_forum_last_post_link($node);
 }
 
 /**

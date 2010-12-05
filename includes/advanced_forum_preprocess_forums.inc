@@ -8,10 +8,10 @@
  */
 
 function _advanced_forum_preprocess_forums(&$variables) {
-  $variables['forums_defined'] = count($variables['forums']) || count($variables['parents']);
-
   advanced_forum_add_template_suggestions("forums", $variables['template_files']);
   
+  $variables['forums_defined'] = count($variables['forums']) || count($variables['parents']);
+ 
   $tid = intval($variables['tid']);
 
   if (!empty($variables['forums'])) {
@@ -33,6 +33,14 @@ function _advanced_forum_preprocess_forums(&$variables) {
     // here as well since the main page has no topics.
     $variables['forum_tools'] = advanced_forum_forum_tools(0);
 
+    // Fetch the forum statistics.
+    $variables['forum_statistics'] = '';
+    if (user_access('view forum statistics')) {
+      $variables['forum_statistics'] = theme('advanced_forum_statistics');
+    }
+    
+    // Fetch the forum legend.
+    $variables['forum_legend'] = theme('advanced_forum_forum_legend');
   }
   else {
     // Grab the forum description and make it available to the template file
@@ -45,22 +53,4 @@ function _advanced_forum_preprocess_forums(&$variables) {
     // Set a variable for displaying the topic legend.
     $variables['topic_legend'] = theme('advanced_forum_topic_legend');
   }
-
-  $variables['forum_secondary_links_array'] = advanced_forum_get_forum_secondary_links($tid);
-  // Render our added links.
-  $variables['forum_secondary_links'] = theme('links', $variables['forum_secondary_links_array'], array('class' => 'forum-links'));
-
-
-  // Fetch the forum statistics.
-  $variables['forum_statistics'] = '';
-  if (user_access('view forum statistics')) {
-    $variables['forum_statistics'] = theme('advanced_forum_statistics');
-  }
-
-  // Fetch the forum legend.
-  $variables['forum_legend'] = theme('advanced_forum_forum_legend');
-
-  // Fetch the current language
-  global $language;
-  $variables['language_class'] = $language->language;
 }

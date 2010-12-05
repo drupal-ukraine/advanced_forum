@@ -14,7 +14,7 @@
  * - $topics: Total number of nodes (threads / topics).
  * - $posts: Total number of nodes + comments.
  * - $users: Total number of registered active users.
- * - $latest_user: Linked user name of latest active user.
+ * - $latest_users: Linked user names of latest active users.
  */
 ?>
 
@@ -37,8 +37,8 @@
     <div id="forum-statistics-topics">
       <?php print t('Topics: !topics, Posts: !posts, Users: !users', array('!topics' => $topics, '!posts' => $posts, '!users' => $users)); ?>
     </div>
-    <div id="forum-statistics-latest-user">
-      <?php print t('Welcome to our latest member, !user', array('!user' => $latest_user)); ?>
+    <div id="forum-statistics-latest-users">
+      <?php print t('Welcome to our latest members: !users', array('!users' => $latest_users)); ?>
     </div>
   </div>
 </div>

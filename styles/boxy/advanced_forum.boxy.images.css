@@ -5,15 +5,15 @@ td.forum-icon {
   height: 50px;
 }
 
-.forum-folder {
+.forum-folder, tr.even td.forum-folder, tr.odd td.forum-folder {
   background: transparent url(images/forum-folder.png) no-repeat center center;
 }
 
-.forum-folder-new-posts {
+.forum-folder, tr.even td.forum-folder-new-posts, tr.odd td.forum-folder-new-posts {
   background: transparent url(images/forum-folder-new-posts.png) no-repeat center center;
 }
 
-.forum-folder-locked {
+.forum-folder, tr.even td.forum-folder-locked, tr.odd td.forum-folder-locked {
   background: transparent url(images/forum-folder-locked.png) no-repeat center center;
 }
 

@@ -2,6 +2,18 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+December 4, 2010
+----------------
+#982238 by Michelle: Forced 'New topic' to first in list of node creation links.
+#982238 by Michelle: Added ability to get nodes allowed in a particular vocabulary and set up stub for per term.
+#974840 by Michelle: Redid 'Post reply' link handling.
+NOISSUE by Michelle: Created new theme function theme_advanced_forum_l() to centralize link printing and give themers more control.
+NOISSUE by Michelle: Expanded statistics to show last 5 new users.
+#868942 by Michelle: Fixed node links to only buttonize specific ones so it doesn't try to buttonize the tags.
+NOISSUE by Michelle: Lots of cleanup, fixing, re-arranging, simplifying code.
+#961050 by designerbrent: Made forum 'folder' CSS more specific to avoid themes overriding it.
+#869006 by carlthuringer, Michelle: Changed @ to ! in topic navigation t() to avoid a second run through check_plain.
+
 December 2, 2010
 ----------------
 #935322 by Michelle: Fixed node add links being relative.
