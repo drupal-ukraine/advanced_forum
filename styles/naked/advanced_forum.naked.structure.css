@@ -213,14 +213,23 @@ td.forum-last-reply {
   margin: 10px 0 2px 0;
 }
 
-.forum-topic-header .reply-link {
-  float: left;
-  margin: 10px 15px 2px 0;
+.forum-topic-header .search-topic {
+  float: right;
 }
 
-.forum-topic-header .search-topic {
-  float: left;
+.forum-topic-header .topic-post-count {
+  clear: right;
 }
+
+.forum-topic-header .topic-post-count,
+.forum-topic-header .topic-reply-link,
+.forum-topic-header .topic-new-post-link,
+.forum-topic-header .last-post-link {
+  float: left;
+  margin: 0 5px 5px 0;
+  width: 120px;
+}
+
 
 .forum-topic-header .reply-count {
   float: right;

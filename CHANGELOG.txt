@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+December 7, 2010
+----------------
+#974840 by Michelle: Fixed CSS / HTML so topic header links aren't floating around messily.
+
 December 4, 2010
 ----------------
 #982238 by Michelle: Forced 'New topic' to first in list of node creation links.

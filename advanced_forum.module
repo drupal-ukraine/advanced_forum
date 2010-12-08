@@ -952,7 +952,6 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
                 ORDER BY c.cid";
       $result = db_result(db_query_range($query, $nid, $timestamp, COMMENT_PUBLISHED, 0, 1));
    }
- 
     return $result;
   }
   else {

@@ -19,16 +19,26 @@
 <div id="forum-topic-header" class="forum-topic-header clear-block">
   <?php print $search; ?>
 
+  <div class="topic-post-count">
   <?php print $total_posts_count; ?> / <?php print t('!new new', array('!new' => $new_posts_count)); ?>
-
-  <?php print $reply_link; ?>
-
-  <?php if (!empty($new_posts_count)): ?>
+  </div>
+  
+  <?php if (!empty($reply_link)): ?>
+    <div class="topic-reply-link">
+    <?php print $reply_link; ?>
+    </div>
+  <?php endif; ?>
+  
+  <?php if (!empty($first_new_post_link)): ?>
+    <div class="topic-new-post-link">
     <?php print $first_new_post_link; ?>
+    </div>
   <?php endif; ?>
 
   <?php if (!empty($last_post_link)): ?>
+    <div class="last-post-link">
      <?php print $last_post_link; ?>
+    </div>
   <?php endif; ?>
   
   <a id="forum-topic-top"></a>
