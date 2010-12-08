@@ -219,15 +219,15 @@ td.forum-last-reply {
 
 .forum-topic-header .topic-post-count {
   clear: right;
+  float: left;
+  margin: 7px 7px 0 0;
 }
 
-.forum-topic-header .topic-post-count,
 .forum-topic-header .topic-reply-link,
 .forum-topic-header .topic-new-post-link,
 .forum-topic-header .last-post-link {
   float: left;
-  margin: 0 5px 5px 0;
-  width: 120px;
+  margin: 0 7px 7px 0;
 }
 
 

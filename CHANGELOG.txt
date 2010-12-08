@@ -5,6 +5,7 @@ $Id$
 December 7, 2010
 ----------------
 #974840 by Michelle: Fixed CSS / HTML so topic header links aren't floating around messily.
+#974840 by Michelle: Fiddled a bit more with the CSS.
 
 December 4, 2010
 ----------------
