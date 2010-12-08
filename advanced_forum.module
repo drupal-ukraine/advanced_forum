@@ -12,8 +12,11 @@
  * Implementation of hook_perm().
  */
 function advanced_forum_perm() {
-  return array('administer advanced forum',
-    'view forum statistics');
+  return array(
+    'administer advanced forum',
+    'view forum statistics',
+    'view last edited notice',
+  );
 }
 
 /**
@@ -547,12 +550,44 @@ function advanced_forum_views_post_render(&$view, &$output) {
     // We want to change the look of the 'new' marker from the default, slightly:
     $tokens['<span class="new">' . t('new') . '</span>'] = '<span class="new">(' . t('new') . ')</span>';
 
+    // Replace the Author Pane token with the actual Author Pane.
     if (preg_match_all('/<!--post:author-pane-([\d]+)-->/us', $output, $matches)) {
       foreach ($matches[1] as $match => $uid) {
         $token = $matches[0][$match]; // This is the exact string that matched.
         if (!isset($tokens[$token])) {
           $account = user_load($uid);
           $tokens[$token] = theme('author_pane', $account, 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''));
+        }
+      }
+    }
+    
+    // Replace the Post edited token. 
+    if (preg_match_all('/<!--post:post-edited-([\d]+)-->/us', $output, $matches)) {
+      foreach ($matches[1] as $match => $nid) {
+        $token = $matches[0][$match]; // This is the exact string that matched.
+        if (!isset($tokens[$token])) {
+          if (user_access('view last edited notice')) {
+            $sql = 'SELECT uid, log, timestamp FROM {node_revisions} WHERE nid = %d ORDER BY timestamp DESC';
+            $row = db_fetch_object(db_query($sql, $nid));
+            $tokens[$token] = theme('advanced_forum_post_edited', $row->uid, $row->timestamp, $row->log);
+          }
+          else {
+            // No access; remove token.
+            $tokens[$token] = '';
+          }
+        }
+      }
+    }
+    
+    // Replace the core Signature token. 
+    if (preg_match_all('/<!--post:signature-core-([\d]+)-->/us', $output, $matches)) {
+      foreach ($matches[1] as $match => $uid) {
+        $token = $matches[0][$match]; // This is the exact string that matched.
+        if (!isset($tokens[$token])) {
+          $account = user_load($uid);
+          if ($account->signature) {
+            $tokens[$token] = check_markup($account->signature, $account->signature_format, FALSE);
+          }
         }
       }
     }

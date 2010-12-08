@@ -73,12 +73,12 @@ function _advanced_forum_preprocess_node(&$variables) {
   // Set the post ID for theming / targetting
   $variables['post_id'] = "post-$node->nid";
 
-
   /* Coment anchor */
   if ($node_parent_id) {
     // We need to add this because nodecomment puts this in the template
     // that we are overriding whereas the comment module adds it in code
     // outside of the template and it will be there twice if we always add it.
+    // Must use 'comment' instead of 'post' or 'reply' to match NC & core.
     $variables['comment_anchor'] = '<a id="comment-' . $node->nid . '"></a>';
   }
 
@@ -131,31 +131,12 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* User information / author pane */
   $variables['account'] = user_load(array('uid' => $node->uid));
-
-  // Only do this if post rendering is supported and it's not preview of nodecomment:
-  if (!$variables['top_post'] && method_exists('views_plugin_cache', 'post_render') && $variables['node']->build_mode != NODE_BUILD_PREVIEW) {
-    // Place a token that will later be replaced by the author pane, which
-    // will keep the pane fresh even when the view result is cached.
-    $variables['author_pane'] = '<!--post:author-pane-' . $node->uid . '-->';
-  }
-  elseif (module_exists('author_pane')) {
-    $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $node, TRUE);
-  }
-  else {
+  
+  if (!module_exists('author_pane')) {
+    // If not using the Author Pane module, create a simple version with just
+    // name and photo. If using AP, that's handled down in the
+    // "uncached variables" section.
     $variables['author_pane'] = theme('advanced_forum_simple_author_pane', $node);
-  }
-
-  /* Signatures */
-  // Load the signature.
-  if (module_exists('signature_forum')) {
-    // If Signature For Forums is installed, use that
-    $variables['signature'] = signature_forum_get_signature($node);
-  }
-  elseif (variable_get('user_signatures', 0)) {
-    if ($variables['account']->signature) {
-      // Otherwise load Drupal's built in one, if enabled.
-      $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
-    }
   }
 
   /* Reply link */
@@ -164,9 +145,58 @@ function _advanced_forum_preprocess_node(&$variables) {
     // but is provided as a convenience to people who want to customize theirs.
     $variables['reply_link'] = theme('advanced_forum_reply_link', $node);
   }
+
+  /* Signatures */
+  if (module_exists('signature_forum')) {
+    // If Signatures for Forums is installed, use that. 
+    // Note: we cannot get around the signature being cached because we would
+    // need to do a full node load to get all the info SfF needs to replace
+    // the token and that would counteract the caching.
+    $variables['signature'] = signature_forum_get_signature($node);
+    dsm($variables['signature']);
+  }
   
-  /* Revisions */
-  if ($variables['created'] != $variables['revision_timestamp']) {
-    $variables['post_edited'] = theme('advanced_forum_post_edited', $variables['revision_uid'], $variables['revision_timestamp'], $variables['log']);
+  /* Uncached variables */
+  // Node Comment caches the whole topic for performance reasons. This is
+  // incompatable with any variables that change based on who's viewing the
+  // topic. To get around this, we place a token here and replace it in post
+  // rendering. Only do this if post rendering is supported and it's not a
+  // preview of nodecomment.
+  if (!$variables['top_post'] && method_exists('views_plugin_cache', 'post_render') && $variables['node']->build_mode != NODE_BUILD_PREVIEW) {
+    /* Author Pane */
+    if (module_exists('author_pane')) {
+      $variables['author_pane'] = '<!--post:author-pane-' . $node->uid . '-->';
+    }
+  
+    /* Revisions */
+    if ($variables['created'] != $variables['revision_timestamp']) {
+      $variables['post_edited'] = '<!--post:post-edited-' . $node->nid . '-->';    
+    }
+  
+    /* Signatures */
+    if (!module_exists('signature_forum') && variable_get('user_signatures', 0)) {
+      // Signature for Forums module not enabled; load Drupal's built in one, 
+      // if enabled.
+      $variables['signature'] =  '<!--post:signature-core-' . $node->uid . '-->';
+    }
+  }
+  else {
+    // Create variables normally.
+    /* Author Pane */
+    if (module_exists('author_pane')) {
+      $variables['author_pane'] = theme('author_pane', $variables['account'], 'advanced_forum', variable_get('advanced_forum_user_picture_preset', ''), $node, TRUE);
+    }
+
+    /* Revisions */
+    if (user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
+      $variables['post_edited'] = theme('advanced_forum_post_edited', $variables['revision_uid'], $variables['revision_timestamp'], $variables['log']);
+    }
+
+    /* Signatures */
+    if (!module_exists('signature_forum') && variable_get('user_signatures', 0)) {
+      if ($variables['account']->signature) {
+        $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
+      }
+    }
   }
 }

@@ -6,6 +6,8 @@ December 7, 2010
 ----------------
 #974840 by Michelle: Fixed CSS / HTML so topic header links aren't floating around messily.
 #974840 by Michelle: Fiddled a bit more with the CSS.
+#933862 by Michelle: Added new permission to view post edited message and excluded it from the NC cache.
+#982604 by Michelle: Added core signatures to cache avoiding tokens. Impossible to do with SfF because it needs too much node info.
 
 December 4, 2010
 ----------------
