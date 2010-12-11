@@ -33,8 +33,9 @@
 ?>
 
 <?php $container_number = 0 ?>
-<?php foreach ($forums as $forum_id => $forum): ?>
 
+<?php foreach ($forums as $forum_id => $forum): ?>
+  <?php // *** Container *** ?>
   <?php if ($forum->is_container): ?>
     <?php $container_number++ ?>
     <?php if ($container_number > 1): ?>
@@ -65,7 +66,8 @@
             </td>
           </tr>
         <?php endif; ?>
-
+ 
+  <?php // *** Forum *** ?>
   <?php else: ?>
     <?php if ($forum->depth == 1): ?>
       <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">
@@ -78,7 +80,6 @@
             <?php print $forum->forum_image; ?>
           </td>
         <?php endif; ?>
-
 
         <td class="forum-details">
           <div class="forum-name">

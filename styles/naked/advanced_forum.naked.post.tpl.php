@@ -78,9 +78,9 @@
       <?php endif; ?>
     </div>  <?php // End of posted on div ?>
 
-    <?php // Add a note when a post is unpublished so it doesn't rely on theming. ?>    
     <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
     
+    <?php // Add a note when a post is unpublished so it doesn't rely on theming. ?>    
     <?php if (!$node->status): ?>
       <span class="unpublished-post-note"><?php print t("Unpublished post") ?></span>
     <?php endif; ?>

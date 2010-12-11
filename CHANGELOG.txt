@@ -2,6 +2,10 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+#994842 by Michelle: Cleaned up and stripped down post preview template.
+#559536 by Michelle: Fixed a bunch of notices due to variables not being defined before use.
+#720118 by Michelle: Added more comments and did a little clean up to the forum list.
+
 December 7, 2010
 ----------------
 #974840 by Michelle: Fixed CSS / HTML so topic header links aren't floating around messily.

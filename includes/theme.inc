@@ -15,7 +15,8 @@
 function theme_advanced_forum_l($text, $path, $options = array(), $button_class = NULL) {
   if (!is_null($button_class)) {
     // Buttonized link: add our button class and the span.
-    $options['attributes']['class'] .= 'af-button-' . $button_class;
+    $current_classes = (empty($options['attributes']['class'])) ? '' : $options['attributes']['class'];
+    $options['attributes']['class'] = "$current_classes af-button-$button_class";
     $options['html'] = TRUE;
     return l('<span>' . $text . '</span>', $path, $options);
   }
@@ -31,7 +32,8 @@ function theme_advanced_forum_l($text, $path, $options = array(), $button_class 
 function theme_advanced_forum_node_type_create_list($forum_id) {
   // Get the list of node types to display links for.
   $type_list = advanced_forum_node_type_create_list($forum_id);
- 
+  $output = '';
+  
   if (is_array($type_list)) {
     foreach ($type_list as $type => $item) {
       $output .= '<div class="forum-add-node forum-add-' . $type . '">';

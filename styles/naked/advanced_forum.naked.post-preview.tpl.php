@@ -14,11 +14,9 @@
  * - $reply_link: Text link / button to reply to topic.
  * - $total_posts: Number of posts in topic (not counting first post).
  * - $new_posts: Number of new posts in topic, and link to first new.
- * - $links_array: Unformatted array of links.
  * - $account: User object of the post author.
  * - $name: User name of post author.
- * - $author_pane: Entire contents of advanced_forum-author-pane.tpl.php.
-
+ * - $author_pane: Entire contents of the Author Pane template.
  */
 ?>
 
@@ -53,18 +51,7 @@
   <div class="forum-post-info clear-block">
     <div class="forum-posted-on">
       <?php print $date ?>
-
-      <?php if (!$top_post): ?>
-        <?php if (!empty($first_new)): ?>
-          <?php print $first_new; ?>
-        <?php endif; ?>
-        <?php print $new_output; ?>
-      <?php endif; ?>
     </div>
-
-    <?php if (!$top_post): ?>
-      <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
-    <?php endif; ?>
   </div>
 
   <div class="forum-post-wrapper">
@@ -92,8 +79,6 @@
   </div>
 
   <div class="forum-post-footer clear-block">
-    <div class="forum-jump-links">
-      <a href="#forum-topic-top" title="Jump to top of page"><?php print t("Top"); ?></a>
-    </div>
+    <?php // Purposely empty on preview just to keep the structure intact. ?>    
   </div>
 </div>

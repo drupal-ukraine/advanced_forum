@@ -11,8 +11,13 @@ function _advanced_forum_preprocess_node(&$variables) {
   /* Shortcut variables */
   $node = $variables['node'];
 
-  // This will be empty if not a Node Comment node.
-  $node_parent_id = $variables['node']->comment_target_nid;
+  $node_parent_id = '';
+  if (!empty($variables['node']->comment_target_nid)) {
+    // This is a Node Comments reply node so grab the parent id and load the 
+    // parent node for use below.
+    $node_parent_id = $variables['node']->comment_target_nid;
+    $parent_node = node_load($node_parent_id);
+  }
 
   /* Determine the template file to use for the node. */
   if (!$node_parent_id && isset($_GET['page']) && $_GET['page'] > 0) {
@@ -34,6 +39,7 @@ function _advanced_forum_preprocess_node(&$variables) {
   // Check if this node is the first post, aka topic head. When using the
   // comment module, this will always be true because replies are not nodes
   // but nodecomment will use this same preprocess for all posts.
+  $variables['top_post'] = '';
   if (!$node_parent_id) {
     $variables['top_post'] = TRUE;
 
@@ -56,14 +62,18 @@ function _advanced_forum_preprocess_node(&$variables) {
    // Add the poster's UID
   $classes[] = "posted-by-$node->uid";
 
+  //@TODO: These need to be moved into the cache avoiding tokens. They are
+  // not usable as is because of the caching.
   // Add class if the poster is the viewer.
   global $user;
-  if ($user->uid > 0 && $user->uid == $comment->uid) {
+  if ($user->uid > 0 && $user->uid == $node->uid) {
     $classes[] = "post-by-viewer";
   }
 
-  // Add class if the poster is the topic starter (only on NC node).
-  if ($node_parent_id && $node->uid > 0 && $node->uid == $comment->uid) {
+  // Add class if the poster is the topic starter. This is only applicable
+  // on Node Comment reply nodes as core comments are handled in the comment
+  // template.
+  if ($node_parent_id && $node->uid > 0 && $node->uid == $parent_node->uid) {
     $classes[] = "post-by-starter";
   }
 
@@ -95,7 +105,6 @@ function _advanced_forum_preprocess_node(&$variables) {
   }
   else {
     // This is a nodecomment node so we want to do the comment counting.
-    $parent_node = node_load($node_parent_id);
     $posts_per_page = _comment_get_display_setting('comments_per_page', $parent_node);
     $post_number++;
 
@@ -109,7 +118,7 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* In reply to */
   $variables['in_reply_to'] = "";
-  if ($node->comment_target_cid != 0) {
+  if (!empty($node->comment_target_cid)) {
     // Find the display position of the parent post;.
     $post_position = advanced_forum_post_position($node_parent_id, $node->comment_target_cid);
     
@@ -153,7 +162,6 @@ function _advanced_forum_preprocess_node(&$variables) {
     // need to do a full node load to get all the info SfF needs to replace
     // the token and that would counteract the caching.
     $variables['signature'] = signature_forum_get_signature($node);
-    dsm($variables['signature']);
   }
   
   /* Uncached variables */
@@ -188,7 +196,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     }
 
     /* Revisions */
-    if (user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
+    if (!empty($variables['revision_timestamp']) && user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
       $variables['post_edited'] = theme('advanced_forum_post_edited', $variables['revision_uid'], $variables['revision_timestamp'], $variables['log']);
     }
 

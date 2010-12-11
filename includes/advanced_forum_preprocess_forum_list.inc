@@ -9,12 +9,23 @@
 
 function _advanced_forum_preprocess_forum_list(&$variables) {
   advanced_forum_add_template_suggestions("forum-list", $variables['template_files']);
-  
-  // This will be the ID of the container or forum we are in. If empty,
-  // we are on the root forum page.
-  $parent_id = $variables['tid'];
 
+  // Determine if we want to use taxonomy image here so we don't need to keep
+  // checking while in the main loop.
+  $variables['use_taxonomy_image'] = (function_exists('taxonomy_image_display') && variable_get('advanced_forum_use_taxonomy_image', TRUE));
+  
+  // The tid is the ID of the container or forum we are in. Assign it to
+  // $parent_id for easy reference, assign it to the forum_id template variable
+  // to give it a nice name for themers, then get rid of the original variable.
+  $parent_id = isset($variables['tid']) ? $variables['tid'] : 0;
+  $variables['forum_id'] = $parent_id;
+  unset($variables['tid']);  
+
+  /* Deal with creating fake containers as necessary. */
+  
   if (empty($parent_id)) {
+    // At the root /forum listing. Make sure all forums are in containers,
+    // creating fake ones if needed, so the table structure works properly.
     $main_forum_page = TRUE;
     $root_forums = FALSE;
     $fake_container = FALSE;
@@ -30,14 +41,19 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       }
 
       if (empty($forum->container) && $forum->parents == array(0 => 0)) {
+        // This is a forum, not a container, and it has no parents. ie: forum
+        // at the root outside of any containers.
         $root_forums = TRUE;
         if (!$containers) {
+          // No containers come before this forum, even at the same level,
+          // so we need to make a fake container to hold it.
           $fake_container = TRUE;
         }
         $variables['forums'][$id]->depth++;
         $tids[$forum->tid] = $forum->tid;
       }
-
+      
+      // @TODO: Figure out what this does.
       if ($root_forums && !empty($tids[$forum->parents[0]])) {
         $variables['forums'][$id]->depth++;
         $tids[$forum->tid] = $forum->tid;
@@ -45,6 +61,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     }
 
     if ($fake_container) {
+      // Create the fake container and stick it at the top.
       $container = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', ''));
       $container->tid = 0;
       $container->container = TRUE;
@@ -53,6 +70,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     }
   }
   else {
+    // On a container or forum page.
+    
     $main_forum_page = FALSE;
     // We want to add in the container or use the parent forum as a container.
     $container = taxonomy_get_term($parent_id);
@@ -71,10 +90,9 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $variables['forums'][$id]->depth++;
     }
   }
-
-  // Determine if we want to use taxonomy image outside of the loop.
-  $variables['use_taxonomy_image'] = (function_exists('taxonomy_image_display') && variable_get('advanced_forum_use_taxonomy_image', TRUE));
-
+ 
+  /* Organize all the forum data into the template variables */
+  
   global $user;
   $row = 0;
   // Sanitize each forum so that the template can safely print the data but skip the name of subforums.
@@ -162,7 +180,4 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     }
   }
 
-  // Give meaning to $tid for themers. $tid actually stands for term id.
-  $variables['forum_id'] = isset($variables['tid']) ? $variables['tid'] : 0;
-  unset($variables['tid']);
 }

@@ -452,7 +452,8 @@ function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
     // Add extra span tags for image replacement.
     foreach ($links AS $key => $link) {
       if (in_array($key, $affected_keys)) {
-        $links[$key]['attributes']['class'] .= ' af-button-small';
+        $current_classes = (empty($links[$key]['attributes']['class'])) ? '' : $links[$key]['attributes']['class'];
+        $links[$key]['attributes']['class'] = "$current_classes af-button-small";
         $links[$key]['title'] = '<span>' . $links[$key]['title'] . '</span>';
         $links[$key]['html'] = TRUE;
       }
