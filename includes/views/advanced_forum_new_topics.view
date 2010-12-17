@@ -271,6 +271,7 @@ $handler->override_option('fields', array(
       'alt' => '',
       'prefix' => '',
       'suffix' => '',
+      'target' => '',
       'help' => '',
       'trim' => 0,
       'max_length' => '',
@@ -279,14 +280,16 @@ $handler->override_option('fields', array(
       'strip_tags' => 0,
       'html' => 0,
     ),
+    'empty' => '',
+    'hide_empty' => 1,
+    'empty_zero' => 0,
     'set_precision' => FALSE,
     'precision' => 0,
     'decimal' => '.',
     'separator' => ',',
-    'prefix' => ' (',
-    'suffix' => ' new)',
+    'prefix' => ' View ',
+    'suffix' => ' new',
     'link_to_comment' => 1,
-    'no_empty' => 1,
     'exclude' => 0,
     'id' => 'new_comments',
     'table' => 'node',
@@ -580,6 +583,7 @@ $handler->override_option('style_options', array(
   'sticky' => 1,
   'order' => 'desc',
   'columns' => array(
+    'teaser' => 'teaser',
     'topic_icon' => 'topic_icon',
     'title' => 'title',
     'timestamp' => 'title',
@@ -591,21 +595,20 @@ $handler->override_option('style_options', array(
     'totalcount' => 'totalcount',
     'last_comment_name' => 'last_updated',
     'last_updated' => 'last_updated',
+    'name' => 'name',
     'sticky' => 'sticky',
-    'teaser' => 'teaser',
     'comment' => 'comment',
   ),
   'info' => array(
+    'teaser' => array(
+      'separator' => '',
+    ),
     'topic_icon' => array(
       'separator' => '',
     ),
     'title' => array(
       'sortable' => 1,
       'separator' => ' ',
-    ),
-    'name' => array(
-      'sortable' => 1,
-      'separator' => '',
     ),
     'timestamp' => array(
       'separator' => '',
@@ -623,7 +626,7 @@ $handler->override_option('style_options', array(
     ),
     'comment_count' => array(
       'sortable' => 1,
-      'separator' => '',
+      'separator' => '<br />',
     ),
     'new_comments' => array(
       'separator' => '',
@@ -640,11 +643,13 @@ $handler->override_option('style_options', array(
       'sortable' => 1,
       'separator' => '<br />',
     ),
-    'sticky' => array(
-      'sortable' => 0,
+    'name' => array(
+      'sortable' => 1,
       'separator' => '',
     ),
-    'teaser' => array(
+
+    'sticky' => array(
+      'sortable' => 0,
       'separator' => '',
     ),
     'comment' => array(

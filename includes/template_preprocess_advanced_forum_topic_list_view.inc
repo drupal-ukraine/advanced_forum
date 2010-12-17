@@ -85,6 +85,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       $variables['shadow'][$count] = FALSE;
     }
   }
+  
   // Make the sticky variable available to the template.
   $variables['sticky'] = $sticky;
   $variables['teasers'] = $teasers;

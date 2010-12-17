@@ -2,6 +2,13 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+December 17, 2010
+-----------------
+#559536 by Michelle: Fixed notice due to type not being passed from advanced_forum_link into check if object is styled.
+#995036 by Michelle: Moved new topics link to separate line and added "View" in front to make it clearer what it links to.
+
+December 11, 2010
+-----------------
 #994842 by Michelle: Cleaned up and stripped down post preview template.
 #559536 by Michelle: Fixed a bunch of notices due to variables not being defined before use.
 #720118 by Michelle: Added more comments and did a little clean up to the forum list.
