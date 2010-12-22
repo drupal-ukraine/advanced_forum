@@ -2,10 +2,17 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+December 21, 2010
+-----------------
+NOISSUE by Michelle: Fixed bad AP call when rendering tokens.
+#1004738 by Michelle: Added new style 'Silver Bells'.
+NOISSUE by Michelle: Made a few changes to the AP template to accomodate new styling.
+#868942 by Michelle: Massive changes to image handling.
+
 December 17, 2010
 -----------------
 #559536 by Michelle: Fixed notice due to type not being passed from advanced_forum_link into check if object is styled.
-#995036 by Michelle: Moved new topics link to separate line and added "View" in front to make it clearer what it links to.
+#995036 by Michelle: Moved new topics link to separate line and added 'View' in front to make it clearer what it links to.
 
 December 11, 2010
 -----------------

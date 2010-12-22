@@ -72,7 +72,7 @@
     <?php if ($forum->depth == 1): ?>
       <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">
         <td class="<?php print $forum->icon_classes ?>">
-          <span><?php print $forum->icon_text ?></span>
+          <span class="forum-icon-wrapper"><span><?php print $forum->icon_text ?></span></span>
         </td>
 
         <?php if ($use_taxonomy_image): ?>

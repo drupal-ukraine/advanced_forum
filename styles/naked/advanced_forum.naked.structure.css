@@ -206,7 +206,7 @@ td.forum-last-reply {
 }
 
 
-/*** FORUM THREADS **********************************************************/
+/*** FORUM TOPICS **********************************************************/
 
 /* Header at the top of each topic/thread */
 .forum-topic-header {
@@ -219,7 +219,7 @@ td.forum-last-reply {
 
 .forum-topic-header .topic-post-count {
   clear: right;
-  float: left;
+  float: right;
   margin: 7px 7px 0 0;
 }
 
@@ -294,7 +294,7 @@ td.forum-last-reply {
 }
 
 .forum-post-panel-sub .author-pane .author-pane-line {
-  padding-bottom: 5px;
+  margin-bottom: 7px;
 }
 
 /* Post text area */
@@ -342,15 +342,19 @@ td.forum-last-reply {
 .forum-jump-links {
   float: left;
   line-height: 2em;
-  padding: 0px 5px;
-  width: 140px;
+  margin: 5px;
 }
 
 .forum-post-links {
+  float: right;
   line-height: 2em;
-  padding: 0px 5px;
-  margin-left: 150px;
   text-align: right;
+  margin: 10px 0 5px 5px;
+}
+
+.forum-post-links ul.links li {
+  display: block;
+  float: left;
 }
 
 .forum-top-post-footer {

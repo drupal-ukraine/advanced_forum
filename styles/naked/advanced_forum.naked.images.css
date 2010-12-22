@@ -1,4 +1,5 @@
 /* FORUM LIST ICONS *********************************************************/
+/*
 td.forum-icon {
   text-indent: -9999px;
   width: 50px;
@@ -16,7 +17,7 @@ td.forum-icon {
 .forum-folder, tr.even td.forum-folder-locked, tr.odd td.forum-folder-locked {
   background: transparent url(images/forum-folder-locked.png) no-repeat center center;
 }
-
+*/
 /* FORUM LIST ICON LEGEND ***************************************************/
 .forum-folder-legend .forum-folder {
   background: transparent url(images/forum-folder.png) no-repeat top left;

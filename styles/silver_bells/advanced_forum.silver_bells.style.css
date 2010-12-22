@@ -1,0 +1,173 @@
+/* $Id$ */
+
+/*
+This file contains colors, graphics, and text effects. 
+
+Colors used:
+  #C1C1C1 Borders, post seperator, avatar frame, statistics subheader.
+  #333333 Table header font color.
+  #F5F5F5 to #DDDDDD Gradient on table headers, post info, stats header, top
+                     post footer, topic navigation.
+  #F5F5F5 to #EFEFEF Gradient on topic list background.
+  #F5F5F5 Stats section background.
+  #FAFAFA Text area on posts.
+*/
+
+/*** FORUM & TOPIC LIST ******************************************************/
+
+/* General */
+.forum-table {
+  border: 1px solid #C1C1C1;
+}
+
+/* Headers */
+.forum-table th {
+  color: #333333;
+  border-top: 1px solid #C1C1C1;
+  background: #DDDDDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#DDDDDD));
+  background: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
+  border-bottom: none;
+}
+
+.forum-table th a,
+.forum-table th a:visited,
+.forum-table th a:link {
+  color: #333333;
+  font-weight: bold;
+}
+
+.forum-table tr.even,
+.forum-table tr.odd {
+  border-top: 1px solid #C1C1C1;
+  background: #EFEFEF;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#EFEFEF));
+  background: -moz-linear-gradient(top, #F5F5F5, #EFEFEF);
+}
+
+.forum-table td {
+  border: 1px solid #C1C1C1;
+}
+
+/* Topic listings */
+.forum-table tr.forum-last-sticky {
+  border-bottom: 10px solid #C1C1C1;
+}
+
+.forum-table .sticky-label {
+  font-weight: bold;
+}
+
+/*** FORUM STATISTICS *********************************************************/
+
+#forum-statistics {
+  border: 1px solid #C1C1C1;
+}
+
+#forum-statistics-header {
+  border-top: 1px solid #C1C1C1;
+  background: #DDDDDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#EFEFEF), to(#DDDDDD));
+  background: -moz-linear-gradient(top, #EFEFEF, #DDDDDD);
+  color: #333333;
+  font-weight: bold;
+}
+
+.forum-statistics-sub-header {
+  border-top: 1px solid #C1C1C1;
+  border-bottom: 1px solid #C1C1C1;
+  font-weight: bold;
+}
+
+.forum-statistics-sub-body {
+  background-color: #F5F5F5;
+}
+
+/*** FORUM THREADS ***********************************************************/
+
+.forum-post {
+  border: 1px solid #C1C1C1;
+}
+
+/* Header at the top of each post */
+.forum-post-info {
+  border-top: 1px solid #FAFAFA;
+  background: #DDDDDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#EFEFEF), to(#DDDDDD));
+  background: -moz-linear-gradient(top, #EFEFEF, #DDDDDD);
+  color: #333333;
+  font-weight: bold;
+  border-bottom: 1px solid #C1C1C1;
+}
+
+.forum-posted-on {
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.forum-post-number a {
+  color: #333333 !important;
+}
+
+.forum-post-title {
+  font-weight: bold;
+  border-bottom: 1px solid #C1C1C1;
+}
+
+/* Wrapper around AP and content */
+.forum-post-wrapper {
+  background-color: #F5F5F5;
+}
+
+/* Author information pane */
+.forum-post-panel-sub .author-pane .author-name {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.forum-post-panel-sub .author-pane .picture img {
+  border: 1px solid #C1C1C1;
+  padding: 5px;
+  background-color: #FFFFFF;
+}
+
+.forum-post-panel-sub .author-pane .author-pane-label {
+  font-weight: bold;
+}
+
+/* Post text area */
+.forum-post-panel-main {
+  border-left: 1px solid #C1C1C1;
+  background-color: #FAFAFA;
+}
+
+/* Signature */
+.author-signature {
+  font-size: .8em;
+}
+
+/* Post footer */
+.forum-post-footer {
+  border-top: 1px solid #C1C1C1;
+}
+
+.forum-jump-links {
+  border-right: 1px solid #C1C1C1;
+}
+
+/* Box under top post before first reply */
+.forum-top-post-footer {
+  border: 1px solid #C1C1C1;
+  background: #DDDDDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#DDDDDD));
+  background: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
+}
+
+/* Topic navigation */
+.forum-topic-navigation {
+  border: 1px solid #C1C1C1;
+  background: #DDDDDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#DDDDDD));
+  background: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
+}
+
