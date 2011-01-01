@@ -2,6 +2,16 @@ $Id$
 
 ****************************** DRUPAL 6 - 2.x BRANCH ********************************
 
+January 1, 2011
+---------------
+#868942 by Michelle: Copied new image handling to other styles.
+1012238 by Michelle: Re-parented Blue Lagoon and Cloudless Day and made CSS adjustments to compensate.
+NOISSUE by Michelle: Removed translations.
+
+December 25, 2010
+-----------------
+#1004738 by Zarabadoo: New bell icons for Silver Bells style.
+
 December 21, 2010
 -----------------
 NOISSUE by Michelle: Fixed bad AP call when rendering tokens.

@@ -1,34 +1,34 @@
 /* FORUM LIST ICONS *********************************************************/
-/*
 td.forum-icon {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.forum-icon-wrapper span {
   text-indent: -9999px;
   width: 50px;
   height: 50px;
+  display: block;
 }
 
-.forum-folder, tr.even td.forum-folder, tr.odd td.forum-folder {
-  background: transparent url(images/forum-folder.png) no-repeat center center;
+tr.even td.forum-folder .forum-icon-wrapper span, 
+tr.odd td.forum-folder .forum-icon-wrapper span {
+  background: transparent url(images/forum_list_default.png) no-repeat center center;
 }
 
-.forum-folder, tr.even td.forum-folder-new-posts, tr.odd td.forum-folder-new-posts {
-  background: transparent url(images/forum-folder-new-posts.png) no-repeat center center;
+tr.even td.forum-folder-new-posts .forum-icon-wrapper span, 
+tr.odd td.forum-folder-new-posts .forum-icon-wrapper span {
+  background: transparent url(images/forum_list_new_posts.png) no-repeat center center;
 }
 
-.forum-folder, tr.even td.forum-folder-locked, tr.odd td.forum-folder-locked {
-  background: transparent url(images/forum-folder-locked.png) no-repeat center center;
-}
-*/
+
 /* FORUM LIST ICON LEGEND ***************************************************/
 .forum-folder-legend .forum-folder {
-  background: transparent url(images/forum-folder.png) no-repeat top left;
+  background: transparent url(images/forum_list_default.png) no-repeat top left;
 }
 
 .forum-folder-legend .forum-folder-new-posts {
-  background: transparent url(images/forum-folder-new-posts.png) no-repeat top left;
-}
-
-.forum-folder-legend .forum-folder-locked {
-  background: transparent url(images/forum-folder-locked.png) no-repeat top left;
+  background: transparent url(images/forum_list_new_posts.png) no-repeat top left;
 }
 
 /* TOPIC LIST ICONS *********************************************************/
@@ -39,50 +39,50 @@ span.topic-icon {
 }
 
 .topic-icon-default {
-  background: transparent url(images/topic-default.png) no-repeat center center;
+  background: transparent url(images/topic_list_default.png) no-repeat center center;
 }
 
 .topic-icon-new {
-  background: transparent url(images/topic-new.png) no-repeat center center;
+  background: transparent url(images/topic_list_new.png) no-repeat center center;
 }
 
 .topic-icon-hot {
-  background: transparent url(images/topic-hot.png) no-repeat center center;
+  background: transparent url(images/topic_list_hot.png) no-repeat center center;
 }
 
 .topic-icon-hot-new {
-  background: transparent url(images/topic-hot-new.png) no-repeat center center;
+  background: transparent url(images/topic_list_hot_new.png) no-repeat center center;
 }
 
 .topic-icon-sticky {
-  background: transparent url(images/topic-sticky.png) no-repeat center center;
+  background: transparent url(images/topic_list_sticky.png) no-repeat center center;
 }
 
 .topic-icon-closed {
-  background: transparent url(images/topic-closed.png) no-repeat center center;
+  background: transparent url(images/topic_list_closed.png) no-repeat center center;
 }
 
 /* TOPIC LIST ICON LEGEND ***************************************************/
 .topic-icon-default {
-  background: transparent url(images/topic-default.png) no-repeat top left;
+  background: transparent url(images/topic_list_default.png) no-repeat top left;
 }
 
 .topic-icon-new {
-  background: transparent url(images/topic-new.png) no-repeat top left;
+  background: transparent url(images/topic_list_new.png) no-repeat top left;
 }
 
 .topic-icon-hot {
-  background: transparent url(images/topic-hot.png) no-repeat top left;
+  background: transparent url(images/topic_list_hot.png) no-repeat top left;
 }
 
 .topic-icon-hot-new {
-  background: transparent url(images/topic-hot-new.png) no-repeat top left;
+  background: transparent url(images/topic_list_hot_new.png) no-repeat top left;
 }
 
 .topic-icon-sticky {
-  background: transparent url(images/topic-sticky.png) no-repeat top left;
+  background: transparent url(images/topic_list_sticky.png) no-repeat top left;
 }
 
 .topic-icon-closed {
-  background: transparent url(images/topic-closed.png) no-repeat top left;
+  background: transparent url(images/topic_list_closed.png) no-repeat top left;
 }
