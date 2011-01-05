@@ -16,3 +16,4 @@
 ?>
 
 <?php print $topic_header ?>
+<?php print render($content['comments']); ?>

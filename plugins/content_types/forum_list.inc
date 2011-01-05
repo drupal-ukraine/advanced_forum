@@ -1,6 +1,5 @@
 <?php
 // $Id$
-
 /**
  * Callback function to supply a list of content types.
  */
@@ -37,10 +36,15 @@ function advanced_forum_forum_list_content_type_render($subtype, $conf, $panel_a
 
   _advanced_forum_add_files();
 
-  $forums = advanced_forum_get_forums($tid);
+  $forum_term = advanced_forum_forum_load($tid);
+  $forums = isset($forum_term->forums) ? $forum_term->forums : array();
 
-  if ($forums) {
-    $block->content = theme('forum_list', $forums, $context->parents, $tid);
+  if (!empty($forums)) {
+    $block->content = theme('forum_list', array(
+      'forums' => $forums,
+      'parents' => empty($context->parents) ? array() : $context->parents,
+      'tid' => $tid
+    ));
 
     if (user_access('administer forums')) {
       $block->admin_links['administer_forums'] = array(

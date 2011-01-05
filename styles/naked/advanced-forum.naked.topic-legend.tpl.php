@@ -8,7 +8,7 @@
  */
 ?>
 
-<div class="forum-topic-legend clear-block">
+<div class="forum-topic-legend clearfix">
   <div class="topic-icon-new"><?php print t('New posts'); ?></div>
   <div class="topic-icon-default"><?php print t('No new posts'); ?></div>
   <div class="topic-icon-hot-new"><?php print t('Hot topic with new posts'); ?></div>

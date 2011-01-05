@@ -1,4 +1,4 @@
-<?php
+ <?php
 // $Id$
 
 /**
@@ -20,7 +20,7 @@
 
 <div class="author-pane">
  <div class="author-pane-inner">
-    <?php /* General section */ ?>
+   <?php /* General section */ ?>
     <div class="author-pane-section author-pane-general">
       <?php /* Account name */ ?>
       <div class="author-pane-line author-name">

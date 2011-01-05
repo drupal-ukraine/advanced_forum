@@ -34,7 +34,6 @@
 <?php global $language; ?>
  
 <div id="forum-comments" class="<?php print $language->language; ?>">
-  <?php print $content; ?>
+  <?php print render($content['comments']); ?>
   <?php print $reply_link; ?>
-  <?php print $topic_navigation ?>
 </div>

@@ -86,10 +86,9 @@ function advanced_forum_forum_id_ctools_acesss_summary($conf, $context) {
   if (in_array(0, $conf['tids'])) {
     $names[] = check_plain($vocabulary->name);
   }
+  $result = db_query("SELECT name FROM {taxonomy_term_data} WHERE tid IN (" . implode(',', $conf['tids']) . ")");
 
-  $result = db_query("SELECT name FROM {term_data} WHERE tid IN (" . db_placeholders($conf['tids']) . ")", $conf['tids']);
-
-  while ($term = db_fetch_object($result)) {
+  while ($term = $result->fetchObject()) {
     $names[] = check_plain($term->name);
   }
 

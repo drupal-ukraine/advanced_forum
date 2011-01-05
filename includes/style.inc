@@ -26,7 +26,7 @@ function advanced_forum_get_all_styles() {
 }
 
 /**
- * Returns the path to the advanced forum style, including the style name
+ * Returns the path to the advanced forum style
  */
 function advanced_forum_path_to_style($requested_style = NULL) {
   // Set a static variable so this is cached after the first call.
@@ -94,6 +94,66 @@ function advanced_forum_style_lineage($style = NULL) {
   }
 
   return $lineages[$style];
+}
+
+/**
+ * Starting at a given style, return path of template file
+ */
+function advanced_forum_style_template_path($template_name, $style = NULL) {
+  static $styles_files = array();
+  
+  if (empty($styles_files)) {
+    $styles_files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/styles', '/(.*)/', array(), 2);
+  }
+  
+  $lineage = advanced_forum_style_lineage($style); 
+  
+  $path = '';
+  foreach ($lineage as $key => $path) {
+    $template_path ="";     
+  }
+    return $path;
+}
+
+function advanced_forum_template_basename(&$file, $key, $extension) {
+  $file->name = basename($file->uri, $extension);
+}
+
+function advanced_forum_find_style_templates($style = NULL) {
+  // Get theme engine extension  
+  global $theme_engine;
+  $extension = '.tpl.php';
+  if (isset($theme_engine)) {
+    $extension_function = $theme_engine . '_extension';
+    if (function_exists($extension_function)) {
+      $extension = $extension_function();
+    }
+  }
+
+  // Most significant style template comes first in lineage array
+  $lineage = array_reverse(advanced_forum_style_lineage($style), TRUE);
+  
+  $templates = array();
+  
+  // Loop through each style folder looking for templates
+  foreach ($lineage as $key => $path) {
+    $styles_files = file_scan_directory($path, '/' . str_replace('.', '\.', $extension) . '$/', array('key' => 'filename'));
+    // Fix name - file_scan_directory returns template.tpl as name
+    //array_walk($styles_files, 'advanced_forum_template_basename', $extension);
+    foreach ($styles_files as $file) {
+      $file->name = basename($file->uri, $extension);
+      // Transform - in filenames to _ to match function naming scheme
+      // for the purposes of searching.
+      $hook = strtr($file->name, '-', '_');
+      // Remove style name from hook name
+      $hook = str_replace(".$key.", "_", $hook);      
+      $templates[$hook] = array(
+        'template' => $file->name,
+        'path' => dirname($file->uri),
+      );
+    }
+  }
+  return $templates;  
 }
 
 /**
@@ -246,15 +306,15 @@ function advanced_forum_comment_is_styled($comment, $master_topic_id) {
 function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
   $vid = variable_get('forum_nav_vocabulary', '');  
   if ($preview) {
-    foreach ($node->taxonomy as $term) {
-      if ($term->vid == $vid) {
+     foreach ($node->taxonomy_forums[$node->language] as $tf) {
+      if ($tf->taxonomy_term->vid == $vid) {
         return TRUE;
       }
     }
   }
   else {
     // Get a list of the terms attached to this node
-    $terms = taxonomy_node_get_terms_by_vocabulary($node, $vid);
+    $terms = $node->taxonomy_forums[$node->language];
     if (count($terms) > 0) {
       return TRUE;
     }
@@ -284,25 +344,12 @@ function advanced_forum_path_to_theme() {
  * Manipulate the template suggestions to add in one for each style as well
  * as the default.
  */
-function advanced_forum_add_template_suggestions($template, &$template_suggestions) {
-  // We only need to calculate the style lineage once per page load.
-  static $lineage;
-
-  if (empty($lineage)) {
-    $lineage = advanced_forum_style_lineage();
-    $lineage = array_reverse($lineage, TRUE);
-  }
-
-  // Add a suggestion for each style in the lineage.
-  foreach ($lineage AS $key => $path) {
-    $template_suggestions[] = "advanced_forum.$key.$template";
-  }
-
-  // Add in a version without any style name at the end. The order will be
-  // reversed when drupal_discover_template() looks for the first matching
-  // file so adding this at the end means it will be found first.
-  $template_suggestions[] = "advanced_forum.$template";
-
+function advanced_forum_add_template_suggestions($template, &$variables) {
+  // Set AF template as most significant suggestion
+  $variables['theme_hook_suggestion'] = "advanced_forum_" . strtr($template, '-', '_');
+  // Add requested (default?) suggestion
+  //$variables['theme_hook_suggestions'][] = $template;
+  $variables['theme_hook_suggestions'][] = "advanced_forum_" . strtr($template, '-', '_');
   return;
 }
 
@@ -322,7 +369,7 @@ function _advanced_forum_add_files() {
     $theme_path = advanced_forum_path_to_theme();
 
     foreach (array('structure.css', 'style.css', 'images.css') as $css_type) {
-      $css_file = "$theme_path/advanced_forum.$css_type";
+      $css_file = "$theme_path/advanced-forum.$css_type";
       if (file_exists($css_file)) {
         // CSS files with no style name in the theme directory trump all
         // to provide a theme specific style override.
@@ -333,7 +380,7 @@ function _advanced_forum_add_files() {
         // style, look for the style specific CSS file first in the active
         // theme and then in the style directory.
         foreach ($lineage AS $key => $path) {
-          $css_file = "/advanced_forum.$key.$css_type";
+          $css_file = "/advanced-forum.$key.$css_type";
           if (file_exists("$theme_path/$css_file")) {
             // If the style specific file is in the theme, use that.
             drupal_add_css("$theme_path/$css_file");
@@ -356,8 +403,9 @@ function _advanced_forum_add_files() {
 function advanced_forum_comment_wrapper($content, $node) {
   // See if this is a forum post:
   $vid = variable_get('forum_nav_vocabulary', '');
-  foreach ($node->taxonomy as $tid => $term) {
-    if ($term->vid == $vid) {
+  
+  foreach ($node->taxonomy_forums[$node->language] as $tf) {
+    if ($tf->taxonomy_term->vid == $vid) {
       return _advanced_forum_comment_wrapper($content, $node);
     }
   }
@@ -369,14 +417,17 @@ function advanced_forum_comment_wrapper($content, $node) {
  * Wrap forum comments a little differently to make it easier.
  */
 function _advanced_forum_comment_wrapper($content, $node) {
-  return '<div id="comments" class="forum-comment-wrapper">'. $content .'</div>';
+  return '<div id="comments" class="forum-comment-wrapper">' . $content . '</div>';
 }
 
 
 // CTOOLS INTEGRATION FOR STYLES ********************************************/
-function advanced_forum_ctools_plugin_styles() {
+ 
+function advanced_forum_ctools_plugin_type() {
   return array(
-    'info file' => TRUE,
-    'load themes' => TRUE,
+    'styles' => array(
+       'info file' => TRUE,
+      'load themes' => TRUE,
+    ),
   );
 }

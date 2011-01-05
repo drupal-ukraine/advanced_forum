@@ -23,3 +23,4 @@
   <input type="submit" id="edit-submit-forum-search" value="<?php print t('Search forum'); ?>"  class="form-submit" />
 </div>
 </form>
+

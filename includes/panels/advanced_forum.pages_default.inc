@@ -14,7 +14,7 @@
  * Thanks to Moshe and OG for the code.
  */
 function advanced_forum_default_page_manager_handlers() {
-  $files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/includes/panels', '.handler$');
+  $files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/includes/panels', '/.handler$/');
   foreach ($files as $absolute => $file) {
     $handler = NULL;
     require_once $absolute;

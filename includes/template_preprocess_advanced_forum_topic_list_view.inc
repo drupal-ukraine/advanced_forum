@@ -10,9 +10,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   // Even though this isn't needed for the actual topic list view, the other
   // views use this same style and need the AF style files added.
   _advanced_forum_add_files();
-
-  $variables['template_files'][] = 'advanced_forum-topic-list-view';
-  advanced_forum_add_template_suggestions("topic-list-view", $variables['template_files']);
+  advanced_forum_add_template_suggestions("topic-list-view", $variables);
   
   $view = $variables['view'];
 
@@ -32,10 +30,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $active   = !empty($handler->active) ? $handler->active : '';
   $order    = !empty($handler->order) ? $handler->order : 'asc';
 
-  $query    = tablesort_get_querystring();
-  if ($query) {
-    $query = '&' . $query;
-  }
+  $query    = tablesort_get_query_parameters();
 
   $forum = $view->style_plugin->get_forum_ids();
   
@@ -78,14 +73,17 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
 
     // Shadow (moved) topics.
     if ($forum && !in_array($row->topic_actual_forum, $forum)) {
-      $term = taxonomy_get_term($row->topic_actual_forum);
-      $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', $row->node_title, $row->nid, $term->name);
+      $term = taxonomy_term_load($row->topic_actual_forum);
+      $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', array(
+        'title' => $row->node_title, 
+        'nid' => $row->nid, 
+        'new_forum' => $term->name
+      ));
     }
     else {
       $variables['shadow'][$count] = FALSE;
     }
   }
-  
   // Make the sticky variable available to the template.
   $variables['sticky'] = $sticky;
   $variables['teasers'] = $teasers;
@@ -107,20 +105,25 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
 
         $title = t('sort by @s', array('@s' => $label));
         if ($active == $field) {
-          $label .= theme('tablesort_indicator', $initial);
+          $label .= theme('tablesort_indicator', array('style' => $initial));
         }
+
         $link_options = array(
-          'html' => true,
+          'html' => TRUE,
           'attributes' => array('title' => $title),
-          'query' => 'order=' . urlencode($field) . '&sort=' . $initial . $query,
+          'query' => $query + array(
+            'order' => urlencode($field),
+            'sort' => $initial
+          )
         );
+
         $variables['header'][$field] = l($label, $_GET['q'], $link_options);
       }
     }
 
     // Create a second variable so we can easily find what fields we have and what the
     // CSS classes should be.
-    $variables['fields'][$field] = views_css_safe($field);
+    $variables['fields'][$field] = drupal_clean_css_identifier($field);
     if ($active == $field) {
       $variables['fields'][$field] .= ' active';
     }
@@ -155,9 +158,9 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     $variables['row_classes'][$num][] = ($num % 2 == 0) ? 'odd' : 'even';
   }
 
-  $variables['class'] = 'views-table';
+  $variables['classes'] = 'views-table';
   if (!empty($options['sticky'])) {
     drupal_add_js('misc/tableheader.js');
-    $variables['class'] .= " sticky-enabled";
+    $variables['classes'] .= " sticky-enabled";
   }
 }

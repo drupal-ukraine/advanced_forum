@@ -32,27 +32,35 @@ function advanced_forum_get_mark_read_link($tid = 0, &$links = array()) {
  */
 function advanced_forum_markasread($current_forum_id = 0) {
   global $user;
-
   // See if we're on a forum or on the forum overview
   // Path will be /forum/markasread or /forum/markasread/tid
   if ($current_forum_id) {
     // Delete the current history entries so already visited nodes get updated.
+    //
+    // Can't write dynamic query here because D7 DeleteQuery (still) doesn't support joins
     $sql = "DELETE h
             FROM {history} AS h
-              INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
-            WHERE h.uid = %d AND tn.tid = %d";
-    db_query($sql, $user->uid, $current_forum_id);
-
+              INNER JOIN {forum} AS f ON (h.nid = f.nid)
+            WHERE h.uid = :uid AND f.tid = :tid";
+    db_query($sql, array(':uid' => $user->uid, ':tid' => $current_forum_id));
+    
     // Update the history table with all forum nodes newer than the cutoff.
+    //
+    // Can't write dynamic query here because D7 InsertQuery (still) doesn't support joins
     $sql = "INSERT INTO {history} (uid, nid, timestamp)
-            SELECT DISTINCT %d, n.nid, %d
+            SELECT DISTINCT :uid, n.nid, :req_time
             FROM {node} AS n
-              INNER JOIN {term_node} AS tn ON n.nid = tn.nid
+              INNER JOIN {forum} AS f ON (n.nid = f.nid)
               INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-            WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND tn.tid = %d";
+            WHERE (n.changed > :changed OR ncs.last_comment_timestamp > :timestamp) AND f.tid = :tid";
 
-    $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $current_forum_id);
-    db_query($sql, $args);
+    db_query($sql, array(
+      ':uid' => $user->uid,
+      ':req_time' => REQUEST_TIME,
+      ':changed' => NODE_NEW_LIMIT,
+      ':timestamp' => NODE_NEW_LIMIT,
+      ':tid' => $current_forum_id
+    ));
 
     // Readpath integration
     if (module_exists('readpath')) {
@@ -69,23 +77,28 @@ function advanced_forum_markasread($current_forum_id = 0) {
   // Delete the current history entries so already visited nodes get updated.
   $sql = "DELETE h
           FROM {history} AS h
-            INNER JOIN {term_node} AS tn ON (h.nid = tn.nid)
-            INNER JOIN {term_data} AS td ON (td.tid = tn.tid)
-          WHERE h.uid = %d AND td.vid = %d";
-  db_query($sql, $user->uid, $forum_vocabulary_id);
+            INNER JOIN {forum} AS f ON (h.nid = f.nid)
+            INNER JOIN {taxonomy_term_data} AS td ON (td.tid = f.tid)
+          WHERE h.uid = :uid AND td.vid = :vid";
+          
+  db_query($sql, array(':uid' => $user->uid, ':vid' => $forum_vocabulary_id));
 
   // Update the history table with all forum nodes newer than the cutoff.
   $sql = "INSERT INTO {history} (uid, nid, timestamp)
-          SELECT DISTINCT %d, n.nid, %d
-          FROM {node} AS n
-            INNER JOIN {term_node} AS tn ON n.nid=tn.nid
-            INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
-            INNER JOIN {term_data} AS td ON tn.tid = td.tid
-          WHERE (n.changed > %d OR ncs.last_comment_timestamp > %d) AND td.vid = %d";
-
-  $args = array($user->uid, time(), NODE_NEW_LIMIT, NODE_NEW_LIMIT, $forum_vocabulary_id);
-
-  db_query($sql, $args);
+            SELECT DISTINCT :uid, n.nid, :req_time
+            FROM {node} AS n
+              INNER JOIN {forum} AS f ON (n.nid = f.nid)
+              INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
+              INNER JOIN {taxonomy_term_data} AS td ON f.tid = td.tid
+            WHERE (n.changed > :changed OR ncs.last_comment_timestamp > :timestamp) AND td.vid = :vid";
+   
+   db_query($sql, array(
+      ':uid' => $user->uid,
+      ':req_time' => REQUEST_TIME,
+      ':changed' => NODE_NEW_LIMIT,
+      ':timestamp' => NODE_NEW_LIMIT,
+      ':vid' => $forum_vocabulary_id
+    ));
 
   drupal_set_message(t('All forum content been marked as read'));
   drupal_goto('forum');
@@ -93,6 +106,8 @@ function advanced_forum_markasread($current_forum_id = 0) {
 
 /**
  * Access callback for menus and link display.
+ *
+ * @TODO: D7 check if needed
  *
  * This separate function is needed because the Drupal 6 menu system doesn't
  * run hook_menu() every time and the logged-in status of the user can get
@@ -102,3 +117,4 @@ function advanced_forum_markasread_access() {
   global $user;
   return user_access('access content') && $user->uid;
 }
+

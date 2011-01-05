@@ -41,7 +41,7 @@ function advanced_forum_argument_forum_id_context($arg = NULL, $conf = NULL, $em
   }
 
   if ($arg != 0) {
-    $term = taxonomy_get_term($arg);
+    $term = taxonomy_term_load($arg);
   }
 
   if ($arg == 0 || empty($term) || $term->vid != variable_get('forum_nav_vocabulary', '')) {
@@ -75,8 +75,7 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
   if (empty($conf['breadcrumb'])) {
     return;
   }
-
-
+  
   $vocabulary = $context->vocabulary;
 
   // Breadcrumb navigation:
@@ -85,8 +84,8 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
     $breadcrumb[] = l($vocabulary->name, 'forum');
   }
 
-  if ($context->parents) {
-    $parents = array_reverse($context->parents);
+  if (!empty($parents)) {
+    $parents = array_reverse($vocabulary->parents);
     foreach ($parents as $p) {
       if ($p->tid != $context->data->tid) {
         $breadcrumb[] = l($p->name, 'forum/' . $p->tid);

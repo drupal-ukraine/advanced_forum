@@ -41,8 +41,11 @@ class advanced_forum_handler_field_node_topic_pager extends views_handler_field{
     $topic = new stdClass();
     $topic->nid = $values->nid;
     $topic->type = $values->node_type;
-    $topic->num_comments = $values->node_comment_statistics_comment_count;
+    $topic->comment_count = $values->node_comment_statistics_comment_count;
 
-    return theme('advanced_forum_topic_pager', $this->options['total_pages_shown'], $topic);
+    return theme('advanced_forum_topic_pager', array(
+      'pagecount' => $this->options['total_pages_shown'], 
+      'topic' => $topic
+    ));
   }
 }

@@ -157,7 +157,7 @@ $handler->override_option('fields', array(
     'comments' => 0,
     'exclude' => 0,
     'id' => 'timestamp',
-    'table' => 'history_user',
+    'table' => 'history',
     'field' => 'timestamp',
     'relationship' => 'none',
   ),
@@ -182,7 +182,7 @@ $handler->override_option('fields', array(
     ),
     'exclude' => 0,
     'id' => 'body',
-    'table' => 'node_revisions',
+    'table' => 'node_revision',
     'field' => 'body',
     'relationship' => 'none',
     'override' => array(

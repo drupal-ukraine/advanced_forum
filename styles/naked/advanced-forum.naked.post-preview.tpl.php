@@ -14,9 +14,11 @@
  * - $reply_link: Text link / button to reply to topic.
  * - $total_posts: Number of posts in topic (not counting first post).
  * - $new_posts: Number of new posts in topic, and link to first new.
+ * - $links_array: Unformatted array of links.
  * - $account: User object of the post author.
  * - $name: User name of post author.
- * - $author_pane: Entire contents of the Author Pane template.
+ * - $author_pane: Entire contents of advanced_forum-author-pane.tpl.php.
+
  */
 ?>
 
@@ -26,32 +28,22 @@
   <a id="forum-reply-preview"></a>
 <?php endif; ?>
 
-<?php
-// Gather other possible class list variables into ours. This must be done here
-// rather than in the preprocess because themes run after the AF preprocess.
-  $all_classes = "";
-  if (!empty($advanced_forum_classes)) {
-    $all_classes = $advanced_forum_classes;
-  }
-  
-  if (!empty($classes)) {
-    $all_classes .= ' ' . $classes;
-  }
-
-  if (!empty($node_classes)) {
-    $all_classes .= ' ' . $node_classes;
-  }
-
-  if (!empty($comment_classes)) {
-    $all_classes .= ' ' . $comment_classes;
-  }
-?>
-
-<div id="<?php print $post_id; ?>" class="<?php print $all_classes; ?>">
-  <div class="forum-post-info clear-block">
+<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>" <?php print $attributes; ?>>
+  <div class="forum-post-info clearfix">
     <div class="forum-posted-on">
       <?php print $date ?>
+
+      <?php if (!$top_post): ?>
+        <?php if (!empty($first_new)): ?>
+          <?php print $first_new; ?>
+        <?php endif; ?>
+        <?php print $new_output; ?>
+      <?php endif; ?>
     </div>
+
+    <?php if (!$top_post): ?>
+      <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
+    <?php endif; ?>
   </div>
 
   <div class="forum-post-wrapper">
@@ -59,7 +51,7 @@
       <?php print $author_pane; ?>
     </div>
 
-    <div class="forum-post-panel-main clear-block">
+    <div class="forum-post-panel-main clearfix">
       <?php if ($title): ?>
         <div class="post-title">
           <?php print $title ?>
@@ -67,7 +59,7 @@
       <?php endif; ?>
 
       <div class="forum-post-content">
-        <?php print $content ?>
+        <?php print render($content['body']); ?>
       </div>
 
       <?php if ($signature): ?>
@@ -78,7 +70,8 @@
     </div>
   </div>
 
-  <div class="forum-post-footer clear-block">
-    <?php // Purposely empty on preview just to keep the structure intact. ?>    
+	<div class="forum-post-footer clear-block">
+    <?php // Purposely empty on preview just to keep the structure intact. ?>
   </div>
+
 </div>

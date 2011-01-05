@@ -19,7 +19,6 @@
  *
  * @ingroup views_templates
  */
-
 ?>
 
 <div class="view view-<?php print $css_name; ?> view-id-<?php print $name; ?> view-display-id-<?php print $display_id; ?> view-dom-id-<?php print $dom_id; ?>">
@@ -28,7 +27,7 @@
       <?php print $admin_links; ?>
     </div>
   <?php endif; ?>
-  
+
   <?php if ($header): ?>
     <div class="view-header">
       <?php print $header; ?>
@@ -47,7 +46,9 @@
     </div>
   <?php endif; ?>
 
-  <div class="forum-node-create-links forum-node-create-links-top"><?php print $node_create_list ?></div>
+	<?php if ($node_create_list): ?>
+	  <div class="forum-node-create-links forum-node-create-links-top"><?php print $node_create_list ?></div>
+  <?php endif; ?>
   
   <?php if ($pager): ?>
     <div class="forum-pager" id="forum-pager-top"><?php print $pager; ?></div>
@@ -68,7 +69,7 @@
   <?php if ($pager): ?>
     <div class="forum-pager" id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
-  
+
   <?php if (!empty($view->sort_form)): ?>
      <div id="forum-sort"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
   <?php endif; ?>

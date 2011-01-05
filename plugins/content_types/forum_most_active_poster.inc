@@ -73,7 +73,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
   $query .= "WHERE n2.status <> 0 AND n.uid <> 0 ";
 
   if ($tid) {
-    $forum = taxonomy_get_term($tid);
+    $forum = taxonomy_term_load($tid);
     $block->title = t('Most active poster in @forum', array('@forum' => $forum->name));
     $query .= "AND f.tid = %d ";
     $args = array($tid);
@@ -94,7 +94,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
 
   if (!empty($period_arg)) {
     $query .= "AND n2.created >= %d ";
-    $args[] = time() - $period_arg;
+    $args[] = REQUEST_TIME - $period_arg;
   }
 
   $query .= "GROUP BY n.uid ";
@@ -122,7 +122,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
 
   if (!empty($period_arg)) {
     $query .= " AND n.created >= %d";
-    $args[] = time() - $period_arg;
+    $args[] = REQUEST_TIME - $period_arg;
   }
   $topics = db_result(db_query($query, $args));
 
@@ -141,7 +141,13 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
   $query .= "ORDER BY n.created DESC LIMIT 1";
 
   $last_post = node_load(db_result(db_query($query, $args)));
-  $block->content = theme('advanced_forum_active_poster', $tid, $account, $info->posts, $topics, $last_post);
+  $block->content = theme('advanced_forum_active_poster', array(
+    'forum' => $tid, 
+    'account' => $account, 
+    'posts' => $info->posts, 
+    'topics' => $topics, 
+    'last_post' => $last_post
+  ));
   $block->more = array(
     'title' => t('More posts'),
     'href' => 'forum/user/' . $info->uid,

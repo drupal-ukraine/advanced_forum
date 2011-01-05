@@ -28,7 +28,6 @@
       <?php print $admin_links; ?>
     </div>
   <?php endif; ?>
-  
   <?php if ($header): ?>
     <div class="view-header">
       <?php print $header; ?>
@@ -52,7 +51,7 @@
   <?php endif; ?>
 
   <?php if ($search): ?>
-    <div id="search-single-forum" class="clear-block"><?php print $search; ?></div>
+    <div id="search-single-forum" class="clearfix"><?php print $search; ?></div>
   <?php endif; ?>
 
   <?php if ($rows): ?>

@@ -35,9 +35,9 @@ function advanced_forum_settings_page() {
   );
 
   // Choose node types that are styled.
-  $node_types = node_get_types();
+  $node_types = _node_types_build()->types;
   $options = array();
-  foreach($node_types as $node_machine_name => $node_type) {
+  foreach ($node_types as $node_machine_name => $node_type) {
     $options[$node_machine_name] = $node_type->name;
   }
 
@@ -138,14 +138,6 @@ function advanced_forum_settings_page() {
     '#title' => t('Topics'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-  );
-
-  // Use topic navigation
-  $form['advanced_forum_topics']['advanced_forum_use_topic_navigation'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use topic navigation'),
-    '#default_value' => variable_get('advanced_forum_use_topic_navigation', 1),
-    '#description' => t('The query to get the previous / next topics can cause performance problems. Unchecking this will prevent the query from running.'),
   );
 
   if (module_exists('imagecache')) {

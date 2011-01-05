@@ -38,6 +38,11 @@
 
   function render($values) {
     $new_posts = advanced_forum_reply_num_new($values->nid);
-    return theme('forum_icon', $new_posts, $values->node_comment_statistics_comment_count, $values->node_comment, $values->node_sticky);
+    return theme('forum_icon', array(
+      'new_posts' => $new_posts, 
+      'num_posts' => $values->node_comment_statistics_comment_count, 
+      'comment_mode' => $values->node_comment, 
+      'sticky' => $values->node_sticky
+    ));
   }
 }

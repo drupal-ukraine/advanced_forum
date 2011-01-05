@@ -14,13 +14,15 @@
  * @see advanced_forum_preprocess_forum_icon()
  */
 ?>
-
 <?php if ($new_posts): ?>
   <a name="new">
 <?php endif; ?>
 
-<span class="<?php print "topic-icon topic-icon-$icon"; ?>"><?php print "$icon"; ?></span>
+<?php if (!empty($icon_class)): ?>
+<span class="<?php print "topic-icon topic-icon-$icon_class"; ?>"><?php print "$icon_title"; ?></span>
+<?php endif; ?>
 
 <?php if ($new_posts): ?>
   </a>
 <?php endif; ?>
+

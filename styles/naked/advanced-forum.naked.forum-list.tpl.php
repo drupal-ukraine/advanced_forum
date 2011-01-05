@@ -32,6 +32,7 @@
  */
 ?>
 
+
 <?php $container_number = 0 ?>
 
 <?php foreach ($forums as $forum_id => $forum): ?>
@@ -66,7 +67,7 @@
             </td>
           </tr>
         <?php endif; ?>
- 
+
   <?php // *** Forum *** ?>
   <?php else: ?>
     <?php if ($forum->depth == 1): ?>

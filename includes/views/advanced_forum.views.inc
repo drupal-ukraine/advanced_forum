@@ -15,7 +15,7 @@
  * Thanks to Moshe and OG for the code.
  */
 function advanced_forum_views_default_views() {
-  $files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/includes/views', '.view$');
+  $files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/includes/views', '/.view$/');
   foreach ($files as $absolute => $file) {
     $view = NULL;
     require $absolute;
@@ -45,26 +45,6 @@ function advanced_forum_views_data_alter(&$data) {
     'help' => t('Small pager for individual topics.'),
     'field' => array(
       'handler' => 'advanced_forum_handler_field_node_topic_pager',
-    ),
-  );
-}
-
-/**
- * Implementation of hook_views_handlers() to register all of the basic handlers
- * views uses.
- */
-function advanced_forum_views_handlers() {
-  return array(
-    'info' => array(
-      'path' => drupal_get_path('module', 'advanced_forum') . '/includes/views',
-    ),
-    'handlers' => array(
-      'advanced_forum_handler_field_node_topic_icon' => array(
-        'parent' => 'views_handler_field',
-      ),
-      'advanced_forum_handler_field_node_topic_pager' => array(
-        'parent' => 'views_handler_field',
-      ),
     ),
   );
 }

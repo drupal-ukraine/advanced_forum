@@ -70,7 +70,7 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
       $terms = $handler->value;
       if (isset($handler->options['depth'])) {
         foreach ($handler->value as $tid) {
-          $term = taxonomy_get_term($tid);
+          $term = taxonomy_term_load($tid);
           $tree = taxonomy_get_tree($term->vid, $tid, -1, $handler->options['depth']);
           $terms = array_merge($terms, array_map('_taxonomy_get_tid_from_term', $tree));
         }

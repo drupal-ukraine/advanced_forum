@@ -12,11 +12,25 @@
 /**
  * Theme function to display a link, optionally buttonized.
  */
-function theme_advanced_forum_l($text, $path, $options = array(), $button_class = NULL) {
+ 
+
+function theme_advanced_forum_l(&$variables) {
+  $text = $variables['text'];
+  $path = empty($variables['path']) ? NULL : $variables['path'];
+  $options = empty($variables['options']) ? array() : $variables['options'];
+  $button_class = empty($variables['button_class']) ? NULL : $variables['button_class'];
+
+  if (!isset($options['attributes'])) {
+    $options['attributes'] = array();
+  }
   if (!is_null($button_class)) {
     // Buttonized link: add our button class and the span.
-    $current_classes = (empty($options['attributes']['class'])) ? '' : $options['attributes']['class'];
-    $options['attributes']['class'] = "$current_classes af-button-$button_class";
+    if (!isset($options['attributes']['class'])) {
+        $options['attributes']['class'] = array("af-button-$button_class"); 
+    }
+    else {
+      $options['attributes']['class'][] = "af-button-$button_class";  
+    }
     $options['html'] = TRUE;
     return l('<span>' . $text . '</span>', $path, $options);
   }
@@ -29,15 +43,22 @@ function theme_advanced_forum_l($text, $path, $options = array(), $button_class 
 /**
  * Theme function to show list of types that can be posted in forum.
  */
-function theme_advanced_forum_node_type_create_list($forum_id) {
+function theme_advanced_forum_node_type_create_list(&$variables) {
+  $forum_id = $variables['forum_id'];
+  
   // Get the list of node types to display links for.
   $type_list = advanced_forum_node_type_create_list($forum_id);
-  $output = '';
-  
+
+   $output = '';
   if (is_array($type_list)) {
     foreach ($type_list as $type => $item) {
       $output .= '<div class="forum-add-node forum-add-' . $type . '">';
-      $output .=  theme('advanced_forum_l', t('New @node_type', array('@node_type' => $item['name'])), $item['href'], NULL, 'large');
+      $output .=  theme('advanced_forum_l', array(
+        'text' => t('New @node_type', array('@node_type' => $item['name'])), 
+        'path' => $item['href'], 
+        'options' => NULL, 
+        'button_class' => 'large'
+      ));
       $output .= '</div>';
     }
   }
@@ -53,24 +74,33 @@ function theme_advanced_forum_node_type_create_list($forum_id) {
 /**
  * Theme function to show who last edited a post.
  */
-function theme_advanced_forum_post_edited($who, $when, $why) {
-  $editor = user_load($who);
-  $editor_name = theme('username', $editor);
+function theme_advanced_forum_post_edited(&$variables) {
+  $editor = user_load($variables['who']);
+  $editor_name = theme('username', array('account' => $editor));
 
-  $datetime = format_date($when, 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
-
-  return t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime. <span class="post-edit-label">Reason:</span> !reason', array('!editor' => $editor_name, '!datetime' => $datetime, '!reason' => $why));    
+  $datetime = format_date($variables['when'], 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
+  
+  $edited = t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime.', array('!editor' => $editor_name, '!datetime' => $datetime));    
+  
+  // Don't include reason part if there is no reason
+  if (empty($variables['why'])) {
+    return $edited;
+  }
+  else {
+    return $edited . ' ' . t('<span class="post-edit-label">Reason:</span> !reason', array('!reason' => $variables['why']));
+  }
 }
 
 /**
  * Theme function to show simple author pane when not using Author Pane.
  */
-function theme_advanced_forum_simple_author_pane($context) {
+function theme_advanced_forum_simple_author_pane(&$variables) {
+  $context = $variables['context'];
   // Sending the context rather than the account makes it work for anon comments.
-  $name = theme('username', $context);
+  $name = theme('username', array('account' => $context));
   
   $account = user_load($context->uid);
-  $picture = theme('user_picture', $account);
+  $picture = theme('user_picture', array('account' => $account));
  
   return '<div class="author-pane">' . $name . $picture . '</div>';
 }
@@ -78,7 +108,9 @@ function theme_advanced_forum_simple_author_pane($context) {
 /**
  * Theme function to format the reply link at the top/bottom of topic.
  */
-function theme_advanced_forum_reply_link($node) {
+function theme_advanced_forum_reply_link(&$variables) {
+  $node=$variables['node'];
+
   // Get the information about whether the user can reply and the link to do
   // so if the user is allowed to.
   $reply_link = advanced_forum_get_reply_link($node);
@@ -86,7 +118,12 @@ function theme_advanced_forum_reply_link($node) {
   if (is_array($reply_link)) {
     // Reply is allowed. Variable contains the link information.
     $output = '<div class="topic-reply-allowed">';
-    $output .= theme('advanced_forum_l', $reply_link['title'], $reply_link['href'], $reply_link['options'], 'large');
+    $output .= theme('advanced_forum_l', array(
+      'text' => $reply_link['title'], 
+      'path' => $reply_link['href'], 
+      'options' => $reply_link['options'], 
+      'button_class' => 'large'
+      ));
     $output .= '</div>';
     return $output;
   }
@@ -97,7 +134,7 @@ function theme_advanced_forum_reply_link($node) {
   }
   elseif ($reply_link == 'reply-forbidden') {
     // User is not allowed to reply to this topic.
-    return theme('comment_post_forbidden', $node);
+    return theme('comment_post_forbidden', array('node' => $node));
   }
 }
 
@@ -111,7 +148,10 @@ function theme_advanced_forum_reply_link($node) {
  * @return
  *   Assembled pager.
  */
-function theme_advanced_forum_topic_pager($pagecount, $topic) {
+function theme_advanced_forum_topic_pager($variables) {
+  $pagecount = $variables['pagecount'];
+  $topic = $variables['topic'];
+  
   // Get the information to assemble the pager. This returns an object with
   // the following properties:
   //  initial_pages: Array of linked numbers for first set of pages
@@ -143,9 +183,10 @@ function theme_advanced_forum_topic_pager($pagecount, $topic) {
  * @return
  *   String to print in place of the title/author info on topic lists.
  */
-function theme_advanced_forum_shadow_topic($title, $nid, $new_forum) {
-  return $title . '<br />' .
-    t('This topic has been moved to "!forum"', array('!forum' => $new_forum)) .
+function theme_advanced_forum_shadow_topic(&$variables) {
+  $nid = $variables['nid'];
+  return $variables['title'] . '<br />' .
+    t('This topic has been moved to "!forum"', array('!forum' => $variables['new_forum'])) .
     ' (' . l(t('View topic'), "node/$nid") . ')';
 }
 
@@ -157,12 +198,11 @@ function theme_advanced_forum_shadow_topic($title, $nid, $new_forum) {
  * @return
  *   Formatted list of subforums.
  */
-function theme_advanced_forum_subforum_list($subforum_list) {
+function theme_advanced_forum_subforum_list(&$variables) {
   $subforums = array();
-  foreach($subforum_list AS $tid => $subforum) {
-    $subforums[] = l($subforum->name, "forum/$tid");
+  foreach ($variables['subforum_list'] as $tid => $subforum) {
+    $subforums[] = l(@$subforum->name, "forum/$tid");
   }
-
   return implode(', ', $subforums);
 }
 
@@ -182,7 +222,7 @@ function advanced_forum_preprocess_forums(&$variables) {
  * Preprocesses template variables for the forum search form template.
  */
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
-  advanced_forum_add_template_suggestions("search-forum", $variables['template_files']);
+  advanced_forum_add_template_suggestions("search-forum", $variables);
 
   $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
   $variables['path'] = url('forum/search');
@@ -193,15 +233,14 @@ function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
  */
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("search-result", $variables['template_files']);
+  advanced_forum_add_template_suggestions("search-result", $variables);
 }
 
 /**
  * Preprocesses template variables for the submitted by/in template.
  */
 function advanced_forum_preprocess_forum_submitted(&$variables) {
-  advanced_forum_add_template_suggestions("submitted", $variables['template_files']);
-
+  advanced_forum_add_template_suggestions("submitted", $variables);
   // Avoid E_ALL warning
   $variables['topic_link'] = '';
 
@@ -214,9 +253,9 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $node->type = $variables['topic']->type;
 
     // Find the page of the first unread comment, if any
-    $num_comments = db_result(db_query('SELECT COUNT(cid) FROM {comments} WHERE nid = %d', $nid));
+    $comment_count = db_query('SELECT COUNT(cid) FROM {comment} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
     $new_replies = advanced_forum_reply_num_new($nid);
-    $query = advanced_forum_page_first_new($num_comments, $new_replies, $node);
+    $query = advanced_forum_page_first_new($comment_count, $new_replies, $node);
 
     // Format the node title with a link
     $title_length = variable_get('advanced_forum_topic_title_length', 15);
@@ -230,12 +269,13 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $fragment = ($new_replies) ? 'new' : NULL;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", array('query' => $query, 'fragment' => $fragment));
   }
-
+  
   // For items posted more than $cutoff hours ago, offer an actual date.
   $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
-  if (isset($variables['topic']->timestamp)) {
-      $timestamp = $variables['topic']->timestamp;
-      if (time() - $timestamp > $cutoff) {
+  if (isset($variables['topic']->created)) {
+      $variables['time'] = format_interval(REQUEST_TIME - $variables['topic']->created);
+      $timestamp = $variables['topic']->created;
+      if (REQUEST_TIME - $timestamp > $cutoff) {
         $variables['date_posted'] = format_date($timestamp, 'small');
       }
   }
@@ -247,14 +287,14 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
  * Preprocesses template variables for the forum legend template.
  */
 function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
-  advanced_forum_add_template_suggestions("forum-legend", $variables['template_files']);
+  advanced_forum_add_template_suggestions("forum-legend", $variables);
 }
 
 /**
  * Preprocesses template variables for the forum statistics template.
  */
 function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
-  advanced_forum_add_template_suggestions("statistics", $variables['template_files']);
+  advanced_forum_add_template_suggestions("statistics", $variables);
 
   $variables['topics'] = advanced_forum_statistics_topics();
   $variables['posts'] = advanced_forum_statistics_replies() + $variables['topics'];
@@ -263,7 +303,7 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
   $authenticated_users = advanced_forum_statistics_online_users();
   $variables['online_users'] = implode(', ', $authenticated_users);
   $variables['current_users'] = count($authenticated_users);
-  $variables['current_guests'] = sess_count(time() - variable_get('user_block_seconds_online', 900));
+  $variables['current_guests'] = db_query('SELECT COUNT(sid) AS count FROM {sessions} WHERE uid = 0 AND timestamp >= :ts', array(':ts' => (REQUEST_TIME - variable_get('user_block_seconds_online', 900))))->fetchField();
   $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
 
   $latest_users = advanced_forum_statistics_latest_users();
@@ -283,22 +323,24 @@ function advanced_forum_preprocess_forum_list(&$variables) {
 
 function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("topic-list-view", $variables['template_files']);
-
+  // debug
+  die("advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_topic_list");
+  advanced_forum_add_template_suggestions("topic-list-view", $variables);
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }
 
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("topic-list-outer-view", $variables['template_files']);
-  
+  advanced_forum_add_template_suggestions("topic-list-outer-view", $variables);
+
   // @TODO: This is messy tying it to the URL. Need to find a better way.
   $tid = arg(1);
   if (arg(0) == 'forum' && $tid > 0) {
-    $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', $tid);
+    $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $tid));
     $variables['forum_tools'] = advanced_forum_forum_tools($tid);
   }
+  
 }
 
 /**
@@ -314,50 +356,52 @@ function template_preprocess_advanced_forum_topic_list_view(&$variables) {
  * Preprocesses template variables for the topic list template.
  */
 function advanced_forum_preprocess_forum_topic_list(&$variables) {
-  advanced_forum_add_template_suggestions("topic-list", $variables['template_files']);
+  advanced_forum_add_template_suggestions("topic_list", $variables);
 }
 
 /**
  * Preprocesses template variables for the forum icon template.
  */
 function advanced_forum_preprocess_forum_icon(&$variables) {
-  advanced_forum_add_template_suggestions("topic-icon", $variables['template_files']);
+  advanced_forum_add_template_suggestions("topic_icon", $variables);
 }
 
 /**
  * Preprocesses template variables for the topic legend template.
  */
 function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
-  advanced_forum_add_template_suggestions("topic-legend", $variables['template_files']);
+  advanced_forum_add_template_suggestions("topic_legend", $variables);
 }
 
 
 /*** TOPIC PAGES ************************************************************/
 
 function advanced_forum_preprocess_advanced_forum_search_topic(&$variables) {
-  advanced_forum_add_template_suggestions("search-topic", $variables['template_files']);
+  advanced_forum_add_template_suggestions("search-topic", $variables);
 
-  $variables['path'] = url('node/'. $variables['node']->nid . '/search');
+  $variables['path'] = url('node/' . $variables['node']->nid . '/search');
 }
 
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topic(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("search-result", $variables['template_files']);
+  advanced_forum_add_template_suggestions("search-result", $variables);
 }
 
 /**
  * Preprocesses template variables for the topic header template.
  */
 function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
-  advanced_forum_add_template_suggestions("topic-header", $variables['template_files']);
-  
+  advanced_forum_add_template_suggestions("topic_header", $variables);
+
   $node = $variables['node'];
 
   // Form to search within the topic. (only works with nodecomment)
-  $variables['search'] = theme('advanced_forum_search_topic', $variables['node']);
-
+  if (module_exists('nodecomment')) {
+    $variables['search'] = theme('advanced_forum_search_topic', array('node' => $node));
+  }
+  
   // Reply link / button
-  $variables['reply_link'] = theme('advanced_forum_reply_link', $node);
+  $variables['reply_link'] = theme('advanced_forum_reply_link', array('node' => $node));
 
   // Total posts, including first post.
   $posts = (empty($variables['comment_count'])) ? 1 : $variables['comment_count'] + 1;
@@ -377,10 +421,10 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
  * Preprocesses template variables for the active poster template.
  */
 function advanced_forum_preprocess_advanced_forum_active_poster(&$variables) {
-  advanced_forum_add_template_suggestions("active-poster", $variables['template_files']);
+  advanced_forum_add_template_suggestions("active_poster", $variables);
 
-  $variables['account_name'] = theme('username', $variables['account']);
-  $variables['picture'] = theme('advanced_forum_user_picture', $variables['account']);
+  $variables['account_name'] = theme('username', array('account' => $variables['account']));
+  $variables['picture'] = theme('advanced_forum_user_picture', array('account' => $variables['account']));
 
   $node = $variables['last_post'];
   $variables['last_post_title'] = l($node->title, "node/$node->nid");
@@ -394,7 +438,7 @@ function advanced_forum_preprocess_author_pane(&$variables) {
   // Author pane is used in various places. Check the caller to make sure
   // we are the one that called it.
   if (!empty($variables['caller']) && $variables['caller'] == 'advanced_forum') {
-    advanced_forum_add_template_suggestions("author-pane", $variables['template_files']);
+    advanced_forum_add_template_suggestions("author_pane", $variables);
   }
 }
 
@@ -422,26 +466,23 @@ function advanced_forum_preprocess_node(&$variables) {
 
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
   if (advanced_forum_is_styled($variables['node'], FALSE, 'comment-wrapper')) {
-    advanced_forum_add_template_suggestions("comment-wrapper", $variables['template_files']);
+    advanced_forum_add_template_suggestions("comment_wrapper", $variables);
 
     $variables['reply_link'] = '';
-    $form_on_seperate_page = variable_get('comment_form_location_'. $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
+    $form_on_seperate_page = variable_get('comment_form_location_' . $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
 
     if (module_exists('nodecomment')) {
-      $comments_locked = $variables['node']->node_comment != COMMENT_NODE_READ_WRITE;
+      $comments_locked = $variables['node']->node_comment != COMMENT_NODE_OPEN;
     }
     else {
-      $comments_locked = $variables['node']->comment != COMMENT_NODE_READ_WRITE;
+      $comments_locked = $variables['node']->comment != COMMENT_NODE_OPEN;
     }
 
     if ($form_on_seperate_page || $comments_locked) {
       // If the post is locked or the comment form is on a seperate page,
       // build the reply/locked link / button
-      $variables['reply_link'] = theme('advanced_forum_reply_link', $variables['node']);
+      $variables['reply_link'] = theme('advanced_forum_reply_link', array('node' => $variables['node']));
     }
-
-    // Grab the topic navigation that we hijacked in nodeapi.
-    $variables['topic_navigation'] =  $variables['node']->advanced_forum_navigation;
   }
 }
 
@@ -455,26 +496,13 @@ function advanced_forum_preprocess_comment(&$variables) {
  }
 }
 
-function advanced_forum_preprocess_forum_topic_navigation(&$variables) {
-  advanced_forum_add_template_suggestions("topic-navigation", $variables['template_files']);
-
-  // If we killed the preprocess, initialize these to avoid notices.
-  if (!isset($variables['prev'])) {
-    $variables['prev'] = '';
-  }
-  if (!isset($variables['next'])) {
-    $variables['next'] = '';
-  }
-}
 
 /*** ORGANIC GROUPS *********************************************************/
 
 function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("group-topic-list-outer-view", $variables['template_files']);
+  advanced_forum_add_template_suggestions("group_topic_list_outer_view", array('view' => $variables['view']));
 
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }
-
-

@@ -42,7 +42,7 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
 
   if ($conf) {
     if ($data['tid']) {
-      $data = taxonomy_get_term($data['tid']);
+      $data = taxonomy_term_load($data['tid']);
     }
     else {
       $data = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', ''));
@@ -52,7 +52,7 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
 
   if (!empty($data)) {
     $data->container = (!$data->tid || in_array($data->tid, variable_get('forum_containers', array())));
-    $context->data       = drupal_clone($data);
+    $context->data       = clone $data;
     $context->title      = $data->name;
     $context->argument   = $data->tid;
     $context->vid        = variable_get('forum_nav_vocabulary', '');
