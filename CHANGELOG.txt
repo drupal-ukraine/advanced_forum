@@ -3,7 +3,12 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 14, 2011
+----------------
+#1024626 by federico: Changed comments to comment to reflect change in table name in D7.
+
 January 5, 2011
+----------------
 #1015922 by troky: Initial Drupal 7 port. Serious Kudos to Troky ( http://drupal.org/user/1013060 ). He did _all_ the work on this port. The only part I had in it is a little clean up to sync with CVS. Thank you very much!
 
 
