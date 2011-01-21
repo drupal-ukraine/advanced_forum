@@ -36,8 +36,8 @@
 <?php $container_number = 0 ?>
 
 <?php foreach ($forums as $forum_id => $forum): ?>
-  <?php // *** Container *** ?>
-  <?php if ($forum->is_container): ?>
+
+  <?php if ($forum->is_container): ?> <?php // *** Start container row *** ?>
     <?php $container_number++ ?>
     <?php if ($container_number > 1): ?>
       </tbody></table>
@@ -62,14 +62,13 @@
       <tbody>
         <?php if ($forum->description): ?>
           <tr class="container-description">
-            <td colspan="5">
+            <td colspan="<?php print ($use_taxonomy_image ? 6 : 5) ?>">
               <?php print $forum->description; ?>
             </td>
           </tr>
         <?php endif; ?>
 
-  <?php // *** Forum *** ?>
-  <?php else: ?>
+  <?php else: ?> <?php // *** Start forum row *** ?>
     <?php if ($forum->depth == 1): ?>
       <tr id="forum-<?php print $forum_id; ?>" class="forum-row <?php print $forum->zebra; ?>  container-<?php print $container_number; ?>-child">
         <td class="<?php print $forum->icon_classes ?>">
@@ -87,7 +86,9 @@
             <a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a>
           </div>
           <?php if (!empty($forum->description)): ?>
-            <div class="forum-description"><?php print $forum->description; ?></div>
+            <div class="forum-description">
+              <?php print $forum->description; ?>
+            </div>
           <?php endif; ?>
 
           <?php if (!empty($forum->subforums)): ?>
@@ -98,7 +99,9 @@
         <td class="forum-number-topics">
           <div class="forum-number-topics"><?php print $forum->num_topics ?>
             <?php if ($forum->new_topics): ?>
-              <div class="forum-number-new-topics"><a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a></div>
+              <div class="forum-number-new-topics">
+                <a href="<?php print $forum->new_url; ?>"><?php print $forum->new_text; ?></a>
+              </div>
             <?php endif; ?>
           </div>
         </td>
@@ -111,7 +114,9 @@
           <?php endif; ?>
         </td>
 
-        <td class="forum-last-reply"><?php print $forum->last_reply ?></td>
+        <td class="forum-last-reply">
+          <?php print $forum->last_reply ?>
+        </td>
       </tr>
     <?php endif; ?>
   <?php endif; ?>
