@@ -13,6 +13,7 @@ NOISSUE by troky: Added silver_bells_stacked. Synced to commit #480366
 #1012238 by Michelle: Made Silver Bells the default style. Synced to commit #480426
 #982604 by Michelle: Made 'post-by-viewer' class work with caching. Synced to commit #482276
 #1015118 by paolomainardi: Fixed hardcoded column span that was incompatable with taxonomy image. Synced to commit #482588
+#291084 by WorldFallz, Michelle, troky: Added/ported collapsed containers patch.
 
 January 20, 2011
 ----------------

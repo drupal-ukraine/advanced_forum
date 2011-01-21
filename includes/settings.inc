@@ -73,21 +73,32 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_style_all_comments', 0),
     '#description' => t('If checked, every comment will be styled as if it were a forum reply. This only works on comments from the core comment module. Nodecomments can be selected in the node type selection.'),
   );
-  
+
   $form['advanced_forum_general']['advanced_forum_add_local_task'] = array(
     '#type' => 'checkbox',
     '#title' => t('Add a tab for forum view page.'),
     '#default_value' => variable_get('advanced_forum_add_local_task', TRUE),
     '#description' => t('If checked, this will add a local task tab for "View forums". Use this in conjunction with making the included views have local tasks. If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
   );
-  
+
   $form['advanced_forum_general']['advanced_forum_views_as_tabs'] = array(
     '#type' => 'checkbox',
     '#title' => t('Add a tab for included views that have their own pages.'),
     '#default_value' => variable_get('advanced_forum_views_as_tabs', TRUE),
     '#description' => t('If checked, this will add a local task tab for "Active topics," "New posts," "My posts," and "Unanswered topics." If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
   );
-  
+
+  $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
+    '#type' => 'select',
+    '#title' => t('Collapsible Forum Containers'),
+    '#options' => array (
+      'none' => t("None"),
+      'toggle' => t("Toggle"),
+      'fade' => t("Fade"),
+    ),
+    '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
+    '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
+  );
 
   /* Forum / topic list settings */
   $form['advanced_forum_lists'] = array(

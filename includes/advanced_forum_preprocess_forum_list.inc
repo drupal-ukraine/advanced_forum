@@ -8,11 +8,17 @@
  */
 
 function _advanced_forum_preprocess_forum_list(&$variables) {
+  $collapsible = variable_get('advanced_forum_collapsible_containers', 'toggle');
+  if ($collapsible != 'none') {
+    drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
+    $settings['advanced_forum'] = array('modulePath' => drupal_get_path('module', 'advanced_forum'), 'effect' => $collapsible);
+        drupal_add_js($settings, array('type' => 'setting'));
+  }
   advanced_forum_add_template_suggestions("forum_list", $variables);
   // Determine if we want to use taxonomy image here so we don't need to keep
   // checking while in the main loop.
   $variables['use_taxonomy_image'] = (function_exists('taxonomy_image_display') && variable_get('advanced_forum_use_taxonomy_image', TRUE));
-  
+
   // This will be the ID of the container or forum we are in. If empty,
   // we are on the root forum page.
   $parent_id = $variables['tid'];
