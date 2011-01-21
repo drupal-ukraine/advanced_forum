@@ -1102,6 +1102,13 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
  * Note: TID is currently for future use and not acted on.
  */
 function advanced_forum_allowed_node_types($tid=0, $vid=0) {
+  if (module_exists('forum_access')) {
+    // Check with forum access to see if this forum allows node creation.
+    // If it doesn't, send back an empty list.
+    if (!forum_access_access($tid, 'create', NULL, TRUE)) {
+      return array();
+    }
+  }
   // If no vocabulary is passed in, assume it should be the forum vocab.
   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
   $vocabulary = taxonomy_vocabulary_load($vid);
