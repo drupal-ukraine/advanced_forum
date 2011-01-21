@@ -14,7 +14,7 @@ function _advanced_forum_preprocess_node(&$variables) {
   // This will be empty if not a Node Comment node.
   $node_parent_id = NULL;//isset($variables['node']->comment_target_nid) ? $variables['node']->comment_target_nid : NULL;
 
-  // Determine the template file to use for the node. 
+  // Determine the template file to use for the node.
   if (!$node_parent_id && isset($_GET['page']) && $_GET['page'] > 0) {
     // This is the repeated node on the top of subsequent pages.
     // We send this to a special .tpl so people can adjust it to their needs.
@@ -42,7 +42,7 @@ function _advanced_forum_preprocess_node(&$variables) {
       'node' => $node,
       'comment_count' => $variables['comment_count']
       ));
-      
+
     // Is this really needed?
     $term = $node->taxonomy_forums[$node->language][0]['taxonomy_term'];
     $variables['terms'] = l($term->name, $term->uri['path']);
@@ -50,9 +50,9 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   // Add in our classes merging with existing.
   if (!is_array($variables['classes_array'])) {
-    $variables['classes_array'] = array();  
+    $variables['classes_array'] = array();
   }
-  
+
   $variables['classes_array'] = array('forum-post clearfix');
 
   // Add the current language to the classes for image handling.
@@ -64,12 +64,7 @@ function _advanced_forum_preprocess_node(&$variables) {
    // Add the poster's UID
   $variables['classes_array'][] = "posted-by-$node->uid";
 
-  // Add class if the poster is the viewer.
-  global $user;
-  if ($user->uid > 0 && $user->uid == $node->uid) {
-    $variables['classes_array'][] = "post-by-viewer";
-  }
-  
+  /* Post ID */
   // Set the post ID for theming / targetting
   $variables['post_id'] = "post-$node->nid";
 
@@ -102,9 +97,9 @@ function _advanced_forum_preprocess_node(&$variables) {
 
     $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
     $linkpath = "node/$parent_node->nid";
-    if ($page_number) 
+    if ($page_number)
       $query = array('page' => $page_number);
-      
+
     $fragment = 'comment-' . $node->nid;
 
     $variables['post_link'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
@@ -112,39 +107,39 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* In reply to */
   $variables['in_reply_to'] = "";
-  
+
   if (module_exists('nodecomment')) {
     // Add class if the poster is the topic starter (only on NC node).
     if ($node_parent_id && $node->uid > 0 && $node->uid == $comment->uid) {
       $variables['classes_array'][] = "post-by-starter";
     }
-  
+
     if ($node->comment_target_cid != 0) {
       // Find the display position of the parent post;.
       $post_position = advanced_forum_post_position($node_parent_id, $node->comment_target_cid);
-      
+
       // This extra if test is a sanity check in case the comment being replied
       // to no longer exists.
       if ($post_position > 0) {
-        // Find the page the post is on. We need to compensate for the topic node 
+        // Find the page the post is on. We need to compensate for the topic node
         // being #1 which puts an extra post on the first page but not on the rest.
         $page_number = floor(($post_position - 2) / $posts_per_page);
-  
+
         // Assemble the link.
         $fragment = 'comment-' . $node->comment_target_cid;
-        
-        if ($page_number) 
+
+        if ($page_number)
           $query = array('page' => $page_number);
-          
+
         $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
         $linkpath = "node/$parent_node->nid";
         $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => $query, 'fragment' => $fragment));
       }
-    }  
+    }
   }
   /* User information / author pane */
   $variables['account'] = user_load($node->uid);
-  
+
   if (!module_exists('author_pane')) {
     // If not using the Author Pane module, create a simple version with just
     // name and photo. If using AP, that's handled down in the
@@ -161,13 +156,13 @@ function _advanced_forum_preprocess_node(&$variables) {
 
   /* Signatures */
   if (module_exists('signature_forum')) {
-    // If Signatures for Forums is installed, use that. 
+    // If Signatures for Forums is installed, use that.
     // Note: we cannot get around the signature being cached because we would
     // need to do a full node load to get all the info SfF needs to replace
     // the token and that would counteract the caching.
     $variables['signature'] = signature_forum_get_signature($node);
   }
-  
+
   /* Uncached variables */
   // Node Comment caches the whole topic for performance reasons. This is
   // incompatable with any variables that change based on who's viewing the
@@ -179,26 +174,30 @@ function _advanced_forum_preprocess_node(&$variables) {
     if (module_exists('author_pane')) {
       $variables['author_pane'] = '<!--post:author-pane-' . $node->uid . '-->';
     }
-  
+
     /* Revisions */
     if (!empty($variables['revision_timestamp']) && user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
-      $variables['post_edited'] = '<!--post:post-edited-' . $node->nid . '-->';    
+      $variables['post_edited'] = '<!--post:post-edited-' . $node->nid . '-->';
     }
-  
+
     /* Signatures */
     if (!module_exists('signature_forum') && variable_get('user_signatures', 0)) {
-      // Signature for Forums module not enabled; load Drupal's built in one, 
+      // Signature for Forums module not enabled; load Drupal's built in one,
       // if enabled.
       $variables['signature'] =  '<!--post:signature-core-' . $node->uid . '-->';
     }
+
+    /* User specific node theming class */
+    // Add class if the poster is the viewer.
+    $variables['classes_array'][] = "<!--post:poster-id-' . $node->uid . '-->";
   }
   else {
     // Create variables normally.
     /* Author Pane */
     if (module_exists('author_pane')) {
       $variables['author_pane'] = theme('author_pane', array(
-            'account' => $variables['account'], 
-            'caller' => 'advanced_forum', 
+            'account' => $variables['account'],
+            'caller' => 'advanced_forum',
             'picture_preset' => variable_get('advanced_forum_user_picture_preset', ''),
             'context' => $node,
             'disable_css' => TRUE
@@ -219,6 +218,12 @@ function _advanced_forum_preprocess_node(&$variables) {
       if ($variables['account']->signature) {
         $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
       }
+    }
+
+    /* Viewer is poster class */
+    global $user;
+    if ($user->uid > 0 && $user->uid == $node->uid) {
+      $variables['classes_array'][] = " post-by-viewer";
     }
   }
 }
