@@ -3,6 +3,12 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 20, 2011
+----------------
+#1032750 by GStegemann: Fixed call to undefined function db_fetch_array()
+#1019196 by jonb_cirris: Fixed broken hook_permission(). Impossible to set permissions on D7 + AF
+
+
 January 14, 2011
 ----------------
 #1024626 by federico: Changed comments to comment to reflect change in table name in D7.
@@ -105,12 +111,12 @@ September 21, 2010
 #857982 by aenw: Checked if $added is empty rather than !$added.
 #908938 by Michelle: Changed how check for node's being displayed as a teaser works.
 
-August 26, 2010 
+August 26, 2010
 -------------
 #850508 by Michelle: Updated Author Pane template.
 NOISSUE by Michelle: Author Pane tokenizing should not happen on topic starting node.
 
-July 11, 2010 
+July 11, 2010
 -------------
 #768348 by Michelle: Fixed node comment incompatability with new link alter.
 
@@ -233,7 +239,7 @@ August 10, 2009
 ---------------
 NOISSUE by merlinofchaos: Add a sort widget for the forum topic list that utilizes the tablesort headers.
 NOISSUE by merlinofchaos: Add a time period plus role exclusion to the most active poster pane.
- 
+
 August 3, 2009
 --------------
 NOISSUE by merlinofchaos: Add a "most active poster" block and a view of "My forum posts" to easily follow what a person has posted.
@@ -255,7 +261,7 @@ August 1, 2009
                      Made post number white on Boxy and Blue Lagoon.
                      Added odd/even table shading to Boxy as well as borders around the TDs.
 #537018 by Michelle: Added span around 'subforums' label so it can be styled.
-                     Made .forum-table a generic class for both types of tables and added .forum-table-forums and .forum-table-topics.                     
+                     Made .forum-table a generic class for both types of tables and added .forum-table-forums and .forum-table-topics.
                      Made classes in forum tables more specific.
 #518110 by Michelle: Documented the chunk of code in the post .tpl there to keep the new markers from being cached.
 
@@ -278,11 +284,11 @@ July 29, 2009
 -------------
 #510772 by Michelle: Added group topic list view and outer template.
 #534816 by Michelle: Changed top anchor to forum-topic-top to avoid conflicts with some themes.
-#527020 by merlinofchaos: Panelize advanced forum. This introduces a "task" or a system page 
-                          for Panels for the forum page. It introduces 3 default handlers 
-                          for that page which cover the top page, a forum container page 
-                          and a forum topic list page. It includes a bunch of panels/ctools 
-                          plugins in order to cover all this content and makes it possible 
+#527020 by merlinofchaos: Panelize advanced forum. This introduces a "task" or a system page
+                          for Panels for the forum page. It introduces 3 default handlers
+                          for that page which cover the top page, a forum container page
+                          and a forum topic list page. It includes a bunch of panels/ctools
+                          plugins in order to cover all this content and makes it possible
                           to change the layout and easily add/remove content to these pages.
 #533818 by merlinofchaos: Allow styles to use preprocesses.
 
