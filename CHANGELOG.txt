@@ -8,6 +8,7 @@ January 21, 2011
 NOISSUE by Michelle: Minor template changes to keep all three modules in synch. Synced to commit #479936
 #654718 by Michelle: Check if Panels is enabled before trying to build the forum displays to avoid errors when Page Manager is used without Panels. Synced to commit #480122
 #866562 by Michelle, vladgur: Don't show any create content links if Forum Access doesn't allow it. Synced to commit #480174
+NOISSUE by troky: Added silver_bells_stacked. Synced with commit #480366
 
 January 20, 2011
 ----------------
