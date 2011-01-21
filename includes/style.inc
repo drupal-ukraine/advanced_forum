@@ -12,7 +12,7 @@
  * Returns the name of the forum style to use.
  */
 function advanced_forum_get_current_style() {
-  return variable_get('advanced_forum_style', 'cloudless_day_stacked');
+  return variable_get('advanced_forum_style', 'silver_bells ');
 }
 
 function advanced_forum_get_style($style) {
@@ -101,16 +101,16 @@ function advanced_forum_style_lineage($style = NULL) {
  */
 function advanced_forum_style_template_path($template_name, $style = NULL) {
   static $styles_files = array();
-  
+
   if (empty($styles_files)) {
     $styles_files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/styles', '/(.*)/', array(), 2);
   }
-  
-  $lineage = advanced_forum_style_lineage($style); 
-  
+
+  $lineage = advanced_forum_style_lineage($style);
+
   $path = '';
   foreach ($lineage as $key => $path) {
-    $template_path ="";     
+    $template_path ="";
   }
     return $path;
 }
@@ -120,7 +120,7 @@ function advanced_forum_template_basename(&$file, $key, $extension) {
 }
 
 function advanced_forum_find_style_templates($style = NULL) {
-  // Get theme engine extension  
+  // Get theme engine extension
   global $theme_engine;
   $extension = '.tpl.php';
   if (isset($theme_engine)) {
@@ -132,9 +132,9 @@ function advanced_forum_find_style_templates($style = NULL) {
 
   // Most significant style template comes first in lineage array
   $lineage = array_reverse(advanced_forum_style_lineage($style), TRUE);
-  
+
   $templates = array();
-  
+
   // Loop through each style folder looking for templates
   foreach ($lineage as $key => $path) {
     $styles_files = file_scan_directory($path, '/' . str_replace('.', '\.', $extension) . '$/', array('key' => 'filename'));
@@ -146,14 +146,14 @@ function advanced_forum_find_style_templates($style = NULL) {
       // for the purposes of searching.
       $hook = strtr($file->name, '-', '_');
       // Remove style name from hook name
-      $hook = str_replace(".$key.", "_", $hook);      
+      $hook = str_replace(".$key.", "_", $hook);
       $templates[$hook] = array(
         'template' => $file->name,
         'path' => dirname($file->uri),
       );
     }
   }
-  return $templates;  
+  return $templates;
 }
 
 /**
@@ -200,8 +200,8 @@ function advanced_forum_style_info($style = NULL) {
 function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
   // This is the ID of the topic starting node
   static $master_topic_id;
-  
-  // Give other modules a first crack at making the decision. To keep this 
+
+  // Give other modules a first crack at making the decision. To keep this
   // simple, he last one in the array wins.
   $topic_ids = module_invoke_all('advanced_forum_is_styled_alter', $content, $teaser, $type);
   $topic_id = end($topic_ids);
@@ -219,20 +219,20 @@ function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
           $topic_id = advanced_forum_node_is_styled($content, $teaser);
         }
         break;
-        
+
       case 'comment':
         $topic_id = advanced_forum_comment_is_styled($content, $master_topic_id);
         break;
-        
+
       case 'comment-wrapper':
         if ($content->nid == $master_topic_id) {
           // Use our comment wrapper only if we are on a styled node.
           $topic_id = $master_topic_id;
         }
         break;
-      }   
-    }      
-  
+      }
+    }
+
   if ($topic_id > 0) {
     // If we have a positive number for the topic ID, then this item is styled.
     // We need to update the master ID, add the CSS/JS files, and tell the caller
@@ -243,12 +243,12 @@ function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
   }
   elseif ($topic_id == -42) {
     // A -42 means all the tests passed but the node is being previewed so there
-    // is no node id, yet. Add the files and return true but don't update the 
+    // is no node id, yet. Add the files and return true but don't update the
     // master topic ID.
     _advanced_forum_add_files();
     return TRUE;
   }
-    
+
 }
 
 function advanced_forum_node_is_styled($node, $teaser = FALSE) {
@@ -259,7 +259,7 @@ function advanced_forum_node_is_styled($node, $teaser = FALSE) {
     // ...and if we are styling teasers or this isn't a teaser...
     if (variable_get('advanced_forum_style_teasers', FALSE) || !$teaser) {
       // ...and if this is not a new node being previewed...
-      if (!empty($node->nid)) {      
+      if (!empty($node->nid)) {
         // ...and if we are styling non forum tagged nodes or this is forum tagged...
         if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node)) {
           // ... then return the node ID.
@@ -270,7 +270,7 @@ function advanced_forum_node_is_styled($node, $teaser = FALSE) {
       else {
         // ...and if we are styling non forum tagged nodes or this is forum tagged...
         if (!variable_get('advanced_forum_style_only_forum_tagged', TRUE) || advanced_forum_is_forum_tagged($node, TRUE)) {
-          // ...Send back -42 as a special code to say that this should be 
+          // ...Send back -42 as a special code to say that this should be
           // styled but that it isn't the actual node id.
           return -42;
         }
@@ -281,30 +281,30 @@ function advanced_forum_node_is_styled($node, $teaser = FALSE) {
 
 function advanced_forum_comment_is_styled($comment, $master_topic_id) {
   if (isset($master_topic_id) && ($comment->nid == $master_topic_id)) {
-    // This comment is on a node we already know is styled, or a previous 
+    // This comment is on a node we already know is styled, or a previous
     // comment on this node is styled, so the comment is styled.
     return $master_topic_id;
   }
-  
+
   if (variable_get("advanced_forum_style_all_comments", 0)) {
     // All comments on this site should be styled.
     return $comment->nid;
   }
-  
+
   // Load up the node this comment is attached to and see if it is styled.
-  // This should not happen often, only in a case where the comment is 
-  // displayed seperately from the node (such as a reply preview). 
+  // This should not happen often, only in a case where the comment is
+  // displayed seperately from the node (such as a reply preview).
   $node = node_load($comment->nid);
   if (advanced_forum_node_is_styled($node, FALSE)) {
     return $comment->nid;
   }
-  
+
   // Comment doesn't pass any styling test
   return -1;
 }
 
 function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
-  $vid = variable_get('forum_nav_vocabulary', '');  
+  $vid = variable_get('forum_nav_vocabulary', '');
   if ($preview) {
      foreach ($node->taxonomy_forums[$node->language] as $tf) {
       if ($tf->taxonomy_term->vid == $vid) {
@@ -403,7 +403,7 @@ function _advanced_forum_add_files() {
 function advanced_forum_comment_wrapper($content, $node) {
   // See if this is a forum post:
   $vid = variable_get('forum_nav_vocabulary', '');
-  
+
   foreach ($node->taxonomy_forums[$node->language] as $tf) {
     if ($tf->taxonomy_term->vid == $vid) {
       return _advanced_forum_comment_wrapper($content, $node);
@@ -422,7 +422,7 @@ function _advanced_forum_comment_wrapper($content, $node) {
 
 
 // CTOOLS INTEGRATION FOR STYLES ********************************************/
- 
+
 function advanced_forum_ctools_plugin_type() {
   return array(
     'styles' => array(

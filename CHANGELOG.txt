@@ -10,6 +10,7 @@ NOISSUE by Michelle: Minor template changes to keep all three modules in synch. 
 #866562 by Michelle, vladgur: Don't show any create content links if Forum Access doesn't allow it. Synced to commit #480174
 NOISSUE by troky: Added silver_bells_stacked. Synced to commit #480366
 #1012238 by Michelle: Updated Cloudless Day with new style changes. Synced to commit #480414
+#1012238 by Michelle: Made Silver Bells the default style. Synced to commit #480426
 
 January 20, 2011
 ----------------
