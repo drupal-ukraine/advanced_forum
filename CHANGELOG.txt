@@ -3,6 +3,11 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 21, 2011
+----------------
+NOISSUE by Michelle: Minor template changes to keep all three modules in synch. Synced to commit #479936
+#654718 by Michelle: Check if Panels is enabled before trying to build the forum displays to avoid errors when Page Manager is used without Panels. Synced to commit #480122
+
 January 20, 2011
 ----------------
 #1032750 by GStegemann: Fixed call to undefined function db_fetch_array()
