@@ -1,17 +1,6 @@
 /* $Id$ */
 
-/*
-This file contains colors, graphics, and text effects. 
-
-Colors used:
-  See Cloudless Day for main colors.
-  #C8DBEA main border, header background
-  #EDF5FA background #1
-  #E7F2F9 background #2
-*/
-
 .post-title {
   border-top: 2px solid white;
   border-left: none;
 }
-

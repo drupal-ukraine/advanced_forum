@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
-This file contains colors, graphics, and text effects. 
+This file contains colors, graphics, and text effects.
 
 Colors used:
   #C1C1C1 Borders, post seperator, avatar frame, statistics subheader.
@@ -27,8 +27,14 @@ Colors used:
 }
 
 #forum-comments .pager li {
-  padding: 0;
+  padding: 3px;
   margin: 0;
+}
+
+.forum-pager .pager a,
+#forum-comments .pager a {
+  padding: 3px;
+  font-weight: bold;
 }
 
 .forum-pager .pager a:link,
@@ -40,19 +46,19 @@ Colors used:
   background: #EFEFEF;
   background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#EFEFEF));
   background: -moz-linear-gradient(top, #F5F5F5, #EFEFEF);
-  font-weight: bold;
 }
 
 .forum-pager .pager-current,
 .forum-pager .pager a:hover,
 #forum-comments .pager-current,
 #forum-comments .pager a:hover {
-  color: #333333; 
+  background: #333333;
+  color: #FFFFFF !important;
 }
 
 .forum-pager .pager a.active,
 #forum-comments .pager a.active {
-  color: #333333; 
+  color: #333333;
 }
 
 /*** FORUM & TOPIC LIST ******************************************************/
@@ -63,7 +69,7 @@ Colors used:
 }
 
 /* Headers */
-.forum-table th {
+.forum-table thead tr {
   border-top: 1px solid #C1C1C1;
   background: #DDDDDD;
   background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#DDDDDD));
@@ -73,9 +79,9 @@ Colors used:
   border-bottom: none;
 }
 
-.forum-table th a,
-.forum-table th a:visited,
-.forum-table th a:link {
+.forum-table thead tr a,
+.forum-table thead tr a:visited,
+.forum-table thead tr a:link {
   color: #333333;
   font-weight: bold;
 }
@@ -86,6 +92,11 @@ Colors used:
   background: #EFEFEF;
   background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#EFEFEF));
   background: -moz-linear-gradient(top, #F5F5F5, #EFEFEF);
+}
+
+.forum-table tr.even td.active,
+.forum-table tr.odd td.active{
+  background-color: #FFFFFF;
 }
 
 .forum-table td {
@@ -152,11 +163,6 @@ Colors used:
   color: #333333 !important;
 }
 
-.forum-post-title {
-  font-weight: bold;
-  border-bottom: 1px solid #C1C1C1;
-}
-
 /* Wrapper around AP and content */
 .forum-post-wrapper {
   background-color: #F5F5F5;
@@ -182,6 +188,11 @@ Colors used:
 .forum-post-panel-main {
   border-left: 1px solid #C1C1C1;
   background-color: #FAFAFA;
+}
+
+.forum-post-title {
+  font-weight: bold;
+  border-bottom: 1px solid #C1C1C1;
 }
 
 /* Signature */
@@ -213,4 +224,3 @@ Colors used:
   background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#DDDDDD));
   background: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
 }
-
