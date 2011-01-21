@@ -27,7 +27,7 @@
         <?php print $account_name; ?>
       </div>
 
-      <?php /* Avatar (has div in variable) */ ?>
+      <?php /* User picture / avatar (has div in variable) */ ?>
       <?php if (!empty($picture)): ?>
         <?php print $picture; ?>
       <?php endif; ?>
