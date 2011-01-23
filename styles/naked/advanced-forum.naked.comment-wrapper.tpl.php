@@ -32,8 +32,13 @@
  */
 ?>
 <?php global $language; ?>
- 
+
 <div id="forum-comments" class="<?php print $language->language; ?>">
   <?php print render($content['comments']); ?>
-  <?php print $reply_link; ?>
+  <?php if ($content['comment_form']): ?>
+    <h2 class="title comment-form"><?php print t('Add new comment'); ?></h2>
+    <?php print render($content['comment_form']); ?>
+  <?php else: ?>
+    <?php print $reply_link; ?>
+  <?php endif; ?>
 </div>
