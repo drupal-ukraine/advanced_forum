@@ -12,7 +12,7 @@
  * Returns the name of the forum style to use.
  */
 function advanced_forum_get_current_style() {
-  return variable_get('advanced_forum_style', 'silver_bells ');
+  return variable_get('advanced_forum_style', 'silver_bells');
 }
 
 function advanced_forum_get_style($style) {

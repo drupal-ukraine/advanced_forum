@@ -5,24 +5,25 @@ $Id$
 
 January 23, 2011
 ----------------
-#1021826 by troky: Relpy button doesn't work - missing comment form if "Show reply form on the same page as comments" set.
+#1021826 by troky: Fixed missing comment form if "Show reply form on the same page as comments" set.
+#1036012 by troky: Fixed extra space in default style name.
 
 January 21, 2011
 ----------------
-NOISSUE by Michelle: Minor template changes to keep all three modules in synch. Synced to commit #479936
-#654718 by Michelle: Check if Panels is enabled before trying to build the forum displays to avoid errors when Page Manager is used without Panels. Synced to commit #480122
-#866562 by Michelle, vladgur: Don't show any create content links if Forum Access doesn't allow it. Synced to commit #480174
-NOISSUE by troky: Added silver_bells_stacked. Synced to commit #480366
-#1012238 by Michelle: Updated Cloudless Day with new style changes. Synced to commit #480414
-#1012238 by Michelle: Made Silver Bells the default style. Synced to commit #480426
-#982604 by Michelle: Made 'post-by-viewer' class work with caching. Synced to commit #482276
-#1015118 by paolomainardi: Fixed hardcoded column span that was incompatable with taxonomy image. Synced to commit #482588
+NOISSUE by Michelle: Minor template changes to keep all three modules in synch. Synced to commit #479936.
+#654718 by Michelle: Check if Panels is enabled before trying to build the forum displays to avoid errors when Page Manager is used without Panels. Synced to commit #480122.
+#866562 by Michelle, vladgur: Don't show any create content links if Forum Access doesn't allow it. Synced to commit #480174.
+NOISSUE by troky: Added silver_bells_stacked. Synced to commit #480366.
+#1012238 by Michelle: Updated Cloudless Day with new style changes. Synced to commit #480414.
+#1012238 by Michelle: Made Silver Bells the default style. Synced to commit #480426.
+#982604 by Michelle: Made 'post-by-viewer' class work with caching. Synced to commit #482276.
+#1015118 by paolomainardi: Fixed hardcoded column span that was incompatable with taxonomy image. Synced to commit #482588.
 #291084 by WorldFallz, Michelle, troky: Added/ported collapsed containers patch.
 
 January 20, 2011
 ----------------
-#1032750 by GStegemann: Fixed call to undefined function db_fetch_array()
-#1019196 by jonb_cirris: Fixed broken hook_permission(). Impossible to set permissions on D7 + AF
+#1032750 by GStegemann: Fixed call to undefined function db_fetch_array().
+#1019196 by jonb_cirris: Fixed broken hook_permission(). Impossible to set permissions on D7 + AF.
 
 
 January 14, 2011
