@@ -37,11 +37,13 @@
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
-        <?php print $new_output; ?>
+        <?php if  (!empty($new_output)): ?>
+          <?php print $new_output; ?>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
 
-    <?php if (!$top_post): ?>
+    <?php if (!$top_post && !empty($comment_link) && !empty($page_link)): ?>
       <span class="forum-post-number"><?php print $comment_link . ' ' . $page_link; ?></span>
     <?php endif; ?>
   </div>
@@ -62,7 +64,7 @@
         <?php print render($content['body']); ?>
       </div>
 
-      <?php if ($signature): ?>
+      <?php if (!empty($signature)): ?>
         <div class="author-signature">
           <?php print $signature ?>
         </div>

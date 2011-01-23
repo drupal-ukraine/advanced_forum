@@ -386,6 +386,10 @@ function advanced_forum_node_update($node) {
  * Name changed intentionally to avoid confusion with hook_link_alter!
  */
 function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') {
+  // Don't alter anything if in preview mode
+    if (!empty($object->in_preview)) {
+    return;
+  }
 
   if (!advanced_forum_is_styled($object, ($view_mode == 'teaser'), $object_type)) {
     return;
