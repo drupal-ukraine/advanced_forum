@@ -11,6 +11,7 @@ January 23, 2011
 #1030130 by troky: Fixed undefined index error in active_topics view.
 NOISSUE by troky: Re-exported common views (except those used by NC).
 #1023078 by troky: Fixed undefined variables in post preview.
+#291084 by troky: Updated collapsed containers code.
 
 January 21, 2011
 ----------------

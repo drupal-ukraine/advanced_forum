@@ -9,10 +9,12 @@
 
 function _advanced_forum_preprocess_forum_list(&$variables) {
   $collapsible = variable_get('advanced_forum_collapsible_containers', 'toggle');
+  $variables['collapsible'] = FALSE;
   if ($collapsible != 'none') {
-    drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/advanced_forum.js');
+    drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/js/advanced_forum.js');
     $settings['advanced_forum'] = array('modulePath' => drupal_get_path('module', 'advanced_forum'), 'effect' => $collapsible);
-        drupal_add_js($settings, array('type' => 'setting'));
+    drupal_add_js($settings, array('type' => 'setting'));
+    $variables['collapsible'] = TRUE;
   }
   advanced_forum_add_template_suggestions("forum_list", $variables);
   // Determine if we want to use taxonomy image here so we don't need to keep

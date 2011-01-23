@@ -55,7 +55,12 @@
           <th class="forum-name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></th>
           <th class="forum-number-topics"><?php print t('Topics');?></th>
           <th class="forum-posts"><?php print t('Posts'); ?></th>
-          <th class="forum-last-post"><?php print t('Last post'); ?></th>
+          <th class="forum-last-post">
+            <?php print t('Last post'); ?>
+            <?php if (!empty($collapsible)): ?>
+              <span id="forum-collapsible-<?php print $forum_id;?>" class="forum-collapsible">&nbsp;</span>
+            <?php endif; ?>
+          </th>
         </tr>
       </thead>
 
