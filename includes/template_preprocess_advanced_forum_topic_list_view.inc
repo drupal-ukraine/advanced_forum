@@ -11,7 +11,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   // views use this same style and need the AF style files added.
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("topic-list-view", $variables);
-  
+
   $view = $variables['view'];
 
   // We need the raw data for this grouping, which is passed in as $variables['rows'].
@@ -33,7 +33,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $query    = tablesort_get_query_parameters();
 
   $forum = $view->style_plugin->get_forum_ids();
-  
+
   // Fields must be rendered in order as of Views 2.3, so we will pre-render
   // everything.
   $renders = array();
@@ -50,6 +50,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     // Grab the teaser so it can be used on the title of the td as a popup
     // preview. By default, the view provides the teaser as a popup on the
     // title link.
+
     $teaser = $renders[$count]['teaser'];
     $teaser = htmlentities($teaser);
     $teasers[$count] = $teaser;
@@ -75,8 +76,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
     if ($forum && !in_array($row->topic_actual_forum, $forum)) {
       $term = taxonomy_term_load($row->topic_actual_forum);
       $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', array(
-        'title' => $row->node_title, 
-        'nid' => $row->nid, 
+        'title' => $row->node_title,
+        'nid' => $row->nid,
         'new_forum' => $term->name
       ));
     }
