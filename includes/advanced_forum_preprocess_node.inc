@@ -43,8 +43,16 @@ function _advanced_forum_preprocess_node(&$variables) {
       'comment_count' => $variables['comment_count']
       ));
 
+    // Check for language used
+    if (!isset($node->taxonomy_forums[$node->language])) {
+      $langcode = LANGUAGE_NONE;
+    }
+    else {
+      $langcode = $node->language;
+    }
+
     // Is this really needed?
-    $term = $node->taxonomy_forums[$node->language][0]['taxonomy_term'];
+    $term = $node->taxonomy_forums[$langcode][0]['taxonomy_term'];
     $variables['terms'] = l($term->name, $term->uri['path']);
   }
 

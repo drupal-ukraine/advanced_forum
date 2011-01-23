@@ -1129,7 +1129,15 @@ function advanced_forum_allowed_node_types($tid=0, $vid=0) {
 function advanced_forum_type_is_in_forum($node, $tid=0) {
   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
   if (isset($node->taxonomy_forums)) {
-    foreach ($node->taxonomy_forums[$node->language] as $tforum) {
+    // Check for language used
+    if (!isset($node->taxonomy_forums[$node->language])) {
+      $langcode = LANGUAGE_NONE;
+    }
+    else {
+      $langcode = $node->language;
+    }
+
+    foreach ($node->taxonomy_forums[$langcode] as $tforum) {
 			if (!isset($tforum['taxonomy_term'])) {
 				continue;
 			}
