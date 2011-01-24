@@ -941,6 +941,7 @@ function advanced_forum_last_post_link($node) {
  */
 function advanced_forum_first_new_post_link($node, $comment_count) {
   $nid = $node->nid;
+
   $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
   $number_new_comments = advanced_forum_reply_num_new($nid);
 
@@ -993,6 +994,10 @@ function advanced_forum_reply_num_new($nid, $timestamp = 0) {
   // header. Once to display the number and once to make the link to first new.
   static $number_new_for_node = array();
 
+  // $nid is empty if new topic in preview.
+  if (empty($nid))
+    return 0;
+
   if (empty($number_new_for_node[$nid])) {
     $node = node_load($nid);
     $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
@@ -1016,6 +1021,10 @@ function advanced_forum_reply_num_new($nid, $timestamp = 0) {
  *   cid of last post.
  */
 function advanced_forum_last_post_in_topic($nid) {
+  // $nid is empty if new topic in preview.
+  if (empty($nid))
+    return null;
+
   $node = node_load($nid);
   $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
   if (isset($comment_type)) {
@@ -1025,7 +1034,7 @@ function advanced_forum_last_post_in_topic($nid) {
                 INNER JOIN {node} n ON nc.nid = n.nid
               WHERE nc.nid = :nid AND n.status = 1
               ORDER BY nc.cid DESC LIMIT 1';
-    $result = db_query_range($query, 0, 1, array(':nid' => $nid9))->fetchField();
+    $result = db_query_range($query, 0, 1, array(':nid' => $nid))->fetchField();
   }
   else {
     // Comment module version
@@ -1043,7 +1052,7 @@ function advanced_forum_last_post_in_topic($nid) {
  */
 function advanced_forum_get_last_page($node) {
   $comments_per_page = variable_get('comment_default_per_page_' . $node->type, 50);
-  $comment_count = $node->comment_count;
+  $comment_count = isset($node->comment_count) ? $node->comment_count : 0;
   $last_page = ceil($comment_count / $comments_per_page) - 1;
   return $last_page;
 }
