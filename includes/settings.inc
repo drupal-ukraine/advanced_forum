@@ -151,18 +151,18 @@ function advanced_forum_settings_page() {
     '#collapsed' => FALSE,
   );
 
-  if (module_exists('imagecache')) {
+  if (module_exists('image')) {
     $options = array('' => '');
-    $presets = imagecache_presets();
-    foreach ($presets AS $preset) {
-      $options[$preset['presetname']] = $preset['presetname'];
+    $styles = image_styles();
+    foreach ($styles AS $style) {
+      $options[$style['name']] = $style['name'];
     }
 
     $form['advanced_forum_topics']['advanced_forum_user_picture_preset'] = array(
       '#type' => 'select',
       '#title' => t('User picture preset'),
       '#options' => $options,
-      '#description' => t('Imagecache preset to use for forum avatars. Leave blank to not use this feature.'),
+      '#description' => t('Image preset to use for forum avatars. Leave blank to not use this feature.'),
       '#default_value' => variable_get('advanced_forum_user_picture_preset', ''),
     );
   }
