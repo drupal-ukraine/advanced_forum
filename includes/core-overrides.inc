@@ -1,5 +1,5 @@
 <?php
-// $Id$ 
+// $Id$
 
 /**
  * @file
@@ -16,6 +16,10 @@ function advanced_forum_page($forum_term = NULL) {
     $forum_term = forum_forum_load(0);
   }
 
+  // Set tid for <root> container
+  if (!isset($forum_term->tid)) {
+    $forum_term->tid = 0;
+  }
   _advanced_forum_add_files();
 
   $forum_per_page = variable_get('forum_per_page', 25);
@@ -30,7 +34,7 @@ function advanced_forum_page($forum_term = NULL) {
 
   $vid = variable_get('forum_nav_vocabulary', 0);
   $vocabulary = taxonomy_vocabulary_load($vid);
-  
+
   // Breadcrumb navigation:
   $breadcrumb[] = l(t('Home'), NULL);
   if ($forum_term->tid) {
@@ -51,8 +55,8 @@ function advanced_forum_page($forum_term = NULL) {
   if (empty($title)) {
     $title = $vocabulary->name;
   }
-  
-  
+
+
   if (!variable_get('advanced_forum_disable_breadcrumbs', FALSE)) {
     drupal_set_breadcrumb($breadcrumb);
   }
@@ -137,7 +141,7 @@ function advanced_forum_forum_load($tid = NULL) {
       ->execute()
       ->fetchAllAssoc('tid');
   }
-	
+
   foreach ($_forums as $forum) {
     // Determine if the child term is a container.
     if (in_array($forum->tid, variable_get('forum_containers', array()))) {
@@ -157,7 +161,7 @@ function advanced_forum_forum_load($tid = NULL) {
     // Find out from the style's .info how many posts per forum to collect.
     $info = advanced_forum_style_info();
     $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
-    
+
     // Query "Last Post" information for this forum.
     $query = db_select('node', 'n');
     //$query->join('users', 'u1', 'n.uid = u1.uid');
@@ -174,7 +178,7 @@ function advanced_forum_forum_load($tid = NULL) {
       ->range(0, $post_count)
       ->addTag('node_access')
       ->execute();
-      
+
     while ($topic = $topics->fetchObject()) {
       // Merge in the "Last Post" information.
       $last_post = new stdClass();
@@ -207,15 +211,15 @@ function advanced_forum_forum_load($tid = NULL) {
 /**
  * This is copied from the forum module and adapted.
  */
- 
+
 function advanced_forum_get_topics($tid, $sortby, $forum_per_page, $sort_form = TRUE) {
   $term = taxonomy_term_load($tid);
   drupal_add_feed('taxonomy/term/' . $tid . '/feed', 'RSS - ' . check_plain($term->name));
-  
+
   // Views handles this page
   $view = views_get_view('advanced_forum_topic_list');
   $view->sort_form = $sort_form;
 
   return $view->preview('default', array($tid));
-  
+
 }

@@ -11,6 +11,7 @@ NOISSUE by troky: Added missing filter parameter to views definition. Updated un
 #1023078 by troky: Fixed bunch of notices and undefined variable errors when previewing new topic.
 #1037724 by gordon: Moved Advanced forum configuration menu into configuration page.
 #291084 by troky: Added jquery.cookie dependency before including module javascript file.
+#1037752 by troky: Fixed notices for "forum/0" case.
 
 January 23, 2011
 ----------------
