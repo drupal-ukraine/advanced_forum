@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 24, 2011
+----------------
+NOISSUE by troky: Removed extra character from advanced_forum_group_topic_list.view
+
 January 23, 2011
 ----------------
 #1021826 by troky: Fixed missing comment form if "Show reply form on the same page as comments" set.
