@@ -31,7 +31,7 @@ function advanced_forum_settings_page() {
     '#title' => t('Advanced forum style'),
     '#options' => $options,
     '#description' => t('Choose which style to use for your forums. This will apply independent of site theme.'),
-    '#default_value' => variable_get('advanced_forum_style', 'cloudless_day_stacked'),
+    '#default_value' => variable_get('advanced_forum_style', 'stacked_bells'),
   );
 
   // Choose node types that are styled.
