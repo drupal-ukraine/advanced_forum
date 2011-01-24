@@ -1,490 +1,1 @@
-<?php
-// $Id$
-/**
- * DO NOT RE-EXPORT THIS VIEW WITHOUT CHECKING THE FORUM VID.
- *
- * When you export, please note the calls to variable_get('forum_nav_vocabulary', '')
- * to ensure that the forum vocabulary gets the right vid.
- */
-$view = new view;
-$view->name = 'advanced_forum_unanswered_topics';
-$view->description = 'Shows unaswered topics in a given forum';
-$view->tag = 'Advanced Forum';
-$view->view_php = '';
-$view->base_table = 'node';
-$view->is_cacheable = FALSE;
-$view->api_version = 2;
-$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-$handler = $view->new_display('default', 'Defaults', 'default');
-$handler->override_option('fields', array(
-  'teaser' => array(
-    'id' => 'teaser',
-    'table' => 'field_data_body',
-    'field' => 'entity_id',
-    'label' => 'Teaser',
-		'type' =>  'text_summary_or_trimmed',
-		'hide_empty' => 0,
-		'exclude' => 1,
-    'alter' => array(
-      'alter_text' => 0,
-      'make_link' => 0,
-      'trim' => 0,
-      'max_length' => '200',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 1,
-      'html' => 0,
-    ),
-		'settings' => array(
-			'trim_length' => '200',
-		),
-  ),
-  'topic_icon' => array(
-    'label' => '',
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'hot_topic_threshold' => '15',
-    'exclude' => 0,
-    'id' => 'topic_icon',
-    'table' => 'node',
-    'field' => 'topic_icon',
-    'relationship' => 'none',
-  ),
-  'title' => array(
-    'label' => 'Topic',
-    'alter' => array(
-      'alter_text' => 1,
-      'text' => '<span class="forum-topic-title">[title]</span> ',
-      'make_link' => 1,
-      'path' => 'node/[nid]',
-      'link_class' => '',
-      'alt' => '[teaser]',
-      'prefix' => '',
-      'suffix' => '',
-      'target' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'empty' => '',
-    'hide_empty' => 0,
-    'empty_zero' => 0,
-    'link_to_node' => 1,
-    'exclude' => 0,
-    'id' => 'title',
-    'table' => 'node',
-    'field' => 'title',
-    'relationship' => 'none',
-  ),
-  'name_1' => array(
-    'label' => 'Name',
-    'alter' => array(
-      'alter_text' => 1,
-      'text' => '<br /> by [name_1] ',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'target' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'empty' => '',
-    'hide_empty' => 0,
-    'empty_zero' => 0,
-    'link_to_user' => 1,
-    'overwrite_anonymous' => 0,
-    'anonymous_text' => '',
-    'exclude' => 0,
-    'id' => 'name_1',
-    'table' => 'users',
-    'field' => 'name',
-    'relationship' => 'none',
-  ),
-  'created' => array(
-    'label' => 'Post date',
-    'alter' => array(
-      'alter_text' => 1,
-      'text' => 'on [created]',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'date_format' => 'large',
-    'custom_date_format' => '',
-    'exclude' => 0,
-    'id' => 'created',
-    'table' => 'node',
-    'field' => 'created',
-    'relationship' => 'none',
-  ),
-  'totalcount' => array(
-    'label' => 'Views',
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'target' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'empty' => '0',
-    'hide_empty' => 0,
-    'empty_zero' => 1,
-    'set_precision' => FALSE,
-    'precision' => 0,
-    'decimal' => '.',
-    'separator' => ',',
-    'prefix' => '',
-    'suffix' => '',
-    'exclude' => 0,
-    'id' => 'totalcount',
-    'table' => 'node_comment_statistics',
-    'field' => 'comment_count',
-    'relationship' => 'none',
-  ),
-  'sticky' => array(
-    'label' => 'Sticky',
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'type' => 'yes-no',
-    'not' => 0,
-    'exclude' => 1,
-    'id' => 'sticky',
-    'table' => 'node',
-    'field' => 'sticky',
-    'relationship' => 'none',
-  ),
-  'comment' => array(
-    'label' => 'Comment status',
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'exclude' => 1,
-    'id' => 'comment',
-    'table' => 'node',
-    'field' => 'comment',
-    'relationship' => 'none',
-  ),
-  'name' => array(
-    'label' => 'Forum',
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'link_class' => '',
-      'alt' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'help' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'strip_tags' => 0,
-      'html' => 0,
-    ),
-    'link_to_taxonomy' => 1,
-    'exclude' => 0,
-    'id' => 'name',
-    'table' => 'taxonomy_term_data',
-    'field' => 'name',
-    'relationship' => 'none',
-  ),
-));
-$handler->override_option('sorts', array(
-  'sticky' => array(
-    'order' => 'DESC',
-    'id' => 'sticky',
-    'table' => 'node',
-    'field' => 'sticky',
-    'relationship' => 'none',
-  ),
-));
-$handler->override_option('filters', array(
-  'status' => array(
-    'operator' => '=',
-    'value' => '1',
-    'group' => '0',
-    'exposed' => FALSE,
-    'expose' => array(
-      'operator' => FALSE,
-      'label' => '',
-    ),
-    'id' => 'status',
-    'table' => 'node',
-    'field' => 'status',
-    'relationship' => 'none',
-  ),
-  'vid' => array(
-    'operator' => 'in',
-    'value' => array(
-      variable_get('forum_nav_vocabulary', '') => variable_get('forum_nav_vocabulary', ''),
-
-    ),
-    'group' => '0',
-    'exposed' => FALSE,
-    'expose' => array(
-      'operator' => FALSE,
-      'label' => '',
-    ),
-    'id' => 'vid',
-    'table' => 'taxonomy_term_data',
-    'field' => 'vid',
-    'override' => array(
-      'button' => 'Override',
-    ),
-    'relationship' => 'none',
-  ),
-  'term_node_tid_depth' => array(
-    'operator' => 'or',
-    'value' => array(),
-    'group' => '0',
-    'exposed' => TRUE,
-    'expose' => array(
-      'use_operator' => 0,
-      'operator' => 'term_node_tid_depth_op',
-      'identifier' => 'forum',
-      'label' => 'Show unanswered topics in:',
-      'optional' => 1,
-      'single' => 0,
-      'remember' => 1,
-      'reduce' => 0,
-    ),
-    'type' => 'select',
-    'limit' => TRUE,
-    'vid' => variable_get('forum_nav_vocabulary', ''),
-    'depth' => '2',
-    'id' => 'term_node_tid_depth',
-    'table' => 'node',
-    'field' => 'term_node_tid_depth',
-    'hierarchy' => 1,
-    'override' => array(
-      'button' => 'Override',
-    ),
-    'relationship' => 'none',
-    'reduce_duplicates' => 0,
-  ),
-  'comment_count' => array(
-    'operator' => '=',
-    'value' => array(
-      'value' => '0',
-      'min' => '',
-      'max' => '',
-    ),
-    'group' => '0',
-    'exposed' => FALSE,
-    'expose' => array(
-      'operator' => FALSE,
-      'label' => '',
-    ),
-    'id' => 'comment_count',
-    'table' => 'node_comment_statistics',
-    'field' => 'comment_count',
-    'relationship' => 'none',
-  ),
-));
-$handler->override_option('access', array(
-  'type' => 'none',
-));
-$handler->override_option('cache', array(
-  'type' => 'none',
-));
-$handler->override_option('title', 'Unanswered forum topics');
-$handler->override_option('empty', 'No unanswered topics found.');
-$handler->override_option('empty_format', '1');
-$handler->override_option('items_per_page', 20);
-$handler->override_option('use_pager', '1');
-$handler->override_option('distinct', 1);
-$handler->override_option('style_plugin', 'forum_topic_list');
-$handler->override_option('style_options', array(
-  'grouping' => '',
-  'override' => 0,
-  'sticky' => 1,
-  'order' => 'desc',
-  'columns' => array(
-    'topic_icon' => 'topic_icon',
-    'title' => 'title',
-    'timestamp' => 'title',
-    'topic_pager' => 'title',
-    'name_1' => 'title',
-    'created' => 'title',
-    'comment_count' => 'comment_count',
-    'new_comments' => 'comment_count',
-    'totalcount' => 'totalcount',
-    'last_comment_name' => 'last_updated',
-    'last_updated' => 'last_updated',
-    'sticky' => 'sticky',
-    'teaser' => 'teaser',
-    'comment' => 'comment',
-  ),
-  'info' => array(
-    'topic_icon' => array(
-      'separator' => '',
-    ),
-    'title' => array(
-      'sortable' => 1,
-      'separator' => ' ',
-    ),
-    'name' => array(
-      'sortable' => 1,
-      'separator' => '',
-    ),
-    'timestamp' => array(
-      'separator' => '',
-    ),
-    'topic_pager' => array(
-      'separator' => '',
-    ),
-    'name_1' => array(
-      'sortable' => 0,
-      'separator' => '',
-    ),
-    'created' => array(
-      'sortable' => 0,
-      'separator' => '',
-    ),
-    'comment_count' => array(
-      'sortable' => 1,
-      'separator' => '',
-    ),
-    'new_comments' => array(
-      'separator' => '',
-    ),
-    'totalcount' => array(
-      'sortable' => 1,
-      'separator' => '',
-    ),
-    'last_comment_name' => array(
-      'sortable' => 1,
-      'separator' => '<br />',
-    ),
-    'last_updated' => array(
-      'sortable' => 1,
-      'separator' => '<br />',
-    ),
-    'sticky' => array(
-      'sortable' => 0,
-      'separator' => '',
-    ),
-    'teaser' => array(
-      'separator' => '',
-    ),
-    'comment' => array(
-      'sortable' => 0,
-      'separator' => '',
-    ),
-  ),
-  'default' => 'created',
-  'tid' => 'filter.term_node_tid_depth',
-));
-$handler = $view->new_display('page', 'Page', 'page_1');
-$handler->override_option('path', 'forum/unanswered');
-
-if (variable_get('advanced_forum_views_as_tabs', TRUE)) {
-  $handler->override_option('menu', array(
-    'type' => 'tab',
-    'title' => 'Unanswered topics',
-    'description' => '',
-    'weight' => '4',
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-}
-else {
-  $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-  ));
-}
+<?php// $Id$/** * DO NOT RE-EXPORT THIS VIEW WITHOUT CHECKING THE FORUM VID. * * When you export, please note the calls to variable_get('forum_nav_vocabulary') * to ensure that the forum vocabulary gets the right vid. */$view = new view;$view->name = 'advanced_forum_unanswered_topics';$view->description = 'Shows unaswered topics in a given forum';$view->tag = 'Advanced Forum';$view->base_table = 'node';$view->human_name = '';$view->core = 0;$view->api_version = '3.0-alpha1';$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially *//* Display: Defaults */$handler = $view->new_display('default', 'Defaults', 'default');$handler->display->display_options['title'] = 'Unanswered forum topics';$handler->display->display_options['access']['type'] = 'none';$handler->display->display_options['cache']['type'] = 'none';$handler->display->display_options['query']['type'] = 'views_query';$handler->display->display_options['query']['options']['distinct'] = TRUE;$handler->display->display_options['exposed_form']['type'] = 'basic';$handler->display->display_options['pager']['type'] = 'full';$handler->display->display_options['pager']['options']['items_per_page'] = 20;$handler->display->display_options['style_plugin'] = 'forum_topic_list';$handler->display->display_options['style_options']['columns'] = array(  'topic_icon' => 'topic_icon',  'title' => 'title',  'timestamp' => 'title',  'topic_pager' => 'title',  'name_1' => 'title',  'created' => 'title',  'comment_count' => 'comment_count',  'new_comments' => 'comment_count',  'totalcount' => 'totalcount',  'last_comment_name' => 'last_updated',  'last_updated' => 'last_updated',  'sticky' => 'sticky',  'teaser' => 'teaser',  'comment' => 'comment',);$handler->display->display_options['style_options']['default'] = 'created';$handler->display->display_options['style_options']['info'] = array(  'topic_icon' => array(    'separator' => '',  ),  'title' => array(    'sortable' => 1,    'separator' => ' ',  ),  'name' => array(    'sortable' => 1,    'separator' => '',  ),  'timestamp' => array(    'separator' => '',  ),  'topic_pager' => array(    'separator' => '',  ),  'name_1' => array(    'sortable' => 0,    'separator' => '',  ),  'created' => array(    'sortable' => 0,    'separator' => '',  ),  'comment_count' => array(    'sortable' => 1,    'separator' => '',  ),  'new_comments' => array(    'separator' => '',  ),  'totalcount' => array(    'sortable' => 1,    'separator' => '',  ),  'last_comment_name' => array(    'sortable' => 1,    'separator' => '<br />',  ),  'last_updated' => array(    'sortable' => 1,    'separator' => '<br />',  ),  'sticky' => array(    'sortable' => 0,    'separator' => '',  ),  'teaser' => array(    'separator' => '',  ),  'comment' => array(    'sortable' => 0,    'separator' => '',  ),);$handler->display->display_options['style_options']['override'] = 0;$handler->display->display_options['style_options']['sticky'] = 1;$handler->display->display_options['style_options']['order'] = 'desc';$handler->display->display_options['style_options']['tid'] = 'filter.term_node_tid_depth';/* Empty text: Global: Text area */$handler->display->display_options['empty']['text']['id'] = 'area';$handler->display->display_options['empty']['text']['table'] = 'views';$handler->display->display_options['empty']['text']['field'] = 'area';$handler->display->display_options['empty']['text']['empty'] = FALSE;$handler->display->display_options['empty']['text']['content'] = 'No unanswered topics found.';$handler->display->display_options['empty']['text']['format'] = '1';/* Field: Fields: body */$handler->display->display_options['fields']['teaser']['id'] = 'teaser';$handler->display->display_options['fields']['teaser']['table'] = 'field_data_body';$handler->display->display_options['fields']['teaser']['field'] = 'entity_id';$handler->display->display_options['fields']['teaser']['label'] = 'Teaser';$handler->display->display_options['fields']['teaser']['exclude'] = TRUE;$handler->display->display_options['fields']['teaser']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['teaser']['alter']['make_link'] = 0;$handler->display->display_options['fields']['teaser']['alter']['trim'] = 0;$handler->display->display_options['fields']['teaser']['alter']['max_length'] = '200';$handler->display->display_options['fields']['teaser']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['teaser']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['teaser']['alter']['strip_tags'] = 1;$handler->display->display_options['fields']['teaser']['alter']['html'] = 0;$handler->display->display_options['fields']['teaser']['hide_empty'] = 0;$handler->display->display_options['fields']['teaser']['type'] = 'text_summary_or_trimmed';$handler->display->display_options['fields']['teaser']['settings'] = array(  'trim_length' => '200',);/* Field: Node: Topic Icon */$handler->display->display_options['fields']['topic_icon']['id'] = 'topic_icon';$handler->display->display_options['fields']['topic_icon']['table'] = 'node';$handler->display->display_options['fields']['topic_icon']['field'] = 'topic_icon';$handler->display->display_options['fields']['topic_icon']['label'] = '';$handler->display->display_options['fields']['topic_icon']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['topic_icon']['alter']['make_link'] = 0;$handler->display->display_options['fields']['topic_icon']['alter']['trim'] = 0;$handler->display->display_options['fields']['topic_icon']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['topic_icon']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['topic_icon']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['topic_icon']['alter']['html'] = 0;$handler->display->display_options['fields']['topic_icon']['hot_topic_threshold'] = '15';/* Field: Node: Title */$handler->display->display_options['fields']['title']['id'] = 'title';$handler->display->display_options['fields']['title']['table'] = 'node';$handler->display->display_options['fields']['title']['field'] = 'title';$handler->display->display_options['fields']['title']['label'] = 'Topic';$handler->display->display_options['fields']['title']['alter']['alter_text'] = 1;$handler->display->display_options['fields']['title']['alter']['text'] = '<span class="forum-topic-title">[title]</span> ';$handler->display->display_options['fields']['title']['alter']['make_link'] = 1;$handler->display->display_options['fields']['title']['alter']['path'] = 'node/[nid]';$handler->display->display_options['fields']['title']['alter']['alt'] = '[teaser]';$handler->display->display_options['fields']['title']['alter']['trim'] = 0;$handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['title']['alter']['html'] = 0;$handler->display->display_options['fields']['title']['hide_empty'] = 0;$handler->display->display_options['fields']['title']['empty_zero'] = 0;$handler->display->display_options['fields']['title']['link_to_node'] = 1;/* Field: User: Name */$handler->display->display_options['fields']['name_1']['id'] = 'name_1';$handler->display->display_options['fields']['name_1']['table'] = 'users';$handler->display->display_options['fields']['name_1']['field'] = 'name';$handler->display->display_options['fields']['name_1']['alter']['alter_text'] = 1;$handler->display->display_options['fields']['name_1']['alter']['text'] = '<br /> by [name_1] ';$handler->display->display_options['fields']['name_1']['alter']['make_link'] = 0;$handler->display->display_options['fields']['name_1']['alter']['trim'] = 0;$handler->display->display_options['fields']['name_1']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['name_1']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['name_1']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['name_1']['alter']['html'] = 0;$handler->display->display_options['fields']['name_1']['hide_empty'] = 0;$handler->display->display_options['fields']['name_1']['empty_zero'] = 0;$handler->display->display_options['fields']['name_1']['link_to_user'] = 1;$handler->display->display_options['fields']['name_1']['overwrite_anonymous'] = 0;/* Field: Node: Post date */$handler->display->display_options['fields']['created']['id'] = 'created';$handler->display->display_options['fields']['created']['table'] = 'node';$handler->display->display_options['fields']['created']['field'] = 'created';$handler->display->display_options['fields']['created']['alter']['alter_text'] = 1;$handler->display->display_options['fields']['created']['alter']['text'] = 'on [created]';$handler->display->display_options['fields']['created']['alter']['make_link'] = 0;$handler->display->display_options['fields']['created']['alter']['trim'] = 0;$handler->display->display_options['fields']['created']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['created']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['created']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['created']['alter']['html'] = 0;$handler->display->display_options['fields']['created']['date_format'] = 'large';/* Field: Node: Comment count */$handler->display->display_options['fields']['totalcount']['id'] = 'totalcount';$handler->display->display_options['fields']['totalcount']['table'] = 'node_comment_statistics';$handler->display->display_options['fields']['totalcount']['field'] = 'comment_count';$handler->display->display_options['fields']['totalcount']['label'] = 'Views';$handler->display->display_options['fields']['totalcount']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['totalcount']['alter']['make_link'] = 0;$handler->display->display_options['fields']['totalcount']['alter']['trim'] = 0;$handler->display->display_options['fields']['totalcount']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['totalcount']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['totalcount']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['totalcount']['alter']['html'] = 0;$handler->display->display_options['fields']['totalcount']['empty'] = '0';$handler->display->display_options['fields']['totalcount']['hide_empty'] = 0;$handler->display->display_options['fields']['totalcount']['empty_zero'] = 1;/* Field: Node: Sticky */$handler->display->display_options['fields']['sticky']['id'] = 'sticky';$handler->display->display_options['fields']['sticky']['table'] = 'node';$handler->display->display_options['fields']['sticky']['field'] = 'sticky';$handler->display->display_options['fields']['sticky']['exclude'] = TRUE;$handler->display->display_options['fields']['sticky']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['sticky']['alter']['make_link'] = 0;$handler->display->display_options['fields']['sticky']['alter']['trim'] = 0;$handler->display->display_options['fields']['sticky']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['sticky']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['sticky']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['sticky']['alter']['html'] = 0;$handler->display->display_options['fields']['sticky']['not'] = 0;/* Field: Node: Comment status */$handler->display->display_options['fields']['comment']['id'] = 'comment';$handler->display->display_options['fields']['comment']['table'] = 'node';$handler->display->display_options['fields']['comment']['field'] = 'comment';$handler->display->display_options['fields']['comment']['exclude'] = TRUE;$handler->display->display_options['fields']['comment']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['comment']['alter']['make_link'] = 0;$handler->display->display_options['fields']['comment']['alter']['trim'] = 0;$handler->display->display_options['fields']['comment']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['comment']['alter']['html'] = 0;/* Field: Taxonomy: Term */$handler->display->display_options['fields']['name']['id'] = 'name';$handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';$handler->display->display_options['fields']['name']['field'] = 'name';$handler->display->display_options['fields']['name']['label'] = 'Forum';$handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;$handler->display->display_options['fields']['name']['alter']['make_link'] = 0;$handler->display->display_options['fields']['name']['alter']['trim'] = 0;$handler->display->display_options['fields']['name']['alter']['word_boundary'] = 1;$handler->display->display_options['fields']['name']['alter']['ellipsis'] = 1;$handler->display->display_options['fields']['name']['alter']['strip_tags'] = 0;$handler->display->display_options['fields']['name']['alter']['html'] = 0;$handler->display->display_options['fields']['name']['link_to_taxonomy'] = 1;/* Sort criterion: Node: Sticky */$handler->display->display_options['sorts']['sticky']['id'] = 'sticky';$handler->display->display_options['sorts']['sticky']['table'] = 'node';$handler->display->display_options['sorts']['sticky']['field'] = 'sticky';$handler->display->display_options['sorts']['sticky']['order'] = 'DESC';/* Filter: Node: Published */$handler->display->display_options['filters']['status']['id'] = 'status';$handler->display->display_options['filters']['status']['table'] = 'node';$handler->display->display_options['filters']['status']['field'] = 'status';$handler->display->display_options['filters']['status']['value'] = '1';$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;/* Filter: Taxonomy: Vocabulary */$handler->display->display_options['filters']['vid']['id'] = 'vid';$handler->display->display_options['filters']['vid']['table'] = 'taxonomy_term_data';$handler->display->display_options['filters']['vid']['field'] = 'vid';$handler->display->display_options['filters']['vid']['value'] = array(  variable_get('forum_nav_vocabulary') => variable_get('forum_nav_vocabulary'));$handler->display->display_options['filters']['vid']['expose']['operator'] = FALSE;/* Filter: Taxonomy: Term ID (with depth) */$handler->display->display_options['filters']['term_node_tid_depth']['id'] = 'term_node_tid_depth';$handler->display->display_options['filters']['term_node_tid_depth']['table'] = 'node';$handler->display->display_options['filters']['term_node_tid_depth']['field'] = 'term_node_tid_depth';$handler->display->display_options['filters']['term_node_tid_depth']['exposed'] = TRUE;$handler->display->display_options['filters']['term_node_tid_depth']['expose']['use_operator'] = 0;$handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator'] = 'term_node_tid_depth_op';$handler->display->display_options['filters']['term_node_tid_depth']['expose']['label'] = 'Show unanswered topics in:';$handler->display->display_options['filters']['term_node_tid_depth']['expose']['identifier'] = 'forum';$handler->display->display_options['filters']['term_node_tid_depth']['expose']['remember'] = 1;$handler->display->display_options['filters']['term_node_tid_depth']['expose']['single'] = 0;$handler->display->display_options['filters']['term_node_tid_depth']['expose']['reduce'] = 0;$handler->display->display_options['filters']['term_node_tid_depth']['reduce_duplicates'] = 0;$handler->display->display_options['filters']['term_node_tid_depth']['type'] = 'select';$handler->display->display_options['filters']['term_node_tid_depth']['vocabulary'] = 'forums';$handler->display->display_options['filters']['term_node_tid_depth']['hierarchy'] = 1;$handler->display->display_options['filters']['term_node_tid_depth']['depth'] = '2';/* Filter: Node: Comment count */$handler->display->display_options['filters']['comment_count']['id'] = 'comment_count';$handler->display->display_options['filters']['comment_count']['table'] = 'node_comment_statistics';$handler->display->display_options['filters']['comment_count']['field'] = 'comment_count';$handler->display->display_options['filters']['comment_count']['value']['value'] = '0';$handler->display->display_options['filters']['comment_count']['expose']['operator'] = FALSE;/* Display: Page */$handler = $view->new_display('page', 'Page', 'page_1');$handler->display->display_options['path'] = 'forum/unanswered';$handler->display->display_options['menu']['type'] = 'tab';$handler->display->display_options['menu']['title'] = 'Unanswered topics';$handler->display->display_options['menu']['weight'] = '4';$translatables['advanced_forum_unanswered_topics'] = array(  t('Defaults'),  t('Unanswered forum topics'),  t('more'),  t('Apply'),  t('Reset'),  t('Sort By'),  t('Asc'),  t('Desc'),  t('Items per page'),  t('- All -'),  t('Offset'),  t('No unanswered topics found.'),  t('Teaser'),  t('Topic'),  t('<span class="forum-topic-title">[title]</span> '),  t('node/[nid]'),  t('[teaser]'),  t('Name'),  t('<br /> by [name_1] '),  t('Post date'),  t('on [created]'),  t('Views'),  t('.'),  t(','),  t('Sticky'),  t('Comment status'),  t('Forum'),  t('Show unanswered topics in:'),  t('Page'),);
