@@ -9,6 +9,7 @@ NOISSUE by troky: Removed extra character from advanced_forum_group_topic_list.v
 NOISSUE by troky: Fixed/changed default style to Silver Bells in settings.
 NOISSUE by troky: Added missing filter parameter to views definition. Updated unanswered topics view.
 #1023078 by troky: Fixed bunch of notices and undefined variable errors when previewing new topic.
+#1037724 by gordon: Moved Advanced forum configuration menu into configuration page.
 
 January 23, 2011
 ----------------

@@ -304,7 +304,7 @@ function advanced_forum_comment_is_styled($comment, $master_topic_id) {
 }
 
 function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
-  $vid = variable_get('forum_nav_vocabulary', '');
+  $vid = variable_get('forum_nav_vocabulary');
 
   // Check for language used
   if (!isset($node->taxonomy_forums[$node->language])) {
@@ -316,7 +316,7 @@ function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
 
   if ($preview) {
      foreach ($node->taxonomy_forums[$langcode] as $tforum) {
-      if ($tforum->taxonomy_term->vid == $vid) {
+      if ($tforum['taxonomy_term']->vid == $vid) {
         return TRUE;
       }
     }
@@ -422,7 +422,7 @@ function advanced_forum_comment_wrapper($content, $node) {
   }
 
   foreach ($node->taxonomy_forums[$langcode] as $tforum) {
-    if ($tforum->taxonomy_term->vid == $vid) {
+    if ($tforum['taxonomy_term']->vid == $vid) {
       return _advanced_forum_comment_wrapper($content, $node);
     }
   }

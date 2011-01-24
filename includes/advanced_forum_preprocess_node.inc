@@ -40,7 +40,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     // Build the topic header
     $variables['topic_header'] = theme('advanced_forum_topic_header', array(
       'node' => $node,
-      'comment_count' => $variables['comment_count']
+      'comment_count' => isset($variables['comment_count']) ? $variables['comment_count'] : 0,
       ));
 
     // Check for language used
@@ -213,7 +213,7 @@ function _advanced_forum_preprocess_node(&$variables) {
     }
 
     /* Revisions */
-    if (user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
+    if (isset($variables['revision_timestamp']) && user_access('view last edited notice') && $variables['created'] != $variables['revision_timestamp']) {
       $variables['post_edited'] = theme('advanced_forum_post_edited', array(
         'who' => $variables['revision_uid'],
         'when' => $variables['revision_timestamp'],
