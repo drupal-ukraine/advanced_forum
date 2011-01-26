@@ -393,4 +393,10 @@ if (module_exists('og')) {
     t('All'),
     t('%1'),
   );
+
+  // Get rid of the views counter if statistics not enabled.
+  if (!module_exists('statistics')) {
+    unset($handler->display->display_options['fields']['totalcount']);
+    unset($handler->display->display_options['style_options']['columns']['totalcount']);
+  }
 }

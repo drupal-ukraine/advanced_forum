@@ -3,6 +3,11 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 26, 2011
+----------------
+#935778 by troky, Michelle: Remove 'views' column when statistics not enabled.
+NOISSUE by Michelle: Removed topic icon from unsanswered view as it caused notices and served no purposes.
+
 January 24, 2011
 ----------------
 NOISSUE by troky: Removed extra character from advanced_forum_group_topic_list.view.

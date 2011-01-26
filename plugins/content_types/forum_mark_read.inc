@@ -32,7 +32,7 @@ function advanced_forum_forum_mark_read_content_type_render($subtype, $conf, $pa
   }
 
   $block = new stdClass();
-  $block->module = 'forum-secondary-links';
+  $block->module = 'forum-mark-read';
   $block->delta  = $tid;
 
   $block->title = ''; // by default this has no title.

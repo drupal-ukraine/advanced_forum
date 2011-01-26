@@ -430,4 +430,9 @@ $translatables['advanced_forum_topic_list'] = array(
   t('Comment status'),
   t('All'),
 );
-$views[$view->name] = $view;
+
+// Get rid of the views counter if statistics not enabled.
+if (!module_exists('statistics')) {
+  unset($handler->display->display_options['fields']['totalcount']);
+  unset($handler->display->display_options['style_options']['columns']['totalcount']);
+}
