@@ -12,7 +12,7 @@
 /**
  * Theme function to display a link, optionally buttonized.
  */
- 
+
 
 function theme_advanced_forum_l(&$variables) {
   $text = $variables['text'];
@@ -26,10 +26,10 @@ function theme_advanced_forum_l(&$variables) {
   if (!is_null($button_class)) {
     // Buttonized link: add our button class and the span.
     if (!isset($options['attributes']['class'])) {
-        $options['attributes']['class'] = array("af-button-$button_class"); 
+        $options['attributes']['class'] = array("af-button-$button_class");
     }
     else {
-      $options['attributes']['class'][] = "af-button-$button_class";  
+      $options['attributes']['class'][] = "af-button-$button_class";
     }
     $options['html'] = TRUE;
     return l('<span>' . $text . '</span>', $path, $options);
@@ -45,7 +45,7 @@ function theme_advanced_forum_l(&$variables) {
  */
 function theme_advanced_forum_node_type_create_list(&$variables) {
   $forum_id = $variables['forum_id'];
-  
+
   // Get the list of node types to display links for.
   $type_list = advanced_forum_node_type_create_list($forum_id);
 
@@ -54,9 +54,9 @@ function theme_advanced_forum_node_type_create_list(&$variables) {
     foreach ($type_list as $type => $item) {
       $output .= '<div class="forum-add-node forum-add-' . $type . '">';
       $output .=  theme('advanced_forum_l', array(
-        'text' => t('New @node_type', array('@node_type' => $item['name'])), 
-        'path' => $item['href'], 
-        'options' => NULL, 
+        'text' => t('New @node_type', array('@node_type' => $item['name'])),
+        'path' => $item['href'],
+        'options' => NULL,
         'button_class' => 'large'
       ));
       $output .= '</div>';
@@ -67,7 +67,7 @@ function theme_advanced_forum_node_type_create_list(&$variables) {
     // we just return the denial text / login prompt.
     $output = $type_list;
   }
-  
+
   return $output;
 }
 
@@ -79,9 +79,9 @@ function theme_advanced_forum_post_edited(&$variables) {
   $editor_name = theme('username', array('account' => $editor));
 
   $datetime = format_date($variables['when'], 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
-  
-  $edited = t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime.', array('!editor' => $editor_name, '!datetime' => $datetime));    
-  
+
+  $edited = t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime.', array('!editor' => $editor_name, '!datetime' => $datetime));
+
   // Don't include reason part if there is no reason
   if (empty($variables['why'])) {
     return $edited;
@@ -98,10 +98,10 @@ function theme_advanced_forum_simple_author_pane(&$variables) {
   $context = $variables['context'];
   // Sending the context rather than the account makes it work for anon comments.
   $name = theme('username', array('account' => $context));
-  
+
   $account = user_load($context->uid);
   $picture = theme('user_picture', array('account' => $account));
- 
+
   return '<div class="author-pane">' . $name . $picture . '</div>';
 }
 
@@ -119,9 +119,9 @@ function theme_advanced_forum_reply_link(&$variables) {
     // Reply is allowed. Variable contains the link information.
     $output = '<div class="topic-reply-allowed">';
     $output .= theme('advanced_forum_l', array(
-      'text' => $reply_link['title'], 
-      'path' => $reply_link['href'], 
-      'options' => $reply_link['options'], 
+      'text' => $reply_link['title'],
+      'path' => $reply_link['href'],
+      'options' => $reply_link['options'],
       'button_class' => 'large'
       ));
     $output .= '</div>';
@@ -151,7 +151,7 @@ function theme_advanced_forum_reply_link(&$variables) {
 function theme_advanced_forum_topic_pager($variables) {
   $pagecount = $variables['pagecount'];
   $topic = $variables['topic'];
-  
+
   // Get the information to assemble the pager. This returns an object with
   // the following properties:
   //  initial_pages: Array of linked numbers for first set of pages
@@ -159,7 +159,7 @@ function theme_advanced_forum_topic_pager($variables) {
   //  last_page_number: Linked number pointing to the last page.
   $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
   $last_page = '';
-  
+
   if (!empty($topic_pager->initial_pages)) {
     if (!empty($topic_pager->last_page_text)) {
       // If you prefer to end with the number, replace
@@ -269,7 +269,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $fragment = ($new_replies) ? 'new' : NULL;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", array('query' => $query, 'fragment' => $fragment));
   }
-  
+
   // For items posted more than $cutoff hours ago, offer an actual date.
   $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
   if (isset($variables['topic']->created)) {
@@ -335,12 +335,14 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
   advanced_forum_add_template_suggestions("topic-list-outer-view", $variables);
 
   // @TODO: This is messy tying it to the URL. Need to find a better way.
+  $variables['node_create_list'] = '';
+  $variables['forum_tools'] = '';
   $tid = arg(1);
-  if (arg(0) == 'forum' && $tid > 0) {
+  if (arg(0) == 'forum' && $tid > 0 && variable_get('advanced_forum_forum_disabled', TRUE)) {
     $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $tid));
     $variables['forum_tools'] = advanced_forum_forum_tools($tid);
   }
-  
+
 }
 
 /**
@@ -399,17 +401,17 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   if (module_exists('nodecomment')) {
     $variables['search'] = theme('advanced_forum_search_topic', array('node' => $node));
   }
-  
+
   // Reply link / button
   $variables['reply_link'] = theme('advanced_forum_reply_link', array('node' => $node));
 
   // Total posts, including first post.
   $posts = (empty($variables['comment_count'])) ? 1 : $variables['comment_count'] + 1;
   $variables['total_posts_count'] = format_plural($posts, '1 post', '@count posts');
-  
+
   // Number of new posts on topic.
   $variables['new_posts_count'] = advanced_forum_reply_num_new($node->nid);
-  
+
   // Link to first new post.
   $variables['first_new_post_link'] = advanced_forum_first_new_post_link($variables['node'], $variables['comment_count']);
 

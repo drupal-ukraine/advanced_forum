@@ -104,6 +104,10 @@ Colors used:
 }
 
 /* Topic listings */
+.view-advanced-forum-topic-list .view-empty {
+  border: 3px solid #C1C1C1;
+}
+
 .forum-table tr.forum-last-sticky {
   border-bottom: 10px solid #C1C1C1;
 }

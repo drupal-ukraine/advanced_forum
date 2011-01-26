@@ -112,6 +112,14 @@ td.forum-last-reply {
 
 /**** Topic listing ****/
 
+ .view-advanced-forum-topic-list .view-empty {
+  clear: both;
+  height: 100px;
+  width: 100%;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+}
+
 /* Set column widths */
 .forum-table-topics td.views-field-topic-icon {
   width: 26px;

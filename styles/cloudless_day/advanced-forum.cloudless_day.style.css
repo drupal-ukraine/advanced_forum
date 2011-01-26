@@ -50,6 +50,10 @@ Colors used:
   background-color: white;
 }
 
+.view-advanced-forum-topic-list .view-empty {
+  border: 3px solid #C8DBEA;
+}
+
 /* Headers */
 .forum-table thead tr {
   border-top: 1px solid #FFFFFF;

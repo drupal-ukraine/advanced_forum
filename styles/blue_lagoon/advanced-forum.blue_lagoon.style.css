@@ -32,7 +32,7 @@ Colors used: (copied from silver bells... need to update)
 .forum-pager .pager a:hover,
 #forum-comments .pager-current,
 #forum-comments .pager a:hover {
-  color: #0062A0; 
+  color: #0062A0;
 }
 
 .forum-pager .pager a.active,
@@ -40,7 +40,7 @@ Colors used: (copied from silver bells... need to update)
   background: #EDF5FA;
   background: -webkit-gradient(linear, left top, left bottom, from(#CBE2F1), to(#EDF5FA));
   background: -moz-linear-gradient(top, #CBE2F1, #EDF5FA);
-  color: #0062A0; 
+  color: #0062A0;
 }
 
 /*** FORUM & TOPIC LIST ******************************************************/
@@ -67,7 +67,7 @@ Colors used: (copied from silver bells... need to update)
 }
 
 /* Containers & Forums */
-.forum-table tr.even, 
+.forum-table tr.even,
 .forum-table tr.odd {
   border-top: 1px solid #FFFFFF;
   background: #EDF5FA;
@@ -76,6 +76,10 @@ Colors used: (copied from silver bells... need to update)
 }
 
 /* Topic listings */
+.view-advanced-forum-topic-list .view-empty {
+  border: border: 3px solid #1659AC;
+}
+
 .forum-table tr.sticky {
   background-color: #E6EDEC;
 }
