@@ -10,6 +10,9 @@ NOISSUE by Michelle: Removed topic icon from unsanswered view as it caused notic
 #1031712 by Michelle: Gave structure to topic list empty view div to avoid layout issues when there are no topics in a forum.
 #1001524 by Michelle: Created content types for forum tools and node create list.
 #935322 / #1001524 by Michelle Got PM version in sync with non PM version.
+#1031712 by troky: Fixed parsing of advanced_forum_forum_disabled variable.
+#1040958 by troky: Fixed deleting all module variables in advanced_forum_uninstall()
+NOISSUE by troky: Fixed formatting of some files, mostly newline characters.
 
 January 24, 2011
 ----------------

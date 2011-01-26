@@ -338,7 +338,7 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
   $variables['node_create_list'] = '';
   $variables['forum_tools'] = '';
   $tid = arg(1);
-  if (arg(0) == 'forum' && $tid > 0 && variable_get('advanced_forum_forum_disabled', TRUE)) {
+  if (arg(0) == 'forum' && $tid > 0 && !variable_get('advanced_forum_forum_disabled', FALSE)) {
     $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $tid));
     $variables['forum_tools'] = advanced_forum_forum_tools($tid);
   }
