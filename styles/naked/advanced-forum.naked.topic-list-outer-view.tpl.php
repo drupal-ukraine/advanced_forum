@@ -1,11 +1,21 @@
 <?php
 // $Id$
+
 /**
  * @file views-view.tpl.php
  * Main view template
  *
  * Variables available:
+ * - $classes_array: An array of classes determined in
+ *   template_preprocess_views_view(). Default classes are:
+ *     .view
+ *     .view-[css_name]
+ *     .view-id-[view_name]
+ *     .view-display-id-[display_name]
+ *     .view-dom-id-[dom_id]
+ * - $classes: A string version of $classes_array for use in the class attribute
  * - $css_name: A css-safe version of the view name.
+ * - $css_class: The user-specified classes names, if any
  * - $header: The view header
  * - $footer: The view footer
  * - $rows: The results of the view query, if any
@@ -21,7 +31,7 @@
  */
 ?>
 
-<div class="view view-<?php print $css_name; ?> view-id-<?php print $name; ?> view-display-id-<?php print $display_id; ?> view-dom-id-<?php print $dom_id; ?>">
+<div class="<?php print $classes; ?>">
   <?php if ($admin_links): ?>
     <div class="views-admin-links views-hide">
       <?php print $admin_links; ?>
@@ -46,10 +56,10 @@
     </div>
   <?php endif; ?>
 
-	<?php if ($node_create_list): ?>
-	  <div class="forum-node-create-links forum-node-create-links-top"><?php print $node_create_list ?></div>
+  <?php if ($node_create_list): ?>
+    <div class="forum-node-create-links forum-node-create-links-top"><?php print $node_create_list ?></div>
   <?php endif; ?>
-  
+
   <?php if ($pager): ?>
     <div class="forum-pager" id="forum-pager-top"><?php print $pager; ?></div>
   <?php endif; ?>
@@ -71,7 +81,7 @@
   <?php endif; ?>
 
   <?php if (!empty($view->sort_form)): ?>
-     <div id="forum-sort"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
+    <div id="forum-sort"><?php print advanced_forum_forum_topic_list_sort(); ?></div>
   <?php endif; ?>
 
   <?php if (!empty($forum_tools)): ?>

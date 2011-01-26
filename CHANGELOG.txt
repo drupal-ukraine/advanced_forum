@@ -13,6 +13,7 @@ NOISSUE by Michelle: Removed topic icon from unsanswered view as it caused notic
 #1031712 by troky: Fixed parsing of advanced_forum_forum_disabled variable.
 #1040958 by troky: Fixed deleting all module variables in advanced_forum_uninstall()
 NOISSUE by troky: Fixed formatting of some files, mostly newline characters.
+NOISSUE by troky: Fixed 'Empty text' field in views definitions.
 
 January 24, 2011
 ----------------

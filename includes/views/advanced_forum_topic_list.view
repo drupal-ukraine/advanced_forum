@@ -140,12 +140,12 @@ $handler->display->display_options['style_options']['sticky'] = 1;
 $handler->display->display_options['style_options']['order'] = 'desc';
 $handler->display->display_options['style_options']['tid'] = 'argument.tid';
 /* Empty text: Global: Text area */
-$handler->display->display_options['empty']['text']['id'] = 'area';
+$handler->display->display_options['empty']['text']['id'] = 'text';
 $handler->display->display_options['empty']['text']['table'] = 'views';
 $handler->display->display_options['empty']['text']['field'] = 'area';
 $handler->display->display_options['empty']['text']['empty'] = FALSE;
 $handler->display->display_options['empty']['text']['content'] = 'No posts in this forum.';
-$handler->display->display_options['empty']['text']['format'] = '1';
+$handler->display->display_options['empty']['text']['format'] = 'filtered_html';
 /* Field: Node: Nid */
 $handler->display->display_options['fields']['nid']['id'] = 'nid';
 $handler->display->display_options['fields']['nid']['table'] = 'node';

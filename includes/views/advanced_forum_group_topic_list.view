@@ -111,7 +111,7 @@ if (module_exists('og')) {
   $handler->display->display_options['empty']['text']['field'] = 'area';
   $handler->display->display_options['empty']['text']['empty'] = FALSE;
   $handler->display->display_options['empty']['text']['content'] = 'No posts in this group.';
-  $handler->display->display_options['empty']['text']['format'] = '1';
+  $handler->display->display_options['empty']['text']['format'] = 'filtered_html';
   /* Field: Node: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';

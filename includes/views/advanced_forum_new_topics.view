@@ -120,7 +120,7 @@ $handler->display->display_options['empty']['text']['table'] = 'views';
 $handler->display->display_options['empty']['text']['field'] = 'area';
 $handler->display->display_options['empty']['text']['empty'] = FALSE;
 $handler->display->display_options['empty']['text']['content'] = 'No new or updated posts.';
-$handler->display->display_options['empty']['text']['format'] = '1';
+$handler->display->display_options['empty']['text']['format'] = 'filtered_html';
 /* Field: Fields: body */
 $handler->display->display_options['fields']['teaser']['id'] = 'teaser';
 $handler->display->display_options['fields']['teaser']['table'] = 'field_data_body';
