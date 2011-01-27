@@ -1230,8 +1230,6 @@ function advanced_forum_forum_tools($tid=0) {
       if (module_exists('nodecomment')) {
         $select[url("forum/user", array('query' => array('forum[]' => $tid)))] = "View your posts in this forum";
       }
-
-      $select[url("forum/markasread/$tid")] = "Mark this forum read";
     }
   }
   else {
@@ -1244,9 +1242,20 @@ function advanced_forum_forum_tools($tid=0) {
       if (module_exists('nodecomment')) {
         $select[url("forum/user")] = "View your forum posts";
       }
-
-      $select[url("forum/markasread")] = "Mark all forums read";
     }
+  }
+
+  // Add mark as read to the jump list.
+  // This code is a little odd and needs explaining. The return value of
+  // the mark_as_read function is already formed HTML and so is unsuitable
+  // for the jump list. The function already has built in the ability
+  // to add to an existing $links array, which has the URL and title text
+  // separated. Rather than add a third method just for the jump menu, I
+  // reused that functionality here.
+  $mark_as_read = array();
+  advanced_forum_get_mark_read_link($tid, $mark_as_read);
+  if (!empty($mark_as_read['mark-read']['href'])) {
+    $select[url($mark_as_read['mark-read']['href'])] = $mark_as_read['mark-read']['title'];
   }
 
   $options['choose'] = t("- Forum Tools -");

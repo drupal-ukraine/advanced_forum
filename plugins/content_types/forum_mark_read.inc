@@ -38,7 +38,8 @@ function advanced_forum_forum_mark_read_content_type_render($subtype, $conf, $pa
   $block->title = ''; // by default this has no title.
   _advanced_forum_add_files();
 
-  $block->content = '<div class="forum-mark-read">' . advanced_forum_get_mark_read_link($tid) . '</div>';
+  $mar_link = advanced_forum_get_mark_read_link($tid);
+  $block->content = (empty($mar_link)) ? '' : '<div class="forum-mark-read">' . advanced_forum_get_mark_read_link($tid) . '</div>';
 
   return $block;
 }

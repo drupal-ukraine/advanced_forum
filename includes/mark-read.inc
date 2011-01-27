@@ -11,17 +11,17 @@
  * Either fill a $links array or return a string version of the link to mark read.
  */
 function advanced_forum_get_mark_read_link($tid = 0, &$links = array()) {
-  if (advanced_forum_markasread_access()) {
+  if (advanced_forum_markasread_access() && !in_array($tid, variable_get('forum_containers', array()))) {
     if ($tid) {
       $links['mark-read']['title'] = t('Mark all topics read');
       $links['mark-read']['href'] = "forum/markasread/$tid";
-      
+
       return l(t('Mark all topics read') . '<span class="image-replace"></span>', "forum/markasread/$tid", array('html' => TRUE));
     }
     else {
       $links['mark-read']['title'] = t('Mark all forums read');
       $links['mark-read']['href'] = "forum/markasread";
-      
+
       return l(t('Mark all forums read') . '<span class="image-replace"></span>', "forum/markasread", array('html' => TRUE));
     }
   }
@@ -43,7 +43,7 @@ function advanced_forum_markasread($current_forum_id = 0) {
               INNER JOIN {forum} AS f ON (h.nid = f.nid)
             WHERE h.uid = :uid AND f.tid = :tid";
     db_query($sql, array(':uid' => $user->uid, ':tid' => $current_forum_id));
-    
+
     // Update the history table with all forum nodes newer than the cutoff.
     //
     // Can't write dynamic query here because D7 InsertQuery (still) doesn't support joins
@@ -80,7 +80,7 @@ function advanced_forum_markasread($current_forum_id = 0) {
             INNER JOIN {forum} AS f ON (h.nid = f.nid)
             INNER JOIN {taxonomy_term_data} AS td ON (td.tid = f.tid)
           WHERE h.uid = :uid AND td.vid = :vid";
-          
+
   db_query($sql, array(':uid' => $user->uid, ':vid' => $forum_vocabulary_id));
 
   // Update the history table with all forum nodes newer than the cutoff.
@@ -91,7 +91,7 @@ function advanced_forum_markasread($current_forum_id = 0) {
               INNER JOIN {node_comment_statistics} AS ncs ON ncs.nid = n.nid
               INNER JOIN {taxonomy_term_data} AS td ON f.tid = td.tid
             WHERE (n.changed > :changed OR ncs.last_comment_timestamp > :timestamp) AND td.vid = :vid";
-   
+
    db_query($sql, array(
       ':uid' => $user->uid,
       ':req_time' => REQUEST_TIME,

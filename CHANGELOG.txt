@@ -6,6 +6,7 @@ $Id$
 January 27, 2011
 ----------------
 #1041128 by troky: Fixed PHP 5.3 strict warnings.
+#992428 by Michelle: Fixed mark as read so it's not displayed on containers.
 
 January 26, 2011
 ----------------
