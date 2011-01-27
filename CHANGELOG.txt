@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 27, 2011
+----------------
+#1041128 by troky: Fixed PHP 5.3 strict warnings.
+
 January 26, 2011
 ----------------
 #935778 by troky, Michelle: Remove 'views' column when statistics not enabled.

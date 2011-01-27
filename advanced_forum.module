@@ -690,7 +690,8 @@ function advanced_forum_forum_topic_list_sort() {
     'drop tokens' => TRUE,
   );
 
-  return drupal_render(drupal_build_form('advanced_forum_forum_topic_list_sort_form', $form_state));
+  $form = drupal_build_form('advanced_forum_forum_topic_list_sort_form', $form_state);
+  return drupal_render($form);
 }
 
 function advanced_forum_forum_topic_list_sort_form($form_state) {
@@ -1251,7 +1252,8 @@ function advanced_forum_forum_tools($tid=0) {
   $options['choose'] = t("- Forum Tools -");
 
   // Create and return the jump menu.
-  return drupal_render(drupal_get_form('ctools_jump_menu', $select, $options));
+  $form = drupal_get_form('ctools_jump_menu', $select, $options);
+  return drupal_render($form);
 }
 
 /**
