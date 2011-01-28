@@ -1221,26 +1221,26 @@ function advanced_forum_forum_tools($tid=0) {
   global $user;
   ctools_include('jump-menu');
   if ($tid > 0) {
-    $select[url("forum/active", array('query' => array('forum[]' => $tid)))] = "View active posts in this forum";
-    $select[url("forum/unanswered", array('query' => array('forum[]' => $tid)))] = "View unanswered posts in this forum";
+    $select[url("forum/active", array('query' => array('forum[]' => $tid)))] = t("View active posts in this forum");
+    $select[url("forum/unanswered", array('query' => array('forum[]' => $tid)))] = t("View unanswered posts in this forum");
 
     if ($user->uid) {
-      $select[url("forum/new", array('query' => array('forum[]' => $tid)))] = "View new posts in this forum";
+      $select[url("forum/new", array('query' => array('forum[]' => $tid)))] = t("View new posts in this forum");
 
       if (module_exists('nodecomment')) {
-        $select[url("forum/user", array('query' => array('forum[]' => $tid)))] = "View your posts in this forum";
+        $select[url("forum/user", array('query' => array('forum[]' => $tid)))] = t("View your posts in this forum");
       }
     }
   }
   else {
-    $select[url("forum/active")] = "View active forum posts";
-    $select[url("forum/unanswered")] = "View unanswered forum posts";
+    $select[url("forum/active")] = t("View active forum posts");
+    $select[url("forum/unanswered")] = t("View unanswered forum posts");
 
     if ($user->uid) {
-      $select[url("forum/new")] = "View new forum posts";
+      $select[url("forum/new")] = t("View new forum posts");
 
       if (module_exists('nodecomment')) {
-        $select[url("forum/user")] = "View your forum posts";
+        $select[url("forum/user")] = t("View your forum posts");
       }
     }
   }

@@ -7,6 +7,7 @@ January 28, 2011
 ----------------
 #1042664 by troky: Fixed variable name mismatch in advanced_forum_statistics_replies().
 #1031712 by troky: Improved CSS to give structure to empty forums.
+#1041426 by __Sander__: Wrapped forum tools menu items in t().
 
 January 27, 2011
 ----------------
