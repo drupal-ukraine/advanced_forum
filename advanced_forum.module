@@ -792,7 +792,7 @@ function advanced_forum_statistics_replies($refresh = FALSE) {
       $total_replies = db_query('SELECT SUM(s.comment_count) FROM {node_comment_statistics} s INNER JOIN {forum} f ON (s.nid = f.nid)')->fetchField();
     }
 
-    variable_set('advanced_forum_stats_posts', $total_replies);
+    variable_set('advanced_forum_stats_replies', $total_replies);
   }
 
   return $total_replies;

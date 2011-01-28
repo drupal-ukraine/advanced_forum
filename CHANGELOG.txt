@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 28, 2011
+----------------
+#1042664 by troky: Fixed variable name mismatch in advanced_forum_statistics_replies().
+
 January 27, 2011
 ----------------
 #1041128 by troky: Fixed PHP 5.3 strict warnings.
