@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 29, 2011
+----------------
+NOISSUE by troky: Fixed wrongly constructed query in advanced_forum_unread_replies_in_forum().
+
 January 28, 2011
 ----------------
 #1042664 by troky: Fixed variable name mismatch in advanced_forum_statistics_replies().
