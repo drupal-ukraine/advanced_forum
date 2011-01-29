@@ -1119,7 +1119,7 @@ function advanced_forum_allowed_node_types($tid=0, $vid=0) {
   if (module_exists('forum_access')) {
     // Check with forum access to see if this forum allows node creation.
     // If it doesn't, send back an empty list.
-    if (!forum_access_access($tid, 'create', NULL, TRUE)) {
+    if (!forum_access_access('create', $tid)) {
       return array();
     }
   }
