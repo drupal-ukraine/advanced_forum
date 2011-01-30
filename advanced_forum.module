@@ -1338,7 +1338,7 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
 function advanced_forum_unread_replies_in_forum($tid, $uid) {
   static $result_cache = NULL;
 
-  if (is_NULL($result_cache)) {
+  if (is_null($result_cache)) {
     $result_cache = array();
 
     if (module_exists("nodecomment")) {
@@ -1358,7 +1358,7 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
     else {
       $query = db_select("comment", "c");
       $f_alias = $query->join("forum", "f", "c.nid = f.nid");
-      $n_alias = $query->join("node", "n", "f.vid = n.vid");
+      //$n_alias = $query->join("node", "n", "f.vid = n.vid");
       $h_alias = $query->leftJoin("history", "h", "c.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
       $query->addExpression("COUNT(c.cid)", "count");
       $query->addField($f_alias , "tid");

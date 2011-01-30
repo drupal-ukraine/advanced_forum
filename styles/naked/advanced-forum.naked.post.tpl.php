@@ -19,12 +19,12 @@
  * - $name: User name of post author.
  * - $author_pane: Entire contents of the Author Pane template.
  */
- 
+
 ?>
 
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
-  
+
 <?php else: ?>
   <?php // If using nodecomment, add the anchor that comment normally provides ?>
   <?php if (!empty($comment_anchor)): ?>
@@ -37,32 +37,32 @@
     <div class="forum-posted-on">
       <?php print $date ?>
 
-      <?php 
+      <?php
       // This whole section is for printing the "new" marker. With core comment
-      // we just need to check a variable. With Node Comment, we need to do 
-      // extra work to keep the views caching used for Node Comment from 
-      //caching the new markers. 
+      // we just need to check a variable. With Node Comment, we need to do
+      // extra work to keep the views caching used for Node Comment from
+      //caching the new markers.
       ?>
       <?php if (!$top_post): ?>
         <?php if (!module_exists('nodecomment') && !empty($new)): ?>
           <a id="new"><span class="new">(<?php print $new ?>)</span></a>
-        <?php endif; ?>    
-      
+        <?php endif; ?>
+
         <?php if (!empty($first_new)): ?>
           <?php print $first_new; ?>
         <?php endif; ?>
-        
+
         <?php if (!empty($new_output)): ?>
           <?php print $new_output; ?>
         <?php endif; ?>
       <?php endif; ?>
     </div>  <?php // End of posted on div ?>
-		
+
     <?php if (!empty($in_reply_to)): ?>
    	 <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
     <?php endif; ?>
 
-    <?php // Add a note when a post is unpublished so it doesn't rely on theming. ?>    
+    <?php // Add a note when a post is unpublished so it doesn't rely on theming. ?>
     <?php if (!$node->status): ?>
       <span class="unpublished-post-note"><?php print t("Unpublished post") ?></span>
     <?php endif; ?>
@@ -85,9 +85,15 @@
       <?php endif; ?>
 
       <div class="forum-post-content">
-        <?php print render($content['body']); ?>
+        <?php
+          // We hide the comments and links now so that we can render them later.
+          hide($content['taxonomy_forums']);
+          hide($content['comments']);
+          hide($content['links']);
+          print render($content);
+        ?>
       </div>
-      
+
       <?php if (!empty($post_edited)): ?>
         <div class="post-edited">
           <?php print $post_edited ?>
@@ -113,9 +119,9 @@
   </div> <?php // End of footer div ?>
 </div> <?php // End of main wrapping div ?>
 
-<?php 
+<?php
 // Print the taxonomy terms for this node. This will print all terms,
-// including the term of the forum itself. If you don't use any other 
+// including the term of the forum itself. If you don't use any other
 // taxonomy on forum posts, you can safely delete this section.
 ?>
 <?php print render($content['comments']); ?>

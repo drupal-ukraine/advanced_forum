@@ -5,6 +5,11 @@ $Id$
 
 January 29, 2011
 ----------------
+#1044082 by troky: Fixed node templates to show all fields, not only body text.
+NOISSUE by troky: Fixed line breaks in template_preprocess_advanced_forum_topic_list_view.
+
+January 29, 2011
+----------------
 NOISSUE by troky: Fixed wrongly constructed query in advanced_forum_unread_replies_in_forum().
 #1042636 by troky: Fixed Forum Access module compatibility.
 

@@ -61,7 +61,13 @@
       <?php endif; ?>
 
       <div class="forum-post-content">
-        <?php print render($content['body']); ?>
+        <?php
+          // We hide the comments and links now so that we can render them later.
+          hide($content['taxonomy_forums']);
+          hide($content['comments']);
+          hide($content['links']);
+          print render($content);
+        ?>
       </div>
 
       <?php if (!empty($signature)): ?>
