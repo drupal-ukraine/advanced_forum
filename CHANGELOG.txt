@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 31, 2011
+----------------
+#1046436 by troky: Fixed duplicate comment text.
+
 January 29, 2011
 ----------------
 #1044082 by troky: Fixed node templates to show all fields, not only body text.

@@ -90,6 +90,8 @@
           hide($content['taxonomy_forums']);
           hide($content['comments']);
           hide($content['links']);
+          if (!$top_post)
+            hide($content['body']);
           print render($content);
         ?>
       </div>

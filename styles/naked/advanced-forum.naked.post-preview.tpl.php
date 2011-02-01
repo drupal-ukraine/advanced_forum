@@ -65,6 +65,8 @@
           // We hide the comments and links now so that we can render them later.
           hide($content['taxonomy_forums']);
           hide($content['comments']);
+          if (!$top_post)
+            hide($content['body']);
           hide($content['links']);
           print render($content);
         ?>
@@ -83,3 +85,4 @@
   </div>
 
 </div>
+  
