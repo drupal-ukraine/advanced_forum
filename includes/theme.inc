@@ -467,10 +467,10 @@ function advanced_forum_preprocess_node(&$variables) {
 }
 
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
+  $variables['reply_link'] = '';
   if (advanced_forum_is_styled($variables['node'], FALSE, 'comment-wrapper')) {
     advanced_forum_add_template_suggestions("comment_wrapper", $variables);
 
-    $variables['reply_link'] = '';
     $form_on_seperate_page = variable_get('comment_form_location_' . $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
 
     if (module_exists('nodecomment')) {
