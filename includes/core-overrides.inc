@@ -13,7 +13,7 @@ function advanced_forum_page($forum_term = NULL) {
   if (!isset($forum_term)) {
     // On the main page, display all the top-level forums.
 		// Using core forum call because of performance reasons.
-    $forum_term = forum_forum_load(0);
+    $forum_term = advanced_forum_forum_load(0);
   }
 
   // Set tid for <root> container

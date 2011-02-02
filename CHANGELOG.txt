@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 02,2011
+----------------
+#1048606 by troky: Fixed missing title/link to the last post.
+
 February 01,2011
 ----------------
 #1045200 by troky: Fixed 'reply_link' variable initialization in advanced_forum_preprocess_comment_wrapper().
