@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 03,2011
+----------------
+#1041402 by troky: Fix css for forum table(s).
+
 February 02,2011
 ----------------
 #1048606 by troky: Fixed missing title/link to the last post.
