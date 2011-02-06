@@ -1,35 +1,34 @@
 /* FORUM LIST ICONS *********************************************************/
-td.forum-icon {
+td.forum-list-icon {
   vertical-align: middle;
   text-align: center;
   width: 70px;
 }
 
-.forum-icon-wrapper span {
+.forum-list-icon-wrapper span {
   text-indent: -9999px;
   width: 50px;
   height: 50px;
   display: block;
 }
 
-tr.even td.forum-folder .forum-icon-wrapper span,
-tr.odd td.forum-folder .forum-icon-wrapper span {
+tr.even td.forum-list-icon-default .forum-list-icon-wrapper span,
+tr.odd td.forum-list-icon-default .forum-list-icon-wrapper span {
   background: transparent url(images/forum_list_default.png) no-repeat center center;
 }
 
-tr.even td.forum-folder-new-posts .forum-icon-wrapper span,
-tr.odd td.forum-folder-new-posts .forum-icon-wrapper span {
+tr.even td.forum-list-icon-new-posts .forum-list-icon-wrapper span,
+tr.odd td.forum-list-icon-new-posts .forum-list-icon-wrapper span {
   background: transparent url(images/forum_list_new_posts.png) no-repeat center center;
 }
 
-
 /* FORUM LIST ICON LEGEND ***************************************************/
-.forum-folder-legend .forum-folder {
-  background: transparent url(images/forum_list_default.png) no-repeat top left;
+.forum-list-icon-legend .forum-list-icon-default {
+  background: transparent url(images/forum_list_default.png) no-repeat center center;
 }
 
-.forum-folder-legend .forum-folder-new-posts {
-  background: transparent url(images/forum_list_new_posts.png) no-repeat top left;
+.forum-list-icon-legend .forum-list-icon-new-posts {
+  background: transparent url(images/forum_list_new_posts.png) no-repeat center center;
 }
 
 /* TOPIC LIST ICONS *********************************************************/

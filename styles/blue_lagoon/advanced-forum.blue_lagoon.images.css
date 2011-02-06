@@ -1,6 +1,6 @@
 /* FORUM LIST ICONS *********************************************************/
 
-.forum-icon-wrapper {
+.forum-list-icon-wrapper {
   border-top: 1px solid #1659AC;
   background: #2587C4;
   background: -webkit-gradient(linear, left top, left bottom, from(#2587C4), to(#58B3ED));
@@ -8,23 +8,15 @@
   color: #FFFFFF;
 }
 
-tr.even td.forum-folder .forum-icon-wrapper span,
-tr.odd td.forum-folder .forum-icon-wrapper span {
+tr.even td.forum-folder .forum-list-icon-wrapper span,
+tr.odd td.forum-folder .forum-list-icon-wrapper span {
   background: transparent url(images/forum_list_default.png) no-repeat center center;
 }
 
-tr.even td.forum-folder-new-posts .forum-icon-wrapper span,
-tr.odd td.forum-folder-new-posts .forum-icon-wrapper span {
+tr.even td.forum-folder-new-posts .forum-list-icon-wrapper span,
+tr.odd td.forum-folder-new-posts .forum-list-icon-wrapper span,
+.forum-list-icon-legend .forum-list-icon-new-posts {
   background: transparent url(images/forum_list_new_posts.png) no-repeat center center;
-}
-
-/* FORUM LIST ICON LEGEND ***************************************************/
-.forum-folder-legend .forum-folder {
-  background: transparent url(images/forum_list_default.png) no-repeat top left;
-}
-
-.forum-folder-legend .forum-folder-new-posts {
-  background: transparent url(images/forum_list_new_posts.png) no-repeat top left;
 }
 
 /* BUTTONIZED LINKS - GENERAL ***********************************************/
@@ -55,15 +47,15 @@ a.author-pane-link:visited {
 a.af-button-large:hover,
 a.af-button-small:hover,
 a.author-pane-link:hover {
-   background: #2587C4;
-   color: #333333;
-   border-top-color: #EFEFEF;
+  background: #2587C4;
+  color: #333333;
+  border-top-color: #EFEFEF;
 }
 
 a.af-button-large:active,
 a.af-button-small:active,
 a.author-pane-link:active {
-   background: #2587C4;
-   color: #333333;
-   border-top-color: #EFEFEF;
+  background: #2587C4;
+  color: #333333;
+  border-top-color: #EFEFEF;
 }

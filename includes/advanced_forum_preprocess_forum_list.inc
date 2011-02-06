@@ -136,11 +136,11 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
     // If there are new topics/posts, change the icon
     if ($forum->new_topics || $forum->new_posts) {
-      $variables['forums'][$id]->icon_classes = "forum-icon forum-folder-new-posts";
+      $variables['forums'][$id]->icon_classes = "forum-list-icon forum-list-icon-new-posts";
       $variables['forums'][$id]->icon_text = t("New posts");
     }
     else {
-      $variables['forums'][$id]->icon_classes = "forum-icon forum-folder";
+      $variables['forums'][$id]->icon_classes = "forum-list-icon forum-list-icon-default";
       $variables['forums'][$id]->icon_text = t("No new");
     }
 

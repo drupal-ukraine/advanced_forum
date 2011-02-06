@@ -3,6 +3,11 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 06,2011
+----------------
+#868942 by Michelle: Changed forum-folder and forum-icon to forum-list-icon to reflect the fact that the icon is not necessarily a folder.
+#1012238 by Michelle: Removed undead boxy and boxy_stacked that came back to life.
+
 February 03,2011
 ----------------
 #1041402 by troky: Fix css for forum table(s).
