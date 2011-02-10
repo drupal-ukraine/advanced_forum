@@ -82,18 +82,28 @@
   };
 
   Drupal.advanced_forum.collapse = function(id) {
-    if (Drupal.settings.advanced_forum.effect == 'toggle') {
-      $('#forum-collapsible-' + id).addClass('container-collapsed').closest('table').children('tbody').hide();
-    } else {
-      $('#forum-collapsible-' + id).addClass('container-collapsed').closest('table').children('tbody').fadeOut();
+    element = $('#forum-collapsible-' + id).addClass('container-collapsed').closest('table').children('tbody');
+    if (Drupal.settings.advanced_forum.effect == 'fade') {
+      $(element).fadeOut('fast');
+    }
+    else if (Drupal.settings.advanced_forum.effect == 'slide') {
+      $(element).slideUp('fast');
+    }
+    else {
+      $(element).hide();
     }
   };
 
   Drupal.advanced_forum.expand = function(id) {
-    if (Drupal.settings.advanced_forum.effect == 'toggle') {
-      $('#forum-collapsible-' + id).removeClass('container-collapsed').closest('table').children('tbody').show();
-    } else {
-      $('#forum-collapsible-' + id).removeClass('container-collapsed').closest('table').children('tbody').fadeIn();
+    element = $('#forum-collapsible-' + id).removeClass('container-collapsed').closest('table').children('tbody');
+    if (Drupal.settings.advanced_forum.effect == 'fade') {
+      $(element).fadeIn('fast');
+    }
+    else if (Drupal.settings.advanced_forum.effect == 'slide') {
+      $(element).slideDown('fast');
+    }
+    else {
+      $(element).show();
     }
   };
 

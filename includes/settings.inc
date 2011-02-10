@@ -90,11 +90,12 @@ function advanced_forum_settings_page() {
 
   $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
     '#type' => 'select',
-    '#title' => t('Collapsible Forum Containers'),
+    '#title' => t('Collapsible forum containers'),
     '#options' => array (
-      'none' => t("None"),
+      'disable' => t("Disable"),
       'toggle' => t("Toggle"),
       'fade' => t("Fade"),
+      'slide' => t("Slide"),
     ),
     '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
     '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),

@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 10,2011
+----------------
+NOISSUE by troky: Added slide effect to collapsible containters. JavaScript code cleanup.
+
 February 06,2011
 ----------------
 #868942 by Michelle: Changed forum-folder and forum-icon to forum-list-icon to reflect the fact that the icon is not necessarily a folder.

@@ -10,7 +10,7 @@
 function _advanced_forum_preprocess_forum_list(&$variables) {
   $collapsible = variable_get('advanced_forum_collapsible_containers', 'toggle');
   $variables['collapsible'] = FALSE;
-  if ($collapsible != 'none') {
+  if ($collapsible != 'disable') {
     drupal_add_library('system', 'jquery.cookie');
     drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/js/advanced_forum.js');
     $settings['advanced_forum'] = array('modulePath' => drupal_get_path('module', 'advanced_forum'), 'effect' => $collapsible);
