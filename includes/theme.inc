@@ -224,7 +224,7 @@ function advanced_forum_preprocess_forums(&$variables) {
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
   advanced_forum_add_template_suggestions("search-forum", $variables);
 
-  $variables['forum'] = $variables['tid'] ? $variables['tid'] : 'All';
+  $variables['forum'] = !empty($variables['tid']) ? $variables['tid'] : 'All';
   $variables['path'] = url('forum/search');
 }
 

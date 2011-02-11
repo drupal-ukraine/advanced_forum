@@ -3,6 +3,10 @@ $Id$
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 11,2011
+----------------
+#1056710 by djjoshuad, troky: Fixed Panel handlers.
+
 February 10,2011
 ----------------
 NOISSUE by troky: Added slide effect to collapsible containters. JavaScript code cleanup.
