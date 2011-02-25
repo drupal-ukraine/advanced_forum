@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  * Display the search forum widget.

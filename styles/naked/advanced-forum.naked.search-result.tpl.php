@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  * Style a single search result in the forum and topic search views.

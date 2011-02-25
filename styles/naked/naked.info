@@ -1,4 +1,3 @@
-; $Id$
 
 name = Naked
 description = Base style with no CSS except positioning. Meant as a starter style. Images are desaturated for easier recoloring.

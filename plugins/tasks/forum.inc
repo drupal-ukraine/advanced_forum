@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Specialized implementation of hook_page_manager_task_tasks(). See api-task.html for
