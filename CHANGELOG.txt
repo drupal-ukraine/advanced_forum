@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 28,2011
+----------------
+#1074710  by troky: Fixed update schema.
+
 February 11,2011
 ----------------
 #1056710 by djjoshuad, troky: Fixed Panel handlers.
