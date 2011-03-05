@@ -4,7 +4,6 @@
  * @file
  * Enables the look and feel of other popular forum software.
  */
-
 // DRUPAL HOOKS **************************************************************/
 
 /**
@@ -67,7 +66,6 @@ function advanced_forum_menu_alter(&$items) {
 
   // Take over forum/%forum_forum page also
   $items['forum/%forum_forum']['page callback'] = 'advanced_forum_page';
-
 }
 
 /**
@@ -93,130 +91,136 @@ function advanced_forum_theme() {
   $existing_items = advanced_forum_find_style_templates();
 
   $items['advanced_forum_l'] = array(
-      'variables' => array(
-        'text' => NULL,
-        'path' => NULL,
-        'options' => array(),
-        'button_class' => NULL,
-      )
+    'variables' => array(
+      'text' => NULL,
+      'path' => NULL,
+      'options' => array(),
+      'button_class' => NULL,
+    )
   );
 
   $items['advanced_forum_topic_header'] = array(
-      'variables' => array(
-        'node' => NULL,
-        'comment_count' => NULL,
-        )
+    'variables' => array(
+      'node' => NULL,
+      'comment_count' => NULL,
+    )
   );
 
   $items['advanced_forum_active_poster'] = array(
-      'variables' => array(
-        'forum' => NULL,
-        'account' => NULL,
-        'posts' => NULL,
-        'topics' => NULL,
-        'last_post' => NULL,
-        )
+    'variables' => array(
+      'forum' => NULL,
+      'account' => NULL,
+      'posts' => NULL,
+      'topics' => NULL,
+      'last_post' => NULL,
+    )
   );
 
   $items['advanced_forum_user_picture'] = array(
-      'variables' => array(
-        'account' => NULL,
-        )
+    'variables' => array(
+      'account' => NULL,
+    )
   );
 
   $items['advanced_forum_reply_link'] = array(
-      'variables' => array(
-        'node' => NULL,
-        )
+    'variables' => array(
+      'node' => NULL,
+    )
   );
 
   $items['advanced_forum_topic_pager'] = array(
-      'variables' => array(
-         'pagecount' => NULL,
-         'topic' => NULL,
-        )
+    'variables' => array(
+      'pagecount' => NULL,
+      'topic' => NULL,
+    )
   );
 
   $items['advanced_forum_shadow_topic'] = array(
-      'variables' => array(
-         'title' => NULL,
-         'nid' => NULL,
-         'new_forum' => NULL,
-        )
+    'variables' => array(
+      'title' => NULL,
+      'nid' => NULL,
+      'new_forum' => NULL,
+    )
   );
 
   $items['advanced_forum_subforum_list'] = array(
-      'variables' => array(
-         'subforum_list' => NULL,
-       )
+    'variables' => array(
+      'subforum_list' => NULL,
+    )
+  );
+
+  $items['advanced_forum_subcontainer_list'] = array(
+    'variables' => array(
+      'subcontainer_list' => NULL,
+    )
   );
 
   $items['advanced_forum_simple_author_pane'] = array(
-      'variables' => array(
-        'context' => NULL,
-        )
+    'variables' => array(
+      'context' => NULL,
+    )
   );
 
   $items['advanced_forum_post_edited'] = array(
-      'variables' => array(
-        'who' => NULL,
-        'when' => NULL,
-        'why' => NULL,
-        )
+    'variables' => array(
+      'who' => NULL,
+      'when' => NULL,
+      'why' => NULL,
+    )
   );
 
   $items['advanced_forum_node_type_create_list'] = array(
-      'variables' => array(
-        'forum_id' => NULL,
-        )
+    'variables' => array(
+      'forum_id' => NULL,
+    )
   );
-/*
-  // These only exist if nodecomment is on.
-  if (module_exists('nodecomment')) {
+  /*
+    // These only exist if nodecomment is on.
+    if (module_exists('nodecomment')) {
     $items['advanced_forum_search_forum'] = array(
-      'variables' => array('tid' => NULL),
-      'template' => 'advanced_forum-search-forum',
+    'variables' => array('tid' => NULL),
+    'template' => 'advanced_forum-search-forum',
     );
 
     $items['advanced_forum_search_topic'] = array(
-      'variables' => array('node' => NULL),
-      'template' => 'advanced_forum-search-topic',
+    'variables' => array('node' => NULL),
+    'template' => 'advanced_forum-search-topic',
     );
 
     $items['views_view_fields__advanced_forum_search'] = array(
-      'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'advanced_forum-search-result',
-      'base hook' => 'views_view_fields',
+    'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+    'template' => 'advanced_forum-search-result',
+    'base hook' => 'views_view_fields',
     );
 
     $items['views_view_fields__advanced_forum_search_topic'] = array(
-      'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'advanced_forum-search-result',
-      'base hook' => 'views_view_fields',
+    'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+    'template' => 'advanced_forum-search-result',
+    'base hook' => 'views_view_fields',
     );
-  }
+    }
 
-  // Templates for features added by Views
+    // Templates for features added by Views
 
-  // style
-  $items['views_view_forum_topic_list__advanced_forum_topic_list'] = array(
+    // style
+    $items['views_view_forum_topic_list__advanced_forum_topic_list'] = array(
     'variables' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
     'template' => 'advanced-forum-topic-list-view',
     //'base hook' => 'views_view_forum_topic_list',
-  );
-*/
+    );
+   */
   //display
   $items['views_view__advanced_forum_topic_list'] = array(
     'variables' => array('view' => NULL),
     'template' => 'advanced-forum-topic-list-outer-view',
-    //'base hook' => 'views_view',
+      //'base hook' => 'views_view',
   );
 
   //display group
   $items['views_view__advanced_forum_group_topic_list'] = array(
     'variables' => array('view' => NULL),
     'template' => 'advanced-forum-group-topic-list-outer-view',
-    //'base hook' => 'views_view',
+      //'base hook' => 'views_view',
   );
 
   // Return merged items found in style folder with new ones
@@ -248,7 +252,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // Don't let core do its basic preprocess for forums, as we want to do
   // other stuff now.
   foreach ($theme_registry['forums']['preprocess functions'] as $key => $value) {
-     if ($value == 'template_preprocess_forums') {
+    if ($value == 'template_preprocess_forums') {
       unset($theme_registry['forums']['preprocess functions'][$key]);
     }
   }
@@ -272,33 +276,32 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // --- for the given templates can be found first in the (sub)theme directory
   // --- then in ancestor themes, if any, then in the active style directory
   // --- for advanced forum or any ancestor styles.
-
   // Affected templates
   $templates = array('node',
-                     'comment',
-                     'comment_wrapper',
-                     'forums',
-                     'forum_list',
-                     'forum_topic_list',
-                     'forum_icon',
-                     'forum_submitted',
-                     'author_pane',
-                     'advanced_forum_statistics',
-                     'advanced_forum_search_forum',
-                     'advanced_forum_search_topic',
-                     'advanced_forum_search_result',
-                     //'advanced_forum_topic_list_view',
-                    /* 'views_view_fields__advanced_forum_search',
-                     'views_view_fields__advanced_forum_search_topic',
-                     'views_view_forum_topic_list__advanced_forum_topic_list',
-                     'views_view_forum_topic_list__advanced_forum_group_topic_list',
-                     'views_view__advanced_forum_topic_list',
-                     'views_view__advanced_forum_group_topic_list',*/
-                     'advanced_forum_topic_legend',
-                     'advanced_forum_forum_legend',
-                     'advanced_forum_topic_header',
-                     'advanced_forum_active_poster',
-                );
+    'comment',
+    'comment_wrapper',
+    'forums',
+    'forum_list',
+    'forum_topic_list',
+    'forum_icon',
+    'forum_submitted',
+    'author_pane',
+    'advanced_forum_statistics',
+    'advanced_forum_search_forum',
+    'advanced_forum_search_topic',
+    'advanced_forum_search_result',
+    //'advanced_forum_topic_list_view',
+    /* 'views_view_fields__advanced_forum_search',
+      'views_view_fields__advanced_forum_search_topic',
+      'views_view_forum_topic_list__advanced_forum_topic_list',
+      'views_view_forum_topic_list__advanced_forum_group_topic_list',
+      'views_view__advanced_forum_topic_list',
+      'views_view__advanced_forum_group_topic_list', */
+    'advanced_forum_topic_legend',
+    'advanced_forum_forum_legend',
+    'advanced_forum_topic_header',
+    'advanced_forum_active_poster',
+  );
 
   // Get the sequence of styles to look in for templates
   $lineage = advanced_forum_style_lineage();
@@ -311,13 +314,13 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
 
   // Get theme engine extension
   global $theme_engine;
-    $extension = '.tpl.php';
-    if (isset($theme_engine)) {
-      $extension_function = $theme_engine . '_extension';
-      if (function_exists($extension_function)) {
-        $extension = $extension_function();
-      }
+  $extension = '.tpl.php';
+  if (isset($theme_engine)) {
+    $extension_function = $theme_engine . '_extension';
+    if (function_exists($extension_function)) {
+      $extension = $extension_function();
     }
+  }
 
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
@@ -351,7 +354,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   array_splice($theme_registry['views_view__advanced_forum_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view');
   array_splice($theme_registry['views_view__advanced_forum_group_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view');
   //array_splice($theme_registry['views_view_forum_topic_list__advanced_forum_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view_forum_topic_list');
-
 }
 
 /**
@@ -386,7 +388,7 @@ function advanced_forum_node_update($node) {
  */
 function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') {
   // Don't alter anything if in preview mode
-    if (!empty($object->in_preview)) {
+  if (!empty($object->in_preview)) {
     return;
   }
 
@@ -494,7 +496,6 @@ function advanced_forum_comment_update($comment) {
   advanced_forum_statistics_replies(TRUE);
 }
 
-
 /**
  * Implementation of hook_link_alter().
  */
@@ -551,7 +552,7 @@ function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
 
   // Add our OG view as a potential RON for organic groups.
   if (!empty($form['og_settings']['group_details']['og_home_page_view'])) {
-     $form['og_settings']['group_details']['og_home_page_view']['#options']['advanced_forum_group_topic_list'] = 'advanced_forum_group_topic_list';
+    $form['og_settings']['group_details']['og_home_page_view']['#options']['advanced_forum_group_topic_list'] = 'advanced_forum_group_topic_list';
   }
 }
 
@@ -630,7 +631,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
             'picture_preset' => variable_get('advanced_forum_user_picture_preset', ''),
             'context' => NULL,
             'disable_css' => TRUE,
-          ));
+              ));
         }
       }
     }
@@ -647,7 +648,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
               'who' => $row->uid,
               'when' => $row->timestamp,
               'why' => $row->log
-              ));
+                ));
           }
           else {
             // No access; remove token.
@@ -702,7 +703,7 @@ function advanced_forum_forum_topic_list_sort_form($form_state) {
   // Work up a list of possible fields.
   $handler = &$view->style_plugin;
   $fields = &$view->field;
-  $columns  = $handler->sanitize_columns($handler->options['columns'], $fields);
+  $columns = $handler->sanitize_columns($handler->options['columns'], $fields);
 
   $options = array();
   foreach ($columns as $field => $column) {
@@ -759,7 +760,6 @@ function advanced_forum_forum_topic_list_sort_form($form_state) {
   return $form;
 }
 
-
 // STATISTICS *****************************************************************/
 
 /**
@@ -811,10 +811,10 @@ function advanced_forum_statistics_latest_users() {
   $number_to_fetch = 5; // @TODO: Make this a setting.
 
   $query = db_select("users", "u")
-    ->fields("u", array("uid", "name"))
-    ->condition("status", 1)
-    ->condition("access", 0, ">")
-    ->orderBy("created", "DESC");
+      ->fields("u", array("uid", "name"))
+      ->condition("status", 1)
+      ->condition("access", 0, ">")
+      ->orderBy("created", "DESC");
 
   $latest_users = $query->range(NULL, $number_to_fetch)->execute();
   while ($account = $latest_users->fetchObject()) {
@@ -836,10 +836,10 @@ function advanced_forum_statistics_online_users() {
 
   $query->addExpression("MAX({$s_alias}.timestamp)", "maxtime");
   $query
-    ->condition("{$s_alias}.timestamp", $interval, ">=")
-    ->condition("{$s_alias}.uid", "0", ">")
-    ->groupBy("u.uid, u.name")
-    ->orderBy("maxtime", "DESC");
+      ->condition("{$s_alias}.timestamp", $interval, ">=")
+      ->condition("{$s_alias}.uid", "0", ">")
+      ->groupBy("u.uid, u.name")
+      ->orderBy("maxtime", "DESC");
 
   $authenticated_users = $query->execute();
 
@@ -859,7 +859,7 @@ function advanced_forum_get_reply_link($node) {
   $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
 
   // Anchor to the form is depends on if reply is a node or a comment.
-  $fragment = (empty($node->node_comment)) ? 'comment-form'  : 'node-form';
+  $fragment = (empty($node->node_comment)) ? 'comment-form' : 'node-form';
 
   if ($comment_setting == COMMENT_NODE_OPEN) {
     if (user_access('post comments')) {
@@ -922,11 +922,11 @@ function advanced_forum_last_post_link($node) {
   );
 
   return theme('advanced_forum_l', array(
-      'text' => t('Last post'),
-      'path' => "node/$node->nid",
-      'options' => $options,
-      'button_class' => 'large'
-      ));
+    'text' => t('Last post'),
+    'path' => "node/$node->nid",
+    'options' => $options,
+    'button_class' => 'large'
+  ));
 }
 
 /**
@@ -965,7 +965,7 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
       'path' => "node/$nid",
       'options' => $options,
       'button_class' => 'large'
-      ));
+    ));
   }
 }
 
@@ -1023,11 +1023,10 @@ function advanced_forum_reply_num_new($nid, $timestamp = 0) {
 function advanced_forum_last_post_in_topic($nid) {
   // $nid is empty if new topic in preview.
   if (empty($nid))
-    return null;
+    return NULL;
 
   $node = node_load($nid);
-  $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
-  if (isset($comment_type)) {
+  if (module_exists('nodecomment') && nodecomment_get_comment_type($node->type)) {
     // Nodecomment module version
     $query = 'SELECT nc.cid
               FROM {node_comments} nc
@@ -1088,24 +1087,22 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
                 WHERE nc.nid = %d AND n.changed > %d AND n.status = 1
                 ORDER BY nc.cid";
       $result = db_result(db_query_range($query, $nid, $timestamp, 0, 1));
-
     }
     else {
       $query = db_select('comment', 'c')
-        ->fields('c', array('cid'))
-        ->condition('nid', $nid)
-        ->condition('changed', $timestamp, '>')
-        ->condition('status', COMMENT_PUBLISHED)
-        ->range(0, 1)
-        ->execute();
-   }
-   return $query->fetchField();
+          ->fields('c', array('cid'))
+          ->condition('nid', $nid)
+          ->condition('changed', $timestamp, '>')
+          ->condition('status', COMMENT_PUBLISHED)
+          ->range(0, 1)
+          ->execute();
+    }
+    return $query->fetchField();
   }
   else {
     return 0;
   }
 }
-
 
 // GENERAL UTILITY FUNCTIONS *************************************************/
 
@@ -1135,7 +1132,6 @@ function advanced_forum_allowed_node_types($tid=0, $vid=0) {
   }
 }
 
-
 /**
  * Return whether a given node type is allowed in the whole forum or given forum.
  */
@@ -1151,10 +1147,10 @@ function advanced_forum_type_is_in_forum($node, $tid=0) {
     }
 
     foreach ($node->taxonomy_forums[$langcode] as $tforum) {
-			if (!isset($tforum['taxonomy_term'])) {
-				continue;
-			}
-      if ( ($tforum['taxonomy_term']->vid == $vid) || ($tforum['taxonomy_term']->tid == $tid))
+      if (!isset($tforum['taxonomy_term'])) {
+        continue;
+      }
+      if (($tforum['taxonomy_term']->vid == $vid) || ($tforum['taxonomy_term']->tid == $tid))
         return TRUE;
     }
   }
@@ -1191,7 +1187,7 @@ function advanced_forum_node_type_create_list($tid) {
       $forum_types[$type] = array(
         'name' => $node_type,
         'href' => 'node/add/' . str_replace('_', '-', $type) . '/' . $tid,
-        );
+      );
     }
   }
 
@@ -1210,7 +1206,6 @@ function advanced_forum_node_type_create_list($tid) {
   else {
     return $forum_types;
   }
-
 }
 
 /**
@@ -1299,7 +1294,7 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       $link_to_page = $current_display_page - 1;
 
       // Add the link to the array
-      $pager_array[] =  l($current_display_page, "node/$topic->nid", array('query' => array('page'  => $link_to_page)));
+      $pager_array[] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
     }
 
     // Move to the next page
@@ -1309,7 +1304,7 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       // We are one past the max to display, but it's the last page,
       // so putting the ...last is silly. Just display it normally.
       $link_to_page = $current_display_page - 1;
-      $pager_array[] =  l($current_display_page, "node/$topic->nid", array('query' => array('page'  => $link_to_page)));
+      $pager_array[] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
     }
 
     $pager_last = '';
@@ -1317,8 +1312,8 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       // We are one past the max to display and still aren't
       // on the last page, so put in ... Last Page(N)
       $text = t('Last Page');
-      $pager_last_text = l($text, "node/$topic->nid", array('query' => array('page'  => $last_pager_page)));
-      $pager_last_number = l($last_display_page, "node/$topic->nid", array('query' => array('page'  => $last_pager_page)));
+      $pager_last_text = l($text, "node/$topic->nid", array('query' => array('page' => $last_pager_page)));
+      $pager_last_number = l($last_display_page, "node/$topic->nid", array('query' => array('page' => $last_pager_page)));
     }
 
     $topic_pager = new stdClass();
@@ -1349,10 +1344,10 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
       $query->addExpression("COUNT(nc.cid)", "count");
       $query->addField($n_alias, "tid");
       $query->condition("{$n_alias}.status", 1)
-        ->condition("{$n_alias}.changed", NODE_NEW_LIMIT, ">")
-        ->condition(db_or()->where("{$n_alias}.changed > {$h_alias}.timestamp")->isNull("{$h_alias}.timestamp"))
-        ->groupBy("{$f_alias}.tid")
-        ->addTag("node_access");
+          ->condition("{$n_alias}.changed", NODE_NEW_LIMIT, ">")
+          ->condition(db_or()->where("{$n_alias}.changed > {$h_alias}.timestamp")->isNull("{$h_alias}.timestamp"))
+          ->groupBy("{$f_alias}.tid")
+          ->addTag("node_access");
     }
     else {
       $query = db_select("comment", "c");
@@ -1360,13 +1355,12 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
       //$n_alias = $query->join("node", "n", "f.vid = n.vid");
       $h_alias = $query->leftJoin("history", "h", "c.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
       $query->addExpression("COUNT(c.cid)", "count");
-      $query->addField($f_alias , "tid");
+      $query->addField($f_alias, "tid");
       $query->condition("c.status", COMMENT_PUBLISHED)
-        ->condition("c.changed", NODE_NEW_LIMIT, ">")
-        ->condition(db_or()->where("c.changed > {$h_alias}.timestamp")->isNull("h.timestamp"))
-        ->groupBy("{$f_alias}.tid")
-        ->addTag("node_access");
-
+          ->condition("c.changed", NODE_NEW_LIMIT, ">")
+          ->condition(db_or()->where("c.changed > {$h_alias}.timestamp")->isNull("h.timestamp"))
+          ->groupBy("{$f_alias}.tid")
+          ->addTag("node_access");
     }
 
     $result = $query->execute();
@@ -1379,8 +1373,8 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
 }
 
 /**
-  * Returns the display position of a given reply post ID on a given node.
-  */
+ * Returns the display position of a given reply post ID on a given node.
+ */
 function advanced_forum_post_position($node_id, $post_id) {
   static $post_order = array();
 
@@ -1394,11 +1388,11 @@ function advanced_forum_post_position($node_id, $post_id) {
     // Get the list of CIDs from the database in order of oldest first.
     // We are going to make that assumption for now for simplicity but may
     // revisit in the future if there are requests for newest first.
-		$query = db_select($table, 'c')
-			->fields('c', array('cid'))
-			->condition('nid', $node_id)
-			->orderBy('cid', 'ASC')
-			->execute();
+    $query = db_select($table, 'c')
+        ->fields('c', array('cid'))
+        ->condition('nid', $node_id)
+        ->orderBy('cid', 'ASC')
+        ->execute();
 
     // Cycle through the results and fill in the array.
     while ($post = $query->fetchAssoc()) {

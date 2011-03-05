@@ -49,11 +49,14 @@ Colors used:
   background-color: white;
 }
 
-.view-advanced-forum-topic-list .view-empty {
-  border: 3px solid #C8DBEA;
+/* Main header on forum list */
+.forum-table-wrap .forum-table-superheader {
+  /* Background instead of background-color to reset from Silver Bells */
+  background: #C8DBEA;
+  border: 1px solid #C8DBEA;
 }
 
-/* Headers */
+/* Table header on forum list and topic list*/
 .forum-table thead tr {
   border-top: 1px solid #FFFFFF;
   background: #EDF5FA;
@@ -79,14 +82,32 @@ Colors used:
   background: #E7F2F9;
 }
 
+/* Active column on both tables - reset to prevent bleed thru from theme */
+.forum-table tr.even td.active,
+.forum-table tr.odd td.active{
+  background-color: transparent;
+}
+
+/* Individual cells on both tables */
 .forum-table td {
+  /* Structure here because this is unique to this style */
   line-height: 1.5em;
   padding: 4px;
   border: none;
 }
 
-td.forum-details .forum-name a {
-  font-size: 1em;
+/* Placeholder when there are no topics in the list */
+.view-advanced-forum-topic-list .view-empty {
+  border: 3px solid #C8DBEA;
+}
+
+/*** Sticky topics ***/
+.forum-table tr.forum-last-sticky {
+  border-bottom: 10px solid #C8DBEA;
+}
+
+.forum-table .sticky-label {
+  font-weight: bold;
 }
 
 /*** FORUM STATISTICS *********************************************************/
@@ -99,7 +120,6 @@ td.forum-details .forum-name a {
   background: #EDF5FA;
   background: -webkit-gradient(linear, left top, left bottom, from(#EDF5FA), to(#C8DBEA));
   background: -moz-linear-gradient(top, #EDF5FA, #C8DBEA);
-  color: #3C78A7;
 }
 
 .forum-statistics-sub-header {
@@ -149,6 +169,11 @@ td.forum-details .forum-name a {
 }
 
 /* Author information pane */
+.forum-post-panel-sub {
+  color: #3C78A7;
+}
+
+/* Author information pane */
 .forum-post-panel-sub .author-pane .picture img {
   border: 1px solid #C8DBEA;
   padding: 5px;
@@ -167,11 +192,13 @@ td.forum-details .forum-name a {
   background-color: #EDF5FA;
   line-height: 225%;
   padding-bottom: 2px;
+  color: #3C78A7;
 }
 
 /* Post footer */
 .forum-post-footer {
   background-color: #EDF5FA;
+  color: #3C78A7;
 }
 
 .forum-jump-links {

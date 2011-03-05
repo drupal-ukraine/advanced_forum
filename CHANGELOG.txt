@@ -2,33 +2,37 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
-February 28,2011
-----------------
-#1074710  by troky: Fixed update schema.
+March 05, 2011
+--------------
+#720118 by Michelle, troky: Redid forum listing page to handle subcontainers and forums better. This required CSS changes that led to more changes and so there's more here than is strictly related to the issue including re-parenting Blue Lagoon to Naked.
 
-February 11,2011
+February 28, 2011
+-----------------
+#1074710 by troky: Fixed update schema.
+
+February 11, 2011
 ----------------
 #1056710 by djjoshuad, troky: Fixed Panel handlers.
 
-February 10,2011
-----------------
+February 10, 2011
+-----------------
 NOISSUE by troky: Added slide effect to collapsible containters. JavaScript code cleanup.
 
-February 06,2011
-----------------
+February 06, 2011
+-----------------
 #868942 by Michelle: Changed forum-folder and forum-icon to forum-list-icon to reflect the fact that the icon is not necessarily a folder.
 #1012238 by Michelle: Removed undead boxy and boxy_stacked that came back to life.
 
-February 03,2011
-----------------
+February 03, 2011
+-----------------
 #1041402 by troky: Fix css for forum table(s).
 
-February 02,2011
-----------------
+February 02, 2011
+-----------------
 #1048606 by troky: Fixed missing title/link to the last post.
 
-February 01,2011
-----------------
+February 01, 2011
+-----------------
 #1045200 by troky: Fixed 'reply_link' variable initialization in advanced_forum_preprocess_comment_wrapper().
 
 January 31, 2011

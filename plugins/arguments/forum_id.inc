@@ -74,7 +74,7 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
   if (empty($conf['breadcrumb'])) {
     return;
   }
-  
+
   $vocabulary = $context->vocabulary;
 
   // Breadcrumb navigation:
@@ -83,7 +83,7 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
     $breadcrumb[] = l($vocabulary->name, 'forum');
   }
 
-  if (!empty($parents)) {
+  if (isset($parents)) {
     $parents = array_reverse($vocabulary->parents);
     foreach ($parents as $p) {
       if ($p->tid != $context->data->tid) {

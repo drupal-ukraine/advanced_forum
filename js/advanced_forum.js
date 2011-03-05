@@ -21,22 +21,21 @@
       if (!Drupal.advanced_forum.collapsed_current)
         Drupal.advanced_forum.collapsed_current = new Array();
 
-      //var handleHeader = $('thead.forum-header th:last-child', context);
       var handleSpan = $('span.forum-collapsible', context);
 
       // Set initial collapsed state
       handleSpan.once('forum-collapsible', Drupal.advanced_forum.init);
-      //handleHeader.once('forum-header', Drupal.advanced_forum.init);
+
       handleSpan.addClass('clickable').click(function() {
         // Get forum id
         var id = $(this).attr('id').split('-')[2];
         if ( $(this).hasClass('container-collapsed')) {
-          Drupal.advanced_forum.expand(id);
+          Drupal.advanced_forum.expand(id, Drupal.settings.advanced_forum.effect);
           // Reset collapsed status
           Drupal.advanced_forum.collapsed_current.splice(Drupal.advanced_forum.collapsed_current.indexOf(id),1);
         }
         else {
-          Drupal.advanced_forum.collapse(id);
+          Drupal.advanced_forum.collapse(id, Drupal.settings.advanced_forum.effect);
           // Set collapsed status
           Drupal.advanced_forum.collapsed_current.push(id);
         }
@@ -58,13 +57,14 @@
             // The cookie should "never" expire.
             expires: 36500
           }
-        );
+          );
       });
     }
   };
 
   /**
-   * Initialize and set collapsible status
+   * Initialize and set collapsible status.
+   * Initial collapsing/expanding effect is set to 'toggle' to avoid flickers.
    */
   Drupal.advanced_forum.init = function() {
     // get forum id
@@ -73,37 +73,39 @@
     // Check if item is collapsed
     if (Drupal.advanced_forum.collapsed_current.indexOf(id) != -1) {
       $(this).addClass('container-collapsed');
-      Drupal.advanced_forum.collapse(id);
+      Drupal.advanced_forum.collapse(id, 'toggle');
       return;
     }
 
     $(this).removeClass('container-collapsed');
-    Drupal.advanced_forum.expand(id);
+    Drupal.advanced_forum.expand(id, 'toggle');
   };
 
-  Drupal.advanced_forum.collapse = function(id) {
-    element = $('#forum-collapsible-' + id).addClass('container-collapsed').closest('table').children('tbody');
-    if (Drupal.settings.advanced_forum.effect == 'fade') {
-      $(element).fadeOut('fast');
+  Drupal.advanced_forum.collapse = function(id, effect) {
+    $('#forum-collapsible-' + id).addClass('container-collapsed');
+    if (effect == 'fade') {
+      $('#forum-table-' + id).fadeOut('fast');
     }
-    else if (Drupal.settings.advanced_forum.effect == 'slide') {
-      $(element).slideUp('fast');
+    else if (effect == 'slide') {
+      $('#forum-table-' + id).slideUp('fast');
+    //$('#forum-table-' + id + '-content').fadeOut('fast');
     }
     else {
-      $(element).hide();
+      $('#forum-table-' + id).hide();
     }
   };
 
-  Drupal.advanced_forum.expand = function(id) {
-    element = $('#forum-collapsible-' + id).removeClass('container-collapsed').closest('table').children('tbody');
-    if (Drupal.settings.advanced_forum.effect == 'fade') {
-      $(element).fadeIn('fast');
+  Drupal.advanced_forum.expand = function(id, effect) {
+    $('#forum-collapsible-' + id).removeClass('container-collapsed');
+    if (effect == 'fade') {
+      $('#forum-table-' + id).fadeIn('fast');
     }
-    else if (Drupal.settings.advanced_forum.effect == 'slide') {
-      $(element).slideDown('fast');
+    else if (effect == 'slide') {
+      //$('#forum-table-' + id + '-content').fadeIn('fast');
+      $('#forum-table-' + id).slideDown('fast');
     }
     else {
-      $(element).show();
+      $('#forum-table-' + id).show();
     }
   };
 
