@@ -87,19 +87,6 @@ function advanced_forum_settings_page() {
     '#description' => t('If checked, this will add a local task tab for "Active topics," "New posts," "My posts," and "Unanswered topics." If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
   );
 
-  $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
-    '#type' => 'select',
-    '#title' => t('Collapsible forum containers'),
-    '#options' => array (
-      'disable' => t("Disable"),
-      'toggle' => t("Toggle"),
-      'fade' => t("Fade"),
-      'slide' => t("Slide"),
-    ),
-    '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
-    '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
-  );
-
   /* Forum / topic list settings */
   $form['advanced_forum_lists'] = array(
     '#type' => 'fieldset',
@@ -114,6 +101,19 @@ function advanced_forum_settings_page() {
     '#title' => t('Disable breadcrumbs'),
     '#default_value' => variable_get('advanced_forum_disable_breadcrumbs', 0),
     '#description' => t('Check this to disable breadcrumbs in the forum if you are using another module to customize them. Does not affect node pages and does not work when Page Manager is overriding forum pages.'),
+  );
+
+  $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
+    '#type' => 'select',
+    '#title' => t('Collapsible forum containers'),
+    '#options' => array (
+      'none' => t("None"),
+      'toggle' => t("Toggle"),
+      'fade' => t("Fade"),
+      'slide' => t("Slide"),
+    ),
+    '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
+    '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
   );
 
   // Taxonomy image on forum list
