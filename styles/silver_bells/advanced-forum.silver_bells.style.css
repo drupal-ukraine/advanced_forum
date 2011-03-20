@@ -219,7 +219,7 @@ Colors used:
 }
 
 .forum-jump-links {
-  border-right: 1px solid #C1C1C1;
+  border-right: none;
 }
 
 /* Box under top post before first reply */

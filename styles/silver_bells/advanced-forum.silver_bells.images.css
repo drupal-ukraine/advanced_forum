@@ -184,18 +184,18 @@ a.author-pane-link:active {
 
 /* BUTTONIZED LINKS - INDIVIDUAL BUTTONS ************************************/
 
-.forum-add-forum .af-button-large span{
+.forum-add-forum .af-button-large span {
   background: url(images/add_topic.png) no-repeat;
 }
 
-.forum-add-poll .af-button-large span{
+.forum-add-poll .af-button-large span {
   background: url(images/add_poll.png) no-repeat;
 }
 
-/*** Reply/Locked at the top and bottom of individual topics. */
+/*** Reply/Locked at the top and bottom of individual topics. ***/
 
 /* Reply link */
-.topic-reply-allowed .af-button-large span{
+.topic-reply-allowed .af-button-large span {
   background: url(images/topic_reply.png) no-repeat;
 }
 
@@ -204,16 +204,18 @@ a.author-pane-link:active {
   background: url(images/topic_locked.png) no-repeat;
 }
 
-.last-post-link .af-button-large span{
+/* Last post */
+.last-post-link .af-button-large span {
   background: url(images/topic_last_post.png) no-repeat;
 }
 
-/*** Jump to top ****/
-.forum-jump-links .af-button-small span {
-  background: url(images/topic_top.png) no-repeat;
+/* First unread */
+.topic-new-post-link .af-button-large span {
+  background: url(images/topic_first_unread_post.png) no-repeat;
 }
 
-/*** Links on the individual posts (nodes and comments). */
+
+/*** Links on the individual posts (nodes and comments). ***/
 
 /* General */
 .forum-post-links .af-button-small span {
@@ -242,7 +244,12 @@ a.author-pane-link:active {
   background: url(images/post_delete.png) no-repeat;
 }
 
-/* AUTHOR PANE **************************************************************/
+/* Jump to top */
+.forum-jump-links .af-button-small span {
+  background: url(images/topic_top.png) no-repeat;
+}
+
+/*** AUTHOR PANE ***/
 
 .forum-post-panel-sub .author-contact .author-pane-link span {
   background: transparent url(images/ap_email.png) no-repeat;

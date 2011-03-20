@@ -50,7 +50,7 @@
     <div class="forum-table-superheader">
       <div class="forum-table-name">
         <?php if (empty($table_info->link)): ?>
-          <?php print$table_info->name; ?>
+          <?php print $table_info->name; ?>
         <?php else: ?>
           <a href="<?php print $table_info->link; ?>"><?php print $table_info->name; ?></a>
         <?php endif; ?>

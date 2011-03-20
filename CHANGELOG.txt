@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 20, 2011
+--------------
+#1088836 by troky: Fixed notices about undefined arrays in forum list preprocess.
+
 March 07, 2011
 --------------
 #291084 by Michelle: Moved collapsible containers option to correct fieldset.
