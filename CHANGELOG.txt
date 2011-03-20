@@ -4,6 +4,7 @@
 
 March 20, 2011
 --------------
+#1098542 by lasac: Fixed IE javascript bug in collapsible containers code.
 #1088836 by troky: Fixed notices about undefined arrays in forum list preprocess.
 
 March 07, 2011

@@ -32,7 +32,8 @@
         if ( $(this).hasClass('container-collapsed')) {
           Drupal.advanced_forum.expand(id, Drupal.settings.advanced_forum.effect);
           // Reset collapsed status
-          Drupal.advanced_forum.collapsed_current.splice(Drupal.advanced_forum.collapsed_current.indexOf(id),1);
+          //Drupal.advanced_forum.collapsed_current.splice(Drupal.advanced_forum.collapsed_current.indexOf(id),1);
+          Drupal.advanced_forum.collapsed_current.splice($.inArray(id, Drupal.advanced_forum.collapsed_current),1);
         }
         else {
           Drupal.advanced_forum.collapse(id, Drupal.settings.advanced_forum.effect);
@@ -71,7 +72,7 @@
     var id = $(this).attr('id').split('-')[2];
 
     // Check if item is collapsed
-    if (Drupal.advanced_forum.collapsed_current.indexOf(id) != -1) {
+    if ($.inArray(id, Drupal.advanced_forum.collapsed_current) > -1) {
       $(this).addClass('container-collapsed');
       Drupal.advanced_forum.collapse(id, 'toggle');
       return;
