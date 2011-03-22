@@ -92,6 +92,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
         // Top level container always starts a new table.
         $table_counter++;
         $tables[$table_counter]['table_info'] = $item;
+        $tables[$table_counter]['items'] = array();
 
         // Reset the striping.
         advanced_forum_stripe(TRUE);
@@ -175,10 +176,6 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   // Theme subcontainers, subforums and add post counts to parents.
   foreach ($tables as $table_id => $table) {
-    if (!isset($table['items']))
-      $table['items'] = array();
-    if (!isset($tables[$table_id]['items']))
-      $tables[$table_id]['items']= array();
     foreach ($table['items'] as $item_id => $item) {
       if (!empty($item->subforum_list)) {
         $tables[$table_id]['items'][$item_id]->subforums = theme('advanced_forum_subforum_list', array('subforum_list' => $item->subforum_list));

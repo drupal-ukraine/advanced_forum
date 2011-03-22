@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 22, 2011
+--------------
+Issue #1096090 by Michelle: Initialized items property of  to avoid notices when a container is empty. Undoing fix from #1088836.
+
 March 20, 2011
 --------------
 #1098542 by lasac: Fixed IE javascript bug in collapsible containers code.
