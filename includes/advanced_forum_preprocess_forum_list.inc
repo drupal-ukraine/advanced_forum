@@ -145,6 +145,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
           // container. Start a new generic one. We need a tid so just grab
           // the tid of the current forum for it.
           $table_counter++;
+          if (!isset($tables[$table_counter]['table_info']))
+            $tables[$table_counter]['table_info'] = new stdClass();
           $tables[$table_counter]['table_info']->name = t('Forums');
           $tables[$table_counter]['table_info']->description = '';
           $tables[$table_counter]['table_info']->tid = $item->tid;

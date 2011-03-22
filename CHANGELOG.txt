@@ -5,6 +5,7 @@
 March 22, 2011
 --------------
 Issue #1096090 by Michelle: Initialized items property of  to avoid notices when a container is empty. Undoing fix from #1088836.
+Issue #1100054 by troky: Fixed strict warning: Creating default object from empty value in _advanced_forum_preprocess_forum_list().
 
 March 20, 2011
 --------------
