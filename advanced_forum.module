@@ -956,13 +956,24 @@ function advanced_forum_reply_num_new($nid, $timestamp = 0) {
     return 0;
 
   if (empty($number_new_for_node[$nid])) {
+    global $user;
+
     $node = node_load($nid);
+
+    // We must also check the forum post itself to see if we have viewed it
+    $viewed = 0; // If not told otherwise, it has been viewed before
+    if ($user->uid) {
+      $viewed = node_last_viewed($nid);
+      // Set it to 1 if it has not been viewed before.
+      $viewed = ($viewed == 0 ? 1 : 0);
+    }
+
     $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
     if (isset($comment_type)) {
-      $number_new_for_node[$nid] = nodecomment_num_new($nid, $timestamp);
+      $number_new_for_node[$nid] = nodecomment_num_new($nid, $timestamp) + $viewed;
     }
     else {
-      $number_new_for_node[$nid] = comment_num_new($nid, $timestamp);
+      $number_new_for_node[$nid] = comment_num_new($nid, $timestamp) + $viewed;
     }
   }
 
