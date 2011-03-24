@@ -223,8 +223,8 @@ a.author-pane-link:active {
 }
 
 /* Reply */
-.comment_add .af-button-small span,
-.comment_reply .af-button-small span {
+.comment-add .af-button-small span,
+.comment-reply .af-button-small span {
   background: url(images/post_reply.png) no-repeat;
 }
 
@@ -234,14 +234,14 @@ a.author-pane-link:active {
 }
 
 /* Edit */
-.comment_edit .af-button-small span,
-.post_edit .af-button-small span {
+.comment-edit .af-button-small span,
+.post-edit .af-button-small span {
   background: url(images/post_edit.png) no-repeat;
 }
 
 /* Delete */
-.comment_delete .af-button-small span,
-.post_delete .af-button-small span {
+.comment-delete .af-button-small span,
+.post-delete .af-button-small span {
   background: url(images/post_delete.png) no-repeat;
 }
 

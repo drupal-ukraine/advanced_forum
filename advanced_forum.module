@@ -392,14 +392,15 @@ function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') 
     return;
   }
 
-  if (!advanced_forum_is_styled($object, ($view_mode == 'teaser'), $object_type)) {
-    return;
-  }
-
   $comment_links = $object->content['links']['comment'];
   $links = $comment_links['#links'];
 
   if ($object_type == 'node') {
+
+    if (!advanced_forum_is_styled($object, ($view_mode == 'teaser'), $object_type)) {
+      return;
+    }
+
     $node = $object;
     // Add edit / delete links to the node links to match replies.
     if (node_access('update', $node)) {
@@ -442,8 +443,6 @@ function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') 
     if (isset($links[$key])) {
       $temp = $links[$key];
       unset($links[$key]);
-      // little hack to match D6 css: convert dashes to uderscores
-      $key = strtr($key, '-', '_');
       $links[$key] = $temp;
     }
   }
@@ -494,48 +493,6 @@ function advanced_forum_comment_insert($comment) {
 function advanced_forum_comment_update($comment) {
   // Update the cached statistics.
   advanced_forum_statistics_replies(TRUE);
-}
-
-/**
- * Implementation of hook_link_alter().
- */
-function advanced_forum_link_alter(&$links, $node, $comment = NULL) {
-  if (empty($comment)) {
-    $object = $node;
-    $object_type = 'node';
-  }
-  else {
-    $object = $comment;
-    $object_type = 'comment';
-  }
-
-  if (advanced_forum_is_styled($object, FALSE, $object_type)) {
-    // Change first post from "add comment" to "reply" if it isn't already.
-    if (!empty($links['comment-add'])) {
-      $links['comment-add']['title'] = t('reply');
-    }
-
-    // List the keys we are interested in.
-    $affected_keys = array('post_edit', 'comment_edit', 'post_delete', 'comment_delete', 'quote', 'comment-add', 'comment_reply');
-
-    // Add extra span tags for image replacement.
-    foreach ($links AS $key => $link) {
-      if (in_array($key, $affected_keys)) {
-        $links[$key]['attributes']['class'][] = "af-button-small";
-        $links[$key]['title'] = '<span>' . $links[$key]['title'] . '</span>';
-        $links[$key]['html'] = TRUE;
-      }
-    }
-
-    // Put the links in a consistent order.
-    foreach ($affected_keys as $key) {
-      if (isset($links[$key])) {
-        $temp = $links[$key];
-        unset($links[$key]);
-        $links[$key] = $temp;
-      }
-    }
-  }
 }
 
 /**
