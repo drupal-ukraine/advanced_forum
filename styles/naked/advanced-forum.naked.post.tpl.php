@@ -120,9 +120,4 @@
   </div> <?php // End of footer div ?>
 </div> <?php // End of main wrapping div ?>
 
-<?php
-// Print the taxonomy terms for this node. This will print all terms,
-// including the term of the forum itself. If you don't use any other
-// taxonomy on forum posts, you can safely delete this section.
-?>
 <?php print render($content['comments']); ?>

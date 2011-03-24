@@ -6,6 +6,7 @@ March 24, 2011
 --------------
 Issue #1102510 by troky: Changed post_* and comment_* class names to match D7 core classes. Synced with commit #60bc64a.
 Issue #1044322 by rcurtin, Michelle: Fixed topic listing icon not showing new posts on brand new topics.
+Issue #1104314 by troky: Fixed problem with styling node types other than forum.
 
 March 22, 2011
 --------------

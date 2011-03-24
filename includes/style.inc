@@ -303,6 +303,10 @@ function advanced_forum_comment_is_styled($comment, $master_topic_id) {
 }
 
 function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
+  // Is this a forum node at all?
+  if (!isset($node->taxonomy_forums)) {
+    return FALSE;
+  }
   $vid = variable_get('forum_nav_vocabulary');
 
   // Check for language used
