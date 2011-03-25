@@ -516,9 +516,8 @@ function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
 // MAKE VIEWS BITS WORK *****************************************************/
 function advanced_forum_views_api() {
   return array(
-    'api' => 2,
+    'api' => '3.0-alpha1',
     'path' => drupal_get_path('module', 'advanced_forum') . '/includes/views',
-    'file' => 'views.inc',
   );
 }
 

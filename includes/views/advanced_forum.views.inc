@@ -80,7 +80,7 @@ function advanced_forum_views_data() {
   $data = array();
   // ----------------------------------------------------------------------
   // forum table
-  
+
   // Have not defined $data['forum']['table']['group'] since
   // no fields are defined here yet.
   $data['forum']['table']['join'] = array(
@@ -93,6 +93,6 @@ function advanced_forum_views_data() {
       'field' => 'vid',
     ),
   );
-  
+
   return $data;
 }

@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 25, 2011
+--------------
+Issue #1104832 by troky: Fixed hook_views_api() initialization and some other Views related stuff.
+
 March 24, 2011
 --------------
 Issue #1102510 by troky: Changed post_* and comment_* class names to match D7 core classes. Synced with commit #60bc64a.

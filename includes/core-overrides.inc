@@ -217,7 +217,7 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page, $sort_form = 
   // Views handles this page
   $view = views_get_view('advanced_forum_topic_list');
   $view->sort_form = $sort_form;
-
+  
   return $view->preview('default', array($tid));
 
 }

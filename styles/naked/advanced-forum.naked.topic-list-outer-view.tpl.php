@@ -31,7 +31,7 @@
 ?>
 
 <div class="<?php print $classes; ?>">
-  <?php if ($admin_links): ?>
+  <?php if (!empty($admin_links)): ?>
     <div class="views-admin-links views-hide">
       <?php print $admin_links; ?>
     </div>
