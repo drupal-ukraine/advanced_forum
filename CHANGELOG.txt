@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 28, 2011
+--------------
+Issue #1105218 by troky: Fixed subcontainer theme rendering.
+
 March 25, 2011
 --------------
 Issue #1104832 by troky: Fixed hook_views_api() initialization and some other Views related stuff.
