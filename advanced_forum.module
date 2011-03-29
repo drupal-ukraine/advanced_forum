@@ -242,12 +242,6 @@ function advanced_forum_theme() {
  */
 function advanced_forum_theme_registry_alter(&$theme_registry) {
   advanced_forum_load_style_includes();
-  // Garland's phptemplate_comment_wrapper really sucks. Chances are, a theme
-  // does NOT want to control this on forum nodes anyway, so we're going to take
-  // it over:
-  if (isset($theme_registry['comment_wrapper']['function']) && $theme_registry['comment_wrapper']['function'] == 'phptemplate_comment_wrapper') {
-    $theme_registry['comment_wrapper']['function'] = 'advanced_forum_comment_wrapper';
-  }
 
   // Don't let core do its basic preprocess for forums, as we want to do
   // other stuff now.
@@ -279,7 +273,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // Affected templates
   $templates = array('node',
     'comment',
-    'comment_wrapper',
+    //'comment_wrapper',
     'forums',
     'forum_list',
     'forum_topic_list',

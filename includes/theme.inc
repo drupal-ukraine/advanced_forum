@@ -264,7 +264,7 @@ function advanced_forum_preprocess_forums(&$variables) {
  * Preprocesses template variables for the forum search form template.
  */
 function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
-  advanced_forum_add_template_suggestions("search-forum", $variables);
+  advanced_forum_add_template_suggestions("search_forum", $variables);
 
   $variables['forum'] = !empty($variables['tid']) ? $variables['tid'] : 'All';
   $variables['path'] = url('forum/search');
@@ -275,7 +275,7 @@ function advanced_forum_preprocess_advanced_forum_search_forum(&$variables) {
  */
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("search-result", $variables);
+  advanced_forum_add_template_suggestions("search_result", $variables);
 }
 
 /**
@@ -329,7 +329,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
  * Preprocesses template variables for the forum legend template.
  */
 function advanced_forum_preprocess_advanced_forum_forum_legend(&$variables) {
-  advanced_forum_add_template_suggestions("forum-legend", $variables);
+  advanced_forum_add_template_suggestions("forum_legend", $variables);
 }
 
 /**
@@ -366,14 +366,14 @@ function advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_t
   _advanced_forum_add_files();
   // debug
   die("advanced_forum_preprocess_views_view_forum_topic_list__advanced_forum_topic_list");
-  advanced_forum_add_template_suggestions("topic-list-view", $variables);
+  advanced_forum_add_template_suggestions("topic_list_view", $variables);
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
 }
 
 function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("topic-list-outer-view", $variables);
+  advanced_forum_add_template_suggestions("topic_list_outer_view", $variables);
 
   // @TODO: This is messy tying it to the URL. Need to find a better way.
   $variables['node_create_list'] = '';
@@ -417,14 +417,14 @@ function advanced_forum_preprocess_advanced_forum_topic_legend(&$variables) {
 /* * * TOPIC PAGES *********************************************************** */
 
 function advanced_forum_preprocess_advanced_forum_search_topic(&$variables) {
-  advanced_forum_add_template_suggestions("search-topic", $variables);
+  advanced_forum_add_template_suggestions("search_topic", $variables);
 
   $variables['path'] = url('node/' . $variables['node']->nid . '/search');
 }
 
 function advanced_forum_preprocess_views_view_fields__advanced_forum_search_topic(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("search-result", $variables);
+  advanced_forum_add_template_suggestions("search_result", $variables);
 }
 
 /**
@@ -510,7 +510,7 @@ function advanced_forum_preprocess_node(&$variables) {
 function advanced_forum_preprocess_comment_wrapper(&$variables) {
   $variables['reply_link'] = '';
   if (advanced_forum_is_styled($variables['node'], FALSE, 'comment-wrapper')) {
-    advanced_forum_add_template_suggestions("comment_wrapper", $variables);
+    advanced_forum_add_template_suggestions("advanced_forum_comment_wrapper", $variables);
 
     $form_on_seperate_page = variable_get('comment_form_location_' . $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
 

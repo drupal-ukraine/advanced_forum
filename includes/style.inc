@@ -141,14 +141,33 @@ function advanced_forum_find_style_templates($style = NULL) {
     //array_walk($styles_files, 'advanced_forum_template_basename', $extension);
     foreach ($styles_files as $file) {
       $file->name = basename($file->uri, $extension);
+      $theme_file = $file->name;
+      $theme_path = advanced_forum_path_to_theme();
+
+      // Remove style name from file name
+      $theme_base_file = str_replace(".$key.", "-", $file->name);
+
       // Transform - in filenames to _ to match function naming scheme
-      // for the purposes of searching.
-      $hook = strtr($file->name, '-', '_');
-      // Remove style name from hook name
-      $hook = str_replace(".$key.", "_", $hook);
+      // and create proper hook name
+      $hook = strtr($theme_base_file, '-', '_');
+
+      // Check for user theme template override
+      // 1. check for <theme>/<style>/advanced-forum.<style>.<template>.tpl.php
+      if (file_exists($theme_path . "/$key/" . $file->name . $extension)) {
+        $theme_path = $theme_path . "/$key";
+      }
+      // 2. check for <theme>/advanced-forum-<template>.tpl.php
+      else if (file_exists($theme_path . "/" . $theme_base_file . $extension)) {
+        $theme_file = $theme_base_file;
+      }
+      // 3. check for advanced_forum/styles/<style>/... template
+      else {
+        $theme_path = dirname($file->uri);
+      }
+
       $templates[$hook] = array(
-        'template' => $file->name,
-        'path' => dirname($file->uri),
+        'template' => $theme_file,
+        'path' => $theme_path,
       );
     }
   }
@@ -409,44 +428,12 @@ function _advanced_forum_add_files() {
   }
 }
 
-/**
- * Allow themable wrapping of all comments.
- */
-function advanced_forum_comment_wrapper($content, $node) {
-  // See if this is a forum post:
-  $vid = variable_get('forum_nav_vocabulary', '');
-
-  // Check for language used
-  if (!isset($node->taxonomy_forums[$node->language])) {
-    $langcode = LANGUAGE_NONE;
-  }
-  else {
-    $langcode = $node->language;
-  }
-
-  foreach ($node->taxonomy_forums[$langcode] as $tforum) {
-    if ($tforum['taxonomy_term']->vid == $vid) {
-      return _advanced_forum_comment_wrapper($content, $node);
-    }
-  }
-
-  return phptemplate_comment_wrapper($content, $node);
-}
-
-/**
- * Wrap forum comments a little differently to make it easier.
- */
-function _advanced_forum_comment_wrapper($content, $node) {
-  return '<div id="comments" class="forum-comment-wrapper">' . $content . '</div>';
-}
-
-
 // CTOOLS INTEGRATION FOR STYLES ********************************************/
 
 function advanced_forum_ctools_plugin_type() {
   return array(
     'styles' => array(
-       'info file' => TRUE,
+      'info file' => TRUE,
       'load themes' => TRUE,
     ),
   );
