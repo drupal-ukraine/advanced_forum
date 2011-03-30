@@ -45,7 +45,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $lowest_depth = $forum->depth;
     }
   }
-
+  
+  // Calculate number of and number of new child posts for each item.
   for ($depth = $lowest_depth; $depth > 0; $depth--) {
     foreach ($items as $id => $item) {
       if ($item->depth == $depth) {
@@ -176,7 +177,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     }
   }
 
-  // Theme subcontainers, subforums and add post counts to parents.
+  // Theme subcontainers and subforums.
   foreach ($tables as $table_id => $table) {
     foreach ($table['items'] as $item_id => $item) {
       if (!empty($item->subforum_list)) {
@@ -307,6 +308,7 @@ function advanced_forum_process_forum($forum) {
 
       if ($forum->new_posts) {
         $forum->new_posts_text = format_plural($forum->new_posts, '1 new', '@count new');
+        $forum->new_posts_path = "forum/$forum->tid";
         $forum->new_posts_link = url("forum/$forum->tid", array('fragment' => 'new'));
       }
     }

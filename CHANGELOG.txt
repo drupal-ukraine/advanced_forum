@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 30, 2011
+--------------
+Issue #1109820 by troky: Fixed broken link to new posts in subforums.
+
 March 29, 2011
 --------------
 Issue #1109114 by troky: Fixed and improved styles and templates handling code.
