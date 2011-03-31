@@ -866,6 +866,10 @@ function advanced_forum_get_reply_link($node) {
  */
 function advanced_forum_last_post_link($node) {
   $last_comment_id = advanced_forum_last_post_in_topic($node->nid);
+  // Return empty link if post doesn't have comments.
+  if (empty($last_comment_id))
+    return '';
+
   $last_page = advanced_forum_get_last_page($node);
 
   if ($last_page > 0)

@@ -2,9 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
-March 30, 2011
+March 31, 2011
 --------------
 Issue #1111218 by troky: Fixed notice when comment links missing.
+Issue #1111856 by troky: Removed "Last Post" button when there are no comments/replies.
 
 March 30, 2011
 --------------
