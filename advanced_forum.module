@@ -386,8 +386,14 @@ function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') 
     return;
   }
 
-  $comment_links = $object->content['links']['comment'];
-  $links = $comment_links['#links'];
+  if (!empty($object->content['links']['comment'])) {
+    $comment_links = $object->content['links']['comment'];
+    $links = $comment_links['#links'];
+  }
+  else {
+    $comment_links = array();
+    $links = array();
+  }
 
   if ($object_type == 'node') {
 

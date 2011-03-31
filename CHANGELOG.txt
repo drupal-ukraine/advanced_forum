@@ -4,6 +4,10 @@
 
 March 30, 2011
 --------------
+Issue #1111218 by troky: Fixed notice when comment links missing.
+
+March 30, 2011
+--------------
 Issue #1109820 by troky: Fixed broken link to new posts in subforums.
 
 March 29, 2011
