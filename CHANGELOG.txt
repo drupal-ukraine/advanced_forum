@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+April 03, 2011
+--------------
+Issue #1114334 by niklas: Added a configure link on the module page.
+
 March 31, 2011
 --------------
 Issue #1111218 by troky: Fixed notice when comment links missing.

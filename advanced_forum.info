@@ -6,6 +6,8 @@ dependencies[] = forum
 dependencies[] = ctools
 dependencies[] = views
 
+configure = admin/config/content/advanced-forum
+
 ; Views handlers
 files[] = includes/views/advanced_forum_handler_field_node_topic_icon.inc
 files[] = includes/views/advanced_forum_handler_field_node_topic_pager.inc
