@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+April 07, 2011
+--------------
+Issue #1118822 by troky: Fixed Organic Groups view definition.
+
 April 03, 2011
 --------------
 Issue #1114334 by niklas: Added a configure link on the module page.

@@ -339,13 +339,15 @@ if (module_exists('og')) {
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
-  /* Argument: Broken/missing handler */
-  $handler->display->display_options['arguments']['group_nid']['id'] = 'group_nid';
-  $handler->display->display_options['arguments']['group_nid']['table'] = 'og_ancestry';
-  $handler->display->display_options['arguments']['group_nid']['field'] = 'group_nid';
-  $handler->display->display_options['arguments']['group_nid']['style_plugin'] = 'default_summary';
-  $handler->display->display_options['arguments']['group_nid']['title'] = '%1';
-  $handler->display->display_options['arguments']['group_nid']['default_argument_type'] = 'fixed';
+  /* Contextual filter: Fields: Groups audience (group_audience) - gid */
+  $handler->display->display_options['arguments']['group_audience_gid']['id'] = 'group_audience_gid';
+  $handler->display->display_options['arguments']['group_audience_gid']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['arguments']['group_audience_gid']['field'] = 'group_audience_gid';
+  $handler->display->display_options['arguments']['group_audience_gid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['group_audience_gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['group_audience_gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['group_audience_gid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['group_audience_gid']['not'] = 0;
   /* Filter: Node: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';

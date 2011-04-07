@@ -543,7 +543,7 @@ function advanced_forum_preprocess_comment(&$variables) {
 
 function advanced_forum_preprocess_views_view__advanced_forum_group_topic_list(&$variables) {
   _advanced_forum_add_files();
-  advanced_forum_add_template_suggestions("group_topic_list_outer_view", array('view' => $variables['view']));
+  advanced_forum_add_template_suggestions("group_topic_list_outer_view", $variables);
 
   // Set a variable for displaying the topic legend.
   $variables['topic_legend'] = theme('advanced_forum_topic_legend');
