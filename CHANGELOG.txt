@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+April 12, 2011
+--------------
+Issue #1124116 by dereine: Fixed notice and updated Views fields render code in template preprocess function.
+
 April 07, 2011
 --------------
 Issue #1118822 by troky: Fixed Organic Groups view definition.

@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @file
  * Holds the contents of a preprocess function moved into its own file
@@ -41,16 +40,12 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $stickies_done = FALSE;
   $sticky_count = 0;
 
+  $renders = $handler->render_fields($result);
+
   foreach ($result as $count => $row) {
-
-    foreach ($keys as $id) {
-      $renders[$count][$id] = $view->field[$id]->theme($row);
-    }
-
     // Grab the teaser so it can be used on the title of the td as a popup
     // preview. By default, the view provides the teaser as a popup on the
     // title link.
-
     $teaser = $renders[$count]['teaser'];
     $teaser = htmlentities($teaser);
     $teasers[$count] = $teaser;
@@ -61,7 +56,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       if ($sticky[$count]) {
         $sticky_count++;
         $variables['row_classes'][$count][] = 'sticky';
-      } else {
+      }
+      else {
         $stickies_done = TRUE;
         if ($sticky_count) {
           // This ends up appearing only if we have both sticky and non sticky posts.
@@ -79,7 +75,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
         'nid' => $row->nid,
         'new_forum' => $term->name
           ));
-    } else {
+    }
+    else {
       $variables['shadow'][$count] = FALSE;
     }
   }
@@ -93,7 +90,8 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       $label = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
       if (empty($options['info'][$field]['sortable']) || !$fields[$field]->click_sortable()) {
         $variables['header'][$field] = $label;
-      } else {
+      }
+      else {
         // @todo -- make this a setting
         $initial = 'asc';
 
