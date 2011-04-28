@@ -49,7 +49,7 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
 
   /**
    * Figure out what the forum ID is. It could have come from an argument
-   * or a filter or nowhere. This source would be set by the user in the 
+   * or a filter or nowhere. This source would be set by the user in the
    * options.
    */
   function get_forum_ids() {
@@ -66,9 +66,9 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
       return array($handler->argument);
     }
     else {
-      $terms = $handler->value;
+      $terms = is_array($handler->value) ? $handler->value : array($handler->value) ;
       if (isset($handler->options['depth'])) {
-        foreach ($handler->value as $tid) {
+        foreach ($terms as $tid) {
           $term = taxonomy_term_load($tid);
           $tree = taxonomy_get_tree($term->vid, $tid, -1, $handler->options['depth']);
           $terms = array_merge($terms, array_map('_taxonomy_get_tid_from_term', $tree));

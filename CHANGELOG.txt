@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+April 28, 2011
+--------------
+Issue #1140636 by troky: Unanswered topics view rebuilt from scratch and re-exported. Fixed related code.
+
 April 12, 2011
 --------------
 Issue #1124116 by dereine: Fixed notice and updated Views fields render code in template preprocess function.
