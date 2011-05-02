@@ -63,7 +63,7 @@ class advanced_forum_plugin_style_forum_topic_list extends views_plugin_style_ta
     list($type, $id) = explode('.', $where, 2);
     $handler = $this->display->handler->get_handler($type, $id);
     if ($type == 'argument') {
-      return array($handler->argument);
+      return empty($handler->argument) ? array() : array($handler->argument);
     }
     else {
       $terms = is_array($handler->value) ? $handler->value : array($handler->value) ;

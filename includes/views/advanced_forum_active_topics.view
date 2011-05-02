@@ -116,14 +116,17 @@ $handler->display->display_options['style_options']['override'] = 0;
 $handler->display->display_options['style_options']['sticky'] = 1;
 $handler->display->display_options['style_options']['order'] = 'desc';
 $handler->display->display_options['style_options']['tid'] = 'filter.term_node_tid_depth';
-/* Empty text: Global: Text area */
+/* No results behavior: Global: Text area */
 $handler->display->display_options['empty']['text']['id'] = 'area';
 $handler->display->display_options['empty']['text']['table'] = 'views';
 $handler->display->display_options['empty']['text']['field'] = 'area';
 $handler->display->display_options['empty']['text']['empty'] = FALSE;
 $handler->display->display_options['empty']['text']['content'] = 'No active topics.';
-$handler->display->display_options['empty']['text']['format'] = 'filtered_html';
-/* Field: Node: Nid */
+/* Relationship: Content: Taxonomy terms on node */
+$handler->display->display_options['relationships']['term_node_tid']['id'] = 'term_node_tid';
+$handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
+$handler->display->display_options['relationships']['term_node_tid']['field'] = 'term_node_tid';
+/* Field: Content: Nid */
 $handler->display->display_options['fields']['nid']['id'] = 'nid';
 $handler->display->display_options['fields']['nid']['table'] = 'node';
 $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -138,10 +141,10 @@ $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
 $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
 $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
 $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
-/* Field: Fields: body */
+/* Field: Content: Body */
 $handler->display->display_options['fields']['teaser']['id'] = 'teaser';
 $handler->display->display_options['fields']['teaser']['table'] = 'field_data_body';
-$handler->display->display_options['fields']['teaser']['field'] = 'entity_id';
+$handler->display->display_options['fields']['teaser']['field'] = 'body';
 $handler->display->display_options['fields']['teaser']['label'] = 'Teaser';
 $handler->display->display_options['fields']['teaser']['exclude'] = TRUE;
 $handler->display->display_options['fields']['teaser']['alter']['alter_text'] = 0;
@@ -157,7 +160,7 @@ $handler->display->display_options['fields']['teaser']['type'] = 'text_summary_o
 $handler->display->display_options['fields']['teaser']['settings'] = array(
   'trim_length' => '200',
 );
-/* Field: Node: Topic Icon */
+/* Field: Content: Topic Icon */
 $handler->display->display_options['fields']['topic_icon']['id'] = 'topic_icon';
 $handler->display->display_options['fields']['topic_icon']['table'] = 'node';
 $handler->display->display_options['fields']['topic_icon']['field'] = 'topic_icon';
@@ -170,7 +173,7 @@ $handler->display->display_options['fields']['topic_icon']['alter']['ellipsis'] 
 $handler->display->display_options['fields']['topic_icon']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['topic_icon']['alter']['html'] = 0;
 $handler->display->display_options['fields']['topic_icon']['hot_topic_threshold'] = '15';
-/* Field: Node: Title */
+/* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
 $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -189,7 +192,7 @@ $handler->display->display_options['fields']['title']['alter']['html'] = 0;
 $handler->display->display_options['fields']['title']['hide_empty'] = 0;
 $handler->display->display_options['fields']['title']['empty_zero'] = 0;
 $handler->display->display_options['fields']['title']['link_to_node'] = 0;
-/* Field: Node: Has new content */
+/* Field: Content: Has new content */
 $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
 $handler->display->display_options['fields']['timestamp']['table'] = 'history';
 $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
@@ -205,7 +208,7 @@ $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
 $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
 $handler->display->display_options['fields']['timestamp']['link_to_node'] = 0;
 $handler->display->display_options['fields']['timestamp']['comments'] = 1;
-/* Field: Node: Topic Pager */
+/* Field: Content: Topic Pager */
 $handler->display->display_options['fields']['topic_pager']['id'] = 'topic_pager';
 $handler->display->display_options['fields']['topic_pager']['table'] = 'node';
 $handler->display->display_options['fields']['topic_pager']['field'] = 'topic_pager';
@@ -233,7 +236,7 @@ $handler->display->display_options['fields']['name_1']['hide_empty'] = 0;
 $handler->display->display_options['fields']['name_1']['empty_zero'] = 0;
 $handler->display->display_options['fields']['name_1']['link_to_user'] = 1;
 $handler->display->display_options['fields']['name_1']['overwrite_anonymous'] = 0;
-/* Field: Node: Post date */
+/* Field: Content: Post date */
 $handler->display->display_options['fields']['created']['id'] = 'created';
 $handler->display->display_options['fields']['created']['table'] = 'node';
 $handler->display->display_options['fields']['created']['field'] = 'created';
@@ -247,7 +250,7 @@ $handler->display->display_options['fields']['created']['alter']['strip_tags'] =
 $handler->display->display_options['fields']['created']['alter']['html'] = 0;
 $handler->display->display_options['fields']['created']['hide_empty'] = 0;
 $handler->display->display_options['fields']['created']['empty_zero'] = 0;
-/* Field: Node: Comment count */
+/* Field: Content: Comment count */
 $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
 $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
 $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
@@ -262,7 +265,7 @@ $handler->display->display_options['fields']['comment_count']['alter']['html'] =
 $handler->display->display_options['fields']['comment_count']['empty'] = '0';
 $handler->display->display_options['fields']['comment_count']['hide_empty'] = 0;
 $handler->display->display_options['fields']['comment_count']['empty_zero'] = 1;
-/* Field: Node: New comments */
+/* Field: Content: New comments */
 $handler->display->display_options['fields']['new_comments']['id'] = 'new_comments';
 $handler->display->display_options['fields']['new_comments']['table'] = 'node';
 $handler->display->display_options['fields']['new_comments']['field'] = 'new_comments';
@@ -278,7 +281,7 @@ $handler->display->display_options['fields']['new_comments']['empty_zero'] = 0;
 $handler->display->display_options['fields']['new_comments']['prefix'] = 'View ';
 $handler->display->display_options['fields']['new_comments']['suffix'] = ' new';
 $handler->display->display_options['fields']['new_comments']['link_to_comment'] = 1;
-/* Field: Node statistics: Total views */
+/* Field: Content statistics: Total views */
 $handler->display->display_options['fields']['totalcount']['id'] = 'totalcount';
 $handler->display->display_options['fields']['totalcount']['table'] = 'node_counter';
 $handler->display->display_options['fields']['totalcount']['field'] = 'totalcount';
@@ -293,7 +296,7 @@ $handler->display->display_options['fields']['totalcount']['alter']['html'] = 0;
 $handler->display->display_options['fields']['totalcount']['empty'] = '0';
 $handler->display->display_options['fields']['totalcount']['hide_empty'] = 0;
 $handler->display->display_options['fields']['totalcount']['empty_zero'] = 1;
-/* Field: Node: Last comment author */
+/* Field: Content: Last comment author */
 $handler->display->display_options['fields']['last_comment_name']['id'] = 'last_comment_name';
 $handler->display->display_options['fields']['last_comment_name']['table'] = 'node_comment_statistics';
 $handler->display->display_options['fields']['last_comment_name']['field'] = 'last_comment_name';
@@ -307,7 +310,7 @@ $handler->display->display_options['fields']['last_comment_name']['alter']['stri
 $handler->display->display_options['fields']['last_comment_name']['alter']['html'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['hide_empty'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['empty_zero'] = 0;
-/* Field: Node: Updated/commented date */
+/* Field: Content: Updated/commented date */
 $handler->display->display_options['fields']['last_updated']['id'] = 'last_updated';
 $handler->display->display_options['fields']['last_updated']['table'] = 'node_comment_statistics';
 $handler->display->display_options['fields']['last_updated']['field'] = 'last_updated';
@@ -321,7 +324,7 @@ $handler->display->display_options['fields']['last_updated']['alter']['strip_tag
 $handler->display->display_options['fields']['last_updated']['alter']['html'] = 0;
 $handler->display->display_options['fields']['last_updated']['hide_empty'] = 0;
 $handler->display->display_options['fields']['last_updated']['empty_zero'] = 0;
-/* Field: Node: Sticky */
+/* Field: Content: Sticky */
 $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
 $handler->display->display_options['fields']['sticky']['table'] = 'node';
 $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -334,7 +337,7 @@ $handler->display->display_options['fields']['sticky']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['sticky']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['sticky']['alter']['html'] = 0;
 $handler->display->display_options['fields']['sticky']['not'] = 0;
-/* Field: Node: Comment status */
+/* Field: Content: Comment status */
 $handler->display->display_options['fields']['comment']['id'] = 'comment';
 $handler->display->display_options['fields']['comment']['table'] = 'node';
 $handler->display->display_options['fields']['comment']['field'] = 'comment';
@@ -346,10 +349,11 @@ $handler->display->display_options['fields']['comment']['alter']['word_boundary'
 $handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['comment']['alter']['html'] = 0;
-/* Field: Taxonomy: Term */
+/* Field: Taxonomy term: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';
 $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
 $handler->display->display_options['fields']['name']['field'] = 'name';
+$handler->display->display_options['fields']['name']['relationship'] = 'term_node_tid';
 $handler->display->display_options['fields']['name']['label'] = 'Forum';
 $handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
@@ -361,36 +365,37 @@ $handler->display->display_options['fields']['name']['alter']['html'] = 0;
 $handler->display->display_options['fields']['name']['hide_empty'] = 0;
 $handler->display->display_options['fields']['name']['empty_zero'] = 0;
 $handler->display->display_options['fields']['name']['link_to_taxonomy'] = 1;
-/* Sort criterion: Node: Last comment time */
+/* Sort criterion: Content: Last comment time */
 $handler->display->display_options['sorts']['last_comment_timestamp']['id'] = 'last_comment_timestamp';
 $handler->display->display_options['sorts']['last_comment_timestamp']['table'] = 'node_comment_statistics';
 $handler->display->display_options['sorts']['last_comment_timestamp']['field'] = 'last_comment_timestamp';
 $handler->display->display_options['sorts']['last_comment_timestamp']['order'] = 'DESC';
-/* Filter: Node: Published */
+/* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['value'] = '1';
 $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-/* Filter: Taxonomy: Vocabulary */
+/* Filter criterion: Taxonomy term: Vocabulary */
 $handler->display->display_options['filters']['vid']['id'] = 'vid';
 $handler->display->display_options['filters']['vid']['table'] = 'taxonomy_term_data';
 $handler->display->display_options['filters']['vid']['field'] = 'vid';
+$handler->display->display_options['filters']['vid']['relationship'] = 'term_node_tid';
 $handler->display->display_options['filters']['vid']['value'] = array(
-  variable_get('forum_nav_vocabulary') => variable_get('forum_nav_vocabulary')
+  variable_get('forum_nav_vocabulary') => variable_get('forum_nav_vocabulary'),
 );
 $handler->display->display_options['filters']['vid']['expose']['operator'] = FALSE;
-/* Filter: Taxonomy: Term ID (with depth) */
+/* Filter criterion: Content: Has taxonomy terms (with depth) */
 $handler->display->display_options['filters']['term_node_tid_depth']['id'] = 'term_node_tid_depth';
 $handler->display->display_options['filters']['term_node_tid_depth']['table'] = 'node';
 $handler->display->display_options['filters']['term_node_tid_depth']['field'] = 'term_node_tid_depth';
 $handler->display->display_options['filters']['term_node_tid_depth']['exposed'] = TRUE;
-$handler->display->display_options['filters']['term_node_tid_depth']['expose']['use_operator'] = 0;
-$handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator'] = 'term_node_tid_depth_op';
+$handler->display->display_options['filters']['term_node_tid_depth']['expose']['use_operator'] = FALSE;
+$handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator_id'] = 'term_node_tid_depth_op';
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['label'] = 'Show active topics in:';
+$handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator'] = 'term_node_tid_depth_op';
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['identifier'] = 'forum';
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['remember'] = 1;
-$handler->display->display_options['filters']['term_node_tid_depth']['expose']['single'] = 0;
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['reduce'] = 0;
 $handler->display->display_options['filters']['term_node_tid_depth']['reduce_duplicates'] = 0;
 $handler->display->display_options['filters']['term_node_tid_depth']['type'] = 'select';
@@ -424,15 +429,16 @@ $translatables['advanced_forum_active_topics'] = array(
   t('more'),
   t('Apply'),
   t('Reset'),
-  t('Sort By'),
+  t('Sort by'),
   t('Asc'),
   t('Desc'),
   t('Items per page'),
   t('- All -'),
   t('Offset'),
   t('No active topics.'),
+  t('term'),
   t('Nid'),
-  t('Body summary'),
+  t('Teaser'),
   t('Topic'),
   t('<span class="forum-topic-title">[title]</span> '),
   t('node/[nid]'),
