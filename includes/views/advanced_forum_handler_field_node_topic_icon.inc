@@ -40,7 +40,7 @@
     return theme('forum_icon', array(
       'new_posts' => $new_posts,
       'num_posts' => $values->node_counter_totalcount,
-      //'comment_mode' => $values->node_comment,
+      'comment_mode' => $values->node_comment,
       'sticky' => $values->node_sticky
     ));
   }
