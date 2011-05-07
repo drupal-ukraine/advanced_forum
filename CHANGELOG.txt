@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 08, 2011
+------------
+Issue #1150278 by troky: Fixed notice when statistics module is disabled.
+
 May 07, 2011
 ------------
 by troky: Unanswered topics view rebuilt. Removed unnecessary columns and changed sort criteria to topic/post creation date because there is no sense sorting it by last comment time since there are no comments by definition.
