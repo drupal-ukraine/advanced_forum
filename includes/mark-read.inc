@@ -29,7 +29,7 @@ function advanced_forum_get_mark_read_link($tid = 0, &$links = array()) {
 /**
  * Marks all posts in forums or in a given forum as read by the current user.
  */
-function advanced_forum_markasread($current_forum_id = 0) {
+function advanced_forum_markasread_old($current_forum_id = 0) {
   global $user;
   // See if we're on a forum or on the forum overview
   // Path will be /forum/markasread or /forum/markasread/tid
@@ -103,6 +103,51 @@ function advanced_forum_markasread($current_forum_id = 0) {
   drupal_goto('forum');
 }
 
+function advanced_forum_markasread($term = NULL) {
+  global $user;
+  $vid = variable_get('forum_nav_vocabulary', 0);
+
+  // Don't bother trying to mark things read for anonymous users.
+  if (empty($user->uid)) {
+    return;
+  }
+
+  // Delete all entries in the history table for the current $uid and
+  // optionally a forum term id.
+
+  // Subquery to find nids to delete from history table.
+  $query_node = db_select('node', 'n');
+  $query_node->join('forum', 'f', 'n.nid = f.nid');
+  $query_node->join('taxonomy_term_data', 't', 'f.tid = t.tid');
+  $query_node->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
+  $query_node->condition(db_or()
+    ->condition('n.changed', NODE_NEW_LIMIT, '>')
+    ->condition('ncs.last_comment_timestamp', NODE_NEW_LIMIT, '>')
+  );
+  if (isset($term)) {
+    $query_node->condition('f.tid', $term['tid']);
+  }
+  $query_node->condition('t.vid', $vid);
+  $query_node->addField('n', 'nid');
+  // Select query objects are one-shot, so clone for INSERT below.
+  $query_history_insert = clone($query_node);
+  // Delete values based upon sub-query.
+  $query = db_delete('history')
+    ->condition('uid', $user->uid)
+    ->condition('nid', $query_node, 'IN')
+    ->execute();
+
+  // Now insert the nids into the history table.
+  $query_history_insert->addExpression(':uid', 'uid', array(':uid' => $user->uid));
+  $query_history_insert->addExpression(':time', 'timestamp', array(':time' => time()));
+
+  db_insert('history')
+    ->fields(array('nid', 'uid', 'timestamp'))
+    ->from($query_history_insert)
+    ->execute();
+
+  drupal_goto(empty($term) ? 'forum' : 'forum/' . $term);
+}
 /**
  * Access callback for menus and link display.
  *
