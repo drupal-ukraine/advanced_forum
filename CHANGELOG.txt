@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 12, 2011
+------------
+by troky: Added new mark_as_read code.
+
 May 08, 2011
 ------------
 Issue #1150278 by troky: Fixed notice when statistics module is disabled.
