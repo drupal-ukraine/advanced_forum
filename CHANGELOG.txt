@@ -5,6 +5,7 @@
 May 12, 2011
 ------------
 by troky: Added new mark_as_read code.
+by troky: Removed unused views.
 
 May 08, 2011
 ------------
