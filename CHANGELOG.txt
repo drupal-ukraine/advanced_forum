@@ -2,6 +2,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 27, 2011
+------------
+CREATED ALT BRANCH.
+
 May 12, 2011
 ------------
 by troky: Added new mark_as_read code.
