@@ -15,6 +15,7 @@
  */
 function advanced_forum_views_default_views() {
   $files = file_scan_directory(drupal_get_path('module', 'advanced_forum') . '/includes/views', '/.view$/');
+  $files += file_scan_directory(path_to_theme(). '/advanced_forum/views', '/.view$/');
   foreach ($files as $absolute => $file) {
     $view = NULL;
     require $absolute;

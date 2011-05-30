@@ -21,18 +21,19 @@
       if (!Drupal.advanced_forum.collapsed_current)
         Drupal.advanced_forum.collapsed_current = new Array();
 
-      var handleSpan = $('span.forum-collapsible', context);
+      var handleElement = $('.forum-collapsible', context);
 
       // Set initial collapsed state
-      handleSpan.once('forum-collapsible', Drupal.advanced_forum.init);
+      handleElement.once('forum-collapsible', Drupal.advanced_forum.init);
 
-      handleSpan.addClass('clickable').click(function() {
+      handleElement.addClass('clickable').click(function(event) {
+        event.preventDefault();
+
         // Get forum id
         var id = $(this).attr('id').split('-')[2];
         if ( $(this).hasClass('container-collapsed')) {
           Drupal.advanced_forum.expand(id, Drupal.settings.advanced_forum.effect);
           // Reset collapsed status
-          //Drupal.advanced_forum.collapsed_current.splice(Drupal.advanced_forum.collapsed_current.indexOf(id),1);
           Drupal.advanced_forum.collapsed_current.splice($.inArray(id, Drupal.advanced_forum.collapsed_current),1);
         }
         else {
@@ -73,12 +74,16 @@
 
     // Check if item is collapsed
     if ($.inArray(id, Drupal.advanced_forum.collapsed_current) > -1) {
-      $(this).addClass('container-collapsed');
+      $(this)
+        .addClass('container-collapsed')
+        .parent().addClass('container-collapsed');
       Drupal.advanced_forum.collapse(id, 'toggle');
       return;
     }
 
-    $(this).removeClass('container-collapsed');
+    $(this)
+      .removeClass('container-collapsed')
+      .parent().removeClass('container-collapsed');
     Drupal.advanced_forum.expand(id, 'toggle');
   };
 
@@ -93,7 +98,9 @@
       default:
         $('#forum-table-' + id).hide();
     }
-    $('#forum-collapsible-' + id).addClass('container-collapsed');
+    $('#forum-collapsible-' + id)
+      .addClass('container-collapsed')
+      .parent().addClass('container-collapsed');
   };
 
   Drupal.advanced_forum.expand = function(id, effect) {
@@ -107,7 +114,9 @@
       default:
         $('#forum-table-' + id).show();
     }
-    $('#forum-collapsible-' + id).removeClass('container-collapsed');
+    $('#forum-collapsible-' + id)
+      .removeClass('container-collapsed')
+      .parent().removeClass('container-collapsed');
   };
 
 })(jQuery);
