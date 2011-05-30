@@ -308,7 +308,12 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
       $short_topic_title = truncate_utf8($variables['topic']->node_title, $title_length, TRUE, TRUE);
     }
 
+    $variables['short_topic_title'] = $short_topic_title;
+
     $fragment = ($new_replies) ? 'new' : NULL;
+    
+    $variables['topic_link_fragment'] = $fragment;
+    $variables['topic_link_query'] = $query;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", array('query' => $query, 'fragment' => $fragment));
   }
 
