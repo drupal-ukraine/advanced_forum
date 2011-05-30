@@ -2,6 +2,14 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 30, 2011
+------------
+by troky: Fixed ignored comment wrapper template.
+by troky: Changed collapsible containers javascript code to allow any element as handle. Added 'collapsible' class to handle parent element, too.
+by troky: Added more (fragmented) variables for themers in advanced_forum_preprocess_forum_submitted.
+by troky: Added option to load/override AF views from theme folder.
+
+
 May 27, 2011
 ------------
 CREATED ALT BRANCH.
