@@ -273,7 +273,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // Affected templates
   $templates = array('node',
     'comment',
-    //'comment_wrapper',
+    'comment_wrapper',
     'forums',
     'forum_list',
     'forum_topic_list',
@@ -997,6 +997,7 @@ function advanced_forum_last_post_in_topic($nid) {
     return NULL;
 
   $node = node_load($nid);
+
   if (module_exists('nodecomment') && nodecomment_get_comment_type($node->type)) {
     // Nodecomment module version
     $query = 'SELECT nc.cid
@@ -1014,6 +1015,7 @@ function advanced_forum_last_post_in_topic($nid) {
               ORDER BY c.cid DESC';
     $result = db_query_range($query, 0, 1, array(':nid' => $nid, ':status' => COMMENT_PUBLISHED))->fetchField();
   }
+
   return $result;
 }
 
