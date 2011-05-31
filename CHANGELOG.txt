@@ -1,6 +1,9 @@
 
-
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
+
+May 31, 2011
+------------
+by troky: Fixed missing forum data when only container is displayed.
 
 May 30, 2011
 ------------
