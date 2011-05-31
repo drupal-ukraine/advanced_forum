@@ -4,6 +4,7 @@
 May 31, 2011
 ------------
 by troky: Fixed missing forum data when only container is displayed.
+by troky: Fixed theme views search path.
 
 May 30, 2011
 ------------
