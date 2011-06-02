@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 02, 2011
+-------------
+by troky: Upgraded template_preprocess_advanced_forum_topic_list_view to Views 3.x
+
 May 31, 2011
 ------------
 by troky: Fixed missing forum data when only container is displayed.
