@@ -311,7 +311,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $variables['short_topic_title'] = $short_topic_title;
 
     $fragment = ($new_replies) ? 'new' : NULL;
-    
+
     $variables['topic_link_fragment'] = $fragment;
     $variables['topic_link_query'] = $query;
     $variables['topic_link'] = l($short_topic_title, "node/$nid", array('query' => $query, 'fragment' => $fragment));
@@ -380,14 +380,17 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
   _advanced_forum_add_files();
   advanced_forum_add_template_suggestions("topic_list_outer_view", $variables);
 
-  // @TODO: This is messy tying it to the URL. Need to find a better way.
   $variables['node_create_list'] = '';
   $variables['forum_tools'] = '';
-  $tid = arg(1);
-  if (arg(0) == 'forum' && $tid > 0 && !variable_get('advanced_forum_forum_disabled', FALSE)) {
-    $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $tid));
-    $variables['forum_tools'] = advanced_forum_forum_tools($tid);
+
+  $menu_item = menu_get_item();
+  $forum = $menu_item['map'][1];
+
+  if ($forum->vid == variable_get('forum_nav_vocabulary') && $forum->tid > 0 && !variable_get('advanced_forum_forum_disabled', FALSE)) {
+    $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $forum->tid));
+    $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
   }
+
 }
 
 /**
