@@ -1251,7 +1251,7 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
     // first page because that doesn't have a query.
     $pager_array = array();
     $current_display_page = 1;
-    $pager_array[] = l('1', "node/$topic->nid");
+    $pager_array[0] = l('1', "node/$topic->nid");
 
     // Find the ending point. The pager URL is always 1 less than
     // the number being displayed because the first page is 0.
@@ -1267,7 +1267,7 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       $link_to_page = $current_display_page - 1;
 
       // Add the link to the array
-      $pager_array[] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
+      $pager_array[$link_to_page] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
     }
 
     // Move to the next page
@@ -1277,22 +1277,28 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
       // We are one past the max to display, but it's the last page,
       // so putting the ...last is silly. Just display it normally.
       $link_to_page = $current_display_page - 1;
-      $pager_array[] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
+      $pager_array[$link_to_page] = l($current_display_page, "node/$topic->nid", array('query' => array('page' => $link_to_page)));
     }
 
-    $pager_last = '';
     if ($current_display_page < $last_display_page) {
       // We are one past the max to display and still aren't
       // on the last page, so put in ... Last Page(N)
       $text = t('Last Page');
       $pager_last_text = l($text, "node/$topic->nid", array('query' => array('page' => $last_pager_page)));
       $pager_last_number = l($last_display_page, "node/$topic->nid", array('query' => array('page' => $last_pager_page)));
+      // Create last page array to enable more customization for themers.
+      $pager_last = array(
+        'number' => $last_display_page,
+        'link' => "node/$topic->nid",
+        'options' => array('query' => array('page' => $last_pager_page)),
+      );
     }
 
     $topic_pager = new stdClass();
     $topic_pager->initial_pages = (empty($pager_array)) ? array() : $pager_array;
     $topic_pager->last_page_text = (empty($pager_last_text)) ? '' : $pager_last_text;
-    $topic_pager->last_page_number = (empty($pager_last_numer)) ? '' : $pager_last_number;
+    $topic_pager->last_page_number = (empty($pager_last_number)) ? '' : $pager_last_number;
+    $topic_pager->last_page = (empty($pager_last)) ? array() : $pager_last;
 
     return $topic_pager;
   }

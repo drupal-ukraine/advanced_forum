@@ -147,28 +147,7 @@ function theme_advanced_forum_reply_link(&$variables) {
  * @return
  *   Assembled pager.
  */
-function theme_advanced_forum_topic_pager($variables) {
-  $pagecount = $variables['pagecount'];
-  $topic = $variables['topic'];
-
-  // Get the information to assemble the pager. This returns an object with
-  // the following properties:
-  //  initial_pages: Array of linked numbers for first set of pages
-  //  last_page_text: Linked text "Last page" (translatable)
-  //  last_page_number: Linked number pointing to the last page.
-  $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
-  $last_page = '';
-
-  if (!empty($topic_pager->initial_pages)) {
-    if (!empty($topic_pager->last_page_text)) {
-      // If you prefer to end with the number, replace
-      // $topic_pager->last_page_text with $topic_pager->last_page_number
-      $last_page = ' &hellip; ' . $topic_pager->last_page_text;
-    }
-
-    return '<span class="topic-pager">(Page: ' . implode(", ", $topic_pager->initial_pages) . $last_page . ')</span>';
-  }
-}
+//function theme_advanced_forum_topic_pager($variables) {
 
 /**
  * Theme function to create shadow topic reference.
@@ -324,6 +303,34 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $timestamp = $variables['topic']->created;
     if (REQUEST_TIME - $timestamp > $cutoff) {
       $variables['date_posted'] = format_date($timestamp, 'small');
+    }
+  }
+}
+
+function advanced_forum_preprocess_advanced_forum_topic_pager(&$variables) {
+  $pagecount = $variables['pagecount'];
+  $topic = $variables['topic'];
+
+  // Get the information to assemble the pager. This returns an object with
+  // the following properties:
+  //  initial_pages: Array of linked numbers for first set of pages
+  //  last_page_text: Linked text "Last page" (translatable)
+  //  last_page_number: Linked number pointing to the last page.
+  $topic_pager = advanced_forum_create_topic_pager($pagecount, $topic);
+
+
+  $variables['last_page_text'] = '';
+
+  if (!empty($topic_pager->initial_pages)) {
+    $variables['pages'] = $topic_pager->initial_pages;
+    if (!empty($topic_pager->last_page_text)) {
+      $variables['last_page'] = $topic_pager->last_page;
+      $variables['last_page_text'] = $topic_pager->last_page_text;
+      $variables['last_page_number'] = $topic_pager->last_page_number;
+
+      // If you prefer to end with the number, replace
+      // $topic_pager->last_page_text with $topic_pager->last_page_number
+      $variables['last_page_text'] = ' &hellip; ' . $topic_pager->last_page_text;
     }
   }
 }
