@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 04, 2011
+-------------
+by troky: Updated topic_list preprocess function: getting 'tid' usig arg() replaced by using menu_get_item() function.
+
 June 02, 2011
 -------------
 by troky: Upgraded template_preprocess_advanced_forum_topic_list_view to Views 3.x
