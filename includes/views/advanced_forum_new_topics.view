@@ -1,4 +1,5 @@
 <?php
+
 // $Id$
 
 /**
@@ -7,6 +8,8 @@
  * When you export, please note the calls to variable_get('forum_nav_vocabulary')
  * to ensure that the forum vocabulary gets the right vid.
  */
+$vid = variable_get('forum_nav_vocabulary');
+$vocabulary = taxonomy_vocabulary_load($vid);
 
 /*
  * View 'advanced_forum_new_topics'
@@ -32,6 +35,7 @@ $handler->display->display_options['access']['role'] = array(
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['query']['options']['distinct'] = TRUE;
+$handler->display->display_options['query']['options']['query_comment'] = FALSE;
 $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'full';
 $handler->display->display_options['pager']['options']['items_per_page'] = 20;
@@ -132,11 +136,11 @@ $handler->display->display_options['fields']['teaser']['label'] = 'Teaser';
 $handler->display->display_options['fields']['teaser']['exclude'] = TRUE;
 $handler->display->display_options['fields']['teaser']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['teaser']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['teaser']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['teaser']['alter']['max_length'] = '200';
 $handler->display->display_options['fields']['teaser']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['teaser']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['teaser']['alter']['strip_tags'] = 1;
+$handler->display->display_options['fields']['teaser']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['teaser']['alter']['html'] = 0;
 $handler->display->display_options['fields']['teaser']['hide_empty'] = 0;
 $handler->display->display_options['fields']['teaser']['type'] = 'text_summary_or_trimmed';
@@ -150,10 +154,10 @@ $handler->display->display_options['fields']['topic_icon']['field'] = 'topic_ico
 $handler->display->display_options['fields']['topic_icon']['label'] = '';
 $handler->display->display_options['fields']['topic_icon']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['topic_icon']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['topic_icon']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['topic_icon']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['topic_icon']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['topic_icon']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['topic_icon']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['topic_icon']['alter']['html'] = 0;
 $handler->display->display_options['fields']['topic_icon']['hot_topic_threshold'] = '15';
 /* Field: Content: Title */
@@ -166,10 +170,10 @@ $handler->display->display_options['fields']['title']['alter']['text'] = '<span 
 $handler->display->display_options['fields']['title']['alter']['make_link'] = 1;
 $handler->display->display_options['fields']['title']['alter']['path'] = 'node/[nid]';
 $handler->display->display_options['fields']['title']['alter']['alt'] = '[teaser]';
-$handler->display->display_options['fields']['title']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['title']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['title']['alter']['html'] = 0;
 $handler->display->display_options['fields']['title']['hide_empty'] = 0;
 $handler->display->display_options['fields']['title']['empty_zero'] = 0;
@@ -183,10 +187,10 @@ $handler->display->display_options['fields']['timestamp']['alter']['alter_text']
 $handler->display->display_options['fields']['timestamp']['alter']['text'] = '[timestamp] ';
 $handler->display->display_options['fields']['timestamp']['alter']['make_link'] = 0;
 $handler->display->display_options['fields']['timestamp']['alter']['absolute'] = 0;
-$handler->display->display_options['fields']['timestamp']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['timestamp']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['timestamp']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['timestamp']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['timestamp']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['timestamp']['alter']['html'] = 0;
 $handler->display->display_options['fields']['timestamp']['element_label_colon'] = 1;
 $handler->display->display_options['fields']['timestamp']['element_default_classes'] = 1;
@@ -199,10 +203,10 @@ $handler->display->display_options['fields']['topic_pager']['table'] = 'node';
 $handler->display->display_options['fields']['topic_pager']['field'] = 'topic_pager';
 $handler->display->display_options['fields']['topic_pager']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['topic_pager']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['topic_pager']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['topic_pager']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['topic_pager']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['topic_pager']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['topic_pager']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['topic_pager']['alter']['html'] = 0;
 $handler->display->display_options['fields']['topic_pager']['total_pages_shown'] = '3';
 /* Field: User: Name */
@@ -212,10 +216,10 @@ $handler->display->display_options['fields']['name_1']['field'] = 'name';
 $handler->display->display_options['fields']['name_1']['alter']['alter_text'] = 1;
 $handler->display->display_options['fields']['name_1']['alter']['text'] = '<br /> by [name_1] ';
 $handler->display->display_options['fields']['name_1']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['name_1']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['name_1']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['name_1']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['name_1']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['name_1']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['name_1']['alter']['html'] = 0;
 $handler->display->display_options['fields']['name_1']['hide_empty'] = 0;
 $handler->display->display_options['fields']['name_1']['empty_zero'] = 0;
@@ -228,10 +232,10 @@ $handler->display->display_options['fields']['created']['field'] = 'created';
 $handler->display->display_options['fields']['created']['alter']['alter_text'] = 1;
 $handler->display->display_options['fields']['created']['alter']['text'] = 'on [created]';
 $handler->display->display_options['fields']['created']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['created']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['created']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['created']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['created']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['created']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['created']['alter']['html'] = 0;
 $handler->display->display_options['fields']['created']['hide_empty'] = 0;
 $handler->display->display_options['fields']['created']['empty_zero'] = 0;
@@ -242,10 +246,10 @@ $handler->display->display_options['fields']['comment_count']['field'] = 'commen
 $handler->display->display_options['fields']['comment_count']['label'] = 'Replies';
 $handler->display->display_options['fields']['comment_count']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['comment_count']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['comment_count']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['comment_count']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['comment_count']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['comment_count']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['comment_count']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['comment_count']['alter']['html'] = 0;
 $handler->display->display_options['fields']['comment_count']['empty'] = '0';
 $handler->display->display_options['fields']['comment_count']['hide_empty'] = 0;
@@ -256,10 +260,10 @@ $handler->display->display_options['fields']['new_comments']['table'] = 'node';
 $handler->display->display_options['fields']['new_comments']['field'] = 'new_comments';
 $handler->display->display_options['fields']['new_comments']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['new_comments']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['new_comments']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['new_comments']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['new_comments']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['new_comments']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['new_comments']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['new_comments']['alter']['html'] = 0;
 $handler->display->display_options['fields']['new_comments']['hide_empty'] = 1;
 $handler->display->display_options['fields']['new_comments']['empty_zero'] = 0;
@@ -273,10 +277,10 @@ $handler->display->display_options['fields']['totalcount']['field'] = 'totalcoun
 $handler->display->display_options['fields']['totalcount']['label'] = 'Views';
 $handler->display->display_options['fields']['totalcount']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['totalcount']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['totalcount']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['totalcount']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['totalcount']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['totalcount']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['totalcount']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['totalcount']['alter']['html'] = 0;
 $handler->display->display_options['fields']['totalcount']['empty'] = '0';
 $handler->display->display_options['fields']['totalcount']['hide_empty'] = 0;
@@ -288,10 +292,10 @@ $handler->display->display_options['fields']['last_comment_name']['field'] = 'la
 $handler->display->display_options['fields']['last_comment_name']['alter']['alter_text'] = 1;
 $handler->display->display_options['fields']['last_comment_name']['alter']['text'] = 'by [last_comment_name]';
 $handler->display->display_options['fields']['last_comment_name']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['last_comment_name']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['last_comment_name']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['last_comment_name']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['last_comment_name']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['alter']['html'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['hide_empty'] = 0;
 $handler->display->display_options['fields']['last_comment_name']['empty_zero'] = 0;
@@ -302,10 +306,10 @@ $handler->display->display_options['fields']['last_updated']['field'] = 'last_up
 $handler->display->display_options['fields']['last_updated']['label'] = 'Last update';
 $handler->display->display_options['fields']['last_updated']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['last_updated']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['last_updated']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['last_updated']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['last_updated']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['last_updated']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['last_updated']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['last_updated']['alter']['html'] = 0;
 $handler->display->display_options['fields']['last_updated']['hide_empty'] = 0;
 $handler->display->display_options['fields']['last_updated']['empty_zero'] = 0;
@@ -317,10 +321,10 @@ $handler->display->display_options['fields']['name']['relationship'] = 'term_nod
 $handler->display->display_options['fields']['name']['label'] = 'Forum';
 $handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['name']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['name']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['name']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['name']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['name']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['name']['alter']['html'] = 0;
 $handler->display->display_options['fields']['name']['link_to_taxonomy'] = 1;
 /* Field: Content: Sticky */
@@ -330,10 +334,10 @@ $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
 $handler->display->display_options['fields']['sticky']['exclude'] = TRUE;
 $handler->display->display_options['fields']['sticky']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['sticky']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['sticky']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['sticky']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['sticky']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['sticky']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['sticky']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['sticky']['alter']['html'] = 0;
 $handler->display->display_options['fields']['sticky']['not'] = 0;
 /* Field: Content: Comment status */
@@ -343,10 +347,10 @@ $handler->display->display_options['fields']['comment']['field'] = 'comment';
 $handler->display->display_options['fields']['comment']['exclude'] = TRUE;
 $handler->display->display_options['fields']['comment']['alter']['alter_text'] = 0;
 $handler->display->display_options['fields']['comment']['alter']['make_link'] = 0;
-$handler->display->display_options['fields']['comment']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['comment']['alter']['word_boundary'] = 1;
 $handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;
 $handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;
+$handler->display->display_options['fields']['comment']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['comment']['alter']['html'] = 0;
 /* Sort criterion: Content: Sticky */
 $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
@@ -370,7 +374,7 @@ $handler->display->display_options['filters']['vid']['table'] = 'taxonomy_term_d
 $handler->display->display_options['filters']['vid']['field'] = 'vid';
 $handler->display->display_options['filters']['vid']['relationship'] = 'term_node_tid';
 $handler->display->display_options['filters']['vid']['value'] = array(
-  variable_get('forum_nav_vocabulary') => variable_get('forum_nav_vocabulary'),
+  $vid => $vid,
 );
 $handler->display->display_options['filters']['vid']['expose']['operator'] = FALSE;
 /* Filter criterion: Content: Has taxonomy terms (with depth) */
@@ -378,7 +382,6 @@ $handler->display->display_options['filters']['term_node_tid_depth']['id'] = 'te
 $handler->display->display_options['filters']['term_node_tid_depth']['table'] = 'node';
 $handler->display->display_options['filters']['term_node_tid_depth']['field'] = 'term_node_tid_depth';
 $handler->display->display_options['filters']['term_node_tid_depth']['exposed'] = TRUE;
-$handler->display->display_options['filters']['term_node_tid_depth']['expose']['use_operator'] = FALSE;
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator_id'] = 'term_node_tid_depth_op';
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['label'] = 'Show new & updated topics in:';
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['operator'] = 'term_node_tid_depth_op';
@@ -387,8 +390,9 @@ $handler->display->display_options['filters']['term_node_tid_depth']['expose']['
 $handler->display->display_options['filters']['term_node_tid_depth']['expose']['reduce'] = 0;
 $handler->display->display_options['filters']['term_node_tid_depth']['reduce_duplicates'] = 0;
 $handler->display->display_options['filters']['term_node_tid_depth']['type'] = 'select';
-$handler->display->display_options['filters']['term_node_tid_depth']['vocabulary'] = 'forums';
+$handler->display->display_options['filters']['term_node_tid_depth']['vocabulary'] = $vocabulary->machine_name;
 $handler->display->display_options['filters']['term_node_tid_depth']['hierarchy'] = 1;
+$handler->display->display_options['filters']['term_node_tid_depth']['error_message'] = 1;
 $handler->display->display_options['filters']['term_node_tid_depth']['depth'] = '2';
 
 /* Display: Page */
@@ -439,6 +443,7 @@ $translatables['advanced_forum_new_topics'] = array(
   t('Show new & updated topics in:'),
   t('Page'),
 );
+
 // Get rid of the views counter if statistics not enabled.
 if (!module_exists('statistics')) {
   unset($handler->display->display_options['fields']['totalcount']);
