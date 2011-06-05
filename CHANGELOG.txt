@@ -5,6 +5,7 @@ June 05,2011
 ------------
 #1145852 by troky: Fixed permissions issue when upgraded from D6.
 by troky: Fixed hardcoded 'forums' vocabulary machine_name in views.
+#1157054 by troky: Fixed bug in 'mark as read' code.
 
 June 04, 2011
 -------------

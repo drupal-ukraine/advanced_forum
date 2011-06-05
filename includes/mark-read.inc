@@ -34,6 +34,7 @@ function advanced_forum_markasread_old($current_forum_id = 0) {
   // See if we're on a forum or on the forum overview
   // Path will be /forum/markasread or /forum/markasread/tid
   if ($current_forum_id) {
+    die("s");
     // Delete the current history entries so already visited nodes get updated.
     //
     // Can't write dynamic query here because D7 DeleteQuery (still) doesn't support joins
@@ -103,7 +104,7 @@ function advanced_forum_markasread_old($current_forum_id = 0) {
   drupal_goto('forum');
 }
 
-function advanced_forum_markasread($term = NULL) {
+function advanced_forum_markasread($tid = NULL) {
   global $user;
   $vid = variable_get('forum_nav_vocabulary', 0);
 
@@ -111,7 +112,6 @@ function advanced_forum_markasread($term = NULL) {
   if (empty($user->uid)) {
     return;
   }
-
   // Delete all entries in the history table for the current $uid and
   // optionally a forum term id.
 
@@ -124,8 +124,8 @@ function advanced_forum_markasread($term = NULL) {
     ->condition('n.changed', NODE_NEW_LIMIT, '>')
     ->condition('ncs.last_comment_timestamp', NODE_NEW_LIMIT, '>')
   );
-  if (isset($term)) {
-    $query_node->condition('f.tid', $term['tid']);
+  if (isset($tid)) {
+    $query_node->condition('f.tid', $tid);
   }
   $query_node->condition('t.vid', $vid);
   $query_node->addField('n', 'nid');
@@ -146,8 +146,9 @@ function advanced_forum_markasread($term = NULL) {
     ->from($query_history_insert)
     ->execute();
 
-  drupal_goto(empty($term) ? 'forum' : 'forum/' . $term);
+  drupal_goto(empty($tid) ? 'forum' : 'forum/' . $tid);
 }
+
 /**
  * Access callback for menus and link display.
  *
