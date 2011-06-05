@@ -1096,7 +1096,7 @@ function advanced_forum_allowed_node_types($tid=0, $vid=0) {
   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
   $vocabulary = taxonomy_vocabulary_load($vid);
 
-  $field = field_info_field('taxonomy_' . $vocabulary->machine_name);
+  $field = field_info_field('taxonomy_forums');
   if (is_array($field['bundles']['node'])) {
     return $field['bundles']['node'];
   }
