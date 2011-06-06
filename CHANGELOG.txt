@@ -5,6 +5,7 @@ June 06,2011
 ------------
 Issue #1154588 by troky: Removed 'User picture preset' option from settings page when Author Pane is not installed.
 by troky: Moved post-edited to template and removed theme function.
+by troky: Moved shadow-topic to template and removed theme function.
 
 June 05,2011
 ------------

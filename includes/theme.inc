@@ -118,37 +118,6 @@ function theme_advanced_forum_reply_link(&$variables) {
 }
 
 /**
- * Theme function to return assembled pager for use on each topic in list.
- *
- * @param $pagecount
- *   Number of pages to include on the pager.
- * @param $topic
- *   Topic object to create a pager for.
- * @return
- *   Assembled pager.
- */
-//function theme_advanced_forum_topic_pager($variables) {
-
-/**
- * Theme function to create shadow topic reference.
- *
- * @param $title
- *   Unlinked title of the topic.
- * @param $nid
- *   Node id of the topic.
- * @param $new_forum
- *   Name of the forum that now contains the topic.
- * @return
- *   String to print in place of the title/author info on topic lists.
- */
-function theme_advanced_forum_shadow_topic(&$variables) {
-  $nid = $variables['nid'];
-  return $variables['title'] . '<br />' .
-  t('This topic has been moved to "!forum"', array('!forum' => $variables['new_forum'])) .
-  ' (' . l(t('View topic'), "node/$nid") . ')';
-}
-
-/**
  * Theme function to a formatted list of subforums.
  *
  * @param $subforum_list
@@ -317,7 +286,7 @@ function advanced_forum_preprocess_advanced_forum_topic_pager(&$variables) {
 
 /**
  * Preprocess variables for advanced-forum.naked.post-edited.tpl.php
- * 
+ *
  */
 function advanced_forum_preprocess_advanced_forum_post_edited(&$variables) {
   $editor = user_load($variables['who']);
@@ -325,6 +294,14 @@ function advanced_forum_preprocess_advanced_forum_post_edited(&$variables) {
   $variables['edited_name'] = theme('username', array('account' => $editor));
   $variables['edited_datetime'] = format_date($variables['when'], 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
   $variables['edited_reason'] = empty($variables['why']) ? '' : $variables['why'];
+}
+
+function advanced_forum_preprocess_advanced_forum_shadow_topic(&$variables) {
+  $nid = $variables['nid'];
+
+  $variables['new_forum_url'] = url("node/$nid");
+  // compatibility variable
+  $variables['new_forum_link'] = l(t('View topic'), "node/$nid");
 }
 
 /* * * JUST FORUM OVERVIEW PAGE ********************************************** */
@@ -391,7 +368,6 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
       $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
     }
   }
-
 }
 
 /**
