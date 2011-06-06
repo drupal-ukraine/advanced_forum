@@ -71,26 +71,6 @@ function theme_advanced_forum_node_type_create_list(&$variables) {
 }
 
 /**
- * Theme function to show who last edited a post.
- */
-function theme_advanced_forum_post_edited(&$variables) {
-  $editor = user_load($variables['who']);
-  $editor_name = theme('username', array('account' => $editor));
-
-  $datetime = format_date($variables['when'], 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
-
-  $edited = t('<span class="post-edit-label">Edited by:</span> !editor <span class="post-edit-label">on</span> !datetime.', array('!editor' => $editor_name, '!datetime' => $datetime));
-
-  // Don't include reason part if there is no reason
-  if (empty($variables['why'])) {
-    return $edited;
-  }
-  else {
-    return $edited . ' ' . t('<span class="post-edit-label">Reason:</span> !reason', array('!reason' => $variables['why']));
-  }
-}
-
-/**
  * Theme function to show simple author pane when not using Author Pane.
  */
 function theme_advanced_forum_simple_author_pane(&$variables) {
@@ -333,6 +313,18 @@ function advanced_forum_preprocess_advanced_forum_topic_pager(&$variables) {
       $variables['last_page_text'] = ' &hellip; ' . $topic_pager->last_page_text;
     }
   }
+}
+
+/**
+ * Preprocess variables for advanced-forum.naked.post-edited.tpl.php
+ * 
+ */
+function advanced_forum_preprocess_advanced_forum_post_edited(&$variables) {
+  $editor = user_load($variables['who']);
+
+  $variables['edited_name'] = theme('username', array('account' => $editor));
+  $variables['edited_datetime'] = format_date($variables['when'], 'custom', variable_get('date_format_short', 'm/d/Y - H:i'));
+  $variables['edited_reason'] = empty($variables['why']) ? '' : $variables['why'];
 }
 
 /* * * JUST FORUM OVERVIEW PAGE ********************************************** */
