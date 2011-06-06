@@ -1,11 +1,15 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 06,2011
+------------
+Issue #1154588 by troky: Removed 'User picture preset' option from settings page when Author Pane is not installed.
+
 June 05,2011
 ------------
-#1145852 by troky: Fixed permissions issue when upgraded from D6.
+Issue #1145852 by troky: Fixed permissions issue when upgraded from D6.
 by troky: Fixed hardcoded 'forums' vocabulary machine_name in views.
-#1157054 by troky: Fixed bug in 'mark as read' code.
+Issue #1157054 by troky: Fixed bug in 'mark as read' code.
 
 June 04, 2011
 -------------

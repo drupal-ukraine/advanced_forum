@@ -126,6 +126,26 @@ function advanced_forum_settings_page() {
     );
   }
 
+  // Picture preset
+  if (module_exists('image') && module_exists('author_pane')) {
+    $options = array('' => '');
+    $styles = image_styles();
+    foreach ($styles AS $style) {
+      $options[$style['name']] = $style['name'];
+    }
+
+    $form['advanced_forum_general']['advanced_forum_user_picture_preset'] = array(
+      '#type' => 'select',
+      '#title' => t('User picture preset'),
+      '#options' => $options,
+      '#description' => t('Image preset to use for forum avatars. Leave blank to not use this feature.'),
+      '#default_value' => variable_get('advanced_forum_user_picture_preset', ''),
+    );
+  }
+  else {
+    variable_set('advanced_forum_user_picture_preset', '');
+  }
+
   // Retrieve new comments on forum listing
   $form['advanced_forum_lists']['advanced_forum_get_new_comments'] = array(
     '#type' => 'checkbox',
@@ -142,30 +162,6 @@ function advanced_forum_settings_page() {
     '#description' => t('Used on main forum page. Enter 0 to use the full title.'),
     '#default_value' => variable_get('advanced_forum_topic_title_length', 20),
   );
-
-  /* Topic settings */
-  $form['advanced_forum_topics'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Topics'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-
-  if (module_exists('image')) {
-    $options = array('' => '');
-    $styles = image_styles();
-    foreach ($styles AS $style) {
-      $options[$style['name']] = $style['name'];
-    }
-
-    $form['advanced_forum_topics']['advanced_forum_user_picture_preset'] = array(
-      '#type' => 'select',
-      '#title' => t('User picture preset'),
-      '#options' => $options,
-      '#description' => t('Image preset to use for forum avatars. Leave blank to not use this feature.'),
-      '#default_value' => variable_get('advanced_forum_user_picture_preset', ''),
-    );
-  }
 
   // Send our form to Drupal to make a settings page
   return system_settings_form($form);
