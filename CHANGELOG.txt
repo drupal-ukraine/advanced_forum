@@ -4,6 +4,7 @@
 June 06,2011
 ------------
 Issue #1154588 by troky: Removed 'User picture preset' option from settings page when Author Pane is not installed.
+by troky: Moved post-edited to template and removed theme function.
 
 June 05,2011
 ------------
@@ -15,7 +16,7 @@ June 04, 2011
 -------------
 by troky: Updated topic_list preprocess function: getting 'tid' usig arg() replaced by using menu_get_item() function.
 by troky: Fixed notice in views introduced by above patch.
-by troky: Added topic-pager to template and removed theme function.
+by troky: Moved topic-pager to template and removed theme function.
 
 June 02, 2011
 -------------
