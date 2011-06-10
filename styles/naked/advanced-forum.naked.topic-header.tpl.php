@@ -12,6 +12,7 @@
  * - $new_posts_count: Number of new posts in topic.
  * - $first_new_post_link: Link to first unread post.
  * - $last_post_link: Link to last post.
+ * - $pager: Topic pager.
  */
 ?>
 
@@ -19,7 +20,7 @@
 	<?php if (!empty($search)): ?>
 	  <?php print $search; ?>
   <?php endif; ?>
-  
+
   <div class="topic-post-count">
   <?php print $total_posts_count; ?> / <?php print t('!new new', array('!new' => $new_posts_count)); ?>
   </div>

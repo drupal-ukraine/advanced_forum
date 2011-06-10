@@ -443,6 +443,9 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 
   // Link to last post in topic.
   $variables['last_post_link'] = advanced_forum_last_post_link($node);
+
+  // Pager
+  $variables['pager'] = theme('pager');
 }
 
 /**
