@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 17, 2011
+-------------
+by troky: Changed code to delete all related AF variables on uninstall.
+
 June 10,2011
 ------------
 Issue #1182632 by troky: Added pager variable to topic header template.
