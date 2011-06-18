@@ -4,6 +4,7 @@
 June 18, 2011
 -------------
 by troky: Fixed theme views search path again.
+by troky: Updated comment-wrapper.tpl
 
 June 17, 2011
 -------------
