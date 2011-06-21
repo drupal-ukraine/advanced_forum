@@ -162,7 +162,7 @@ see advanced_forum-structure.css.
 
 /*** FORUM TOPICS **********************************************************/
 
-.forum-post {
+div.forum-post {
   border: 2px solid #2587C4;
 }
 
