@@ -282,7 +282,7 @@ td.forum-last-reply {
 }
 
 /* Individual forum post */
-.forum-post {
+div.forum-post {
   margin: 0 0 5px 0;
   padding: 0;
 }

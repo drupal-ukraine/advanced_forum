@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 21, 2011
+-------------
+Issue #1194792 by a.ross: Changed .forum-post selector to div.forum-post to avoid some themes (bad) overrides.
+
 June 18, 2011
 -------------
 by troky: Fixed theme views search path again.
