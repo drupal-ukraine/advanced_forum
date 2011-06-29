@@ -23,12 +23,6 @@
 
 <?php if ($top_post): ?>
   <?php print $topic_header ?>
-
-<?php else: ?>
-  <?php // If using nodecomment, add the anchor that comment normally provides ?>
-  <?php if (!empty($comment_anchor)): ?>
-    <?php print $comment_anchor; ?>
-  <?php endif; ?>
 <?php endif; ?>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>" <?php print $attributes; ?>>
@@ -43,7 +37,7 @@
       //caching the new markers.
       ?>
       <?php if (!$top_post): ?>
-        <?php if (!module_exists('nodecomment') && !empty($new)): ?>
+        <?php if (!empty($new)): ?>
           <a id="new"><span class="new">(<?php print $new ?>)</span></a>
         <?php endif; ?>
 

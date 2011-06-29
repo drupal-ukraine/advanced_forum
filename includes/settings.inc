@@ -70,7 +70,7 @@ function advanced_forum_settings_page() {
     '#type' => 'checkbox',
     '#title' => t('Style all comments like forum replies.'),
     '#default_value' => variable_get('advanced_forum_style_all_comments', 0),
-    '#description' => t('If checked, every comment will be styled as if it were a forum reply. This only works on comments from the core comment module. Nodecomments can be selected in the node type selection.'),
+    '#description' => t('If checked, every comment will be styled as if it were a forum reply.'),
   );
 
   $form['advanced_forum_general']['advanced_forum_add_local_task'] = array(

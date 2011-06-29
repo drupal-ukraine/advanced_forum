@@ -228,14 +228,8 @@ function advanced_forum_is_styled($content, $teaser = FALSE, $type = 'node') {
     // If no other modules made a decision on this, we look at it.
     switch ($type) {
       case 'node':
-        if (!empty($content->comment_target_nid) && $content->comment_target_nid == $master_topic_id) {
-          // This nodecomment is attached to a node we already know is styled.
-          $topic_id = $master_topic_id;
-        }
-        else {
-          // See if the node should be styled.
-          $topic_id = advanced_forum_node_is_styled($content, $teaser);
-        }
+        // See if the node should be styled.
+        $topic_id = advanced_forum_node_is_styled($content, $teaser);
         break;
 
       case 'comment':

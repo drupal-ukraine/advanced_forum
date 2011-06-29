@@ -49,30 +49,6 @@ if (module_exists('panels')) {
   $display->content = array();
   $display->panels = array();
 
-  if (module_exists('nodecomment')) {
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'center';
-    $pane->type = 'forum_search';
-    $pane->subtype = 'forum_search';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_forum_id_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['center'][0] = 'new-1';
-  }
-
   $pane = new stdClass;
   $pane->pid = 'new-2';
   $pane->panel = 'center';

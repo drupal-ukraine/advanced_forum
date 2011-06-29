@@ -420,10 +420,6 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
 
   $node = $variables['node'];
 
-  // Form to search within the topic. (only works with nodecomment)
-  if (module_exists('nodecomment')) {
-    $variables['search'] = theme('advanced_forum_search_topic', array('node' => $node));
-  }
 
   // Reply link / button
   $variables['reply_link'] = theme('advanced_forum_reply_link', array('node' => $node));
@@ -502,12 +498,7 @@ function advanced_forum_preprocess_comment_wrapper(&$variables) {
 
     $form_on_seperate_page = variable_get('comment_form_location_' . $variables['node']->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE;
 
-    if (module_exists('nodecomment')) {
-      $comments_locked = $variables['node']->node_comment != COMMENT_NODE_OPEN;
-    }
-    else {
-      $comments_locked = $variables['node']->comment != COMMENT_NODE_OPEN;
-    }
+    $comments_locked = $variables['node']->comment != COMMENT_NODE_OPEN;
 
     if ($form_on_seperate_page || $comments_locked) {
       // If the post is locked or the comment form is on a seperate page,

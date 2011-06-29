@@ -175,31 +175,6 @@ function advanced_forum_theme() {
     )
   );
   /*
-    // These only exist if nodecomment is on.
-    if (module_exists('nodecomment')) {
-    $items['advanced_forum_search_forum'] = array(
-    'variables' => array('tid' => NULL),
-    'template' => 'advanced_forum-search-forum',
-    );
-
-    $items['advanced_forum_search_topic'] = array(
-    'variables' => array('node' => NULL),
-    'template' => 'advanced_forum-search-topic',
-    );
-
-    $items['views_view_fields__advanced_forum_search'] = array(
-    'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-    'template' => 'advanced_forum-search-result',
-    'base hook' => 'views_view_fields',
-    );
-
-    $items['views_view_fields__advanced_forum_search_topic'] = array(
-    'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-    'template' => 'advanced_forum-search-result',
-    'base hook' => 'views_view_fields',
-    );
-    }
-
     // Templates for features added by Views
 
     // style
@@ -281,9 +256,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     'forum_submitted',
     'author_pane',
     'advanced_forum_statistics',
-    'advanced_forum_search_forum',
-    'advanced_forum_search_topic',
-    'advanced_forum_search_result',
     //'advanced_forum_topic_list_view',
     /* 'views_view_fields__advanced_forum_search',
       'views_view_fields__advanced_forum_search_topic',
@@ -567,7 +539,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
   }
 
   $plugin = $view->display_handler->get_option('row_plugin');
-  if ($plugin == 'node' || $plugin == 'nodecomment_threaded') {
+  if ($plugin == 'node') {
     // Look for token matches in the output:
     $matches = array();
     $tokens = array();
@@ -740,12 +712,7 @@ function advanced_forum_statistics_replies($refresh = FALSE) {
 
   // If there's no cache or we need to refresh the cache
   if ($refresh || $total_replies == 0) {
-    if (module_exists('nodecomment')) {
-      $total_replies = db_query('SELECT COUNT(cid) FROM {node_comments} c INNER JOIN {forum} f ON (f.nid = c.nid)')->fetchField();
-    }
-    else {
-      $total_replies = db_query('SELECT SUM(s.comment_count) FROM {node_comment_statistics} s INNER JOIN {forum} f ON (s.nid = f.nid)')->fetchField();
-    }
+    $total_replies = db_query('SELECT SUM(s.comment_count) FROM {node_comment_statistics} s INNER JOIN {forum} f ON (s.nid = f.nid)')->fetchField();
 
     variable_set('advanced_forum_stats_replies', $total_replies);
   }
@@ -811,11 +778,8 @@ function advanced_forum_statistics_online_users() {
 function advanced_forum_get_reply_link($node) {
   $reply_link = array();
 
-  // Give nodecomment (if installed) first shot at the comment setting
-  $comment_setting = (empty($node->node_comment)) ? $node->comment : $node->node_comment;
-
-  // Anchor to the form is depends on if reply is a node or a comment.
-  $fragment = (empty($node->node_comment)) ? 'comment-form' : 'node-form';
+  $comment_setting = $node->comment;
+  $fragment = 'comment-form';
 
   if ($comment_setting == COMMENT_NODE_OPEN) {
     if (user_access('post comments')) {
@@ -931,23 +895,13 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
 
 /**
  * Get the page number with the first new post.
- * This is simply a wrapper to either call the comment module version or the
- * nodecomment module version.
  */
 function advanced_forum_page_first_new($comment_count, $new_replies, $node) {
-  $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
-  if (isset($comment_type)) {
-    return nodecomment_new_page_count($comment_count, $new_replies, $node);
-  }
-  else {
-    return comment_new_page_count($comment_count, $new_replies, $node);
-  }
+  return comment_new_page_count($comment_count, $new_replies, $node);
 }
 
 /**
  * Get the number of new posts on a topic.
- * This is simply a wrapper to either call the comment module version or the
- * nodecomment module version.
  */
 function advanced_forum_reply_num_new($nid, $timestamp = 0) {
   // Make a static cache because this function is called twice from the topic
@@ -971,13 +925,7 @@ function advanced_forum_reply_num_new($nid, $timestamp = 0) {
       $viewed = ($viewed == 0 ? 1 : 0);
     }
 
-    $comment_type = module_invoke('nodecomment', 'get_comment_type', $node->type);
-    if (isset($comment_type)) {
-      $number_new_for_node[$nid] = nodecomment_num_new($nid, $timestamp) + $viewed;
-    }
-    else {
-      $number_new_for_node[$nid] = comment_num_new($nid, $timestamp) + $viewed;
-    }
+    $number_new_for_node[$nid] = comment_num_new($nid, $timestamp) + $viewed;
   }
 
   return $number_new_for_node[$nid];
@@ -998,23 +946,12 @@ function advanced_forum_last_post_in_topic($nid) {
 
   $node = node_load($nid);
 
-  if (module_exists('nodecomment') && nodecomment_get_comment_type($node->type)) {
-    // Nodecomment module version
-    $query = 'SELECT nc.cid
-              FROM {node_comments} nc
-                INNER JOIN {node} n ON nc.nid = n.nid
-              WHERE nc.nid = :nid AND n.status = 1
-              ORDER BY nc.cid DESC LIMIT 1';
-    $result = db_query_range($query, 0, 1, array(':nid' => $nid))->fetchField();
-  }
-  else {
-    // Comment module version
-    $query = 'SELECT c.cid
-              FROM {comment} c
-              WHERE c.nid = :nid AND c.status = :status
-              ORDER BY c.cid DESC';
-    $result = db_query_range($query, 0, 1, array(':nid' => $nid, ':status' => COMMENT_PUBLISHED))->fetchField();
-  }
+  // Comment module version
+  $query = 'SELECT c.cid
+            FROM {comment} c
+            WHERE c.nid = :nid AND c.status = :status
+            ORDER BY c.cid DESC';
+  $result = db_query_range($query, 0, 1, array(':nid' => $nid, ':status' => COMMENT_PUBLISHED))->fetchField();
 
   return $result;
 }
@@ -1053,23 +990,13 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
     $timestamp = ($timestamp > NODE_NEW_LIMIT ? $timestamp : NODE_NEW_LIMIT);
 
     // Use the timestamp to retrieve the oldest new comment.
-    if (module_exists('nodecomment')) {
-      $query = "SELECT nc.cid
-                FROM {node_comments} nc
-                INNER JOIN {node} n ON nc.cid = n.nid
-                WHERE nc.nid = %d AND n.changed > %d AND n.status = 1
-                ORDER BY nc.cid";
-      $result = db_result(db_query_range($query, $nid, $timestamp, 0, 1));
-    }
-    else {
-      $query = db_select('comment', 'c')
-          ->fields('c', array('cid'))
-          ->condition('nid', $nid)
-          ->condition('changed', $timestamp, '>')
-          ->condition('status', COMMENT_PUBLISHED)
-          ->range(0, 1)
-          ->execute();
-    }
+    $query = db_select('comment', 'c')
+        ->fields('c', array('cid'))
+        ->condition('nid', $nid)
+        ->condition('changed', $timestamp, '>')
+        ->condition('status', COMMENT_PUBLISHED)
+        ->range(0, 1)
+        ->execute();
     return $query->fetchField();
   }
   else {
@@ -1193,10 +1120,6 @@ function advanced_forum_forum_tools($tid=0) {
 
     if ($user->uid) {
       $select[url("forum/new", array('query' => array('forum[]' => $tid)))] = t("View new posts in this forum");
-
-      if (module_exists('nodecomment')) {
-        $select[url("forum/user", array('query' => array('forum[]' => $tid)))] = t("View your posts in this forum");
-      }
     }
   }
   else {
@@ -1205,10 +1128,6 @@ function advanced_forum_forum_tools($tid=0) {
 
     if ($user->uid) {
       $select[url("forum/new")] = t("View new forum posts");
-
-      if (module_exists('nodecomment')) {
-        $select[url("forum/user")] = t("View your forum posts");
-      }
     }
   }
 
@@ -1314,33 +1233,18 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
   if (is_null($result_cache)) {
     $result_cache = array();
 
-    if (module_exists("nodecomment")) {
-      $query = db_select("node_comments", "nc");
-      $f_alias = $query->join("forum", "f", "nc.nid = f.nid");
-      $n_alias = $query->join("node", "n", "nc.cid = n.nid");
-      $tn_alias = $query->join("node", "tn", "nc.nid = tn.nid and f.vid = tn.vid");
-      $h_alias = $query->leftJoin("history", "h", "nc.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
-      $query->addExpression("COUNT(nc.cid)", "count");
-      $query->addField($n_alias, "tid");
-      $query->condition("{$n_alias}.status", 1)
-          ->condition("{$n_alias}.changed", NODE_NEW_LIMIT, ">")
-          ->condition(db_or()->where("{$n_alias}.changed > {$h_alias}.timestamp")->isNull("{$h_alias}.timestamp"))
-          ->groupBy("{$f_alias}.tid")
-          ->addTag("node_access");
-    }
-    else {
-      $query = db_select("comment", "c");
-      $f_alias = $query->join("forum", "f", "c.nid = f.nid");
-      //$n_alias = $query->join("node", "n", "f.vid = n.vid");
-      $h_alias = $query->leftJoin("history", "h", "c.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
-      $query->addExpression("COUNT(c.cid)", "count");
-      $query->addField($f_alias, "tid");
-      $query->condition("c.status", COMMENT_PUBLISHED)
-          ->condition("c.changed", NODE_NEW_LIMIT, ">")
-          ->condition(db_or()->where("c.changed > {$h_alias}.timestamp")->isNull("h.timestamp"))
-          ->groupBy("{$f_alias}.tid")
-          ->addTag("node_access");
-    }
+    $query = db_select("comment", "c");
+    $f_alias = $query->join("forum", "f", "c.nid = f.nid");
+    //$n_alias = $query->join("node", "n", "f.vid = n.vid");
+    $h_alias = $query->leftJoin("history", "h", "c.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
+    $query->addExpression("COUNT(c.cid)", "count");
+    $query->addField($f_alias, "tid");
+
+    $query->condition("c.status", COMMENT_PUBLISHED)
+        ->condition("c.changed", NODE_NEW_LIMIT, ">")
+        ->condition(db_or()->where("c.changed > {$h_alias}.timestamp")->isNull("h.timestamp"))
+        ->groupBy("{$f_alias}.tid")
+        ->addTag("node_access");
 
     $result = $query->execute();
     foreach ($result as $row) {
@@ -1361,13 +1265,10 @@ function advanced_forum_post_position($node_id, $post_id) {
     // Initialize the spot for this node's list.
     $post_order[$node_id] = array();
 
-    // Make this work with either core comments or node comments.
-    $table = (module_exists('nodecomment')) ? "node_comments" : "comment";
-
     // Get the list of CIDs from the database in order of oldest first.
     // We are going to make that assumption for now for simplicity but may
     // revisit in the future if there are requests for newest first.
-    $query = db_select($table, 'c')
+    $query = db_select('comment', 'c')
         ->fields('c', array('cid'))
         ->condition('nid', $node_id)
         ->orderBy('cid', 'ASC')
