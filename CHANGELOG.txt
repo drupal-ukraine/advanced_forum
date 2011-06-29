@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 29, 2011
+-------------
+by troky: Views updated to 7.x-3.0-rc1.
+
 June 22, 2011
 -------------
 Issue #1194792 by a.ross: Removed 3px margin between post header and post body.
