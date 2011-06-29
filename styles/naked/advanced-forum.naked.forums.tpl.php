@@ -26,9 +26,6 @@
 
 <?php if ($forums_defined): ?>
   <div id="forum">
-    <?php if ($search): ?>
-      <div id="search-all-forums"><?php print $search; ?></div>
-    <?php endif; ?>
 
     <?php print $forums; ?>
 

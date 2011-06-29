@@ -4,6 +4,7 @@
 June 29, 2011
 -------------
 by troky: Views updated to 7.x-3.0-rc1.
+by troky: Removed all Nodecomment relaed code.
 
 June 22, 2011
 -------------

@@ -54,7 +54,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
 
   $block = new stdClass();
   $block->module = 'forum-active-poster';
-  $block->delta  = $tid;
+  $block->delta = $tid;
   _advanced_forum_add_files();
 
   $args = array();
@@ -141,12 +141,12 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
 
   $last_post = node_load(db_result(db_query($query, $args)));
   $block->content = theme('advanced_forum_active_poster', array(
-    'forum' => $tid, 
-    'account' => $account, 
-    'posts' => $info->posts, 
-    'topics' => $topics, 
+    'forum' => $tid,
+    'account' => $account,
+    'posts' => $info->posts,
+    'topics' => $topics,
     'last_post' => $last_post
-  ));
+      ));
   $block->more = array(
     'title' => t('More posts'),
     'href' => 'forum/user/' . $info->uid,
