@@ -21,7 +21,7 @@ $view->description = 'Shows the new or update topics in a given forum (or all fo
 $view->tag = 'Advanced Forum';
 $view->base_table = 'node';
 $view->human_name = '';
-$view->core = 0;
+$view->core = 7;
 $view->api_version = '3.0-alpha1';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
@@ -128,6 +128,10 @@ $handler->display->display_options['empty']['text']['content'] = 'No new or upda
 $handler->display->display_options['relationships']['term_node_tid']['id'] = 'term_node_tid';
 $handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
 $handler->display->display_options['relationships']['term_node_tid']['field'] = 'term_node_tid';
+/* Relationship: Content: Author */
+$handler->display->display_options['relationships']['uid']['id'] = 'uid';
+$handler->display->display_options['relationships']['uid']['table'] = 'node';
+$handler->display->display_options['relationships']['uid']['field'] = 'uid';
 /* Field: Content: Body */
 $handler->display->display_options['fields']['teaser']['id'] = 'teaser';
 $handler->display->display_options['fields']['teaser']['table'] = 'field_data_body';
@@ -213,6 +217,7 @@ $handler->display->display_options['fields']['topic_pager']['total_pages_shown']
 $handler->display->display_options['fields']['name_1']['id'] = 'name_1';
 $handler->display->display_options['fields']['name_1']['table'] = 'users';
 $handler->display->display_options['fields']['name_1']['field'] = 'name';
+$handler->display->display_options['fields']['name_1']['relationship'] = 'uid';
 $handler->display->display_options['fields']['name_1']['alter']['alter_text'] = 1;
 $handler->display->display_options['fields']['name_1']['alter']['text'] = '<br /> by [name_1] ';
 $handler->display->display_options['fields']['name_1']['alter']['make_link'] = 0;
@@ -415,6 +420,7 @@ $translatables['advanced_forum_new_topics'] = array(
   t('Offset'),
   t('No new or updated posts.'),
   t('term'),
+  t('author'),
   t('Teaser'),
   t('Topic / Topic starter'),
   t('<span class="forum-topic-title">[title]</span> '),
@@ -443,6 +449,7 @@ $translatables['advanced_forum_new_topics'] = array(
   t('Show new & updated topics in:'),
   t('Page'),
 );
+
 
 // Get rid of the views counter if statistics not enabled.
 if (!module_exists('statistics')) {
