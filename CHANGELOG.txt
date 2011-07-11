@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+July 11, 2011
+-------------
+Issue #1197940 by a.ross: Added forum image option (was taxonomy image in D6).
+
 July 01, 2011
 -------------
 7.x-2.0-ALPHA2 RELEASE

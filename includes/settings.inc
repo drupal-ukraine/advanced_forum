@@ -106,7 +106,7 @@ function advanced_forum_settings_page() {
   $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
     '#type' => 'select',
     '#title' => t('Collapsible forum containers'),
-    '#options' => array (
+    '#options' => array(
       'none' => t("None"),
       'toggle' => t("Toggle"),
       'fade' => t("Fade"),
@@ -116,15 +116,39 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
   );
 
-  // Taxonomy image on forum list
-  if (function_exists('taxonomy_image_display')) {
-     $form['advanced_forum_lists']['advanced_forum_use_taxonomy_image'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Use taxonomy image in forum listing'),
-      '#default_value' => variable_get('advanced_forum_use_taxonomy_image', TRUE),
-      '#description' => t('If this is checked, Advanced Forum will add a new column to the forum listing for the image associated with the forum term.'),
-    );
+  /* Forum image settings */
+  $form['advanced_forum_forum_image'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Forum image settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
+  $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
+  $image_fields = array();
+  foreach ($field_info as $bundle => $field) {
+    if ($field['widget']['type'] == 'image_image') {
+      $image_fields[$bundle] = $bundle;
+    }
   }
+  $form['advanced_forum_forum_image']['advanced_forum_forum_image_field'] = array(
+    '#title' => t('Image field'),
+    '#description' => t('The image field to use to display forum images.'),
+    '#type' => 'select',
+    '#default_value' => variable_get('advanced_forum_forum_image_field', ''),
+    '#empty_option' => t('None'),
+    '#options' => $image_fields,
+  );
+
+  $form['advanced_forum_forum_image']['advanced_forum_forum_image_preset'] = array(
+    '#title' => t('Forum image style'),
+    '#description' => t('The image style to apply to the images.'),
+    '#type' => 'select',
+    '#default_value' => variable_get('advanced_forum_forum_image_preset', ''),
+    '#empty_option' => t('None (original image)'),
+    '#options' => image_style_options(FALSE),
+  );
 
   // Picture preset
   if (module_exists('image') && module_exists('author_pane')) {

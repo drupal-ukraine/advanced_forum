@@ -45,7 +45,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       $lowest_depth = $forum->depth;
     }
   }
-  
+
   // Calculate number of and number of new child posts for each item.
   for ($depth = $lowest_depth; $depth > 0; $depth--) {
     foreach ($items as $id => $item) {
@@ -229,9 +229,26 @@ function advanced_forum_process_container($container) {
   $container->icon_classes = "forum-list-icon forum-list-icon-default";
   $container->icon_text = t("No new");
 
-  // Add in the taxonomy image, if any.
-  if (function_exists('taxonomy_image_display') && variable_get('advanced_forum_use_taxonomy_image', TRUE)) {
-    $container->forum_image = taxonomy_image_display($container->tid);
+  // Display forum images using Field API
+  $entity = entity_load('taxonomy_term', array($forum->tid));
+  $field_name = variable_get('advanced_forum_forum_image_field', '');
+
+  if (!empty($entity[$forum->tid]->$field_name)) {
+    $field = $entity[$forum->tid]->$field_name;
+    global $language;
+    $langcode = isset($field[$language->language]) ? $language->language : LANGUAGE_NONE;
+
+    if (isset($field[$langcode])) {
+      $display = array(
+        'label' => 'hidden',
+        'type' => 'image',
+        'settings' => array(
+          'image_style' => variable_get('advanced_forum_forum_image_preset', ''),
+          'image_link' => '',
+        ),
+      );
+      $forum->forum_image = render(field_view_value('taxonomy_term', $entity[$forum->tid], $field_name, $field[$langcode][0], $display));
+    }
   }
 
   // Initialize these variables to avoid notices later.
