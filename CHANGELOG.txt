@@ -4,6 +4,7 @@
 July 11, 2011
 -------------
 Issue #1197940 by a.ross: Added forum image option (was taxonomy image in D6).
+Issue #1208128 by troky: Fixed permalink text when page is out of range.
 
 July 01, 2011
 -------------

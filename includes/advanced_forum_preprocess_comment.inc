@@ -25,9 +25,9 @@ function _advanced_forum_preprocess_comment(&$variables) {
     advanced_forum_add_template_suggestions("post", $variables);
   }
 
-  
+
   // Add in our classes overwriting existing.
-  $variables['classes_array'] = array();  
+  $variables['classes_array'] = array();
   $variables['classes_array'][] = 'forum-post clearfix';
 
   // Add the current language to the classes for image handling.
@@ -58,17 +58,23 @@ function _advanced_forum_preprocess_comment(&$variables) {
     static $post_number = 1;
   }
 
+  $num_comments = $node->comment_count;
   $posts_per_page = variable_get('comment_default_per_page_' . $node->type, 50);
-  
+
   $page_number = !empty($_GET['page']) ? $_GET['page'] : 0;
+
+  // page_number sanity check
+  if ($page_number > floor($num_comments / $posts_per_page))
+    $page_number = floor($num_comments / $posts_per_page);
+
   if (!$page_number) {
     $page_number = 0;
   }
-  
+
   $post_number++;
 
   $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
-  
+
   // Permalink
   //  You can erase next 3 lines if you wish to use built-in Permalink.
   //  Template adjusted: $post_link -> $permalink
@@ -81,20 +87,20 @@ function _advanced_forum_preprocess_comment(&$variables) {
   if ($comment->pid > 0) {
     // Find the display position of the parent post;.
     $post_position = advanced_forum_post_position($node->nid, $comment->pid);
-   
+
     // This extra if test is a sanity check in case the comment being replied
     // to no longer exists.
     if ($post_position > 0) {
-      // Find the page the post is on. We need to compensate for the topic node 
+      // Find the page the post is on. We need to compensate for the topic node
       // being #1 which puts an extra post on the first page but not on the rest.
       $page_number = floor(($post_position - 2) / $posts_per_page);
 
       // Assemble the link.
       $fragment = 'comment-' . $comment->pid;
-    
+
       if ($page_number)
         $query = array('page' => $page_number);
-      
+
       $linktext = t("(Reply to #!post_position)", array('!post_position' => $post_position));
       $linkpath = "node/$node->nid";
       $variables['in_reply_to'] = l($linktext, $linkpath, array('query' => empty($query) ? array() : $query, 'fragment' => $fragment));
@@ -126,8 +132,8 @@ function _advanced_forum_preprocess_comment(&$variables) {
   // Create the author pane
   if (module_exists('author_pane')) {
     $variables['author_pane'] = theme('author_pane', array(
-      'account' => $variables['account'], 
-      'caller' => 'advanced_forum', 
+      'account' => $variables['account'],
+      'caller' => 'advanced_forum',
       'picture_preset' => variable_get('advanced_forum_user_picture_preset', ''),
       'context' => $comment,
       'disable_css' => TRUE
@@ -158,10 +164,10 @@ function _advanced_forum_preprocess_comment(&$variables) {
       $variables['signature'] = check_markup($variables['account']->signature, $variables['account']->signature_format, FALSE);
     }
   }
-  
+
   // Adjust comment timestamp to match node template
   $variables['date'] = $variables['created'];
-  
+
   /* Post edited */
   $variables['post_edited'] = (isset($variables['comment_edited'])) ? $variables['comment_edited'] : "";
 }
