@@ -24,6 +24,7 @@
  * - $forum->total_posts: The total number of posts in the forum.
  * - $forum->last_reply: Text representing the last time a forum was posted or
  *   commented in.
+ * - $forum->forum_image: If used, contains an image to display for the forum.
  *
  * @see template_preprocess_forum_list()
  * @see theme_forum_list()
@@ -81,13 +82,13 @@
               <tr id="forum-<?php print $item_id; ?>" class="forum-row <?php print $item->zebra; ?> container-<?php print $item_id; ?>-child">
               <?php endif; ?>
 
-              <td class="<?php print $item->icon_classes ?>">
-                <span class="forum-list-icon-wrapper"><span><?php print $item->icon_text ?></span></span>
-              </td>
-
-              <?php if ($use_taxonomy_image): ?>
-                <td class="forum-image-<?php print $item_id; ?>">
+              <?php if (!empty($item->forum_image)): ?>
+                <td class="forum-image forum-image-<?php print $item_id; ?>">
                   <?php print $item->forum_image; ?>
+                </td>
+              <?php else: ?>
+                <td class="<?php print $item->icon_classes ?>">
+                  <span class="forum-list-icon-wrapper"><span><?php print $item->icon_text ?></span></span>
                 </td>
               <?php endif; ?>
 
