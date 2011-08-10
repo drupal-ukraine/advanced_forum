@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 10, 2011
+---------------
+Issue #1243292 by troky: Added fallback to default style if current style doesnt exist anymore.
+
 July 11, 2011
 -------------
 Issue #1197940 by a.ross: Added forum image option (was taxonomy image in D6).

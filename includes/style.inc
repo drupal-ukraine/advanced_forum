@@ -62,6 +62,10 @@ function advanced_forum_style_lineage($style = NULL) {
     // Get an array with information from all styles.
     $all_styles = advanced_forum_get_all_styles();
 
+    // Fallback
+    if (empty($all_styles[$style]))
+      $style = "silver_bells";
+
     // Add the current style to the lineage first
     $lineage[$style] = $all_styles[$style]['path'];
 
