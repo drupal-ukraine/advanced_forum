@@ -365,6 +365,7 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
     $forum = $menu_item['map'][1];
     if ($forum->vid == variable_get('forum_nav_vocabulary') && $forum->tid > 0 && !variable_get('advanced_forum_forum_disabled', FALSE)) {
       $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $forum->tid));
+      $variables['forum_description'] = $forum->description;
       $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
     }
   }

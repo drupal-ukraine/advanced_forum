@@ -15,6 +15,7 @@
  * - $more: A link to view more, if any
  * - $admin_links: A rendered list of administrative links
  * - $admin_links_raw: A list of administrative links suitable for theme('links')
+ * - $forum_description: Forum description
  *
  * @ingroup views_templates
  */
