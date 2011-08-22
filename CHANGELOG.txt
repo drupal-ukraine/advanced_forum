@@ -4,6 +4,7 @@
 August 12, 2011
 ---------------
 Issue #1109114 by troky: Fixed core template overrides.
+Issue #1254866 by troky: Added 'forum_description' template variable to forum topic list page.
 
 August 10, 2011
 ---------------
