@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 12, 2011
+---------------
+Issue #1109114 by troky: Fixed core template overrides.
+
 August 10, 2011
 ---------------
 Issue #1243292 by troky: Added fallback to default style if current style doesnt exist anymore.

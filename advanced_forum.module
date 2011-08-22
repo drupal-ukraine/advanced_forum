@@ -246,7 +246,8 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   // --- then in ancestor themes, if any, then in the active style directory
   // --- for advanced forum or any ancestor styles.
   // Affected templates
-  $templates = array('node',
+  $templates = array(
+    'node',
     'comment',
     'comment_wrapper',
     'forums',
@@ -255,18 +256,13 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     'forum_icon',
     'forum_submitted',
     'author_pane',
+    /*
     'advanced_forum_statistics',
-    //'advanced_forum_topic_list_view',
-    /* 'views_view_fields__advanced_forum_search',
-      'views_view_fields__advanced_forum_search_topic',
-      'views_view_forum_topic_list__advanced_forum_topic_list',
-      'views_view_forum_topic_list__advanced_forum_group_topic_list',
-      'views_view__advanced_forum_topic_list',
-      'views_view__advanced_forum_group_topic_list', */
+    'advanced_forum_topic_list_view',
     'advanced_forum_topic_legend',
     'advanced_forum_forum_legend',
     'advanced_forum_topic_header',
-    'advanced_forum_active_poster',
+    'advanced_forum_active_poster',*/
   );
 
   // Get the sequence of styles to look in for templates
@@ -291,12 +287,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   foreach ($templates as $template) {
     // Sanity check in case the template is not being used.
     if (!empty($theme_registry[$template])) {
-      // Adjust overrides for core templates
-      if (array_key_exists('advanced_forum_' . $template, $theme_registry)) {
-        $theme_registry[$template]['template'] = $theme_registry['advanced_forum_' . $template]['template'];
-        $theme_registry[$template]['path'] = $theme_registry['advanced_forum_' . $template]['path'];
-      }
-
       // There are preprocess functions to add, so figure out where we want to add
       // them.
       if (!empty($preprocess)) {
