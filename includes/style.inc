@@ -374,11 +374,14 @@ function advanced_forum_path_to_theme() {
  * as the default.
  */
 function advanced_forum_add_template_suggestions($template, &$variables) {
+  // adjust template name
+  $template = strtr($template, '-', '_');
+  if (strpos($template, 'advanced_forum') === FALSE) {
+    $template = "advanced_forum_" . $template;
+  }
   // Set AF template as most significant suggestion
-  $variables['theme_hook_suggestion'] = "advanced_forum_" . strtr($template, '-', '_');
-  // Add requested (default?) suggestion
-  //$variables['theme_hook_suggestions'][] = $template;
-  $variables['theme_hook_suggestions'][] = "advanced_forum_" . strtr($template, '-', '_');
+  $variables['theme_hook_suggestion'] = $template;
+  $variables['theme_hook_suggestions'][] = $template;
   return;
 }
 
