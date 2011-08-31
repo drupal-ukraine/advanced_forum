@@ -116,40 +116,45 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
   );
 
-  /* Forum image settings */
-  $form['advanced_forum_forum_image'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Forum image settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
+  if (module_exists('image')) {
 
-  $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
-  $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
-  $image_fields = array();
-  foreach ($field_info as $bundle => $field) {
-    if ($field['widget']['type'] == 'image_image') {
-      $image_fields[$bundle] = $bundle;
+    /* Forum image settings */
+    $form['advanced_forum_forum_image'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Forum image settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+
+    $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
+    $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
+    $image_fields = array();
+    foreach ($field_info as $bundle => $field) {
+      if ($field['widget']['type'] == 'image_image') {
+        $image_fields[$bundle] = $bundle;
+      }
     }
+    $form['advanced_forum_forum_image']['advanced_forum_forum_image_field'] = array(
+      '#title' => t('Image field'),
+      '#description' => t('The image field to use to display forum images.'),
+      '#type' => 'select',
+      '#default_value' => variable_get('advanced_forum_forum_image_field', ''),
+      '#empty_option' => t('None'),
+      '#options' => $image_fields,
+    );
+
+    $form['advanced_forum_forum_image']['advanced_forum_forum_image_preset'] = array(
+      '#title' => t('Forum image style'),
+      '#description' => t('The image style to apply to the images.'),
+      '#type' => 'select',
+      '#default_value' => variable_get('advanced_forum_forum_image_preset', ''),
+      '#empty_option' => t('None (original image)'),
+      '#options' => image_style_options(FALSE),
+    );
   }
-  $form['advanced_forum_forum_image']['advanced_forum_forum_image_field'] = array(
-    '#title' => t('Image field'),
-    '#description' => t('The image field to use to display forum images.'),
-    '#type' => 'select',
-    '#default_value' => variable_get('advanced_forum_forum_image_field', ''),
-    '#empty_option' => t('None'),
-    '#options' => $image_fields,
-  );
-
-  $form['advanced_forum_forum_image']['advanced_forum_forum_image_preset'] = array(
-    '#title' => t('Forum image style'),
-    '#description' => t('The image style to apply to the images.'),
-    '#type' => 'select',
-    '#default_value' => variable_get('advanced_forum_forum_image_preset', ''),
-    '#empty_option' => t('None (original image)'),
-    '#options' => image_style_options(FALSE),
-  );
-
+  else {
+    variable_set('advanced_forum_forum_image_field', '');
+  }
   // Picture preset
   if (module_exists('image') && module_exists('author_pane')) {
     $options = array('' => '');
