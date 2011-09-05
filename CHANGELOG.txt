@@ -1,6 +1,14 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+September 05, 2011
+------------------
+by troky: Fixed bugs in Panels and CTools plugins related code and re-exported panel handlers.
+
+September 01, 2011
+------------------
+7.x-2.0-BETA1 RELEASE
+
 August 12, 2011
 ---------------
 Issue #1264676 by troky: Added Image module existance check on settings page.
