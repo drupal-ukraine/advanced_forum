@@ -4,6 +4,7 @@
 September 05, 2011
 ------------------
 by troky: Fixed bugs in Panels and CTools plugins related code and re-exported panel handlers.
+by troky: Removed duplicate forum_node_create_links content from forum panel.
 
 September 01, 2011
 ------------------
