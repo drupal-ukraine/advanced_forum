@@ -4,6 +4,7 @@
 September 17, 2011
 ------------------
 Issue #1270710 by bxc, troky: Fixed error when AF doesn't include its files if Drupal installed in non-default folder.
+Issue #1280736 by Scyther: Fixed default value for advanced_forum_style variable.
 
 September 05, 2011
 ------------------
