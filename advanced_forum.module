@@ -507,16 +507,16 @@ function advanced_forum_ctools_plugin_api($module, $api) {
 }
 
 // THEME FUNCTIONS AND TEMPLATE PREPROCESSES **********************************/
-include_once drupal_get_path('module', 'advanced_forum') . '/includes/theme.inc';
+module_load_include('inc', 'advanced_forum', 'includes/theme');
 
 // STYLE RELATED FUNCTIONS ****************************************************/
-include_once drupal_get_path('module', 'advanced_forum') . '/includes/style.inc';
+module_load_include('inc', 'advanced_forum', 'includes/style');
 
 // CORE FORUM PAGE OVERRIDES **************************************************/
-include_once drupal_get_path('module', 'advanced_forum') . '/includes/core-overrides.inc';
+module_load_include('inc', 'advanced_forum', 'includes/core-overrides');
 
 // MARK AS READ ***************************************************************/
-include_once drupal_get_path('module', 'advanced_forum') . '/includes/mark-read.inc';
+module_load_include('inc', 'advanced_forum', 'includes/mark-read');
 
 // VIEWS RELATED GOODIES ******************************************************/
 
