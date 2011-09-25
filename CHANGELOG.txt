@@ -5,6 +5,7 @@ September 25, 2011
 ------------------
 Issue #1286696 by troky: Fixed default topic sort order.
 Issue #1286696 by troky: Changed default topic list sorting to desc (last_updated).
+Issue #1287512 by troky: Fixed topic list view to display 0 replies instead of empty string.
 
 September 17, 2011
 ------------------
