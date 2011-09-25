@@ -379,6 +379,11 @@ $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
 $handler->display->display_options['sorts']['sticky']['table'] = 'node';
 $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
 $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
+/* Sort criterion: Content: Updated/commented date */
+$handler->display->display_options['sorts']['last_updated']['id'] = 'last_updated';
+$handler->display->display_options['sorts']['last_updated']['table'] = 'node_comment_statistics';
+$handler->display->display_options['sorts']['last_updated']['field'] = 'last_updated';
+$handler->display->display_options['sorts']['last_updated']['order'] = 'DESC';
 /* Contextual filter: Content: Has taxonomy term ID */
 $handler->display->display_options['arguments']['tid']['id'] = 'tid';
 $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
