@@ -4,6 +4,7 @@
 September 25, 2011
 ------------------
 Issue #1286696 by troky: Fixed default topic sort order.
+Issue #1286696 by troky: Changed default topic list sorting to desc (last_updated).
 
 September 17, 2011
 ------------------

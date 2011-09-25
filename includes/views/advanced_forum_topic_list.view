@@ -119,7 +119,7 @@ $handler->display->display_options['style_options']['info'] = array(
   ),
   'last_updated' => array(
     'sortable' => 1,
-    'default_sort_order' => 'asc',
+    'default_sort_order' => 'desc',
     'align' => '',
     'separator' => '<br />',
   ),
