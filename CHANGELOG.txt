@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+September 25, 2011
+------------------
+Issue #1286696 by troky: Fixed default topic sort order.
+
 September 17, 2011
 ------------------
 Issue #1270710 by bxc, troky: Fixed error when AF doesn't include its files if Drupal installed in non-default folder.
