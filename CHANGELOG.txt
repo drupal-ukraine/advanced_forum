@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+October 01, 2011
+------------------
+Issue #1291556 by dloone: Fixed SQL exception when using "Mark all topics as read" when multiple revisions exist.
+
 September 25, 2011
 ------------------
 Issue #1286696 by troky: Fixed default topic sort order.
