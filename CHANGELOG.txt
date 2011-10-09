@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+October 09, 2011
+------------------
+Issue #1303882 by cburschka: Fixed dangling </div> tag in forum list
+
 October 01, 2011
 ------------------
 Issue #1291556 by dloone: Fixed SQL exception when using "Mark all topics as read" when multiple revisions exist.
