@@ -4,6 +4,7 @@
 October 09, 2011
 ------------------
 Issue #1303882 by cburschka: Fixed dangling </div> tag in forum list
+Issue #1298272 by heymjo: Fixed strict warning in advanced_forum_process_forum()
 
 October 01, 2011
 ------------------
