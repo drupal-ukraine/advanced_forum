@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+November 05, 2011
+-----------------
+Issue #1309966 by troky: Fixed panel initialization code.
+
 October 09, 2011
 ------------------
 Issue #1303882 by cburschka: Fixed dangling </div> tag in forum list
