@@ -46,7 +46,6 @@ function advanced_forum_menu() {
     $items['forum/view'] = array(
       'title' => 'View Forums',
       'page callback' => 'advanced_forum_page',
-      'access arguments' => array('access content'),
       'type' => MENU_DEFAULT_LOCAL_TASK,
       'weight' => -100,
     );
