@@ -1,8 +1,13 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+November 16, 2011
+-----------------
+Issue #1340512 by troky: Removed obsolete Signatures for forums code.
+
 November 05, 2011
 -----------------
+7.x-2.0-BETA2 RELEASE
 Issue #1309966 by troky: Fixed panel initialization code.
 
 October 09, 2011
