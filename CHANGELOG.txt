@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+December 04, 2011
+-----------------
+Issue #1339882 by troky: Fixed undefined index in in advanced_forum_links_alter().
+
 November 16, 2011
 -----------------
 Issue #1340512 by troky: Removed obsolete Signatures for forums code.
