@@ -4,6 +4,7 @@
 December 13, 2011
 -----------------
 Issue #1369468 by troky: Fixed the same class name is being used for the title 'Topics' and for the total number of topics
+Issue #1367808 by troky: Fixed duplication of div IDs for forum posts and comments.
 
 December 05, 2011
 -----------------
