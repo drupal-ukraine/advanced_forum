@@ -1,6 +1,14 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+December 13, 2011
+-----------------
+Issue #1369468 by troky: Fixed the same class name is being used for the title 'Topics' and for the total number of topics
+
+December 05, 2011
+-----------------
+7.x-2.0rc1 release
+
 December 04, 2011
 -----------------
 Issue #1339882 by troky: Fixed undefined index in in advanced_forum_links_alter().
