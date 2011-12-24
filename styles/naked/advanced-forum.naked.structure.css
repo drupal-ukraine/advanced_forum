@@ -136,20 +136,23 @@ td.forum-details .forum-subcontainers {
   margin-left: 10px;
 }
 
-td.forum-number-topics {
+th.forum-topics,
+th.forum-posts {
   width: 10%;
   text-align: center;
 }
 
+td.forum-number-topics,
 td.forum-number-posts {
-  width: 10%;
   text-align: center;
 }
 
-td.forum-last-reply {
+th.forum-last-post {
   width: 20%;
 }
 
+td.forum-last-reply {
+}
 /**** Topic listing ****/
 
  .view-advanced-forum-topic-list .view-empty {
