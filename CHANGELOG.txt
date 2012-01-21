@@ -3,7 +3,8 @@
 
 January 21, 2012
 ----------------
-Issue #1396428: by troky: Fixed stric warning in advanced_forum_preprocess_comment.inc.
+Issue #1396428 by troky: Fixed strict warning in advanced_forum_preprocess_comment.inc.
+Issue #1309104 by mcdruid: Fixed table header text alignment.
 
 December 24, 2011
 -----------------
