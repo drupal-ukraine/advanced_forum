@@ -117,6 +117,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
     $variables['title'] = check_plain($comment->subject);
   }
 
+  $variables['account'] = new stdClass();
   /* User information / author pane */
   if ($comment->uid == 0) {
     // Anonymous user. Make a fake user object for theme_username
