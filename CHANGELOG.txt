@@ -5,6 +5,7 @@ January 21, 2012
 ----------------
 Issue #1396428 by troky: Fixed strict warning in advanced_forum_preprocess_comment.inc.
 Issue #1309104 by mcdruid: Fixed table header text alignment.
+Issue #1115950 by sahunt83: Changed Cloudless Day base theme to Naked.
 
 December 24, 2011
 -----------------
