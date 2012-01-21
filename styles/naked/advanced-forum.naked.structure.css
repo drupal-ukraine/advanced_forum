@@ -111,7 +111,7 @@ ul.forum-links li {
 
 /* Header, both tables */
 .forum-table th {
-  text-align: center;
+  text-align: left;
 }
 
 /* Forum listing */
