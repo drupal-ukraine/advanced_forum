@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+January 21, 2012
+----------------
+Issue #1396428: by troky: Fixed stric warning in advanced_forum_preprocess_comment.inc.
+
 December 24, 2011
 -----------------
 Issue #1369468 by mcdruid: Minor CSS fix.
