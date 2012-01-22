@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+january 22, 2012
+----------------
+Issue #1395164 by troky: Fixed hot icons don't show problem.
+
 January 21, 2012
 ----------------
 Issue #1396428 by troky: Fixed strict warning in advanced_forum_preprocess_comment.inc.
