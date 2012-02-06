@@ -1,7 +1,11 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
-january 22, 2012
+February 06, 2012
+-----------------
+Issue #1429936 by GANYANCI: Removed leftover function dpm().
+
+January 22, 2012
 ----------------
 Issue #1395164 by troky: Fixed hot icons don't show problem.
 
