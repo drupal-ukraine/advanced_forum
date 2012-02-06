@@ -80,7 +80,6 @@ function advanced_forum_forum_page($forum_term = NULL) {
   $output = ctools_context_handler_render($task, '', $contexts, array($forum_term->tid));
   if ($output === FALSE) {
     $output = advanced_forum_page($forum_term);
-    dpm($task);
   }
 
   return $output;
