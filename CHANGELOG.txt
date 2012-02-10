@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 10, 2012
+-----------------
+Issue #1433566 by roderik: Reduce number of SQL queries on main forum page.
+
 February 06, 2012
 -----------------
 Issue #1429936 by GANYANCI: Removed leftover function dpm().

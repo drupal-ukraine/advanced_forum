@@ -13,7 +13,7 @@ function advanced_forum_page($forum_term = NULL) {
     // On the main page, display all the top-level forums.
     $forum_term = advanced_forum_forum_load(0);
   }
-  
+
   // Set tid for <root> container
   if (!isset($forum_term->tid)) {
     $forum_term->tid = 0;
@@ -90,7 +90,19 @@ function advanced_forum_page($forum_term = NULL) {
  *    - 'forums': An array of child forums
  */
 function advanced_forum_forum_load($tid = NULL) {
-  $cache = &drupal_static(__FUNCTION__, array());
+  
+  // Find out from the style's .info how many posts per forum to collect.
+  $info = advanced_forum_style_info();
+  $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
+
+  // forum_menu_local_tasks_alter() will call forum_forum_load(), which creates
+  // and caches almost exactly the same cache structure.
+  // (Only $cache[TID]->forums[CHILD_TID]->last_post can be different, if a
+  // style's "forum list post count" > 1, i.e. very rarely.)
+  // That's a waste of resources, but thanks to drupal_static(), preventing this
+  // is easy:
+  $drupal_static_id = $post_count == 1 ? 'forum_forum_load' : __FUNCTION__;
+  $cache = &drupal_static($drupal_static_id, array());
 
   // Return a cached forum tree if available.
   if (!isset($tid)) {
@@ -158,10 +170,6 @@ function advanced_forum_forum_load($tid = NULL) {
       $forum->num_topics = 0;
       $forum->num_posts = 0;
     }
-
-    // Find out from the style's .info how many posts per forum to collect.
-    $info = advanced_forum_style_info();
-    $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
 
     // Query "Last Post" information for this forum.
     $query = db_select('node', 'n');
