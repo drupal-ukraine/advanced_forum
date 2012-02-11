@@ -997,10 +997,8 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
 
 /**
  * Return an array of node types allowed in a given vocabulary or term ID.
- *
- * Note: TID is currently for future use and not acted on.
  */
-function advanced_forum_allowed_node_types($tid=0, $vid=0) {
+function advanced_forum_allowed_node_types($tid=0) {
   if (module_exists('forum_access')) {
     // Check with forum access to see if this forum allows node creation.
     // If it doesn't, send back an empty list.
@@ -1008,12 +1006,9 @@ function advanced_forum_allowed_node_types($tid=0, $vid=0) {
       return array();
     }
   }
-  // If no vocabulary is passed in, assume it should be the forum vocab.
-  $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
-  $vocabulary = taxonomy_vocabulary_load($vid);
 
   $field = field_info_field('taxonomy_forums');
-  if (is_array($field['bundles']['node'])) {
+  if (!empty($field['bundles']['node'])) {
     return $field['bundles']['node'];
   }
   else {
