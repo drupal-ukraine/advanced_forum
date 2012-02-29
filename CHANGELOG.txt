@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 29, 2012
+-----------------
+Issue #1351392 by aidanlis: Added drupal_alter to advanced_forum_process_forum.
+
 February 11, 2012
 -----------------
 by troky: Code cleanup in advanced_forum_allowed_node_types()
