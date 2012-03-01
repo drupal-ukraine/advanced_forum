@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 01, 2012
+-----------------
+by troky: Fixed undefined variable introduced in previous patch.
+
 February 29, 2012
 -----------------
 Issue #1351392 by aidanlis: Added drupal_alter to advanced_forum_process_forum.
