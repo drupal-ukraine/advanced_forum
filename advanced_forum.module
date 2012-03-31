@@ -347,6 +347,10 @@ function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') 
     return;
   }
 
+  if (!advanced_forum_is_styled($object, ($view_mode == 'teaser'), $object_type)) {
+    return;
+  }
+
   if (!empty($object->content['links']['comment'])) {
     $comment_links = $object->content['links']['comment'];
     $links = empty($comment_links['#links']) ? array() : $comment_links['#links'];
@@ -357,10 +361,6 @@ function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') 
   }
 
   if ($object_type == 'node') {
-
-    if (!advanced_forum_is_styled($object, ($view_mode == 'teaser'), $object_type)) {
-      return;
-    }
 
     $node = $object;
     // Add edit / delete links to the node links to match replies.
@@ -1060,7 +1060,7 @@ function advanced_forum_node_type_create_list($tid) {
     // Check if this node type can be created by current user.
     if (node_access('create', $type)) {
       // Fetch the "General" name of the content type.
-      $node_type = node_type_get_name($type);
+      $node_type = t(node_type_get_name($type));
 
       // Remove the word "Forum" out of "Forum topic" to shorten it.
       // @TODO: this is a little dodgy and may not work right with

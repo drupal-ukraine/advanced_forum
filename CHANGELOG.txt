@@ -1,6 +1,14 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 31, 2012
+--------------
+Issue #1506628 by BTMash: Added [Content Type Name] button localization.
+
+March 19, 2012
+-----------------
+7.x-2.0 RELEASE
+
 March 01, 2012
 -----------------
 by troky: Fixed undefined variable introduced in previous patch.
