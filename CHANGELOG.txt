@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 03, 2012
+------------
+Issue #1559340 by troky: Fixed notice while displaying orphaned forum shadow topic.
+
 March 31, 2012
 --------------
 Issue #1506628 by BTMash: Added [Content Type Name] button localization.
