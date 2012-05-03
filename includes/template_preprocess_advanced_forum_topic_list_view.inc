@@ -79,7 +79,7 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
       $variables['shadow'][$count] = theme('advanced_forum_shadow_topic', array(
         'title' => $row->node_title,
         'nid' => $row->nid,
-        'new_forum' => $term->name
+        'new_forum' => empty($term->name) ? "" : $term->name
           ));
     }
     else {
