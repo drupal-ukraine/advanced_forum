@@ -76,7 +76,7 @@
   <div class="forum-node-create-links"><?php print $node_create_list ?></div>
 
   <?php if ($pager): ?>
-    <div class="forum-pager" id="forum-pager-bottom"><?php print $pager; ?></div>
+    <div class="forum-pager clearfix" id="forum-pager-bottom"><?php print $pager; ?></div>
   <?php endif; ?>
 
   <?php if (!empty($view->sort_form)): ?>
