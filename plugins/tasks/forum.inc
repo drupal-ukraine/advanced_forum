@@ -38,7 +38,7 @@ function advanced_forum_forum_page_manager_tasks() {
  * normal user view process.
  */
 function advanced_forum_forum_menu_alter(&$items, $task) {
-  if (variable_get('advanced_forum_forum_disabled', TRUE)) {
+  if (variable_get('advanced_forum_forum_disabled')) {
     return;
   }
 
@@ -114,6 +114,8 @@ function advanced_forum_forum_get_contexts($task, $subtask_id) {
  * Callback to enable/disable the page from the UI.
  */
 function advanced_forum_forum_enable($cache, $status) {
+  if ($status == NULL)
+    $status = FALSE;
   variable_set('advanced_forum_forum_disabled', $status);
 }
 

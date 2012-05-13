@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 13, 2012
+------------
+Issue #1218894 by Tom Friedhof, troky: Removed Panels related conditional from Views preprocess function and fixed advanced_forum_forum_disabled variable function in registry.
+
 May 03, 2012
 ------------
 Issue #1559340 by troky: Fixed notice while displaying orphaned forum shadow topic.
