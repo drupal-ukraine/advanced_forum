@@ -5,7 +5,6 @@ May 13, 2012
 ------------
 by troky: Panels adjusted and reexported.
 Issue #1212964 by troky: CTools plugins redone/updated to D7 with bugfixes.
-Issue #1218894 by Tom Friedhof, troky: Removed Panels related conditional from Views preprocess function and fixed advanced_forum_forum_disabled variable function in registry.
 
 May 03, 2012
 ------------
