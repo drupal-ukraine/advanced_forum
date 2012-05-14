@@ -3,6 +3,10 @@
 
 May 13, 2012
 ------------
+Issue #1218894 by Tom Friedhof, troky: Removed Panels related conditional from Views preprocess function.
+
+May 13, 2012
+------------
 by troky: Panels adjusted and reexported.
 Issue #1212964 by troky: CTools plugins redone/updated to D7 with bugfixes.
 
