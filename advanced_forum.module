@@ -1208,6 +1208,32 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
 }
 
 /**
+* Create a drop down list of forum hierarchy
+*/
+function advanced_forum_forum_jump($tid=0) {
+  global $user;
+  ctools_include('jump-menu');
+  $select = array();
+  $options = array();
+  $vid = variable_get('forum_nav_vocabulary', 0);
+  if ($tid > 0) {
+    $forum_tree = taxonomy_get_tree($vid);
+    foreach ($forum_tree as $forum) {
+      $select[url("forum/" . $forum->tid)] = str_repeat("-", $forum->depth) . $forum->name;
+    }
+  }
+  else {
+    // nothing
+  }
+
+  $options['choose'] = t("- Select a forum -");
+
+  // Create and return the jump menu.
+  $form = drupal_get_form('ctools_jump_menu', $select, $options);
+  return drupal_render($form);
+}
+
+/**
  * Calculates the number of unread replies for each forum and returns the
  * count for the requested forum.
  */

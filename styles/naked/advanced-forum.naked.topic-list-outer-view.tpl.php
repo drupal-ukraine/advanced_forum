@@ -26,6 +26,9 @@
  * - $admin_links_raw: A list of administrative links suitable for theme('links')
  * - $forum_description: Forum description
  *
+ * - $forum_tools: Drop down list of forum tools
+ * - $forum_jump: Drop down list of forum hierarchy
+ *
  * @ingroup views_templates
  */
 ?>

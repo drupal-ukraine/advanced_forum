@@ -358,6 +358,7 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
 
   $variables['node_create_list'] = '';
   $variables['forum_tools'] = '';
+  $variables['forum_jump'] = '';
 
   $menu_item = menu_get_item();
 
@@ -367,6 +368,7 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
       $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $forum->tid));
       $variables['forum_description'] = $forum->description;
       $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
+      $variables['forum_jump'] = advanced_forum_forum_jump($forum->tid);
     }
   }
 }

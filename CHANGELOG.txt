@@ -1,9 +1,13 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 02, 2012
+-------------
+Issue #210453 by troky: Added drop down list of forum hierarchy as template variable $forum_jump.
+
 June 01, 2012
 -------------
-Issue #1612710by troky: Fixed new post icon css in Blue lagoon style.
+Issue #1612710 by troky: Fixed new post icon css in Blue lagoon style.
 
 May 14, 2012
 ------------
