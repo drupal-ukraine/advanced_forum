@@ -90,7 +90,7 @@ function advanced_forum_page($forum_term = NULL) {
  *    - 'forums': An array of child forums
  */
 function advanced_forum_forum_load($tid = NULL) {
-  
+
   // Find out from the style's .info how many posts per forum to collect.
   $info = advanced_forum_style_info();
   $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
@@ -227,6 +227,7 @@ function advanced_forum_get_topics($tid, $sortby, $forum_per_page, $sort_form = 
 
   // Views handles this page
   $view = views_get_view('advanced_forum_topic_list');
+  $view->set_items_per_page($forum_per_page);
   $view->sort_form = $sort_form;
 
   return $view->preview('default', array($tid));
