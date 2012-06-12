@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 12, 2012
+-------------
+Issue #1621218 by sebcorbin: Fixed notices when non-forum associated content types are used.
+
 June 09, 2012
 -------------
 Issue #1621956 by samsouk: Added missing "topics per page" parameter to forum list view.
