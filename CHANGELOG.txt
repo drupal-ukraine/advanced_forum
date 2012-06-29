@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June 29, 2012
+-------------
+Issue #1632260 by mcdruid, troky: Ficed performance issues with advanced_forum_statistics_replies.
+
 June 12, 2012
 -------------
 Issue #1621218 by sebcorbin: Fixed notices when non-forum associated content types are used.

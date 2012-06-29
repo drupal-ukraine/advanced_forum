@@ -55,6 +55,14 @@ function advanced_forum_menu() {
 }
 
 /**
+ * Implementation of hook_cron().
+ */
+function advanced_forum_cron() {
+  // ensure the reply stats are up-to-date
+  advanced_forum_statistics_replies(NULL, TRUE);
+}
+
+/**
  * Implementation of hook_menu_alter().
  */
 function advanced_forum_menu_alter(&$items) {
@@ -255,13 +263,13 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
     'forum_icon',
     'forum_submitted',
     'author_pane',
-    /*
-    'advanced_forum_statistics',
-    'advanced_forum_topic_list_view',
-    'advanced_forum_topic_legend',
-    'advanced_forum_forum_legend',
-    'advanced_forum_topic_header',
-    'advanced_forum_active_poster',*/
+      /*
+        'advanced_forum_statistics',
+        'advanced_forum_topic_list_view',
+        'advanced_forum_topic_legend',
+        'advanced_forum_forum_legend',
+        'advanced_forum_topic_header',
+        'advanced_forum_active_poster', */
   );
 
   // Get the sequence of styles to look in for templates
@@ -309,30 +317,6 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
   array_splice($theme_registry['views_view__advanced_forum_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view');
   array_splice($theme_registry['views_view__advanced_forum_group_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view');
   //array_splice($theme_registry['views_view_forum_topic_list__advanced_forum_topic_list']['preprocess functions'], 1, 0, 'template_preprocess_views_view_forum_topic_list');
-}
-
-/**
- * Implementation of hook_node_delete().
- */
-function advanced_forum_node_delete($node) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
-}
-
-/**
- * Implementation of hook_node_insert().
- */
-function advanced_forum_node_insert($node) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
-}
-
-/**
- * Implementation of hook_node_update().
- */
-function advanced_forum_node_update($node) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
 }
 
 /**
@@ -436,24 +420,39 @@ function advanced_forum_comment_view($comment, $view_mode, $langcode) {
  * Implementation of hook_comment_delete().
  */
 function advanced_forum_comment_delete($comment) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
+  if (!empty($comment->node_type) && ($comment->node_type == "comment_node_forum")) {
+    advanced_forum_statistics_replies(-1);
+  }
 }
 
 /**
  * Implementation of hook_comment_insert().
  */
 function advanced_forum_comment_insert($comment) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
+  if (!empty($comment->node_type) && ($comment->node_type == "comment_node_forum")) {
+    advanced_forum_statistics_replies(1);
+  }
 }
 
 /**
  * Implementation of hook_comment_update().
  */
 function advanced_forum_comment_update($comment) {
-  // Update the cached statistics.
-  advanced_forum_statistics_replies(TRUE);
+  if (!empty($comment->node_type) && ($comment->node_type == "comment_node_forum")) {
+    // comment unpublished?
+    if (!$comment->status) {
+      advanced_forum_statistics_replies(-1);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_comment_publish().
+ */
+function advanced_forum_comment_publish($comment) {
+  if (!empty($comment->node_type) && ($comment->node_type == "comment_node_forum")) {
+    advanced_forum_statistics_replies(1);
+  }
 }
 
 /**
@@ -690,20 +689,28 @@ function advanced_forum_statistics_topics() {
  * Counts total amount of replies. Initial posts are added to this total
  * in the calling function.
  *
+ * @param $delta
+ *   if not NULL, a numerical delta which should be applied to the count
+ * @param $refresh
  * @param $refresh
  *   TRUE if the stored count should be updated.
  * @return
  *   Total number of replies in the forum.
  */
-function advanced_forum_statistics_replies($refresh = FALSE) {
-  // Check for cached total.
-  $total_replies = variable_get('advanced_forum_stats_replies', 0);
+function advanced_forum_statistics_replies($delta = NULL, $refresh = FALSE) {
 
-  // If there's no cache or we need to refresh the cache
-  if ($refresh || $total_replies == 0) {
-    $total_replies = db_query('SELECT SUM(s.comment_count) FROM {node_comment_statistics} s INNER JOIN {forum} f ON (s.nid = f.nid)')->fetchField();
+  if ($refresh || !($cache = cache_get('advanced_forum_stats_replies'))) {
+    $total_replies = db_query('SELECT SUM(comment_count) FROM {forum_index}')->fetchField();
+    cache_set('advanced_forum_stats_replies', $total_replies);
+  }
+  else {
+    $total_replies = $cache->data;
+  }
 
-    variable_set('advanced_forum_stats_replies', $total_replies);
+
+  if (!empty($delta) && is_numeric($delta)) {
+    $total_replies += $delta;
+    cache_set('advanced_forum_stats_replies', $total_replies);
   }
 
   return $total_replies;
@@ -835,11 +842,11 @@ function advanced_forum_last_post_link($node) {
   );
 
   return theme('advanced_forum_l', array(
-    'text' => t('Last post'),
-    'path' => "node/$node->nid",
-    'options' => $options,
-    'button_class' => 'large'
-  ));
+        'text' => t('Last post'),
+        'path' => "node/$node->nid",
+        'options' => $options,
+        'button_class' => 'large'
+      ));
 }
 
 /**
@@ -874,11 +881,11 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
     );
 
     return theme('advanced_forum_l', array(
-      'text' => t('First unread'),
-      'path' => "node/$nid",
-      'options' => $options,
-      'button_class' => 'large'
-    ));
+          'text' => t('First unread'),
+          'path' => "node/$nid",
+          'options' => $options,
+          'button_class' => 'large'
+        ));
   }
 }
 
@@ -998,7 +1005,7 @@ function advanced_forum_first_new_comment($nid, $timestamp = 0) {
 /**
  * Return an array of node types allowed in a given vocabulary or term ID.
  */
-function advanced_forum_allowed_node_types($tid=0) {
+function advanced_forum_allowed_node_types($tid = 0) {
   if (module_exists('forum_access')) {
     // Check with forum access to see if this forum allows node creation.
     // If it doesn't, send back an empty list.
@@ -1019,7 +1026,7 @@ function advanced_forum_allowed_node_types($tid=0) {
 /**
  * Return whether a given node type is allowed in the whole forum or given forum.
  */
-function advanced_forum_type_is_in_forum($node, $tid=0) {
+function advanced_forum_type_is_in_forum($node, $tid = 0) {
   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
   if (!empty($node->taxonomy_forums)) {
     // Check for language used
@@ -1095,7 +1102,7 @@ function advanced_forum_node_type_create_list($tid) {
 /**
  * Create a drop down list of forum actions.
  */
-function advanced_forum_forum_tools($tid=0) {
+function advanced_forum_forum_tools($tid = 0) {
   global $user;
   ctools_include('jump-menu');
   if ($tid > 0) {
@@ -1208,9 +1215,9 @@ function advanced_forum_create_topic_pager($max_pages_to_display, $topic) {
 }
 
 /**
-* Create a drop down list of forum hierarchy
-*/
-function advanced_forum_forum_jump($tid=0) {
+ * Create a drop down list of forum hierarchy
+ */
+function advanced_forum_forum_jump($tid = 0) {
   global $user;
   ctools_include('jump-menu');
   $select = array();
