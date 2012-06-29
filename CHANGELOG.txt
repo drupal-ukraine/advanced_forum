@@ -3,7 +3,8 @@
 
 June 29, 2012
 -------------
-Issue #1632260 by mcdruid, troky: Ficed performance issues with advanced_forum_statistics_replies.
+Issue #1632260 by mcdruid, troky: Fixed performance issues with advanced_forum_statistics_replies.
+Issue #1617840 by liquidcms: Added forum term translation support.
 
 June 12, 2012
 -------------
