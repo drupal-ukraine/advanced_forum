@@ -5,7 +5,6 @@
  *
  * Plugin to provide a user context
  */
-
 /**
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
@@ -72,7 +71,7 @@ function advanced_forum_forum_context_create_forum($empty, $data = NULL, $conf =
   }
 }
 
-function advanced_forum_forum_context_settings_form($form, &$form_state)  {
+function advanced_forum_forum_context_settings_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
   if (empty($conf)) {
@@ -110,6 +109,11 @@ function advanced_forum_forum_context_convert($context, $type) {
     case 'tid':
       return $context->data->tid;
     case 'name':
-      return $context->data->name;
+      $forum_term = $context->data;
+
+      if (module_exists('i18n'))
+        $forum_term = i18n_taxonomy_localize_terms($forum_term);
+
+      return $forum_term->name;
   }
 }
