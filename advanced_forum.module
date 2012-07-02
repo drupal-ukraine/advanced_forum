@@ -731,8 +731,8 @@ function advanced_forum_statistics_latest_users() {
 
   $query = db_select("users", "u")
       ->fields("u", array("uid", "name"))
-      ->condition("status", 1)
-      ->condition("access", 0, ">")
+      ->condition("status", 0, "<>")
+      ->condition("access", 0, "<>")
       ->orderBy("created", "DESC");
 
   $latest_users = $query->range(NULL, $number_to_fetch)->execute();
@@ -743,11 +743,27 @@ function advanced_forum_statistics_latest_users() {
   return $list;
 }
 
+function advanced_forum_session_count($anonymous = TRUE) {
+
+  $interval = REQUEST_TIME - variable_get('user_block_seconds_online', 900);
+
+  $query = db_select("sessions", "s")
+    ->fields("s", array("uid"))
+    ->distinct()
+    ->condition('s.timestamp', $interval, '>=')
+    ->condition('s.uid', 0, $anonymous ? '=' : '>')
+    ->countQuery();
+
+  return $query->execute()->fetchField();
+}
+
+
 /**
  * Return an array of online usernames, linked to their profiles.
  */
 function advanced_forum_statistics_online_users() {
   $list = array();
+
   $interval = REQUEST_TIME - variable_get('user_block_seconds_online', 900);
 
   $query = db_select("users", "u")->distinct()->fields("u", array("uid", "name"));
