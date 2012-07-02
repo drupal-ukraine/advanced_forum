@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+July 01, 2012
+-------------
+Issue #1635800 by troky: Redone online users count.
+
 June 29, 2012
 -------------
 Issue #1632260 by mcdruid, troky: Fixed performance issues with advanced_forum_statistics_replies.

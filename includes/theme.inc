@@ -325,8 +325,8 @@ function advanced_forum_preprocess_advanced_forum_statistics(&$variables) {
 
   $authenticated_users = advanced_forum_statistics_online_users();
   $variables['online_users'] = implode(', ', $authenticated_users);
-  $variables['current_users'] = count($authenticated_users);
-  $variables['current_guests'] = db_query('SELECT COUNT(sid) AS count FROM {sessions} WHERE uid = 0 AND timestamp >= :ts', array(':ts' => (REQUEST_TIME - variable_get('user_block_seconds_online', 900))))->fetchField();
+  $variables['current_users'] = advanced_forum_session_count(FALSE);
+  $variables['current_guests'] = advanced_forum_session_count(TRUE);
   $variables['current_total'] = $variables['current_users'] + $variables['current_guests'];
 
   $latest_users = advanced_forum_statistics_latest_users();
