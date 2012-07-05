@@ -748,15 +748,14 @@ function advanced_forum_session_count($anonymous = TRUE) {
   $interval = REQUEST_TIME - variable_get('user_block_seconds_online', 900);
 
   $query = db_select("sessions", "s")
-    ->fields("s", array("uid"))
-    ->distinct()
-    ->condition('s.timestamp', $interval, '>=')
-    ->condition('s.uid', 0, $anonymous ? '=' : '>')
-    ->countQuery();
+      ->fields("s", array("uid"))
+      ->distinct()
+      ->condition('s.timestamp', $interval, '>=')
+      ->condition('s.uid', 0, $anonymous ? '=' : '>')
+      ->countQuery();
 
   return $query->execute()->fetchField();
 }
-
 
 /**
  * Return an array of online usernames, linked to their profiles.
@@ -1102,12 +1101,13 @@ function advanced_forum_node_type_create_list($tid) {
     // The user is logged-in; but denied access to create any new forum content type.
     global $user;
     if ($user->uid) {
-      return t('You are not allowed to post new content in this forum.');
+      return t('You are not allowed to post new content in the forum.');
     }
     // The user is not logged-in; and denied access to create any new forum content type.
     else {
-      $login = url('user/login', array('query' => drupal_get_destination()));
-      return t('<a href="@login">Login</a> to post new content in forum.', array('@login' => $login));
+      return t('<a href="@login">Log in</a> to post new content in the forum.', array(
+            '@login' => url('user/login', array('query' => drupal_get_destination())),
+          ));
     }
   }
   else {

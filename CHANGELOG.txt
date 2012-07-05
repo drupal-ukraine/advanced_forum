@@ -4,6 +4,7 @@
 July 05, 2012
 -------------
 Issue #1121208 by vidu_ram: Added default configuration for collapsible container.
+Issue #962218 by troky: Changed strings to match core forum module.
 
 July 01, 2012
 -------------
