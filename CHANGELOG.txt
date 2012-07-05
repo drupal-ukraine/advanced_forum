@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+July 05, 2012
+-------------
+Issue #1121208 by vidu_ram: Added default configuration for collapsible container.
+
 July 01, 2012
 -------------
 Issue #1635800 by troky: Redone online users count.

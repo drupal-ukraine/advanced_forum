@@ -103,7 +103,7 @@ function advanced_forum_settings_page() {
     '#description' => t('Check this to disable breadcrumbs in the forum if you are using another module to customize them. Does not affect node pages and does not work when Page Manager is overriding forum pages.'),
   );
 
-  $form['advanced_forum_general']['advanced_forum_collapsible_containers'] = array(
+  $form['advanced_forum_lists']['advanced_forum_collapsible_containers'] = array(
     '#type' => 'select',
     '#title' => t('Collapsible forum containers'),
     '#options' => array(
@@ -114,6 +114,21 @@ function advanced_forum_settings_page() {
     ),
     '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
     '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
+  );
+
+  // For default collapsed state configuration
+  $collapsed_list_name = variable_get('forum_containers', array());
+  $collapsed_list_description = array();
+  foreach ($collapsed_list_name as $id) {
+    $collapsed_list_description[$id] = taxonomy_term_load($id)->name;
+  }
+  $form['advanced_forum_lists']['advanced_forum_default_collapsed_list'] = array(
+    '#type' => 'select',
+    '#title' => t('Containers collapsed by default'),
+    '#default_value' => variable_get('advanced_forum_default_collapsed_list', array()),
+    '#options' => $collapsed_list_description,
+    '#multiple' => TRUE,
+    '#description' => t('Select containers which should be collapsed by default.'),
   );
 
   if (module_exists('image')) {

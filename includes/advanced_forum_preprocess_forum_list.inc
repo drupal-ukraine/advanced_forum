@@ -8,13 +8,21 @@
 function _advanced_forum_preprocess_forum_list(&$variables) {
   advanced_forum_add_template_suggestions("forum_list", $variables);
 
+  // Added variable for default collapsed configuration
+  $variables['collapsed_main_list'] = variable_get('advanced_forum_default_collapsed_list', array());
+
   // Add needed items for the collapsible containers.
   $collapsible = variable_get('advanced_forum_collapsible_containers', 'toggle');
   $variables['collapsible'] = FALSE;
   if ($collapsible != 'none') {
     drupal_add_library('system', 'jquery.cookie');
     drupal_add_js(drupal_get_path('module', 'advanced_forum') . '/js/advanced_forum.js');
-    $settings['advanced_forum'] = array('modulePath' => drupal_get_path('module', 'advanced_forum'), 'effect' => $collapsible);
+    $settings['advanced_forum'] = array(
+      'modulePath' => drupal_get_path('module', 'advanced_forum'),
+      'effect' => $collapsible,
+      'default_collapsed_list' => $variables['collapsed_main_list'],
+    );
+
     drupal_add_js($settings, array('type' => 'setting'));
     $variables['collapsible'] = TRUE;
   }
