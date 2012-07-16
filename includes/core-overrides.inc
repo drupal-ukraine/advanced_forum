@@ -152,6 +152,30 @@ function advanced_forum_forum_load($tid = NULL) {
     $query->join('forum', 'f', 'n.vid = f.vid');
     $query->addExpression('COUNT(n.nid)', 'topic_count');
     $query->addExpression('SUM(ncs.comment_count)', 'comment_count');
+
+    // Limit the query to only node types that can actually be associated with
+    // the forum vocabulary.
+    if ($vid) {
+      $vocabulary = taxonomy_vocabulary_load($vid);
+      $vocabulary_fields = field_read_fields(array('module' => 'taxonomy'));
+      $node_types = array();
+      foreach ($vocabulary_fields as $field_name => $vocabulary_field) {
+        foreach ($vocabulary_field['settings']['allowed_values'] as $key => $allowed_value) {
+          if ($allowed_value['vocabulary'] = $vocabulary->machine_name) {
+            $field_info = field_info_field($field_name);
+            if (isset($field_info['bundles']['node'])) {
+              $node_types += $field_info['bundles']['node'];
+            }
+          }
+        }
+      }
+
+      if (!empty($node_types)) {
+        $query->condition('type', $node_types, 'IN');
+      }
+    }
+
+
     $counts = $query
         ->fields('f', array('tid'))
         ->condition('status', 1)
