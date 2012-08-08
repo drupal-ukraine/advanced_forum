@@ -117,7 +117,7 @@ function advanced_forum_forum_load($tid = NULL) {
   if ($tid) {
     $forum_term = taxonomy_term_load($tid);
 
-    if (module_exists('i18n'))
+    if (module_exists('i18n_taxonomy'))
       $forum_term = i18n_taxonomy_localize_terms($forum_term);
 
     if (!$forum_term || ($forum_term->vid != $vid)) {
@@ -143,7 +143,7 @@ function advanced_forum_forum_load($tid = NULL) {
   $forums = array();
   $_forums = taxonomy_get_tree($vid, $tid);
 
-  if (module_exists('i18n'))
+  if (module_exists('i18n_taxonomy'))
     $_forums = i18n_taxonomy_localize_terms($_forums);
 
   if (count($_forums)) {

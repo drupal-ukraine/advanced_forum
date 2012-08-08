@@ -5,6 +5,7 @@ August 08, 2012
 ---------------
 Issue #1705628 by Scyther: Update integration for Author Pane.
 Issue #1689236 by victoriachan: Fixed Undefined index: teaser in _template_preprocess_advanced_forum_topic_list_view().
+Issue #1719156 by clude: Fixed terms localization.
 
 July 16, 2012
 -------------

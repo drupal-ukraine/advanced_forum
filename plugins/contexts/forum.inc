@@ -111,7 +111,7 @@ function advanced_forum_forum_context_convert($context, $type) {
     case 'name':
       $forum_term = $context->data;
 
-      if (module_exists('i18n'))
+      if (module_exists('i18n_taxonomy'))
         $forum_term = i18n_taxonomy_localize_terms($forum_term);
 
       return $forum_term->name;
