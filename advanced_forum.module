@@ -547,7 +547,8 @@ function advanced_forum_views_post_render(&$view, &$output) {
             'picture_preset' => variable_get('advanced_forum_user_picture_preset', ''),
             'context' => NULL,
             'disable_css' => TRUE,
-              ));
+            'join_date_type' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
+          ));
         }
       }
     }

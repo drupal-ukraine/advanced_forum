@@ -190,6 +190,21 @@ function advanced_forum_settings_page() {
     variable_set('advanced_forum_user_picture_preset', '');
   }
 
+  if (module_exists('author_pane')) {
+    $join_date_options = array();
+    foreach (system_get_date_types() as $date_type) {
+      $join_date_options[$date_type['type']] = $date_type['title'];
+    }
+
+    $form['advanced_forum_general']['advanced_forum_author_pane_join_date_type'] = array(
+      '#type' => 'select',
+      '#title' => t('Author Pane - Join date, date type'),
+      '#options' => $join_date_options,
+      '#description' => t('Select which <a href="@date-type-url">date type</a> to use for displaying the join date in the Author Pane.', array('@date-type-url' => url('admin/config/regional/date-time'))),
+      '#default_value' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
+    );
+  }
+
   // Retrieve new comments on forum listing
   $form['advanced_forum_lists']['advanced_forum_get_new_comments'] = array(
     '#type' => 'checkbox',
