@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 08, 2012
+---------------
+Issue #1705628 by Scyther: Update integration for Author Pane.
+
 July 16, 2012
 -------------
 Issue #1668740 by deviantintegral: Limit the count query to only node types that can actually be associated with the forum vocabulary.
