@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 11, 2012
+---------------
+Issue #1724080 by troky: Fixed wrong post position displayed in topic replies when comments displaed in threaded mode.
+
 August 08, 2012
 ---------------
 Issue #1705628 by Scyther: Update integration for Author Pane.

@@ -5,7 +5,6 @@
  * Holds the contents of a preprocess function moved into its own file
  * to ease memory requirements and having too much code in one file.
  */
-
 function _advanced_forum_preprocess_comment(&$variables) {
   /* Easy links to the comment and parent node */
   $comment = $variables['comment'];
@@ -86,7 +85,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $variables['in_reply_to'] = "";
   if ($comment->pid > 0) {
     // Find the display position of the parent post;.
-    $post_position = advanced_forum_post_position($node->nid, $comment->pid);
+    $post_position = advanced_forum_post_position($node, $comment);
 
     // This extra if test is a sanity check in case the comment being replied
     // to no longer exists.
@@ -139,7 +138,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
       'context' => $comment,
       'disable_css' => TRUE,
       'join_date_type' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
-    ));
+        ));
   }
   else {
     $variables['author_pane'] = theme('advanced_forum_simple_author_pane', array('context' => $comment));
