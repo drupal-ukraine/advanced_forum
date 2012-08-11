@@ -20,9 +20,9 @@ $view->name = 'advanced_forum_active_topics';
 $view->description = 'Shows the active topics in all forums.';
 $view->tag = 'Advanced Forum';
 $view->base_table = 'node';
-$view->human_name = '';
+$view->human_name = 'Advanced Forum active topics';
 $view->core = 7;
-$view->api_version = '3.0-alpha1';
+$view->api_version = '3.0';
 $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
 /* Display: Defaults */
@@ -487,7 +487,6 @@ $translatables['advanced_forum_active_topics'] = array(
   t('Page'),
   t('Feed'),
 );
-
 
 // Get rid of the views counter if statistics not enabled.
 if (!module_exists('statistics')) {
