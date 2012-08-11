@@ -325,7 +325,7 @@ function advanced_forum_theme_registry_alter(&$theme_registry) {
  *
  * Name changed intentionally to avoid confusion with hook_link_alter!
  */
-function advanced_forum_links_alter($object, $view_mode, $object_type = 'node') {
+function advanced_forum_links_alter(&$object, $view_mode, $object_type = 'node') {
   // Don't alter anything if in preview mode
   if (!empty($object->in_preview)) {
     return;
@@ -794,7 +794,26 @@ function advanced_forum_get_reply_link($node) {
   $fragment = 'comment-form';
 
   if ($comment_setting == COMMENT_NODE_OPEN) {
-    if (user_access('post comments')) {
+
+    $allowed = false;
+    if (module_exists('forum_access')) {
+      // get tid
+      if (!empty($node->taxonomy_forums)) {
+        reset($node->taxonomy_forums);
+        $langcode = key($node->taxonomy_forums);
+        if (!empty($node->taxonomy_forums[$langcode])) {
+          $tid =  $node->taxonomy_forums[$langcode][0]['tid'];
+          if (forum_access_access('create', $tid)) {
+            $allowed = true;
+          }
+        }
+      }
+    }
+    else {
+      $allowed = user_access('post comments');
+    }
+
+    if ($allowed) {
       if (variable_get('comment_form_location_' . $node->type, COMMENT_FORM_SEPARATE_PAGE) == COMMENT_FORM_SEPARATE_PAGE) {
         // Reply form is on separate page. Grab the href from the node links
         // so it's automatically corrected for Node Comments if needed.
