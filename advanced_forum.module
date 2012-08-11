@@ -548,7 +548,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
             'context' => NULL,
             'disable_css' => TRUE,
             'join_date_type' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
-          ));
+              ));
         }
       }
     }
@@ -1292,12 +1292,21 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
 /**
  * Returns the display position of a given reply post ID on a given node.
  */
-function advanced_forum_post_position($node_id, $post_id) {
+function advanced_forum_post_position($node, $comment) {
   static $post_order = array();
+
+  if (empty($node) || empty($comment)) {
+    return 0;
+  }
+
+  $node_id = $node->nid;
+  $post_id = $comment->pid;
 
   if (!isset($post_order[$node_id])) {
     // Initialize the spot for this node's list.
     $post_order[$node_id] = array();
+
+    $mode = variable_get('comment_default_mode_' . $node->type, COMMENT_MODE_THREADED);
 
     // Get the list of CIDs from the database in order of oldest first.
     // We are going to make that assumption for now for simplicity but may
@@ -1305,9 +1314,18 @@ function advanced_forum_post_position($node_id, $post_id) {
     $query = db_select('comment', 'c')
         ->fields('c', array('cid'))
         ->condition('nid', $node_id)
-        ->orderBy('cid', 'ASC')
-        ->execute();
+        ->addTag('node_access')
+        ->addTag('comment_filter');
 
+    if ($mode === COMMENT_MODE_FLAT) {
+      $query->orderBy('c.cid', 'ASC');
+    }
+    else {
+      $query->addExpression('SUBSTRING(c.thread, 1, (LENGTH(c.thread) - 1))', 'torder');
+      $query->orderBy('torder', 'ASC');
+    }
+
+    $query = $query->execute();
     // Cycle through the results and fill in the array.
     while ($post = $query->fetchAssoc()) {
       $post_order[$node_id][] = reset($post);
