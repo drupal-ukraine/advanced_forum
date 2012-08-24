@@ -149,9 +149,9 @@ function advanced_forum_forum_load($tid = NULL) {
   if (count($_forums)) {
     $query = db_select('node', 'n');
     $query->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
-    $query->join('forum', 'f', 'n.vid = f.vid');
-    $query->addExpression('COUNT(n.nid)', 'topic_count');
-    $query->addExpression('SUM(ncs.comment_count)', 'comment_count');
+    $query->join('forum_index', 'f', 'n.nid = f.nid');
+    $query->addExpression('COUNT(f.nid)', 'topic_count');
+    $query->addExpression('SUM(f.comment_count)', 'comment_count');
 
     // Limit the query to only node types that can actually be associated with
     // the forum vocabulary.
@@ -203,11 +203,10 @@ function advanced_forum_forum_load($tid = NULL) {
 
     // Query "Last Post" information for this forum.
     $query = db_select('node', 'n');
-    //$query->join('users', 'u1', 'n.uid = u1.uid');
-    $query->join('forum', 'f', 'n.vid = f.vid AND f.tid = :tid', array(':tid' => $forum->tid));
+    $query->join('forum_index', 'f', 'n.nid = f.nid AND f.tid = :tid', array(':tid' => $forum->tid));
     $query->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
-    $query->join('users', 'u2', 'ncs.last_comment_uid = u2.uid');
-    $query->addExpression('CASE ncs.last_comment_uid WHEN 0 THEN ncs.last_comment_name ELSE u2.name END', 'last_comment_name');
+    $query->join('users', 'u', 'ncs.last_comment_uid = u.uid');
+    $query->addExpression('CASE ncs.last_comment_uid WHEN 0 THEN ncs.last_comment_name ELSE u.name END', 'last_comment_name');
 
     $topics = $query
         ->fields('ncs', array('last_comment_timestamp', 'last_comment_uid'))

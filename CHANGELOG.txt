@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 24, 2012
+---------------
+by troky: Performance improvements as per http://drupal.org/node/145353
+
 August 12, 2012
 ---------------
 Issue #1711680 by troky: Fixed Post reply button visible with no permissions to reply with Forum Access.
