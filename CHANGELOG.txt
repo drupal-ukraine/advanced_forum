@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+August 28, 2012
+---------------
+Issue #418992 by troky: Fixed 'mark as read' function.
+
 August 24, 2012
 ---------------
 by troky: Performance improvements as per http://drupal.org/node/145353
