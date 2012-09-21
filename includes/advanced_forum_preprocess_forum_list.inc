@@ -203,7 +203,6 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
   // Remove unneeded variables.
   unset($variables['zebra']);
-  unset($variables['forums']);
 }
 
 function advanced_forum_stripe($reset = FALSE) {
