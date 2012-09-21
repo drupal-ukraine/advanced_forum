@@ -73,6 +73,7 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
     return;
   }
 
+  $breadcrumb = array();
   if (isset($context->data->parents)) {
     $parents = array_reverse($context->data->parents);
     if (!empty($parents)) {

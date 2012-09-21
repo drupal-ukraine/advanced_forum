@@ -4,6 +4,7 @@
 September 21, 2012
 ------------------
 Issue #1775248 by dmitriytrt: Fixed breadcrumb generation for Page manager page.
+Issue #1783340: by troky: Returned $forums variable to forum-list template.
 
 August 28, 2012
 ---------------
