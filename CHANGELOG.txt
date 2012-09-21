@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+September 21, 2012
+------------------
+Issue #1775248 by dmitriytrt: Fixed breadcrumb generation for Page manager page.
+
 August 28, 2012
 ---------------
 Issue #418992 by troky: Fixed 'mark as read' function.

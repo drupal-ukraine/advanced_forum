@@ -5,7 +5,6 @@
  *
  * Plugin to provide an argument handler for a user id
  */
-
 /**
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
@@ -64,7 +63,6 @@ function advanced_forum_forum_id_settings_form(&$form, &$form_state, $conf) {
     '#default_value' => !empty($conf['breadcrumb']),
     '#description' => t('If checked, forum parents will appear in the breadcrumb trail.'),
   );
-  
 }
 
 /**
@@ -75,19 +73,13 @@ function advanced_forum_forum_id_breadcrumb($conf, $context) {
     return;
   }
 
-  $vocabulary = $context->vocabulary;
-
-  // Breadcrumb navigation:
-  $breadcrumb = array();
-  if ($context->data->tid) {
-    $breadcrumb[] = l($vocabulary->name, 'forum');
-  }
-
-  if (isset($parents)) {
-    $parents = array_reverse($vocabulary->parents);
-    foreach ($parents as $p) {
-      if ($p->tid != $context->data->tid) {
-        $breadcrumb[] = l($p->name, 'forum/' . $p->tid);
+  if (isset($context->data->parents)) {
+    $parents = array_reverse($context->data->parents);
+    if (!empty($parents)) {
+      foreach ($parents as $p) {
+        if ($p->tid != $context->data->tid) {
+          $breadcrumb[] = l($p->name, 'forum/' . $p->tid);
+        }
       }
     }
   }
