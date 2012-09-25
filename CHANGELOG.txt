@@ -1,10 +1,14 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+September 25, 2012
+------------------
+Issue #1779000 by troky: Unset core forum menu_local_tasks_alter hook to prevent calling forum_forum_load().
+
 September 21, 2012
 ------------------
 Issue #1775248 by dmitriytrt: Fixed breadcrumb generation for Page manager page.
-Issue #1783340: by troky: Returned $forums variable to forum-list template.
+Issue #1783340 by troky: Returned $forums variable to forum-list template.
 
 August 28, 2012
 ---------------
