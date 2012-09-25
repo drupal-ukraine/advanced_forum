@@ -81,10 +81,20 @@ function advanced_forum_menu_alter(&$items) {
  * Unset all items set in core forum_menu_local_tasks_alter
  */
 function advanced_forum_menu_local_tasks_alter(&$data, $router_item, $root_path) {
-  global $user;
-
   if ($root_path == 'forum' || $root_path == 'forum/%') {
     $data['actions']['output'] = array();
+  }
+}
+
+/**
+ * Implementation of hook_module_implements_alter().
+ *
+ * We don't want forum_menu_local_tasks_alter() to be called and mess with our links.
+ *
+ */
+function advanced_forum_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'menu_local_tasks_alter') {
+    unset($implementations['forum']);
   }
 }
 

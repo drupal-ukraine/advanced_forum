@@ -94,14 +94,7 @@ function advanced_forum_forum_load($tid = NULL) {
   $info = advanced_forum_style_info();
   $post_count = isset($info['forum list post count']) ? intval($info['forum list post count']) : 1;
 
-  // forum_menu_local_tasks_alter() will call forum_forum_load(), which creates
-  // and caches almost exactly the same cache structure.
-  // (Only $cache[TID]->forums[CHILD_TID]->last_post can be different, if a
-  // style's "forum list post count" > 1, i.e. very rarely.)
-  // That's a waste of resources, but thanks to drupal_static(), preventing this
-  // is easy:
-  $drupal_static_id = $post_count == 1 ? 'forum_forum_load' : __FUNCTION__;
-  $cache = &drupal_static($drupal_static_id, array());
+  $cache = &drupal_static(__FUNCTION__, array());
 
   // Return a cached forum tree if available.
   if (!isset($tid)) {
@@ -161,7 +154,7 @@ function advanced_forum_forum_load($tid = NULL) {
       $node_types = array();
       foreach ($vocabulary_fields as $field_name => $vocabulary_field) {
         foreach ($vocabulary_field['settings']['allowed_values'] as $key => $allowed_value) {
-          if ($allowed_value['vocabulary'] = $vocabulary->machine_name) {
+          if ($allowed_value['vocabulary'] == $vocabulary->machine_name) {
             $field_info = field_info_field($field_name);
             if (isset($field_info['bundles']['node'])) {
               $node_types += $field_info['bundles']['node'];
@@ -174,7 +167,6 @@ function advanced_forum_forum_load($tid = NULL) {
         $query->condition('type', $node_types, 'IN');
       }
     }
-
 
     $counts = $query
         ->fields('f', array('tid'))
