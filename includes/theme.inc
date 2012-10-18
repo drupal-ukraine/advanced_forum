@@ -245,13 +245,18 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     $variables['topic_link'] = l($short_topic_title, "node/$nid", array('query' => $query, 'fragment' => $fragment));
   }
 
-  // For items posted more than $cutoff hours ago, offer an actual date.
-  $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
   if (isset($variables['topic']->created)) {
-    $variables['time'] = format_interval(REQUEST_TIME - $variables['topic']->created);
     $timestamp = $variables['topic']->created;
-    if (REQUEST_TIME - $timestamp > $cutoff) {
+    $interval = REQUEST_TIME - $timestamp;
+    $variables['time'] = format_interval($interval);
+
+    // For items posted more than $cutoff hours ago, offer an actual date.
+    $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
+    if ($interval > $cutoff) {
       $variables['date_posted'] = format_date($timestamp, 'small');
+    }
+    else {
+      unset($variables['date_posted']);
     }
   }
 }
