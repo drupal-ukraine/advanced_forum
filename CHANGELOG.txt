@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+October 18, 2012
+----------------
+Issue #1812966 by troky: Fixed theme variables in advanced_forum_preprocess_forum_submitted().
+
 September 25, 2012
 ------------------
 Issue #1779000 by troky: Unset core forum menu_local_tasks_alter hook to prevent calling forum_forum_load().
