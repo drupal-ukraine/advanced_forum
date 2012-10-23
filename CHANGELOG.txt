@@ -6,6 +6,7 @@ October 23. 2012
 Issue #1537826 by troky: Changed forum image detection mechanism.
 Issue #1812966 by troky: Fixed date format in theme.inc.
 Issue #1817854 by jakelitwicki: Fixed topic pager initialization.
+Issue #1730740 by troky: Fixed JavaScript error in IE8.
 
 October 18, 2012
 ----------------
