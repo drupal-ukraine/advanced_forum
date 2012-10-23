@@ -145,7 +145,7 @@ function advanced_forum_settings_page() {
     $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
     $image_fields = array();
     foreach ($field_info as $bundle => $field) {
-      if ($field['widget']['type'] == 'image_image') {
+      if (!empty($field['display']['default']['type']) && ($field['display']['default']['type'] == 'image')) {
         $image_fields[$bundle] = $bundle;
       }
     }
