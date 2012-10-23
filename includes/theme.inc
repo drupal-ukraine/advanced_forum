@@ -253,7 +253,7 @@ function advanced_forum_preprocess_forum_submitted(&$variables) {
     // For items posted more than $cutoff hours ago, offer an actual date.
     $cutoff = variable_get('advanced_forum_time_ago_cutoff', 48) * 60 * 60;
     if ($interval > $cutoff) {
-      $variables['date_posted'] = format_date($timestamp, 'small');
+      $variables['date_posted'] = format_date($timestamp, 'short');
     }
     else {
       unset($variables['date_posted']);

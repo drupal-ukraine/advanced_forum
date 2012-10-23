@@ -4,6 +4,7 @@
 October 23. 2012
 ----------------
 Issue #1537826 by troky: Changed forum image detection mechanism.
+Issue #1812966 by troky: Fixed date format in theme.inc.
 
 October 18, 2012
 ----------------
