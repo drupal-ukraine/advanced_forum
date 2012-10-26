@@ -1,7 +1,11 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
-October 23. 2012
+October 26, 2012
+----------------
+Issue #1817854 by troky: Fixed divide by zero in topic pager initialization.
+
+October 23, 2012
 ----------------
 Issue #1537826 by troky: Changed forum image detection mechanism.
 Issue #1812966 by troky: Fixed date format in theme.inc.
