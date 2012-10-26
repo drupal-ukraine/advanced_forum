@@ -4,6 +4,7 @@
 October 26, 2012
 ----------------
 Issue #1817854 by troky: Fixed divide by zero in topic pager initialization.
+Issue #1823770 by GBurg: Added node type to topic icon template.
 
 October 23, 2012
 ----------------
