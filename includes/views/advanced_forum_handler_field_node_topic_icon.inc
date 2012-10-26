@@ -41,7 +41,8 @@
       'new_posts' => $new_posts,
       'num_posts' => empty($values->node_comment_statistics_comment_count) ? 1 : $values->node_comment_statistics_comment_count + 1,
       'comment_mode' => $values->node_comment,
-      'sticky' => $values->node_sticky
+      'sticky' => $values->node_sticky,
+      'node_type' => $values->node_type,
     ));
   }
 }
