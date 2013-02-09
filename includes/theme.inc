@@ -449,7 +449,10 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   $variables['last_post_link'] = advanced_forum_last_post_link($node);
 
   // Pager
-  pager_default_initialize($variables['node']->comment_count, variable_get('comment_default_per_page_' . $variables['node']->type, 50));
+  if(isset($variables['node']->comment_count))
+    pager_default_initialize($variables['node']->comment_count, variable_get('comment_default_per_page_' . $variables['node']->type, 50));
+
+
   $variables['pager'] = theme('pager');
 }
 
