@@ -384,11 +384,6 @@ $handler->display->display_options['fields']['name']['alter']['html'] = 0;
 $handler->display->display_options['fields']['name']['hide_empty'] = 0;
 $handler->display->display_options['fields']['name']['empty_zero'] = 0;
 $handler->display->display_options['fields']['name']['link_to_taxonomy'] = 1;
-/* Sort criterion: Content: Last comment time */
-$handler->display->display_options['sorts']['last_comment_timestamp']['id'] = 'last_comment_timestamp';
-$handler->display->display_options['sorts']['last_comment_timestamp']['table'] = 'node_comment_statistics';
-$handler->display->display_options['sorts']['last_comment_timestamp']['field'] = 'last_comment_timestamp';
-$handler->display->display_options['sorts']['last_comment_timestamp']['order'] = 'DESC';
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
