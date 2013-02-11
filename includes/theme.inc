@@ -367,13 +367,15 @@ function advanced_forum_preprocess_views_view__advanced_forum_topic_list(&$varia
 
   $menu_item = menu_get_item();
 
-  if ($menu_item['map'][0] == 'forum') {
-    $forum = $menu_item['map'][1];
-    if ($forum->vid == variable_get('forum_nav_vocabulary') && $forum->tid > 0) {
-      $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $forum->tid));
-      $variables['forum_description'] = $forum->description;
-      $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
-      $variables['forum_jump'] = advanced_forum_forum_jump($forum->tid);
+  if (!empty($menu_item) && $menu_item['access']) {
+    if (($menu_item['map'][0] == 'forum') && (!empty($menu_item['map'][1]))) {
+      $forum = $menu_item['map'][1];
+      if ($forum->vid == variable_get('forum_nav_vocabulary') && $forum->tid > 0) {
+        $variables['node_create_list'] = theme('advanced_forum_node_type_create_list', array('forum_id' => $forum->tid));
+        $variables['forum_description'] = $forum->description;
+        $variables['forum_tools'] = advanced_forum_forum_tools($forum->tid);
+        $variables['forum_jump'] = advanced_forum_forum_jump($forum->tid);
+      }
     }
   }
 }
@@ -449,7 +451,7 @@ function advanced_forum_preprocess_advanced_forum_topic_header(&$variables) {
   $variables['last_post_link'] = advanced_forum_last_post_link($node);
 
   // Pager
-  if(isset($variables['node']->comment_count))
+  if (isset($variables['node']->comment_count))
     pager_default_initialize($variables['node']->comment_count, variable_get('comment_default_per_page_' . $variables['node']->type, 50));
 
 
