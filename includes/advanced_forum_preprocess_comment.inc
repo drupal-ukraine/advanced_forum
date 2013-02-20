@@ -78,7 +78,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   //  You can erase next 3 lines if you wish to use built-in Permalink.
   //  Template adjusted: $post_link -> $permalink
   $uri = entity_uri('comment', $comment);
-  $uri['options'] += array('attributes' => array('class' => 'permalink', 'rel' => 'bookmark'));
+  $uri['options'] += array('attributes' => array('class' => array('permalink'), 'rel' => 'bookmark'));
   $variables['permalink'] = l($linktext, $uri['path'], $uri['options']);
 
   /* In reply to */
