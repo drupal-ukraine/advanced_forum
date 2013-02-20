@@ -4,6 +4,7 @@
 February 20, 2013
 -----------------
 Issue #1921238 by regilero: Class attribute should be an array in comment_preprocess
+Issue #1635800 by troky: Removed anonymous/guest user count since it isn't supported by Drupal core.
 
 February 19, 2013
 -----------------
