@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+February 24, 2013
+-----------------
+by troky: Fixed forum topic preview display.
+
 February 20, 2013
 -----------------
 Issue #1921238 by regilero: Class attribute should be an array in comment_preprocess

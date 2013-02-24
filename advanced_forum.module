@@ -420,6 +420,15 @@ function advanced_forum_node_view($node, $view_mode, $langcode) {
 }
 
 /**
+ * Implementation of hook_node_view_alter().
+ *
+ */
+function advanced_forum_node_view_alter(&$bundle) {
+
+  $bundle['#view_mode'] = "full";
+}
+
+/**
  * Implementation of hook_comment_view().
  */
 function advanced_forum_comment_view($comment, $view_mode, $langcode) {
