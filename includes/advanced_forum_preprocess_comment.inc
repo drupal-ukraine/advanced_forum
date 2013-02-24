@@ -54,7 +54,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
 
   /* Linked post number */
   if (!isset($post_number)) {
-    static $post_number = 1;
+    static $post_number = 0;
   }
 
   $num_comments = $node->comment_count;
@@ -71,6 +71,11 @@ function _advanced_forum_preprocess_comment(&$variables) {
   }
 
   $post_number++;
+  
+  // check if node type is forum
+  $topic_id = advanced_forum_node_is_styled($variables['node']);
+  if ($topic_id)
+    $post_number++;
 
   $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
 
