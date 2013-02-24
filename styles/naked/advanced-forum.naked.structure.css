@@ -461,3 +461,9 @@ div.forum-post {
 .forum-search-result {
   margin-bottom: 10px;
 }
+
+/*** PREVIEW MODE ****************************************************************/
+/* override inline-block */
+.preview {
+  display: block;
+}
