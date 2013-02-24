@@ -52,10 +52,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   // Set the post ID for theming / targetting
   $variables['post_id'] = "post-$comment->cid";
 
-  /* Linked post number */
-  if (!isset($post_number)) {
-    static $post_number = 0;
-  }
+  
 
   $num_comments = $node->comment_count;
   $posts_per_page = variable_get('comment_default_per_page_' . $node->type, 50);
@@ -69,16 +66,20 @@ function _advanced_forum_preprocess_comment(&$variables) {
   if (!$page_number) {
     $page_number = 0;
   }
-
-  $post_number++;
   
+  /* Linked post number */
+  if (!isset($post_number)) {
+    static $post_number = 1;
+  }
+ 
   // check if node type is forum
   $topic_id = advanced_forum_node_is_styled($variables['node']);
-  if ($topic_id)
-    $post_number++;
-
-  $linktext = '#' . (($page_number * $posts_per_page) + $post_number);
-
+  $post_number_delta = ($topic_id) ? 1 : 0;
+   
+  $linktext = '#' . (($page_number * $posts_per_page) + $post_number + $post_number_delta);
+  
+  $post_number++;
+  
   // Permalink
   //  You can erase next 3 lines if you wish to use built-in Permalink.
   //  Template adjusted: $post_link -> $permalink
