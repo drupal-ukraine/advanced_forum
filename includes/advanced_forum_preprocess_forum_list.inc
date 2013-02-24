@@ -57,7 +57,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   // Calculate number of and number of new child posts for each item.
   for ($depth = $lowest_depth; $depth > 0; $depth--) {
     foreach ($items as $id => $item) {
-      if ($item->depth == $depth) {
+      if (($item->depth == $depth) & !empty($items[$item->parents['0']])) {
         $items[$item->parents['0']]->child_total_topics += $item->total_topics + $item->child_total_topics;
         $items[$item->parents['0']]->child_new_topics += $item->new_topics + $item->child_new_topics;
         $items[$item->parents['0']]->child_total_posts += $item->total_posts + $item->child_total_posts;
@@ -78,6 +78,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     $table_counter = 0;
   }
 
+  // workaround for container-less forums on main page
+  $depth_offset = 0;
   foreach ($items as $id => $item) {
     // Get a handle on the parent of this item.
     if ($parent_id && $item->depth == 0) {
@@ -89,14 +91,16 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
       // For simplicity, we assume forums/containers have only one parent.
       $parent = $variables['forums'][$item->parents[0]];
     }
-    // Intentional no "else" because only root items on the main page have
-    // no parent and we don't use the variable there.
+    else {
+      $depth_offset = 0;
+    }
+
     // If we aren't on the main forum page, we need to bump up the depth.
     $item_depth = ($parent_id) ? $item->depth + 1 : $item->depth;
-
+    $item_depth += $depth_offset;
+    
     if (!empty($item->container)) {
       // CONTAINERS.
-
       if ($item_depth == 0) {
         // Top level container always starts a new table.
         $table_counter++;
@@ -162,6 +166,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
           // Reset the striping.
           advanced_forum_stripe(TRUE);
+          $depth_offset = 1;
         }
 
         // Set the variable to control the row striping.
@@ -169,6 +174,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
         // Add the forum info to the table's item list.
         $tables[$table_counter]['items'][$id] = $item;
+        
       }
       elseif ($item_depth == 1) {
         // Main forum. Add it to the item list.
@@ -199,8 +205,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   }
 
   $variables['tables'] = $tables;
-
-
+  
   // Remove unneeded variables.
   unset($variables['zebra']);
 }
@@ -245,6 +250,17 @@ function advanced_forum_process_container($container) {
   $container->child_new_topics = 0;
   $container->child_total_posts = 0;
   $container->child_new_posts = 0;
+  
+  // Rename these to make them more descriptive.
+  if (isset($container->num_topics)) {
+    $container->total_topics = $container->num_topics;
+    unset($container->num_topics);
+  }
+
+  if (isset($container->num_posts)) {
+    $container->total_posts = $container->num_posts;
+    unset($container->num_posts);
+  }
 
   return $container;
 }

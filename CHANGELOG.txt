@@ -4,6 +4,8 @@
 February 24, 2013
 -----------------
 by troky: Fixed forum topic preview display.
+Issue #720118 ny troky: Fixed forum hierarchy rendering on forum frontpage. Fixed subforum/subcontainer post count.
+by troky: Decreased forum description font size.
 
 February 20, 2013
 -----------------
