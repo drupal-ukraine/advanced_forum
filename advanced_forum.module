@@ -1351,7 +1351,7 @@ function advanced_forum_post_position($node, $comment) {
     // revisit in the future if there are requests for newest first.
     $query = db_select('comment', 'c')
         ->fields('c', array('cid'))
-        ->condition('nid', $node_id)
+        ->condition('c.nid', $node_id)
         ->addTag('node_access')
         ->addTag('comment_filter');
 
