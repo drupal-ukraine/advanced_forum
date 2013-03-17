@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 17, 2013
+--------------
+Issue #1944162 by nsalyzyn: Added check for $view->style_plugin existance.
+
 March 07, 2013
 --------------
 Issue #1936476 by troky: Fixed query (added table reference) in advanced_forum_post_position()

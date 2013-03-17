@@ -541,7 +541,7 @@ module_load_include('inc', 'advanced_forum', 'includes/mark-read');
  * Post render a view and replace any advanced forum tokens.
  */
 function advanced_forum_views_post_render(&$view, &$output) {
-  if (!$view->style_plugin->uses_row_plugin()) {
+  if (empty($view->style_plugin) || !$view->style_plugin->uses_row_plugin()) {
     return;
   }
 
