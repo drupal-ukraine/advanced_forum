@@ -28,9 +28,6 @@ function advanced_forum_page($forum_term = NULL) {
   }
   else {
     $topics = '';
-    // this is one ugly workaround to reload forums when container is displayed
-    // and should probably be done another way.
-    $forum_term = advanced_forum_forum_load($forum_term->tid);
   }
 
   $vid = variable_get('forum_nav_vocabulary', 0);

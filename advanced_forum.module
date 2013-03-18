@@ -68,11 +68,12 @@ function advanced_forum_cron() {
 function advanced_forum_menu_alter(&$items) {
   // Take over the forum page creation so we can add more information.
   $items['forum']['page callback'] = 'advanced_forum_page';
-  // Turn 'forum' into a normal menu item so it appears in navigation.
-  $items['forum']['type'] = MENU_NORMAL_ITEM;
-
-  // Take over forum/%forum_forum page also
-  $items['forum/%forum_forum']['page callback'] = 'advanced_forum_page';
+  
+  // Take over forum/%forum_forum page because we want advanced_forum_forum_load
+  // is called instead of core forum_forum_load
+  $items['forum/%advanced_forum_forum'] = $items['forum/%forum_forum'];
+  $items['forum/%advanced_forum_forum']['page callback'] = 'advanced_forum_page';
+  unset($items['forum/%forum_forum']);
 }
 
 /**

@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 18, 2013
+--------------
+Issue #1941338 by troky: Fixed AF menu alteration. Changed forum/%forum_forum to forum/%advanced_forum_forum.
+
 March 17, 2013
 --------------
 Issue #1944162 by nsalyzyn: Added check for $view->style_plugin existance.
