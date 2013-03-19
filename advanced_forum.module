@@ -1310,7 +1310,7 @@ function advanced_forum_unread_replies_in_forum($tid, $uid) {
     $f_alias = $query->join("forum", "f", "c.nid = f.nid");
     //$n_alias = $query->join("node", "n", "f.vid = n.vid");
     $h_alias = $query->leftJoin("history", "h", "c.nid = h.nid AND h.uid = :uid", array(":uid" => $uid));
-    $query->addExpression("COUNT(c.cid)", "count");
+    $query->addExpression("COUNT(DISTINCT(c.cid))", "count");
     $query->addField($f_alias, "tid");
 
     $query->condition("c.status", COMMENT_PUBLISHED)
