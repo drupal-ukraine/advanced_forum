@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+March 19, 2013
+--------------
+Issue #1946386 by troky: Fixed incorrect number of new replies when node has more revisions.
+
 March 18, 2013
 --------------
 Issue #1941338 by troky: Fixed AF menu alteration. Changed forum/%forum_forum to forum/%advanced_forum_forum.
