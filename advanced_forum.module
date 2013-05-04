@@ -659,12 +659,16 @@ function advanced_forum_forum_topic_list_sort_form($form_state) {
   );
   $form['inline']['order'] = array(
     '#type' => 'select',
+    '#title' => t('Order by'),
+    '#title_display' => 'invisible',
     '#options' => $options,
     '#default_value' => $handler->options['default'],
   );
 
   $form['inline']['sort'] = array(
     '#type' => 'select',
+    '#title' => t('Sort'),
+    '#title_display' => 'invisible',
     '#options' => array(
       'asc' => t('Up'),
       'desc' => t('Down'),
@@ -1160,6 +1164,8 @@ function advanced_forum_node_type_create_list($tid) {
  */
 function advanced_forum_forum_tools($tid = 0) {
   global $user;
+  $options = array();
+  
   ctools_include('jump-menu');
   if ($tid > 0) {
     $select[url("forum/active", array('query' => array('forum[]' => $tid)))] = t("View active posts in this forum");
