@@ -4,6 +4,7 @@
 May 04, 2013
 ------------
 Issue #1982030 by rooby: Added labels to select fields on forum topic sort form.
+Issue #1975746 by troky: Fixed notice in advanced_forum_settings_page().
 
 March 19, 2013
 --------------
