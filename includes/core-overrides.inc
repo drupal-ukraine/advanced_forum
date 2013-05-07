@@ -141,7 +141,7 @@ function advanced_forum_forum_load($tid = NULL) {
     $query = db_select('node', 'n');
     $query->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
     $query->join('forum_index', 'f', 'n.nid = f.nid');
-    $query->addExpression('COUNT(f.nid)', 'topic_count');
+    $query->addExpression('COUNT(DISTINCT(f.nid))', 'topic_count');
     $query->addExpression('SUM(f.comment_count)', 'comment_count');
 
     // Limit the query to only node types that can actually be associated with

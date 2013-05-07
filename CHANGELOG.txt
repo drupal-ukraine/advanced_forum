@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May 07, 2013
+------------
+Issue #1946386 by troky: Fixed incorrect number of new replies when node has more revisions v2.
+
 May 04, 2013
 ------------
 Issue #1982030 by rooby: Added labels to select fields on forum topic sort form.
