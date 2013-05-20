@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+May, 20 2013
+------------
+Issue #1998300 by inventlogic: Comment edit does not use the post_preview template file when previewing edited comments.
+
 May 07, 2013
 ------------
 Issue #1946386 by troky: Fixed incorrect number of new replies when node has more revisions v2.

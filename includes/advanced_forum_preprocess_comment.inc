@@ -15,7 +15,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
   $variables['top_post'] = FALSE;
 
   /* Determine the template file to use for the comment. */
-  if (arg(1) == 'reply' || arg(1) == 'edit') {
+  if (arg(1) == 'reply' || arg(2) == 'edit') {
     // Use the preview version
     advanced_forum_add_template_suggestions("post-preview", $variables);
   }
