@@ -1,6 +1,10 @@
 
 ****************************** DRUPAL 7 - 2.x BRANCH ********************************
 
+June, 04 2013
+-------------
+Issue #2011380 by pc-wurm: Fixed forum contextual links.
+
 May, 20 2013
 ------------
 Issue #1998300 by inventlogic: Comment edit does not use the post_preview template file when previewing edited comments.
