@@ -62,13 +62,13 @@ function advanced_forum_page($forum_term = NULL) {
   drupal_set_title($title);
 
   return theme('forums', array(
-        'forums' => $forum_term->forums,
-        'topics' => $topics,
-        'parents' => $forum_term->parents,
-        'tid' => $forum_term->tid,
-        'sortby' => $sortby,
-        'forums_per_page' => $forum_per_page
-      ));
+    'forums' => $forum_term->forums,
+    'topics' => $topics,
+    'parents' => $forum_term->parents,
+    'tid' => $forum_term->tid,
+    'sortby' => $sortby,
+    'forums_per_page' => $forum_per_page
+  ));
 }
 
 /**
@@ -227,11 +227,8 @@ function advanced_forum_forum_load($tid = NULL) {
     }
 
     $forums[$forum->tid] = $forum;
-    
-    // adjust post count - add child forum post count to parent(s)
-    _advanced_forum_update_parent_post_count($forums, $forum);
   }
-  
+
   // Cache the result, and return the tree.
   $forum_term->forums = $forums;
   $cache[$tid] = $forum_term;
@@ -240,16 +237,16 @@ function advanced_forum_forum_load($tid = NULL) {
 
 function _advanced_forum_update_parent_post_count(&$forums, $forum) {
   foreach ($forum->parents as $parent_tid) {
-      if (!empty($forums[$parent_tid])) {
-        $forums[$parent_tid]->num_topics += $forum->num_topics;
-        $forums[$parent_tid]->num_posts += $forum->num_posts;
-        
-        // recursive loop to update all parents
-        if (!empty($forums[$parent_tid]->parents)) {
-          _advanced_forum_update_parent_post_count($forums,$forums[$parent_tid]);
-        }
+    if (!empty($forums[$parent_tid])) {
+      $forums[$parent_tid]->num_topics += $forum->num_topics;
+      $forums[$parent_tid]->num_posts += $forum->num_posts;
+
+      // recursive loop to update all parents
+      if (!empty($forums[$parent_tid]->parents)) {
+        _advanced_forum_update_parent_post_count($forums, $forums[$parent_tid]);
       }
     }
+  }
 }
 
 /**

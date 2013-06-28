@@ -55,13 +55,34 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   }
 
   // Calculate number of and number of new child posts for each item.
-  for ($depth = $lowest_depth; $depth > 0; $depth--) {
+  for ($depth = $lowest_depth + 1; $depth > 0; $depth--) {
     foreach ($items as $id => $item) {
-      if (($item->depth == $depth) & !empty($items[$item->parents['0']])) {
-        $items[$item->parents['0']]->child_total_topics += $item->total_topics + $item->child_total_topics;
-        $items[$item->parents['0']]->child_new_topics += $item->new_topics + $item->child_new_topics;
-        $items[$item->parents['0']]->child_total_posts += $item->total_posts + $item->child_total_posts;
-        $items[$item->parents['0']]->child_new_posts += $item->new_posts + $item->child_new_posts;
+      if ($depth <= $lowest_depth) {
+        if (empty($item->depth)) {
+          $item->depth = 0;
+        }
+        if ($item->depth == $depth) {
+          $items[$item->parents[0]]->child_total_topics += $item->total_topics + $item->child_total_topics;
+          $items[$item->parents[0]]->child_new_topics += $item->new_topics + $item->child_new_topics;
+          $items[$item->parents[0]]->child_total_posts += $item->total_posts + $item->child_total_posts;
+          $items[$item->parents[0]]->child_new_posts += $item->new_posts + $item->child_new_posts;
+        }
+      }
+
+      if ($item->depth + 1 == $depth) {
+        $parent = $items[$id]->parents[0];
+        if (($parent != 0) && (!empty($items[$item->parents[0]]))) {
+          $items[$item->parents[0]]->total_posts += $item->total_posts;
+          $items[$item->parents[0]]->total_topics += $item->total_topics;
+          $items[$item->parents[0]]->new_posts += $item->new_posts;
+          $items[$item->parents[0]]->new_topics += $item->new_topics;
+          if (isset($items[$parent]->link)) {
+            $items[$parent]->new_posts_link = $items[$parent]->link . "#new";
+            $items[$parent]->new_topics_link = $items[$parent]->link . "#new";
+          }
+          $items[$parent]->new_topics_text = $items[$parent]->new_topics . " new";
+          $items[$parent]->new_posts_text = $items[$parent]->new_posts . " new";
+        }
       }
     }
   }
@@ -98,7 +119,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
     // If we aren't on the main forum page, we need to bump up the depth.
     $item_depth = ($parent_id) ? $item->depth + 1 : $item->depth;
     $item_depth += $depth_offset;
-    
+
     if (!empty($item->container)) {
       // CONTAINERS.
       if ($item_depth == 0) {
@@ -174,7 +195,6 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
         // Add the forum info to the table's item list.
         $tables[$table_counter]['items'][$id] = $item;
-        
       }
       elseif ($item_depth == 1) {
         // Main forum. Add it to the item list.
@@ -205,7 +225,7 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
   }
 
   $variables['tables'] = $tables;
-  
+
   // Remove unneeded variables.
   unset($variables['zebra']);
 }
@@ -250,7 +270,7 @@ function advanced_forum_process_container($container) {
   $container->child_new_topics = 0;
   $container->child_total_posts = 0;
   $container->child_new_posts = 0;
-  
+
   // Rename these to make them more descriptive.
   if (isset($container->num_topics)) {
     $container->total_topics = $container->num_topics;
