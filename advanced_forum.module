@@ -70,8 +70,8 @@ function advanced_forum_menu_alter(&$items) {
   $items['forum']['page callback'] = 'advanced_forum_page';
   $items['forum']['module'] = 'advanced_forum';
   unset($items['forum']['file']);
-  
-  
+
+
   // Take over forum/%forum_forum page because we want advanced_forum_forum_load
   // is called instead of core forum_forum_load
   $items['forum/%advanced_forum_forum'] = $items['forum/%forum_forum'];
@@ -426,15 +426,6 @@ function advanced_forum_node_view($node, $view_mode, $langcode) {
 }
 
 /**
- * Implementation of hook_node_view_alter().
- *
- */
-function advanced_forum_node_view_alter(&$bundle) {
-
-  $bundle['#view_mode'] = "full";
-}
-
-/**
  * Implementation of hook_comment_view().
  */
 function advanced_forum_comment_view($comment, $view_mode, $langcode) {
@@ -573,7 +564,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
             'context' => NULL,
             'disable_css' => TRUE,
             'join_date_type' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
-              ));
+          ));
         }
       }
     }
@@ -590,7 +581,7 @@ function advanced_forum_views_post_render(&$view, &$output) {
               'who' => $row->uid,
               'when' => $row->timestamp,
               'why' => $row->log
-                ));
+            ));
           }
           else {
             // No access; remove token.
@@ -831,7 +822,7 @@ function advanced_forum_get_reply_link($node) {
         reset($node->taxonomy_forums);
         $langcode = key($node->taxonomy_forums);
         if (!empty($node->taxonomy_forums[$langcode])) {
-          $tid =  $node->taxonomy_forums[$langcode][0]['tid'];
+          $tid = $node->taxonomy_forums[$langcode][0]['tid'];
           if (forum_access_access('create', $tid)) {
             $allowed = TRUE;
           }
@@ -906,11 +897,11 @@ function advanced_forum_last_post_link($node) {
   );
 
   return theme('advanced_forum_l', array(
-        'text' => t('Last post'),
-        'path' => "node/$node->nid",
-        'options' => $options,
-        'button_class' => 'large'
-      ));
+    'text' => t('Last post'),
+    'path' => "node/$node->nid",
+    'options' => $options,
+    'button_class' => 'large'
+  ));
 }
 
 /**
@@ -945,11 +936,11 @@ function advanced_forum_first_new_post_link($node, $comment_count) {
     );
 
     return theme('advanced_forum_l', array(
-          'text' => t('First unread'),
-          'path' => "node/$nid",
-          'options' => $options,
-          'button_class' => 'large'
-        ));
+      'text' => t('First unread'),
+      'path' => "node/$nid",
+      'options' => $options,
+      'button_class' => 'large'
+    ));
   }
 }
 
@@ -1155,8 +1146,8 @@ function advanced_forum_node_type_create_list($tid) {
     // The user is not logged-in; and denied access to create any new forum content type.
     else {
       return t('<a href="@login">Log in</a> to post new content in the forum.', array(
-            '@login' => url('user/login', array('query' => drupal_get_destination())),
-          ));
+        '@login' => url('user/login', array('query' => drupal_get_destination())),
+      ));
     }
   }
   else {
@@ -1170,7 +1161,7 @@ function advanced_forum_node_type_create_list($tid) {
 function advanced_forum_forum_tools($tid = 0) {
   global $user;
   $options = array();
-  
+
   ctools_include('jump-menu');
   if ($tid > 0) {
     $select[url("forum/active", array('query' => array('forum[]' => $tid)))] = t("View active posts in this forum");
