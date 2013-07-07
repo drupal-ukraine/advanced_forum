@@ -3,7 +3,12 @@
 
 July 07, 2013
 -------------
+7.x-2.3 RELEASE
+
+July 07, 2013
+-------------
 by troky: Code cleanup.
+Issue #2035217 by BertjeC: Reverting commit #5047fcb.
 
 July 04, 2013
 -------------
