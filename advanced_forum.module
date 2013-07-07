@@ -68,11 +68,16 @@ function advanced_forum_cron() {
 function advanced_forum_menu_alter(&$items) {
   // Take over the forum page creation so we can add more information.
   $items['forum']['page callback'] = 'advanced_forum_page';
+  $items['forum']['module'] = 'advanced_forum';
+  unset($items['forum']['file']);
+  
   
   // Take over forum/%forum_forum page because we want advanced_forum_forum_load
   // is called instead of core forum_forum_load
   $items['forum/%advanced_forum_forum'] = $items['forum/%forum_forum'];
   $items['forum/%advanced_forum_forum']['page callback'] = 'advanced_forum_page';
+  $items['forum/%advanced_forum_forum']['module'] = 'advanced_forum';
+  unset($items['forum/%advanced_forum_forum']['file']);
   unset($items['forum/%forum_forum']);
 }
 
@@ -819,7 +824,7 @@ function advanced_forum_get_reply_link($node) {
 
   if ($comment_setting == COMMENT_NODE_OPEN) {
 
-    $allowed = false;
+    $allowed = FALSE;
     if (module_exists('forum_access')) {
       // get tid
       if (!empty($node->taxonomy_forums)) {
@@ -828,7 +833,7 @@ function advanced_forum_get_reply_link($node) {
         if (!empty($node->taxonomy_forums[$langcode])) {
           $tid =  $node->taxonomy_forums[$langcode][0]['tid'];
           if (forum_access_access('create', $tid)) {
-            $allowed = true;
+            $allowed = TRUE;
           }
         }
       }
