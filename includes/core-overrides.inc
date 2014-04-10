@@ -137,7 +137,12 @@ function advanced_forum_forum_load($tid = NULL) {
     $_forums = i18n_taxonomy_localize_terms($_forums);
   }
 
-  if (count($_forums)) {
+  if ($cached = cache_get('adv_forum_counts' . $tid, 'cache')) {
+    if ($cached->expire > time()) {
+      $counts = $cached->data;
+    }
+  }
+  if (count($_forums) && empty($counts)) {
     $query = db_select('node', 'n');
     $query->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
     $query->join('forum_index', 'f', 'n.nid = f.nid');
@@ -173,6 +178,7 @@ function advanced_forum_forum_load($tid = NULL) {
         ->addTag('node_access')
         ->execute()
         ->fetchAllAssoc('tid');
+    cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60*60); //1 hour
   }
 
   foreach ($_forums as $forum) {
