@@ -181,6 +181,13 @@ function advanced_forum_forum_load($tid = NULL) {
     cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60*60); //1 hour
   }
 
+  // get last nodes with comments for subquery SELECT optimization
+  $subquery = db_select('node_comment_statistics', 'lnsc')
+    ->fields('lnsc', array('nid'))
+    ->distinct()
+    ->orderBy('last_comment_timestamp', 'DESC')
+    ->range(0, 1000); // should be moved to options or additionally calculated elsewhere
+
   foreach ($_forums as $forum) {
     // Determine if the child term is a container.
     if (in_array($forum->tid, variable_get('forum_containers', array()))) {
@@ -199,6 +206,7 @@ function advanced_forum_forum_load($tid = NULL) {
 
     // Query "Last Post" information for this forum.
     $query = db_select('node', 'n');
+    $query->join($subquery, 'lastnodes', 'n.nid = lastnodes.nid');
     $query->join('forum_index', 'f', 'n.nid = f.nid AND f.tid = :tid', array(':tid' => $forum->tid));
     $query->join('node_comment_statistics', 'ncs', 'n.nid = ncs.nid');
     $query->join('users', 'u', 'ncs.last_comment_uid = u.uid');
