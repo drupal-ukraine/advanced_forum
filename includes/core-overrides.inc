@@ -90,7 +90,7 @@ function advanced_forum_forum_load($tid = NULL) {
 
 
   // Return a cached forum tree if available.
-  if (!isset($tid)) {
+  if (empty($tid)) {
     $tid = 0;
   }
   if (isset($cache[$tid])) {
