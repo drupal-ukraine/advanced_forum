@@ -1344,7 +1344,7 @@ function advanced_forum_post_position($node, $comment) {
   }
 
   $node_id = $node->nid;
-  $post_id = $comment->pid;
+  $post_id = $comment->cid;
 
   if (!isset($post_order[$node_id])) {
     // Initialize the spot for this node's list.
