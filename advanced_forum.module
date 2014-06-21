@@ -454,15 +454,6 @@ function advanced_forum_comment_delete($comment) {
 }
 
 /**
- * Implementation of hook_comment_insert().
- */
-function advanced_forum_comment_insert($comment) {
-  if (!empty($comment->node_type) && ($comment->node_type == "comment_node_forum")) {
-    advanced_forum_statistics_replies(1);
-  }
-}
-
-/**
  * Implementation of hook_comment_update().
  */
 function advanced_forum_comment_update($comment) {
