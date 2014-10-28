@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Most active poster.
+ */
 
 /**
  * Callback function to supply a list of content types.
@@ -38,15 +42,19 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
     case 'day':
       $period_arg = 60 * 60 * 24;
       break;
+
     case 'week':
       $period_arg = 60 * 60 * 24 * 7;
       break;
+
     case 'month':
       $period_arg = 60 * 60 * 24 * 30;
       break;
+
     case 'quarter':
       $period_arg = 60 * 60 * 24 * 91;
       break;
+
     case 'year':
       $period_arg = 60 * 60 * 24 * 365;
       break;
@@ -145,7 +153,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
     'account' => $account,
     'posts' => $info->posts,
     'topics' => $topics,
-    'last_post' => $last_post
+    'last_post' => $last_post,
       ));
   $block->more = array(
     'title' => t('More posts'),
@@ -158,7 +166,7 @@ function advanced_forum_forum_most_active_poster_content_type_render($subtype, $
  * Returns an edit form for the custom type.
  */
 function advanced_forum_forum_most_active_poster_content_type_edit_form($form, &$form_state) {
-  // make sure conf contains newer defaults. CTools should do this for us:
+  // Make sure conf contains newer defaults. CTools should do this for us.
   $conf = $form_state['conf'];
   $conf += $form_state['plugin']['defaults'];
 
@@ -198,6 +206,9 @@ function advanced_forum_forum_most_active_poster_content_type_edit_form($form, &
   return $form;
 }
 
+/**
+ * Submit callback.
+ */
 function advanced_forum_forum_most_active_poster_content_type_edit_form_submit($form, &$form_state) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
@@ -205,6 +216,9 @@ function advanced_forum_forum_most_active_poster_content_type_edit_form_submit($
   }
 }
 
+/**
+ * Callback for admin title.
+ */
 function advanced_forum_forum_most_active_poster_content_type_admin_title($subtype, $conf, $context) {
   return t('"@s" most active poster', array('@s' => $context->identifier));
 }
