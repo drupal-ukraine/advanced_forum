@@ -1408,9 +1408,11 @@ function advanced_forum_post_position($node, $comment) {
     if (($index = array_search($post_id, $post_order[$node_id])) !== FALSE) {
       $post_position = $index;
 
-      // We need to add 2 because the array starts at 0 and also because the topic
-      // node is post #1 on display but is not included in the index.
-      $post_position = $post_position + 2;
+      $advanced_forum_styled_node_types = variable_get('advanced_forum_styled_node_types', array('forum'));
+      // We need to add 1 because the topic node is post #1 on display but is not included in the index.
+      if (in_array($node->type, $advanced_forum_styled_node_types)) {
+        $post_position = $post_position + 1;
+      }
     }
   }
 

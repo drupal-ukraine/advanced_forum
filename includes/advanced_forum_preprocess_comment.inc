@@ -96,7 +96,7 @@ function _advanced_forum_preprocess_comment(&$variables) {
     if ($post_position > 0) {
       // Find the page the post is on. We need to compensate for the topic node
       // being #1 which puts an extra post on the first page but not on the rest.
-      $page_number = floor(($post_position - 2) / $posts_per_page);
+      $page_number = floor(($post_position - 1) / $posts_per_page);
 
       // Assemble the link.
       $fragment = 'comment-' . $comment->pid;
