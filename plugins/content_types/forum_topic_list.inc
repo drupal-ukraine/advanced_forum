@@ -21,7 +21,12 @@ $plugin = array(
 /**
  * Render the content.
  */
-function advanced_forum_forum_topic_list_content_type_render($subtype, $conf, $panel_args, $context) {
+function advanced_forum_forum_topic_list_content_type_render(
+  $subtype,
+  $conf,
+  $panel_args,
+  $context
+) {
   if (!empty($context) && empty($context->data)) {
     return;
   }
@@ -48,7 +53,12 @@ function advanced_forum_forum_topic_list_content_type_render($subtype, $conf, $p
   $forum_per_page = variable_get('forum_per_page', 25);
   $sortby = variable_get('forum_order', 1);
 
-  $block->content = advanced_forum_get_topics($tid, $sortby, $forum_per_page, !empty($conf['show_sort']));
+  $block->content = advanced_forum_get_topics(
+    $tid,
+    $sortby,
+    $forum_per_page,
+    !empty($conf['show_sort'])
+  );
 
   return $block;
 }
@@ -56,12 +66,17 @@ function advanced_forum_forum_topic_list_content_type_render($subtype, $conf, $p
 /**
  * Returns an edit form for the custom type.
  */
-function advanced_forum_forum_topic_list_content_type_edit_form($form, &$form_state) {
+function advanced_forum_forum_topic_list_content_type_edit_form(
+  $form,
+  &$form_state
+) {
   $conf = $form_state['conf'];
   $form['show_sort'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show sort form'),
-    '#description' => t('If checked the sort form will appear at the top of the table. Uncheck this if you wish it to appear in a separate pane.'),
+    '#description' => t(
+      'If checked the sort form will appear at the top of the table. Uncheck this if you wish it to appear in a separate pane.'
+    ),
     '#default_value' => !empty($conf['show_sort']),
   );
 
@@ -71,7 +86,10 @@ function advanced_forum_forum_topic_list_content_type_edit_form($form, &$form_st
 /**
  * Submit callback.
  */
-function advanced_forum_forum_topic_list_content_type_edit_form_submit($form, &$form_state) {
+function advanced_forum_forum_topic_list_content_type_edit_form_submit(
+  $form,
+  &$form_state
+) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
     $form_state['conf'][$key] = $form_state['values'][$key];
@@ -81,6 +99,10 @@ function advanced_forum_forum_topic_list_content_type_edit_form_submit($form, &$
 /**
  * Callback for admin title.
  */
-function advanced_forum_forum_topic_list_content_type_admin_title($subtype, $conf, $context) {
+function advanced_forum_forum_topic_list_content_type_admin_title(
+  $subtype,
+  $conf,
+  $context
+) {
   return t('"@s" topic list', array('@s' => $context->identifier));
 }
