@@ -21,7 +21,12 @@ $plugin = array(
 /**
  * Render the content.
  */
-function advanced_forum_forum_legend_content_type_render($subtype, $conf, $panel_args, $context) {
+function advanced_forum_forum_legend_content_type_render(
+  $subtype,
+  $conf,
+  $panel_args,
+  $context
+) {
   if (!empty($context) && empty($context->data)) {
     return;
   }
@@ -47,14 +52,20 @@ function advanced_forum_forum_legend_content_type_render($subtype, $conf, $panel
 /**
  * Returns an edit form for the custom type.
  */
-function advanced_forum_forum_legend_content_type_edit_form($form, &$form_state) {
+function advanced_forum_forum_legend_content_type_edit_form(
+  $form,
+  &$form_state
+) {
   return $form;
 }
 
 /**
  * Submit callback.
  */
-function advanced_forum_forum_legend_content_type_edit_form_submit($form, &$form_state) {
+function advanced_forum_forum_legend_content_type_edit_form_submit(
+  $form,
+  &$form_state
+) {
   // Copy everything from our defaults.
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
     $form_state['conf'][$key] = $form_state['values'][$key];
@@ -64,6 +75,10 @@ function advanced_forum_forum_legend_content_type_edit_form_submit($form, &$form
 /**
  * Callback for admin title.
  */
-function advanced_forum_forum_legend_content_type_admin_title($subtype, $conf, $context) {
+function advanced_forum_forum_legend_content_type_admin_title(
+  $subtype,
+  $conf,
+  $context
+) {
   return t('"@s" legend', array('@s' => $context->identifier));
 }
