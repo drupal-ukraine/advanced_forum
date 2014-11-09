@@ -75,6 +75,7 @@ class testAfFormsTestCase extends DrupalWebTestCase {
     );
     $this->drupalLogin($this->privileged_user);
 
+    // Let's test all admin forms.
     $this->drupalPost(
       'admin/config/content/advanced-forum',
       $edit,
