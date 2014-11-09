@@ -26,10 +26,8 @@ function advanced_forum_forum_mark_read_content_type_render($subtype, $conf, $pa
     return;
   }
 
-  if (empty($context)) {
-    $tid = 0;
-  }
-  else {
+  $tid = 0;
+  if (!empty($context)) {
     $tid = $context->data->tid;
   }
 
