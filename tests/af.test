@@ -81,7 +81,24 @@ class testAfFormsTestCase extends DrupalWebTestCase {
       $edit,
       t('Save configuration')
     );
+
     $this->assertText(t('The configuration options have been saved.'));
+    
+    $this->drupalGet('forum', $edit);
+    $this->drupalGet('forum/active', $edit);
+    $this->drupalGet('forum/unanswered', $edit);
+    $this->drupalPost('forum/new', $edit, t('Apply'));
+    $this->drupalPost('forum/unanswered', $edit, t('Apply'));
+    $this->drupalPost('forum/active', $edit, t('Apply'));
+    $edit1 = array('forum' => 1);
+    $this->drupalPost('forum/new', $edit1, t('Apply'));
+    $this->drupalPost('forum/unanswered', $edit1, t('Apply'));
+    $this->drupalPost('forum/active', $edit1, t('Apply'));
+    $this->drupalGet('forum/markasread', $edit);
+    $edit2 = array('forum' => 'All');
+    $this->drupalPost('forum/new', $edit2, t('Apply'));
+    $this->drupalPost('forum/unanswered', $edit2, t('Apply'));
+    $this->drupalPost('forum/active', $edit2, t('Apply'));
   }
 
 
