@@ -26,10 +26,8 @@ function advanced_forum_forum_statistics_content_type_render($subtype, $conf, $p
     return;
   }
 
-  if (empty($context)) {
-    $tid = 0;
-  }
-  else {
+  $tid = 0;
+  if (!empty($context)) {
     $tid = $context->data->tid;
   }
 
