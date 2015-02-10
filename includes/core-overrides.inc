@@ -88,6 +88,8 @@ function advanced_forum_page($forum_term = NULL) {
 function advanced_forum_forum_load($tid = NULL) {
   $cache = &drupal_static(__FUNCTION__, array());
 
+  global $language;
+
   // Return a cached forum tree if available.
   if (empty($tid)) {
     $tid = 0;
@@ -136,7 +138,7 @@ function advanced_forum_forum_load($tid = NULL) {
     $_forums = i18n_taxonomy_localize_terms($_forums);
   }
 
-  if ($cached = cache_get('adv_forum_counts' . $tid, 'cache')) {
+  if ($cached = cache_get('adv_forum_counts' . $tid . ':' . $language->language, 'cache')) {
     if ($cached->expire > time()) {
       $counts = $cached->data;
     }
@@ -168,6 +170,8 @@ function advanced_forum_forum_load($tid = NULL) {
       if (!empty($node_types)) {
         $query->condition('type', $node_types, 'IN');
       }
+
+      $query->condition('language', array(LANGUAGE_NONE, $language->language));
     }
 
     $counts = $query
