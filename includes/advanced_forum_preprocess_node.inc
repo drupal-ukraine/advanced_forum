@@ -38,12 +38,12 @@ function _advanced_forum_preprocess_node(&$variables) {
     'comment_count' => isset($variables['comment_count']) ? $variables['comment_count'] : 0,
     ));
 
-  // Add in our classes merging with existing.
-  if (!is_array($variables['classes_array'])) {
+  if (!variable_get('advanced_forum_keep_classes', FALSE) || !is_array($variables['classes_array'])) {
+    // Add in our classes overwriting existing.
     $variables['classes_array'] = array();
   }
 
-  $variables['classes_array'] = array('forum-post clearfix');
+  $variables['classes_array'][] = 'forum-post clearfix';
 
   // Add the current language to the classes for image handling.
   global $language;

@@ -28,8 +28,10 @@ function _advanced_forum_preprocess_comment(&$variables) {
     advanced_forum_add_template_suggestions("post", $variables);
   }
 
-  // Add in our classes overwriting existing.
-  $variables['classes_array'] = array();
+  if (!variable_get('advanced_forum_keep_classes', FALSE) || !is_array($variables['classes_array'])) {
+    // Add in our classes overwriting existing.
+    $variables['classes_array'] = array();
+  }
   $variables['classes_array'][] = 'forum-post clearfix';
 
   // Add the current language to the classes for image handling.

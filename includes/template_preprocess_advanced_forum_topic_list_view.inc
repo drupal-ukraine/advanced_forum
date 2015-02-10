@@ -214,7 +214,12 @@ function _template_preprocess_advanced_forum_topic_list_view(&$variables) {
   $variables['row_classes'][0][] = 'views-row-first';
   $variables['row_classes'][count($variables['row_classes']) - 1][] = 'views-row-last';
 
-  $variables['classes_array'] = array('forum-table', 'forum-table-topics');
+  if (!variable_get('advanced_forum_keep_classes', FALSE) || !is_array($variables['classes_array'])) {
+    // Add in our classes overwriting existing.
+    $variables['classes_array'] = array();
+  }
+
+  $variables['classes_array'][] = 'forum-table forum-table-topics';
   if (empty($variables['rows']) && !empty($options['empty_table'])) {
     $variables['rows'][0][0] = $view->display_handler->render_area('empty');
     // Calculate the amounts of rows with output.
