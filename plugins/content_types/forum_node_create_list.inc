@@ -47,7 +47,7 @@ function advanced_forum_forum_node_create_list_content_type_render(
 
   $block->content = '<div class="forum-node-create-links">' . theme(
       'advanced_forum_node_type_create_list',
-      $tid
+      array('forum_id' => $tid)
     ) . '</div>';
 
   return $block;
