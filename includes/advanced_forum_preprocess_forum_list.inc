@@ -192,8 +192,8 @@ function _advanced_forum_preprocess_forum_list(&$variables) {
 
           // Reset the striping.
           advanced_forum_stripe(TRUE);
-          $depth_offset = 1;
         }
+        $depth_offset = 1;
 
         // Set the variable to control the row striping.
         $item->zebra = advanced_forum_stripe();
