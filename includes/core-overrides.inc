@@ -190,7 +190,7 @@ function advanced_forum_forum_load($tid = NULL) {
     ->fields('lnsc', array('nid'))
     ->distinct()
     ->orderBy('last_comment_timestamp', 'DESC')
-    ->range(0, 1000);
+    ->range(0, variable_get('advanced_forum_last_post_query', 10000));
   // Should be moved to options or additionally calculated elsewhere.
   foreach ($_forums as $forum) {
     // Determine if the child term is a container.
