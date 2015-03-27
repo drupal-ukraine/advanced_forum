@@ -232,6 +232,15 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_topic_title_length', 20),
   );
 
+  // Last Post optimization.
+  $form['advanced_forum_lists']['advanced_forum_last_post_query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of last topics which will be used in search for "Last Post"'),
+    '#size' => 5,
+    '#description' => t('Optimization for large sites. Used on main forum page.'),
+    '#default_value' => variable_get('advanced_forum_last_post_query', 10000),
+  );
+
   // Send our form to Drupal to make a settings page.
   return system_settings_form($form);
 }
