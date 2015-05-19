@@ -241,6 +241,31 @@ function advanced_forum_settings_page() {
     '#default_value' => variable_get('advanced_forum_last_post_query', 10000),
   );
 
+  // Auto loading.
+  $form['advanced_forum_autoload'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Auto-loading'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('Changing these settings may require multiple cache clears to take effect.'),
+  );
+
+  // Auto load included page variants
+  $form['advanced_forum_autoload']['advanced_forum_autoload_page_handlers'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Auto load included page handlers'),
+    '#description' => t('Uncheck to use Features or manual imports.'),
+    '#default_value' => variable_get('advanced_forum_autoload_page_handlers', TRUE),
+  );
+
+  // Auto load included views
+  $form['advanced_forum_autoload']['advanced_forum_autoload_views'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Auto load included views'),
+    '#description' => t('Uncheck to use Features or manual imports.'),
+    '#default_value' => variable_get('advanced_forum_autoload_views', TRUE),
+  );
+
   // Send our form to Drupal to make a settings page.
   return system_settings_form($form);
 }
