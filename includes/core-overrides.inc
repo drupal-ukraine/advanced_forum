@@ -149,6 +149,13 @@ function advanced_forum_forum_load($tid = NULL) {
     $query->join('forum_index', 'f', 'n.nid = f.nid');
     $query->addExpression('COUNT(DISTINCT(f.nid))', 'topic_count');
     $query->addExpression('SUM(f.comment_count)', 'comment_count');
+    $counts = $query
+      ->fields('f', array('tid'))
+      ->condition('status', 1)
+      ->groupBy('tid')
+      ->addTag('node_access')
+      ->execute()
+      ->fetchAllAssoc('tid');
 
     // Limit the query to only node types that can actually be associated with
     // the forum vocabulary.
@@ -170,19 +177,10 @@ function advanced_forum_forum_load($tid = NULL) {
       if (!empty($node_types)) {
         $query->condition('type', $node_types, 'IN');
       }
-
-      $query->condition('language', array(LANGUAGE_NONE, $language->language));
     }
 
-    $counts = $query
-        ->fields('f', array('tid'))
-        ->condition('status', 1)
-        ->groupBy('tid')
-        ->addTag('node_access')
-        ->execute()
-        ->fetchAllAssoc('tid');
-    // 1 hour.
-    cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60 * 60);
+
+    cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60*60); //1 hour
   }
 
   // Get last nodes with comments for subquery SELECT optimization.
