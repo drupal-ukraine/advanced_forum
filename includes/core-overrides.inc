@@ -180,7 +180,7 @@ function advanced_forum_forum_load($tid = NULL) {
     }
 
 
-    cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60*60); //1 hour
+    cache_set('adv_forum_counts' . $tid, $counts, 'cache', time() + 60*60);
   }
 
   // Get last nodes with comments for subquery SELECT optimization.
