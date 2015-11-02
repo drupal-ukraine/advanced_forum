@@ -494,7 +494,7 @@ function advanced_forum_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_form_form_id_alter().
  */
-function advanced_forum_form_forum_form_forum_alter(&$form, $form_state) {
+function advanced_forum_form_forum_form_forum_alter(&$form, &$form_state) {
   if (variable_get('advanced_forum_forum_user_term_fields')) {
     // Show fields from taxonomy term for forum.
     if (!isset($form['tid'])) {
