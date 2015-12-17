@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files: []
+  vars:
+    profile: pp
+    staging: sites/default/config/staging
+    exclude:
+      # Core modules configuration files:
+      - { name: 'action.settings.yml', status: true }
+
+  tasks:
+    - name: Export config
+      shell: drush config-export staging -y
+
+    - name: Remove excluded config files
+      file:
+        path: '{{ staging }}/{{ item.name }}'
+        state: absent
+      with_items: exclude
+      when: true == {{ item.status }}
+
+    - name: Copy config to profile
+      synchronize:
+        src: '{{ staging }}/'
+        dest: profiles/{{ profile }}/config/install
+        delete: yes
+        rsync_opts:
+          - '--exclude=.htaccess'
+
+    - name: Clean staging directory
+      shell: 'rm *.yml'
+      ignore_errors: true
+      args:
+        chdir: '{{ staging }}'
+
