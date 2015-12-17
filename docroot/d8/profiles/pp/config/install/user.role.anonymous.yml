@@ -1,0 +1,13 @@
+uuid: 45aec10b-aeb4-4248-ad00-a0918881a2e4
+langcode: en
+status: true
+dependencies: {  }
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access comments'
+  - 'access site-wide contact form'
+  - 'search content'
