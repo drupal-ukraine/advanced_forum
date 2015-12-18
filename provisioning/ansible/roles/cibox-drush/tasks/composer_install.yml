@@ -7,6 +7,12 @@
   shell: "rsync -avz /root/.composer/vendor/drush/drush/ /usr/local/src/drush"
   sudo: yes
 
+- name: Update all composer dependencies
+  sudo: yes
+  command: "{{drush_composer_bin}} update"
+  args:
+    chdir: /usr/local/src/drush
+
 - name: Adding global link to drush binary
   file: src=/usr/local/src/drush/drush dest=/usr/local/bin/drush state=link mode=755
   sudo: yes
