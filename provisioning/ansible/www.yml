@@ -26,13 +26,23 @@
         documentroot: "/var/www"
       }
       - {
-        servername: "drupal.{{ cibox_server_ip }}.xip.io",
-        documentroot: "/var/www/docroot"
+        servername: "drupal7.{{ cibox_server_ip }}.xip.io",
+        documentroot: "/var/www/d7"
+      }
+      - {
+        servername: "drupal8.{{ cibox_server_ip }}.xip.io",
+        documentroot: "/var/www/d8"
       }
     apache_vhosts_ssl:
       - {
-        servername: "drupal.{{ cibox_server_ip }}.xip.io",
-        documentroot: "/var/www/docroot",
+        servername: "drupal7.{{ cibox_server_ip }}.xip.io",
+        documentroot: "/var/www/d7",
+        certificate_file: "{{ cibox_ssl_folder }}/apache.crt",
+        certificate_key_file: "{{ cibox_ssl_folder }}/apache.key",
+      }
+      - {
+        servername: "drupal8.{{ cibox_server_ip }}.xip.io",
+        documentroot: "/var/www/d8",
         certificate_file: "{{ cibox_ssl_folder }}/apache.crt",
         certificate_key_file: "{{ cibox_ssl_folder }}/apache.key",
       }
