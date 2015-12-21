@@ -1,0 +1,20 @@
+name: Advanced Forum
+type: module
+description: 'Enables the look and feel of other popular forum software.'
+package: Advanced Forum
+# version: VERSION
+core: 8.x
+dependencies:
+  - views_ui
+  - forum
+
+# D7 stuff below
+#configure = admin/config/content/advanced-forum
+
+#; Views handlers
+#files[] = includes/views/advanced_forum_handler_field_node_topic_icon.inc
+#files[] = includes/views/advanced_forum_handler_field_node_topic_pager.inc
+#files[] = includes/views/advanced_forum_plugin_style_forum_topic_list.inc
+
+#; Tests
+#files[] = tests/af.test
