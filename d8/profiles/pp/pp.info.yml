@@ -36,6 +36,7 @@ dependencies:
   - views
   - views_ui
   - tour
+  - advanced_forum
 
 themes:
   - bartik
