@@ -4,7 +4,11 @@
   sudo_user: "{{ drush_composer_user }}"
 
 - name: Make drush src available globally
-  shell: "rsync -avz /root/.composer/vendor/drush/drush/ /usr/local/src/drush"
+  shell: "rsync -avz --delete /root/.composer/vendor/drush/drush/ /usr/local/src/drush"
+  sudo: yes
+
+- name: Fix permissions for library folder.
+  file: path=/usr/local/src/drush/lib state=directory mode=0777
   sudo: yes
 
 - name: Update all composer dependencies
