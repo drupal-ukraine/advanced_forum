@@ -36,6 +36,7 @@ dependencies:
   - views
   - views_ui
   - tour
+  - simpletest
   - advanced_forum
 
 themes:
