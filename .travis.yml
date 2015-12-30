@@ -19,6 +19,7 @@ install:
   # Install Ansible.
   - sudo pip install ansible
   - travis_retry composer install --no-interaction
+  - ls -la
 
 
 before_script:
