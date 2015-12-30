@@ -10,6 +10,14 @@ services:
 
 env:
   - DB=mysql
+  
+before_install:
+  # Make sure everything's up to date.
+  - sudo apt-get update -qq
+
+install:
+  # Install Ansible.
+  - pip install ansible
 
 before_script:
     - wget http://files.drush.org/drush.phar
