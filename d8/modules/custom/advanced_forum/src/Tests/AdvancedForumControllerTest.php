@@ -38,6 +38,12 @@ class AdvancedForumControllerTest extends WebTestBase {
     $this->drupalLogin($web_user);
   }
 
+  /**
+   * Testing Advanced Forum admin pages.
+   *
+   * @throws \Exception
+   *   Exceptions if tests failed.
+   */
   function testAdminForm() {
 
     // Test Devel load and render routes for entities with both route
