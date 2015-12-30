@@ -42,4 +42,4 @@ script:
     - cd d8 
     - ansible-playbook reinstall.yml -i 'localhost,' --connection=local --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
     - drush status
-    - drupal -vvv --url http://127.0.0.1 "\Drupal\advanced_forum\Tests\AdvancedForumControllerTest"
+    - drupal -vvv test:run --url http://default "\Drupal\advanced_forum\Tests\AdvancedForumControllerTest"
