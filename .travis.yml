@@ -17,7 +17,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install ansible
+  - sudo pip install ansible
 
 before_script:
     - wget http://files.drush.org/drush.phar
