@@ -24,6 +24,7 @@ install:
   - cd php-5.6.16/ext/pcntl/
   - phpize && ./configure && make install
   - ls -la
+  - php -i | grep pcntl
 
 
 before_script:
