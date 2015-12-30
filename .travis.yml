@@ -27,3 +27,4 @@ before_script:
 
 script:
     - drush --version
+    - cd drupal-ukraine/advanced_forum/d8 && ansible-playbook reinstall.yml --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
