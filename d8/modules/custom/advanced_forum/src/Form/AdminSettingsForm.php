@@ -1,13 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: podarok
- * Date: 30.12.15
- * Time: 13:07
+ * @file
+ * Admin settings form.
  */
 
 namespace Drupal\advanced_forum\Form;
-
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
