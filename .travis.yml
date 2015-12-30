@@ -13,7 +13,7 @@ env:
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
-  - composer require global ext-pcntl:dev
+  - composer require global thinframe/pcntl
   - travis_retry composer selfupdate
 
 install:
