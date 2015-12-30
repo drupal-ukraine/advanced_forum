@@ -30,7 +30,6 @@ before_script:
     - composer global require drush/drush:dev-master
     - phpenv rehash
     - sudo ln -s /home/travis/.composer/vendor/bin/drush /usr/bin/drush
-    - sudo phpenv rehash
     - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS af_test;create database IF NOT EXISTS af_test;'; fi"
 
 script:
