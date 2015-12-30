@@ -35,6 +35,9 @@ before_script:
     - export PATH="$HOME/.composer/vendor/bin:$PATH"
     - composer global require drush/drush:dev-master
     - phpenv rehash
+    - sudo export PATH="$HOME/.composer/vendor/bin:$PATH"
+    - sudo composer global require drush/drush:dev-master
+    - sudo phpenv rehash
     - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS af_test;create database IF NOT EXISTS af_test;'; fi"
 
 script:
