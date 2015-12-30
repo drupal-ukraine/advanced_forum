@@ -27,11 +27,13 @@ install:
 
 before_script:
     #- echo "extension=pcntl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - wget http://files.drush.org/drush.phar
-    - chmod +x drush.phar
-    - sudo mv drush.phar /usr/local/bin/drush
+    #- wget http://files.drush.org/drush.phar
+    #- chmod +x drush.phar
+    #- sudo mv drush.phar /usr/local/bin/drush
     #- sudo drush init
-    - drush init
+    #- drush init
+    - composer global require drush/drush:dev-master
+    - phpenv rehash
     - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS af_test;create database IF NOT EXISTS af_test;'; fi"
 
 script:
