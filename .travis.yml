@@ -35,6 +35,7 @@ before_script:
     - export PATH="$HOME/.composer/vendor/bin:$PATH"
     - composer global require drush/drush:dev-master
     - phpenv rehash
+    - whereis drush
     - sudo export PATH="$HOME/.composer/vendor/bin:$PATH"
     - sudo composer global require drush/drush:dev-master
     - sudo phpenv rehash
