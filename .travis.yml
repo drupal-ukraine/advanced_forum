@@ -13,6 +13,7 @@ env:
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
+  - composer require global ext-pcntl:dev
   - travis_retry composer selfupdate
 
 install:
@@ -34,4 +35,4 @@ before_script:
 script:
     - drush --version
     - ls -la
-    - cd d8 && ansible-playbook reinstall.yml -i 'localhost,' --connection=local --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
+    - cd d8 && composer require global thinframe/pcntl && travis_retry composer install --no-interaction && ansible-playbook reinstall.yml -i 'localhost,' --connection=local --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
