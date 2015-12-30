@@ -13,13 +13,16 @@ env:
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
-  - composer require thinframe/pcntl
   - travis_retry composer selfupdate
 
 install:
   # Install Ansible.
   - sudo pip install ansible
   - travis_retry composer install --no-interaction
+  - wget http://php.net/get/php-5.6.16.tar.gz/from/a/mirror
+  - tar -xzf php-5.6.16.tar.gz
+  - cd php-5.6.16/ext/pcntl/
+  - phpize && ./configure && make install
   - ls -la
 
 
@@ -35,4 +38,4 @@ before_script:
 script:
     - drush --version
     - ls -la
-    - cd d8 && composer require thinframe/pcntl && travis_retry composer install --no-interaction && ansible-playbook reinstall.yml -i 'localhost,' --connection=local --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
+    - cd d8 && travis_retry composer install --no-interaction && ansible-playbook reinstall.yml -i 'localhost,' --connection=local --extra-vars="mysql_db=af_test mysql_user=root mysql_pass="
