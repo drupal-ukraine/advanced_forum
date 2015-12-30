@@ -38,15 +38,13 @@ class AdvancedForumControllerTest extends WebTestBase {
     $this->drupalLogin($web_user);
   }
 
-  function testRouteGeneration() {
-    // @TODO remove after https://www.drupal.org/node/2431263 is solved.
-    $this->container->get('module_installer')->install(array('kint'));
+  function testAdminForm() {
 
     // Test Devel load and render routes for entities with both route
     // definitions.
-    $this->drupalGet('admin/config/content/advanced-forum');
-    $this->assertText('Devel', 'Devel tab is present');
-
+    $this->drupalGet('/admin/config/advanced-forum');
+    $this->assertText('Advanced forum style', 'Advanced forum style option is present');
+    $this->drupalPostForm('/admin/config/advanced-forum', [], t('Save configuration'));
   }
 
 }

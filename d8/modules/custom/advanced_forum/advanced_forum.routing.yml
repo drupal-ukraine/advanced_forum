@@ -1,5 +1,5 @@
 advanced_forum.admin_settings:
-  path: '/admin/config/content/advanced-forum'
+  path: '/admin/config/advanced-forum'
   defaults:
     _form: '\Drupal\advanced_forum\Form\AdminSettingsForm'
     _title: 'Advanced Forum settings'
