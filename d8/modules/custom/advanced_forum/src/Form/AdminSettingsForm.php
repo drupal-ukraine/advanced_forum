@@ -189,7 +189,7 @@ class AdminSettingsForm extends ConfigFormBase {
 
     // For default collapsed state configuration.
     // @d7 $collapsed_list_name = variable_get('forum_containers', array());
-    $collapsed_list_name = $this->config('advanced_forum_general')->get('forum_containers');
+    $collapsed_list_name = $this->config('advanced_forum_general')->get('forum_containers') ? $this->config('advanced_forum_general')->get('forum_containers') : array();
     $collapsed_list_description = array();
     foreach ($collapsed_list_name as $id) {
       $term = taxonomy_term_load($id);
