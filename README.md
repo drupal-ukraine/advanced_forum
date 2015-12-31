@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/drupal-ukraine/advanced_forum.svg)](https://travis-ci.org/drupal-ukraine/advanced_forum)
 Drupal Vagrant Dev box for CIbox-v support for porting advanced_forum
 ======
 
