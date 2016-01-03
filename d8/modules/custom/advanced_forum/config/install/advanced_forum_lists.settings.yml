@@ -2,5 +2,5 @@ advanced_forum_last_post_query: '10000'
 advanced_forum_topic_title_length: '20'
 advanced_forum_get_new_comments: 0
 advanced_forum_default_collapsed_list: {  }
-advanced_forum_collapsible_containers: none
+advanced_forum_collapsible_containers: toggle
 advanced_forum_disable_breadcrumbs: 0
