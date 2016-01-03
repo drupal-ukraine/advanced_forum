@@ -180,7 +180,7 @@ class AdminSettingsForm extends ConfigFormBase {
         'slide' => t("Slide"),
       ),
       '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
-      '#default_value' => $advanced_forum_general->get('advanced_forum_collapsible_containers'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_collapsible_containers'),
     );
 
     // For default collapsed state configuration.
