@@ -391,7 +391,6 @@ class AdminSettingsForm extends ConfigFormBase {
       ->set('advanced_forum_autoload_page_handlers', $form_state->getValue('advanced_forum_autoload_page_handlers'))
       ->save();
 
-
     parent::submitForm($form, $form_state);
   }
 
