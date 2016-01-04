@@ -29,10 +29,10 @@ class AdminSettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'advanced_forum_general',
-      'advanced_forum_lists',
-      'advanced_forum_forum_image',
-      'advanced_forum_autoload',
+      'advanced_forum_general.settings',
+      'advanced_forum_lists.settings',
+      'advanced_forum_forum_image.settings',
+      'advanced_forum_autoload.settings',
     ];
   }
 
@@ -41,6 +41,10 @@ class AdminSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, Request $request = NULL) {
 
+    $advanced_forum_general = $this->config('advanced_forum_general.settings');
+    $advanced_forum_lists = $this->config('advanced_forum_lists.settings');
+    $advanced_forum_forum_image = $this->config('advanced_forum_forum_image.settings');
+    $advanced_forum_autoload = $this->config('advanced_forum_autoload.settings');
 
     // General settings.
     $form['advanced_forum_general'] = array(
@@ -52,7 +56,7 @@ class AdminSettingsForm extends ConfigFormBase {
 
     // Choose style.
     $options = array();
-    // @d7 $available_styles = advanced_forum_get_all_styles();
+    // @d7 @todo $available_styles = advanced_forum_get_all_styles();
     $available_styles = [
       'test_style' => [
         'name' => t('Test style name')
@@ -72,11 +76,11 @@ class AdminSettingsForm extends ConfigFormBase {
       '#options' => $options,
       '#description' => t('Choose which style to use for your forums. This will apply independent of site theme.'),
       // '#default_value' => variable_get('advanced_forum_style', 'silver_bells'),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_style'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_style'),
     );
 
     // Choose node types that are styled.
-    // @d7 $node_types = _node_types_build()->types;
+    // @d7 @todo $node_types = _node_types_build()->types;
     $nt = new \stdClass();
     $nt->name = t('Test node type Name 1');
     $node_types = [
@@ -94,15 +98,14 @@ class AdminSettingsForm extends ConfigFormBase {
       '#multiple' => TRUE,
       '#description' => t('Choose which node types will have the forum style applied.'),
       // @d7 '#default_value' => variable_get('advanced_forum_styled_node_types', array('forum')),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_styled_node_types'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_styled_node_types'),
     );
 
     // Style nodes presented in teaser form.
     $form['advanced_forum_general']['advanced_forum_style_teasers'] = array(
       '#type' => 'checkbox',
       '#title' => t('Style nodes when being displayed as teasers.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_style_teasers', 0),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_style_teasers'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_style_teasers'),
       '#description' => t('If checked, selected node types will be styled even when they are in a teaser list.'),
     );
 
@@ -110,8 +113,7 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_general']['advanced_forum_style_only_forum_tagged'] = array(
       '#type' => 'checkbox',
       '#title' => t('Style nodes only if they have a forum term attached.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_style_only_forum_tagged', 1),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_style_only_forum_tagged'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_style_only_forum_tagged'),
       '#description' => t('If checked, selected node types will be only styled if they are associated with a forum term.'),
     );
 
@@ -119,32 +121,28 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_general']['advanced_forum_style_all_comments'] = array(
       '#type' => 'checkbox',
       '#title' => t('Style all comments like forum replies.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_style_all_comments', 0),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_style_all_comments'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_style_all_comments'),
       '#description' => t('If checked, every comment will be styled as if it were a forum reply.'),
     );
 
     $form['advanced_forum_general']['advanced_forum_add_local_task'] = array(
       '#type' => 'checkbox',
       '#title' => t('Add a tab for forum view page.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_add_local_task', TRUE),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_add_local_task'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_add_local_task'),
       '#description' => t('If checked, this will add a local task tab for "View forums". Use this in conjunction with making the included views have local tasks. If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
     );
 
     $form['advanced_forum_general']['advanced_forum_views_as_tabs'] = array(
       '#type' => 'checkbox',
       '#title' => t('Add a tab for included views that have their own pages.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_views_as_tabs', TRUE),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_views_as_tabs'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_views_as_tabs'),
       '#description' => t('If checked, this will add a local task tab for "Active topics," "New posts," "My posts," and "Unanswered topics." If you don\'t know what this means, leave it unchecked. You must clear the cache before this will take effect.'),
     );
 
     $form['advanced_forum_general']['advanced_forum_keep_classes'] = array(
       '#type' => 'checkbox',
       '#title' => t('Keep default CSS classes (For experts only).'),
-      // @d7 '#default_value' => variable_get('advanced_forum_keep_classes', FALSE),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_keep_classes'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_keep_classes'),
       '#description' => t('If checked, all CSS classes generated by Drupal core and other modules/themes will be kept'),
     );
 
@@ -153,7 +151,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#description' => t('Allows to use fields from taxonomy term on the form of creation or editing of the forum'),
       // @d7 '#default_value' => variable_get('advanced_forum_forum_user_term_fields'),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_forum_user_term_fields'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_forum_user_term_fields'),
     );
 
     // Forum 'topic list settings'.
@@ -168,8 +166,7 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_lists']['advanced_forum_disable_breadcrumbs'] = array(
       '#type' => 'checkbox',
       '#title' => t('Disable breadcrumbs'),
-      // @d7 '#default_value' => variable_get('advanced_forum_disable_breadcrumbs', 0),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_disable_breadcrumbs'),
+      '#default_value' => $advanced_forum_general->get('advanced_forum_disable_breadcrumbs'),
       '#description' => t('Check this to disable breadcrumbs in the forum if you are using another module to customize them. Does not affect node pages and does not work when Page Manager is overriding forum pages.'),
     );
 
@@ -183,13 +180,12 @@ class AdminSettingsForm extends ConfigFormBase {
         'slide' => t("Slide"),
       ),
       '#description' => t('Select whether or not to enable collapsible forum containers and what type of animation to use.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_collapsible_containers', 'toggle'),
-      '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_collapsible_containers'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_collapsible_containers'),
     );
 
     // For default collapsed state configuration.
-    // @d7 $collapsed_list_name = variable_get('forum_containers', array());
-    $collapsed_list_name = $this->config('advanced_forum_general')->get('forum_containers') ? $this->config('advanced_forum_general')->get('forum_containers') : array();
+    // @d7 @todo $collapsed_list_name = variable_get('forum_containers', array());
+    $collapsed_list_name = $advanced_forum_general->get('forum_containers') ? $advanced_forum_general->get('forum_containers') : array();
     $collapsed_list_description = array();
     foreach ($collapsed_list_name as $id) {
       $term = taxonomy_term_load($id);
@@ -200,13 +196,14 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_lists']['advanced_forum_default_collapsed_list'] = array(
       '#type' => 'select',
       '#title' => t('Containers collapsed by default'),
-      // @d7 '#default_value' => variable_get('advanced_forum_default_collapsed_list', array()),
-      '#default_value' => $this->config('advanced_forum_lists')->get('advanced_forum_default_collapsed_list'),
+      // @d7 @todo '#default_value' => variable_get('advanced_forum_default_collapsed_list', array()),
+      '#default_value' => $advanced_forum_lists
+        ->get('advanced_forum_default_collapsed_list'),
       '#options' => $collapsed_list_description,
       '#multiple' => TRUE,
       '#description' => t('Select containers which should be collapsed by default.'),
     );
-
+    // @todo check this code exists in D8.
     if (\Drupal::moduleHandler()->moduleExists('image')) {
 
       // Forum image settings.
@@ -217,8 +214,8 @@ class AdminSettingsForm extends ConfigFormBase {
         '#collapsed' => FALSE,
       );
 
-      // @d7 $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
-      $forum_vocabulary = taxonomy_vocabulary_load($this->config('advanced_forum_general')->get('forum_nav_vocabulary'));
+      // @d7 @todo $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
+      $forum_vocabulary = taxonomy_vocabulary_load($advanced_forum_general->get('forum_nav_vocabulary'));
 
       // @todo find replacement.
       // @d7 $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
@@ -237,8 +234,8 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('Image field'),
         '#description' => t('The image field to use to display forum images.'),
         '#type' => 'select',
-        // @d7 '#default_value' => variable_get('advanced_forum_forum_image_field', ''),
-        '#default_value' => $this->config('advanced_forum_forum_image')->get('advanced_forum_forum_image_field'),
+        '#default_value' => $advanced_forum_forum_image
+          ->get('advanced_forum_forum_image_field'),
         '#empty_option' => t('None'),
         '#options' => $image_fields,
       );
@@ -247,17 +244,21 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('Forum image style'),
         '#description' => t('The image style to apply to the images.'),
         '#type' => 'select',
-        // @d7 '#default_value' => variable_get('advanced_forum_forum_image_preset', ''),
-        '#default_value' => $this->config('advanced_forum_forum_image')->get('advanced_forum_forum_image_preset'),
+        '#default_value' => $advanced_forum_forum_image
+          ->get('advanced_forum_forum_image_preset'),
         '#empty_option' => t('None (original image)'),
         '#options' => image_style_options(FALSE),
       );
     }
     else {
-      $this->config('advanced_forum_forum_image')->set('advanced_forum_forum_image_field', '');
+      $advanced_forum_forum_image
+        ->set('advanced_forum_forum_image_field', '');
     }
     // Picture preset.
-    if (\Drupal::moduleHandler()->moduleExists('image') && \Drupal::moduleHandler()->moduleExists('author_pane')) {
+    if (\Drupal::moduleHandler()
+        ->moduleExists('image') && \Drupal::moduleHandler()
+        ->moduleExists('author_pane')
+    ) {
       $options = array('' => '');
       $styles = image_styles();
       foreach ($styles as $style) {
@@ -269,16 +270,16 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('User picture preset'),
         '#options' => $options,
         '#description' => t('Image preset to use for forum avatars. Leave blank to not use this feature.'),
-        // @d7 '#default_value' => variable_get('advanced_forum_user_picture_preset', ''),
-        '#default_value' => $this->config('advanced_forum_general')->get('advanced_forum_user_picture_preset'),
+        '#default_value' => $advanced_forum_general->get('advanced_forum_user_picture_preset'),
       );
     }
     else {
-      $this->config('advanced_forum_general')->set('advanced_forum_user_picture_preset', '');
+      $advanced_forum_general->set('advanced_forum_user_picture_preset', '');
     }
 
     if (\Drupal::moduleHandler()->moduleExists('author_pane')) {
       $join_date_options = array();
+      // @todo convert as described in https://www.drupal.org/node/1876852
       foreach (system_get_date_types() as $date_type) {
         $join_date_options[$date_type['type']] = $date_type['title'];
       }
@@ -288,7 +289,8 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('Author Pane - Join date, date type'),
         '#options' => $join_date_options,
         '#description' => t('Select which <a href="@date-type-url">date type</a> to use for displaying the join date in the Author Pane.', array('@date-type-url' => url('admin/config/regional/date-time'))),
-        '#default_value' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
+        // @D7 @todo '#default_value' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
+        '#default_value' => $advanced_forum_general->get('advanced_forum_author_pane_join_date_type'),
       );
     }
 
@@ -296,8 +298,8 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_lists']['advanced_forum_get_new_comments'] = array(
       '#type' => 'checkbox',
       '#title' => t('Get the number of new comments per forum on the forum list'),
-      // @d7 '#default_value' => variable_get('advanced_forum_get_new_comments', 0),
-      '#default_value' => $this->config('advanced_forum_lists')->get('advanced_forum_get_new_comments'),
+      '#default_value' => $advanced_forum_lists
+        ->get('advanced_forum_get_new_comments'),
       '#description' => t('Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under "posts" on the forum overview. Slow query not recommended on large forums.'),
     );
 
@@ -307,8 +309,8 @@ class AdminSettingsForm extends ConfigFormBase {
       '#title' => t('Number of characters to display for the topic title'),
       '#size' => 5,
       '#description' => t('Used on main forum page. Enter 0 to use the full title.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_topic_title_length', 20),
-      '#default_value' => $this->config('advanced_forum_lists')->get('advanced_forum_topic_title_length'),
+      '#default_value' => $advanced_forum_lists
+        ->get('advanced_forum_topic_title_length'),
     );
 
     // Last Post optimization.
@@ -317,8 +319,8 @@ class AdminSettingsForm extends ConfigFormBase {
       '#title' => t('Number of last topics which will be used in search for "Last Post"'),
       '#size' => 5,
       '#description' => t('Optimization for large sites. Used on main forum page.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_last_post_query', 10000),
-      '#default_value' => $this->config('advanced_forum_lists')->get('advanced_forum_last_post_query'),
+      '#default_value' => $advanced_forum_lists
+        ->get('advanced_forum_last_post_query'),
     );
 
     // Auto loading.
@@ -335,8 +337,8 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Auto load included page handlers'),
       '#description' => t('Uncheck to use Features or manual imports.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_autoload_page_handlers', TRUE),
-      '#default_value' => $this->config('advanced_forum_autoload')->get('advanced_forum_autoload_page_handlers'),
+      '#default_value' => $advanced_forum_autoload
+        ->get('advanced_forum_autoload_page_handlers'),
     );
 
     // Auto load included views.
@@ -344,8 +346,8 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Auto load included views'),
       '#description' => t('Uncheck to use Features or manual imports.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_autoload_views', TRUE),
-      '#default_value' => $this->config('advanced_forum_autoload')->get('advanced_forum_autoload_views'),
+      '#default_value' => $advanced_forum_autoload
+        ->get('advanced_forum_autoload_views'),
     );
 
     // Send our form to Drupal to make a settings page.
@@ -356,7 +358,40 @@ class AdminSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // @todo implement submit handler.
+    $this->config('advanced_forum_forum_image.settings')
+      ->set('advanced_forum_forum_image_preset', $form_state->getValue('advanced_forum_forum_image_preset'))
+      ->set('advanced_forum_forum_image_field', $form_state->getValue('advanced_forum_forum_image_field'))
+      ->save();
+
+    $this->config('advanced_forum_general.settings')
+      ->set('advanced_forum_author_pane_join_date_type', $form_state->getValue('advanced_forum_author_pane_join_date_type'))
+      ->set('advanced_forum_user_picture_preset', $form_state->getValue('advanced_forum_user_picture_preset'))
+      ->set('advanced_forum_forum_user_term_fields', $form_state->getValue('advanced_forum_forum_user_term_fields'))
+      ->set('advanced_forum_keep_classes', $form_state->getValue('advanced_forum_keep_classes'))
+      ->set('advanced_forum_views_as_tabs', $form_state->getValue('advanced_forum_views_as_tabs'))
+      ->set('advanced_forum_add_local_task', $form_state->getValue('advanced_forum_add_local_task'))
+      ->set('advanced_forum_style_all_comments', $form_state->getValue('advanced_forum_style_all_comments'))
+      ->set('advanced_forum_style_only_forum_tagged', $form_state->getValue('advanced_forum_style_only_forum_tagged'))
+      ->set('advanced_forum_style_teasers', $form_state->getValue('advanced_forum_style_teasers'))
+      ->set('advanced_forum_styled_node_types', $form_state->getValue('advanced_forum_styled_node_types'))
+      ->set('advanced_forum_style', $form_state->getValue('advanced_forum_style'))
+      ->save();
+
+    $this->config('advanced_forum_lists.settings')
+      ->set('advanced_forum_last_post_query', $form_state->getValue('advanced_forum_last_post_query'))
+      ->set('advanced_forum_topic_title_length', $form_state->getValue('advanced_forum_topic_title_length'))
+      ->set('advanced_forum_get_new_comments', $form_state->getValue('advanced_forum_get_new_comments'))
+      ->set('advanced_forum_default_collapsed_list', $form_state->getValue('advanced_forum_default_collapsed_list'))
+      ->set('advanced_forum_collapsible_containers', $form_state->getValue('advanced_forum_collapsible_containers'))
+      ->set('advanced_forum_disable_breadcrumbs', $form_state->getValue('advanced_forum_disable_breadcrumbs'))
+      ->save();
+
+    $this->config('advanced_forum_autoload.settings')
+      ->set('advanced_forum_autoload_views', $form_state->getValue('advanced_forum_autoload_views'))
+      ->set('advanced_forum_autoload_page_handlers', $form_state->getValue('advanced_forum_autoload_page_handlers'))
+      ->save();
+
+    parent::submitForm($form, $form_state);
   }
 
 }
