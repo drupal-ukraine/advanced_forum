@@ -1,0 +1,12 @@
+advanced_forum_author_pane_join_date_type: null
+advanced_forum_user_picture_preset: null
+advanced_forum_forum_user_term_fields: 0
+advanced_forum_keep_classes: 0
+advanced_forum_views_as_tabs: 1
+advanced_forum_add_local_task: 1
+advanced_forum_style_all_comments: 0
+advanced_forum_style_only_forum_tagged: 1
+advanced_forum_style_teasers: 0
+advanced_forum_styled_node_types:
+  node_type_test: node_type_test
+advanced_forum_style: test_style2
