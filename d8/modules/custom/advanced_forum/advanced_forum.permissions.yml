@@ -2,3 +2,9 @@ administer advanced forum:
   description: 'Access to Advanced Forum admin pages.'
   title: 'Administer Advanced Forum'
   restrict access: TRUE
+view forum statistics:
+  description: 'Access to statistics widget.'
+  title: 'View Advanced Forum statistics'
+view last edited notice:
+  description: 'Access to last edited notice.'
+  title: 'View last edited notice'
