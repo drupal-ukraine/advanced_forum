@@ -9,6 +9,8 @@ namespace Drupal\advanced_forum\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Component\Utility\String;
+use Drupal\Core\Datetime\Entity\DateFormat;
 
 /**
  * Class AdminSettingsForm. Defines a form that configures advanced forum settings.
@@ -279,9 +281,11 @@ class AdminSettingsForm extends ConfigFormBase {
 
     if (\Drupal::moduleHandler()->moduleExists('author_pane')) {
       $join_date_options = array();
-      // @todo convert as described in https://www.drupal.org/node/1876852
-      foreach (system_get_date_types() as $date_type) {
-        $join_date_options[$date_type['type']] = $date_type['title'];
+      $date_types = DateFormat::loadMultiple();
+      $date_formatter = \Drupal::service('date.formatter');
+      foreach ($date_types as $machine_name => $format) {
+        $title = t('@name format', array('@name' => $format->get('label'))) . ': ' . $date_formatter->format(REQUEST_TIME, $machine_name);
+        $join_date_options[$machine_name] = $title;
       }
 
       $form['advanced_forum_general']['advanced_forum_author_pane_join_date_type'] = array(
