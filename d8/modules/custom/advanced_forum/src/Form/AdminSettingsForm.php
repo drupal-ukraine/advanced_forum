@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Admin settings form.
+ * Contains \Drupal\advanced_forum\Form\AdminSettingsForm.
  */
 
 namespace Drupal\advanced_forum\Form;
@@ -13,9 +14,8 @@ use Drupal\Component\Utility\String;
 use Drupal\Core\Datetime\Entity\DateFormat;
 
 /**
- * Class AdminSettingsForm. Defines a form that configures advanced forum settings.
+ * Defines a form that configures advanced forum settings.
  *
- * @package Drupal\advanced_forum\Form
  */
 class AdminSettingsForm extends ConfigFormBase {
 
@@ -61,11 +61,11 @@ class AdminSettingsForm extends ConfigFormBase {
     // @d7 @todo $available_styles = advanced_forum_get_all_styles();
     $available_styles = [
       'test_style' => [
-        'name' => t('Test style name')
+        'name' => t('Test style name'),
       ],
       'test_style2' => [
-        'name' => t('Test style name 2')
-      ]
+        'name' => t('Test style name 2'),
+      ],
     ];
     foreach ($available_styles as $style_machine_name => $style) {
       $options[$style_machine_name] = $style['name'];
@@ -199,8 +199,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => t('Containers collapsed by default'),
       // @d7 @todo '#default_value' => variable_get('advanced_forum_default_collapsed_list', array()),
-      '#default_value' => $advanced_forum_lists
-        ->get('advanced_forum_default_collapsed_list'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_default_collapsed_list'),
       '#options' => $collapsed_list_description,
       '#multiple' => TRUE,
       '#description' => t('Select containers which should be collapsed by default.'),
@@ -224,7 +223,9 @@ class AdminSettingsForm extends ConfigFormBase {
       $image_fields = [];
       $field_info = [
         'field_bundle_with_image' => [
-          'test_field_with_image' => ['display' => ['default' => ['type' => 'image']]]
+          'test_field_with_image' => [
+            'display' => ['default' => ['type' => 'image']]
+          ]
         ]
       ];
       foreach ($field_info as $bundle => $field) {
@@ -236,8 +237,7 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('Image field'),
         '#description' => t('The image field to use to display forum images.'),
         '#type' => 'select',
-        '#default_value' => $advanced_forum_forum_image
-          ->get('advanced_forum_forum_image_field'),
+        '#default_value' => $advanced_forum_forum_image->get('advanced_forum_forum_image_field'),
         '#empty_option' => t('None'),
         '#options' => $image_fields,
       ];
@@ -246,15 +246,13 @@ class AdminSettingsForm extends ConfigFormBase {
         '#title' => t('Forum image style'),
         '#description' => t('The image style to apply to the images.'),
         '#type' => 'select',
-        '#default_value' => $advanced_forum_forum_image
-          ->get('advanced_forum_forum_image_preset'),
+        '#default_value' => $advanced_forum_forum_image->get('advanced_forum_forum_image_preset'),
         '#empty_option' => t('None (original image)'),
         '#options' => image_style_options(FALSE),
       ];
     }
     else {
-      $advanced_forum_forum_image
-        ->set('advanced_forum_forum_image_field', '');
+      $advanced_forum_forum_image->set('advanced_forum_forum_image_field', '');
     }
     // Picture preset.
     if (\Drupal::moduleHandler()
@@ -292,7 +290,9 @@ class AdminSettingsForm extends ConfigFormBase {
         '#type' => 'select',
         '#title' => t('Author Pane - Join date, date type'),
         '#options' => $join_date_options,
-        '#description' => t('Select which <a href="@date-type-url">date type</a> to use for displaying the join date in the Author Pane.', ['@date-type-url' => url('admin/config/regional/date-time')]),
+        '#description' => t('Select which <a href="@date-type-url">date type</a> to use for displaying the join date in the Author Pane.', [
+          '@date-type-url' => url('admin/config/regional/date-time'),
+        ]),
         // @D7 @todo '#default_value' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
         '#default_value' => $advanced_forum_general->get('advanced_forum_author_pane_join_date_type'),
       ];
@@ -302,8 +302,7 @@ class AdminSettingsForm extends ConfigFormBase {
     $form['advanced_forum_lists']['advanced_forum_get_new_comments'] = [
       '#type' => 'checkbox',
       '#title' => t('Get the number of new comments per forum on the forum list'),
-      '#default_value' => $advanced_forum_lists
-        ->get('advanced_forum_get_new_comments'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_get_new_comments'),
       '#description' => t('Core forum shows the number of new topics. If checked, Advanced Forum will get the number of new comments as well and show it under "posts" on the forum overview. Slow query not recommended on large forums.'),
     ];
 
@@ -313,8 +312,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#title' => t('Number of characters to display for the topic title'),
       '#size' => 5,
       '#description' => t('Used on main forum page. Enter 0 to use the full title.'),
-      '#default_value' => $advanced_forum_lists
-        ->get('advanced_forum_topic_title_length'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_topic_title_length'),
     ];
 
     // Last Post optimization.
@@ -323,8 +321,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#title' => t('Number of last topics which will be used in search for "Last Post"'),
       '#size' => 5,
       '#description' => t('Optimization for large sites. Used on main forum page.'),
-      '#default_value' => $advanced_forum_lists
-        ->get('advanced_forum_last_post_query'),
+      '#default_value' => $advanced_forum_lists->get('advanced_forum_last_post_query'),
     ];
 
     // Auto loading.
@@ -341,8 +338,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Auto load included page handlers'),
       '#description' => t('Uncheck to use Features or manual imports.'),
-      '#default_value' => $advanced_forum_autoload
-        ->get('advanced_forum_autoload_page_handlers'),
+      '#default_value' => $advanced_forum_autoload->get('advanced_forum_autoload_page_handlers'),
     ];
 
     // Auto load included views.
@@ -350,8 +346,7 @@ class AdminSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => t('Auto load included views'),
       '#description' => t('Uncheck to use Features or manual imports.'),
-      '#default_value' => $advanced_forum_autoload
-        ->get('advanced_forum_autoload_views'),
+      '#default_value' => $advanced_forum_autoload->get('advanced_forum_autoload_views'),
     ];
 
     // Send our form to Drupal to make a settings page.
