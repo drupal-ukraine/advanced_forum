@@ -31,10 +31,10 @@ class AdvancedForumControllerTest extends WebTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $web_user = $this->drupalCreateUser(array(
+    $web_user = $this->drupalCreateUser([
       'administer forums',
       'administer advanced forum',
-    ));
+    ]);
     $this->drupalLogin($web_user);
   }
 
