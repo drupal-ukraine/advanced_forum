@@ -11,7 +11,8 @@ Drupal Vagrant Dev box for CIbox-v support for porting advanced_forum
 
 
 #Usage
-
+1. Clone this repository and go to this directory.
+2. Install new vagrant box with:
 ```sh
 vagrant up && vagrant ssh
 ```
