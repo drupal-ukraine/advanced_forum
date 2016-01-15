@@ -83,17 +83,17 @@ class AdminSettingsForm extends ConfigFormBase {
     ];
 
     // Choose node types that are styled.
-    $node_types_options = [];
+    $node_type_options = [];
     $entity_type_manager = \Drupal::entityManager();
     $bundles = $entity_type_manager->getBundleInfo('node');
     foreach ($bundles as $bundle_id => $bundle) {
-      $node_types_options[$bundle_id] = $bundle['label'];
+      $node_type_options[$bundle_id] = $bundle['label'];
     }
 
     $form['advanced_forum_general']['advanced_forum_styled_node_types'] = [
       '#type' => 'select',
       '#title' => $this->t('Node types to style'),
-      '#options' => $node_types_options,
+      '#options' => $node_type_options,
       '#multiple' => TRUE,
       '#description' => $this->t('Choose which node types will have the forum style applied.'),
       // @d7 '#default_value' => variable_get('advanced_forum_styled_node_types', array('forum')),
