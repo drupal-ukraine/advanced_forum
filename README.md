@@ -44,7 +44,7 @@ Open `http://drupal8.192.168.56.132.xip.io` and go through installation process.
 If ```xip.io``` not working - create row with
 
 ```hosts
-192.168.56.112 drupal7.192.168.56.132.xip.io drupal8.192.168.56.132.xip.io
+192.168.56.132 drupal7.192.168.56.132.xip.io drupal8.192.168.56.132.xip.io
 ```
 
 in ```/etc/hosts``` or just use another ServerName in apache.yml
@@ -76,7 +76,7 @@ Tools
 Adminer for mysql administration (credentials drupal:drupal and root:root)
 
 ```
-http://192.168.56.112.xip.io/adminer.php
+http://192.168.56.132.xip.io/adminer.php
 ```
 
 ##PHP Profiler XHProf
