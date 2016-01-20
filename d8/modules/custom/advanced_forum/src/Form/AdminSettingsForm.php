@@ -214,22 +214,21 @@ class AdminSettingsForm extends ConfigFormBase {
 
       // @d7 @todo $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
       $forum_vocabulary = taxonomy_vocabulary_load($advanced_forum_general->get('forum_nav_vocabulary'));
-
-      // @todo find replacement.
-      // @d7 $field_info = field_info_instances('taxonomy_term', $forum_vocabulary->machine_name);
       $image_fields = [];
-      $field_info = [
-        'field_bundle_with_image' => [
-          'test_field_with_image' => [
-            'display' => ['default' => ['type' => 'image']]
-          ]
-        ]
-      ];
-      foreach ($field_info as $bundle => $field) {
-        if (!empty($field['display']['default']['type']) && ($field['display']['default']['type'] == 'image')) {
-          $image_fields[$bundle] = $bundle;
+
+      if ($forum_vocabulary) {
+        $bundle = $forum_vocabulary->id();
+        $entity_types = \Drupal::entityManager()->getDefinitions();
+        $entity_type = $entity_types['taxonomy_term'];
+        $field_info = field_entity_bundle_field_info($entity_type, $bundle);
+
+        foreach ($field_info as $bundle => $field) {
+          if ($field->getType() == 'image') {
+            $image_fields[$bundle] = $bundle;
+          }
         }
       }
+
       $form['advanced_forum_forum_image']['advanced_forum_forum_image_field'] = [
         '#title' => $this->t('Image field'),
         '#description' => $this->t('The image field to use to display forum images.'),
