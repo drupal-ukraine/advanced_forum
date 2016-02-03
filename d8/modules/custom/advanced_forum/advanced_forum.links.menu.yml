@@ -1,0 +1,5 @@
+advanced_forum.admin_settings:
+  title: 'Advanced Forum'
+  parent: system.admin_config_content
+  description: 'Configure Advanced Forum settings.'
+  route_name: advanced_forum.admin_settings
