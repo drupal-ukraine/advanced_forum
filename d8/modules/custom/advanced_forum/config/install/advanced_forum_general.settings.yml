@@ -8,5 +8,5 @@ advanced_forum_style_all_comments: false
 advanced_forum_style_only_forum_tagged: true
 advanced_forum_style_teasers: false
 advanced_forum_styled_node_types:
-  node_type_test: node_type_test
+  forum: forum
 advanced_forum_style: test_style2
