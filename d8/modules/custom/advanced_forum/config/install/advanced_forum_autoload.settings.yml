@@ -1,2 +1,2 @@
-advanced_forum_autoload_views: 1
-advanced_forum_autoload_page_handlers: 1
+advanced_forum_autoload_views: true
+advanced_forum_autoload_page_handlers: true

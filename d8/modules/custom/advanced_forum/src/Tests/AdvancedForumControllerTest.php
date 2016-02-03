@@ -32,6 +32,7 @@ class AdvancedForumControllerTest extends WebTestBase {
     parent::setUp();
 
     $web_user = $this->drupalCreateUser([
+      'access administration pages',
       'administer forums',
       'administer advanced forum',
     ]);
