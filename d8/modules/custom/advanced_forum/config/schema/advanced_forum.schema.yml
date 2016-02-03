@@ -1,0 +1,89 @@
+# Schema for the configuration files of the Advanced Forum module.
+advanced_forum_autoload.settings:
+  type: config_object
+  label: 'Autoload Settings for Advanced Forum'
+  mapping:
+    advanced_forum_autoload_views:
+      type: boolean
+      label: 'Auto load included views'
+    advanced_forum_autoload_page_handlers:
+      type: boolean
+      label: 'Auto load included page handlers'
+
+advanced_forum_forum_image.settings:
+  type: config_object
+  label: 'Image Settings for Advanced Forum'
+  mapping:
+    advanced_forum_forum_image_preset:
+      type: string
+      label: 'The image style to apply to the image.'
+    advanced_forum_forum_image_field:
+      type: string
+      label: 'The image field to use to display forum images'
+
+advanced_forum_general.settings:
+  type: config_object
+  label: 'General Settings for Advanced Forum'
+  mapping:
+    advanced_forum_author_pane_join_date_type:
+      type: string
+      label: 'Author Pane - Join date, date type'
+    advanced_forum_user_picture_preset:
+      type: string
+      label: 'User picture preset'
+    advanced_forum_forum_user_term_fields:
+      type: boolean
+      label: 'Use fields from taxonomy term in forum'
+    advanced_forum_keep_classes:
+      type: boolean
+      label: 'Keep default CSS classes (For experts only)'
+    advanced_forum_views_as_tabs:
+      type: boolean
+      label: 'Add a tab for included views that have their own pages'
+    advanced_forum_add_local_task:
+      type: boolean
+      label: 'Add a tab for forum view page'
+    advanced_forum_style_all_comments:
+      type: boolean
+      label: 'Style all comments like forum replies'
+    advanced_forum_style_only_forum_tagged:
+      type: boolean
+      label: 'Style nodes only if they have a forum term attached'
+    advanced_forum_style_teasers:
+      type: boolean
+      label: 'Style nodes when being displayed as teasers'
+    advanced_forum_styled_node_types:
+      type: sequence
+      label: 'Node types to style'
+      sequence:
+        type: string
+        label: 'Node type'
+    advanced_forum_style:
+      type: string
+      label: 'Advanced forum style'
+
+advanced_forum_lists.settings:
+  type: config_object
+  label: 'List Settings for Advanced Forum'
+  mapping:
+    advanced_forum_last_post_query:
+      type: integer
+      label: 'Number of last topics which will be used in search for "Last Post"'
+    advanced_forum_topic_title_length:
+      type: integer
+      label: 'Number of characters to display for the topic title'
+    advanced_forum_get_new_comments:
+      type: boolean
+      label: 'Get the number of new comments per forum on the forum list'
+    advanced_forum_default_collapsed_list:
+      type: sequence
+      label: 'Containers collapsed by default'
+      sequence:
+        type: string
+        label: 'Forum containers'
+    advanced_forum_collapsible_containers:
+      type: string
+      label: 'Collapsible forum containers'
+    advanced_forum_disable_breadcrumbs:
+      type: boolean
+      label: 'Disable breadcrumbs'
