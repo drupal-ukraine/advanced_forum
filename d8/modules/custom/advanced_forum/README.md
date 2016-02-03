@@ -5,6 +5,6 @@ Configuration form
 
 After installing a module visit
 
-```/admin/config/advanced-forum```
+```/admin/config/content/advanced-forum```
 
 for additional settings.
