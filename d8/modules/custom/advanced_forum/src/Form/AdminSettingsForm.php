@@ -96,7 +96,6 @@ class AdminSettingsForm extends ConfigFormBase {
       '#options' => $node_type_options,
       '#multiple' => TRUE,
       '#description' => $this->t('Choose which node types will have the forum style applied.'),
-      // @d7 '#default_value' => variable_get('advanced_forum_styled_node_types', array('forum')),
       '#default_value' => $advanced_forum_general->get('advanced_forum_styled_node_types'),
     ];
 
@@ -149,7 +148,6 @@ class AdminSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Use fields from taxonomy term in forum'),
       '#type' => 'checkbox',
       '#description' => $this->t('Allows to use fields from taxonomy term on the form of creation or editing of the forum'),
-      // @d7 '#default_value' => variable_get('advanced_forum_forum_user_term_fields'),
       '#default_value' => $advanced_forum_general->get('advanced_forum_forum_user_term_fields'),
     ];
 
