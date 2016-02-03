@@ -45,12 +45,13 @@ class AdvancedForumControllerTest extends WebTestBase {
    *   Exceptions if tests failed.
    */
   function testAdminForm() {
+    // Check menu item.
+    $this->drupalGet('/admin/config/content');
+    $this->assertText('Advanced Forum', 'Advanced Forum menu item is present');
 
-    // Test Devel load and render routes for entities with both route
-    // definitions.
-    $this->drupalGet('/admin/config/advanced-forum');
+    // Check configuration form.
+    $this->drupalGet('/admin/config/content/advanced-forum');
     $this->assertText('Advanced forum style', 'Advanced forum style option is present');
-    $this->drupalPostForm('/admin/config/advanced-forum', [], t('Save configuration'));
+    $this->drupalPostForm('/admin/config/content/advanced-forum', [], t('Save configuration'));
   }
-
 }
