@@ -284,10 +284,9 @@ class AdminSettingsForm extends ConfigFormBase {
         '#type' => 'select',
         '#title' => $this->t('Author Pane - Join date, date type'),
         '#options' => $join_date_options,
-        '#description' => $this->t('Select which <a href=":date-type-url">date type</a> to use for displaying the join date in the Author Pane.', [
+        '#description' => $this->t('Select which <a href="@date-type-url">date type</a> to use for displaying the join date in the Author Pane.', [
           '@date-type-url' => Url::fromRoute('entity.date_format.collection')->toString(),
         ]),
-        // @D7 @todo '#default_value' => variable_get('advanced_forum_author_pane_join_date_type', 'short'),
         '#default_value' => $advanced_forum_general->get('advanced_forum_author_pane_join_date_type'),
       ];
     }
