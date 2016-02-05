@@ -44,6 +44,7 @@ class AdminSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, Request $request = NULL) {
 
+    $forum = $this->config('forum.settings');
     $advanced_forum_general = $this->config('advanced_forum_general.settings');
     $advanced_forum_lists = $this->config('advanced_forum_lists.settings');
     $advanced_forum_forum_image = $this->config('advanced_forum_forum_image.settings');
@@ -201,7 +202,6 @@ class AdminSettingsForm extends ConfigFormBase {
     ];
     // @todo check this code exists in D8.
     if (\Drupal::moduleHandler()->moduleExists('image')) {
-
       // Forum image settings.
       $form['advanced_forum_forum_image'] = [
         '#type' => 'fieldset',
@@ -210,19 +210,15 @@ class AdminSettingsForm extends ConfigFormBase {
         '#collapsed' => FALSE,
       ];
 
-      // @d7 @todo $forum_vocabulary = taxonomy_vocabulary_load(variable_get('forum_nav_vocabulary', 0));
-      $forum_vocabulary = taxonomy_vocabulary_load($advanced_forum_general->get('forum_nav_vocabulary'));
-      $image_fields = [];
-
+      $image_fields = array();
+      $forum_vocabulary = taxonomy_vocabulary_load($forum->get('vocabulary'));
       if ($forum_vocabulary) {
-        $bundle = $forum_vocabulary->id();
-        $entity_types = \Drupal::entityManager()->getDefinitions();
-        $entity_type = $entity_types['taxonomy_term'];
-        $field_info = field_entity_bundle_field_info($entity_type, $bundle);
+        $field_info = \Drupal::service('entity_field.manager')
+          ->getFieldDefinitions('taxonomy_term', $forum_vocabulary->id());
 
         foreach ($field_info as $bundle => $field) {
           if ($field->getType() == 'image') {
-            $image_fields[$bundle] = $bundle;
+            $image_fields[$field->getName()] = $field->getLabel();
           }
         }
       }
