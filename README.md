@@ -143,7 +143,7 @@ Use default flow to up Vagrant but run `sh reinstall.yml --windows`
 
 ##Windows troubleshooting
 
-If you will see error liek ```...[error 26] file is busy...``` during ```sh reinstall.sh``` modify that line:
+If you will see error like ```...[error 26] file is busy...``` during ```sh reinstall.sh``` modify that line:
 
 before
 
