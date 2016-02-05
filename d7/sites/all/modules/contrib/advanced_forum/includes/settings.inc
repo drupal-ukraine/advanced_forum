@@ -6,6 +6,8 @@
  */
 
 /**
+ * PORTED to 8.x-1.x - \Drupal\advanced_forum\Form:buildForm()
+ *
  * Defines the Advanced Forum settings form.
  */
 function advanced_forum_settings_page() {
