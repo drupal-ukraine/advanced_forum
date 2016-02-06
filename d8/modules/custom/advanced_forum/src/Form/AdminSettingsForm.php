@@ -210,7 +210,7 @@ class AdminSettingsForm extends ConfigFormBase {
         '#collapsed' => FALSE,
       ];
 
-      $image_fields = array();
+      $image_fields = [];
       $forum_vocabulary = taxonomy_vocabulary_load($forum->get('vocabulary'));
       if ($forum_vocabulary) {
         $field_info = \Drupal::service('entity_field.manager')
