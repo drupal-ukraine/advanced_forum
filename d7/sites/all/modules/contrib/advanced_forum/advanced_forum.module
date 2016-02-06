@@ -6,6 +6,8 @@
  */
 
 /**
+ * PORTED to 8.x-1.x - advanced_forum.permissions.yml
+ *
  * Implementation of hook_perm().
  */
 function advanced_forum_permission() {
@@ -26,6 +28,11 @@ function advanced_forum_permission() {
  * Implements hook_menu().
  */
 function advanced_forum_menu() {
+  /**
+   * PORTED to 8.x-1.x:
+   * - advanced_forum.permissions.yml
+   * - advanced_forum.routing.yml
+   */
   $items['admin/config/content/advanced-forum'] = array(
     'access arguments' => array('administer advanced forum'),
     'description' => 'Configure Advanced Forum with these settings.',
