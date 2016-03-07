@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the advanced_forum module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Delete mutable configuration.
+ */
+function advanced_forum_uninstall() {
+  \Drupal::configFactory()->getEditable('advanced_forum_autoload.settings')->delete();
+  \Drupal::configFactory()->getEditable('advanced_forum_forum_image.settings')->delete();
+  \Drupal::configFactory()->getEditable('advanced_forum_general.settings')->delete();
+  \Drupal::configFactory()->getEditable('advanced_forum_lists.settings')->delete();
+}
